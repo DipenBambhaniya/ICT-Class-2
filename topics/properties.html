@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Properties of NoSQL Databases — NoSQL Exam Prep</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="../index.html"><span class="logo-dot">DB</span> NoSQL Exam Prep</a>
+    <nav class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="sql-vs-nosql.html">SQL vs NoSQL</a>
+      <a href="data-representation.html">Data Types</a>
+      <a href="cap-theorem.html">CAP Theorem</a>
+      <a href="properties.html" class="active">Properties</a>
+      <a href="../quiz.html">Practice Quiz</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <div class="topic-header">
+    <span class="pill">Topic 4 of 4</span>
+    <h1>Properties of NoSQL Databases</h1>
+    <p class="sub">A set of recurring design properties — flexible schema, horizontal scale, distribution, the BASE consistency model — is what makes a database "NoSQL" in spirit, regardless of which data model it uses.</p>
+  </div>
+
+  <div class="section">
+    <h2>Feature map</h2>
+    <figure class="diagram-box">
+      <svg viewBox="0 0 700 480" xmlns="http://www.w3.org/2000/svg">
+        <!-- center -->
+        <circle cx="350" cy="240" r="62" style="fill:var(--accent)"></circle>
+        <text x="350" y="234" text-anchor="middle" font-size="14" font-weight="800" style="fill:#fff">NoSQL</text>
+        <text x="350" y="252" text-anchor="middle" font-size="11" style="fill:#fff">Database</text>
+
+        <!-- spokes -->
+        <g stroke="var(--border)" stroke-width="2">
+          <line x1="350" y1="240" x2="150" y2="90"></line>
+          <line x1="350" y1="240" x2="350" y2="60"></line>
+          <line x1="350" y1="240" x2="550" y2="90"></line>
+          <line x1="350" y1="240" x2="110" y2="240"></line>
+          <line x1="350" y1="240" x2="590" y2="240"></line>
+          <line x1="350" y1="240" x2="150" y2="400"></line>
+          <line x1="350" y1="240" x2="350" y2="440"></line>
+          <line x1="350" y1="240" x2="550" y2="400"></line>
+        </g>
+
+        <!-- nodes -->
+        <g font-size="12.5" font-weight="700">
+          <circle cx="150" cy="90" r="50" style="fill:var(--accent-2-dim)" stroke="var(--accent-2)" stroke-width="2"></circle>
+          <text x="150" y="85" text-anchor="middle" style="fill:var(--accent-2)">Schema</text>
+          <text x="150" y="101" text-anchor="middle" style="fill:var(--accent-2)">Flexibility</text>
+
+          <circle cx="350" cy="60" r="50" style="fill:var(--accent-dim)" stroke="var(--accent)" stroke-width="2"></circle>
+          <text x="350" y="55" text-anchor="middle" style="fill:var(--accent)">Horizontal</text>
+          <text x="350" y="71" text-anchor="middle" style="fill:var(--accent)">Scalability</text>
+
+          <circle cx="550" cy="90" r="50" style="fill:var(--warn-dim)" stroke="var(--warn)" stroke-width="2"></circle>
+          <text x="550" y="85" text-anchor="middle" style="fill:var(--warn)">BASE</text>
+          <text x="550" y="101" text-anchor="middle" style="fill:var(--warn)">Consistency</text>
+
+          <circle cx="110" cy="240" r="48" style="fill:var(--danger-dim)" stroke="var(--danger)" stroke-width="2"></circle>
+          <text x="110" y="235" text-anchor="middle" style="fill:var(--danger)">Sharding /</text>
+          <text x="110" y="251" text-anchor="middle" style="fill:var(--danger)">Partitioning</text>
+
+          <circle cx="590" cy="240" r="48" style="fill:var(--accent-2-dim)" stroke="var(--accent-2)" stroke-width="2"></circle>
+          <text x="590" y="235" text-anchor="middle" style="fill:var(--accent-2)">Replication</text>
+
+          <circle cx="150" cy="400" r="50" style="fill:var(--accent-dim)" stroke="var(--accent)" stroke-width="2"></circle>
+          <text x="150" y="395" text-anchor="middle" style="fill:var(--accent)">Distributed</text>
+          <text x="150" y="411" text-anchor="middle" style="fill:var(--accent)">Architecture</text>
+
+          <circle cx="350" cy="440" r="50" style="fill:var(--warn-dim)" stroke="var(--warn)" stroke-width="2"></circle>
+          <text x="350" y="435" text-anchor="middle" style="fill:var(--warn)">Fault</text>
+          <text x="350" y="451" text-anchor="middle" style="fill:var(--warn)">Tolerance</text>
+
+          <circle cx="550" cy="400" r="50" style="fill:var(--danger-dim)" stroke="var(--danger)" stroke-width="2"></circle>
+          <text x="550" y="395" text-anchor="middle" style="fill:var(--danger)">Big Data /</text>
+          <text x="550" y="411" text-anchor="middle" style="fill:var(--danger)">Unstructured</text>
+        </g>
+      </svg>
+      <figcaption>Eight recurring properties that distinguish NoSQL databases from traditional single-server relational systems.</figcaption>
+    </figure>
+  </div>
+
+  <div class="section">
+    <h2>BASE vs ACID</h2>
+    <p>Where relational databases lean on <strong>ACID</strong> (Atomicity, Consistency, Isolation, Durability) for strict correctness, many NoSQL databases lean on <strong>BASE</strong> to favor availability and scale:</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Letter</th><th>Means</th><th>In practice</th></tr></thead>
+        <tbody>
+          <tr><td><strong>BA</strong> — Basically Available</td><td>The system guarantees a response to every request</td><td>Even during failures, some node responds — possibly with older data</td></tr>
+          <tr><td><strong>S</strong> — Soft state</td><td>State can change over time without new input</td><td>Because replicas sync asynchronously, the observed value can drift until it settles</td></tr>
+          <tr><td><strong>E</strong> — Eventual consistency</td><td>Replicas converge if no new writes occur</td><td>Given enough time, all copies end up agreeing</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Core properties explained</h2>
+    <div class="feature-grid">
+      <div class="f"><span class="icon">🧩</span><h4>Schema flexibility</h4><p>Records can vary in shape; new fields don't require a database-wide migration.</p></div>
+      <div class="f"><span class="icon">📈</span><h4>Horizontal scalability</h4><p>Scale out by adding commodity servers instead of upgrading one machine.</p></div>
+      <div class="f"><span class="icon">✂️</span><h4>Sharding</h4><p>Large datasets are partitioned across nodes so no single server holds it all.</p></div>
+      <div class="f"><span class="icon">🔁</span><h4>Replication</h4><p>Copies of data live on multiple nodes, improving availability and durability.</p></div>
+      <div class="f"><span class="icon">🌐</span><h4>Distributed architecture</h4><p>Storage and query load spread across many networked nodes, not one machine.</p></div>
+      <div class="f"><span class="icon">🛡️</span><h4>Fault tolerance</h4><p>The system keeps serving requests even when individual nodes fail.</p></div>
+      <div class="f"><span class="icon">⚡</span><h4>High performance (for the right pattern)</h4><p>Denormalized data avoids costly joins, speeding up the specific access patterns it's designed for.</p></div>
+      <div class="f"><span class="icon">📦</span><h4>Big data / unstructured support</h4><p>Built to store and process structured, semi-structured, and unstructured data at volume.</p></div>
+    </div>
+  </div>
+
+  <div class="callout warn">
+    <strong>Common exam trap</strong>
+    <p>"Strict, cluster-wide ACID transactions for every operation" and "support for complex multi-table JOINs as a primary strength" are usually the <em>wrong</em> answer choices — these are relational-database strengths, not typical NoSQL properties.</p>
+  </div>
+
+  <div class="section">
+    <h2>Quick self-check</h2>
+    <ul class="check-list">
+      <li>Can you expand the BASE acronym and explain each term?</li>
+      <li>Can you name three properties that let NoSQL scale horizontally?</li>
+      <li>Can you explain the trade-off NoSQL makes to gain high availability?</li>
+    </ul>
+    <p><a class="btn" href="../quiz.html?topic=properties">Practice this topic (25 questions) →</a></p>
+  </div>
+
+  <div class="topic-nav">
+    <a href="cap-theorem.html"><span class="dir">← Previous topic</span>CAP Theorem</a>
+    <a class="next" href="../quiz.html"><span class="dir">Ready to test yourself? →</span>Take the Full Practice Quiz</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  NoSQL Databases exam prep · Built for personal study
+</footer>
+
+</body>
+</html>

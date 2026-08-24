@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CAP Theorem — NoSQL Exam Prep</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="../index.html"><span class="logo-dot">DB</span> NoSQL Exam Prep</a>
+    <nav class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="sql-vs-nosql.html">SQL vs NoSQL</a>
+      <a href="data-representation.html">Data Types</a>
+      <a href="cap-theorem.html" class="active">CAP Theorem</a>
+      <a href="properties.html">Properties</a>
+      <a href="../quiz.html">Practice Quiz</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <div class="topic-header">
+    <span class="pill">Topic 3 of 4</span>
+    <h1>CAP Theorem</h1>
+    <p class="sub">A distributed database can offer at most two of three guarantees at once: Consistency, Availability, and Partition tolerance. This single idea explains why different NoSQL databases make very different design choices.</p>
+  </div>
+
+  <div class="section">
+    <h2>The three letters</h2>
+    <div class="feature-grid">
+      <div class="f">
+        <span class="icon">🧮</span>
+        <h4>C — Consistency</h4>
+        <p>Every read receives the most recent write, or an error. All nodes see the same data at the same time.</p>
+      </div>
+      <div class="f">
+        <span class="icon">🟢</span>
+        <h4>A — Availability</h4>
+        <p>Every request gets a (non-error) response — no guarantee it's the latest data, just that the system responds.</p>
+      </div>
+      <div class="f">
+        <span class="icon">🔌</span>
+        <h4>P — Partition tolerance</h4>
+        <p>The system keeps working even when network communication between nodes breaks down.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>The CAP triangle</h2>
+    <figure class="diagram-box">
+      <svg viewBox="0 0 700 460" xmlns="http://www.w3.org/2000/svg">
+        <!-- triangle -->
+        <polygon points="350,40 80,400 620,400" fill="none" style="stroke:var(--border)" stroke-width="2"></polygon>
+
+        <!-- vertices -->
+        <circle cx="350" cy="40" r="34" style="fill:var(--accent)"></circle>
+        <text x="350" y="46" text-anchor="middle" font-size="16" font-weight="800" style="fill:#fff">C</text>
+        <text x="350" y="0" text-anchor="middle" font-size="13" font-weight="700" style="fill:var(--text)">Consistency</text>
+
+        <circle cx="80" cy="400" r="34" style="fill:var(--accent-2)"></circle>
+        <text x="80" y="406" text-anchor="middle" font-size="16" font-weight="800" style="fill:#fff">A</text>
+        <text x="80" y="450" text-anchor="middle" font-size="13" font-weight="700" style="fill:var(--text)">Availability</text>
+
+        <circle cx="620" cy="400" r="34" style="fill:var(--warn)"></circle>
+        <text x="620" y="406" text-anchor="middle" font-size="16" font-weight="800" style="fill:#111">P</text>
+        <text x="620" y="450" text-anchor="middle" font-size="13" font-weight="700" style="fill:var(--text)">Partition Tolerance</text>
+
+        <!-- edge labels: pairs you CAN have -->
+        <g font-size="12.5">
+          <rect x="150" y="180" width="90" height="46" rx="8" style="fill:var(--bg-alt)" stroke="var(--accent)"></rect>
+          <text x="195" y="199" text-anchor="middle" font-weight="700" style="fill:var(--accent)">CA</text>
+          <text x="195" y="215" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">single-node RDBMS</text>
+
+          <rect x="460" y="180" width="90" height="46" rx="8" style="fill:var(--bg-alt)" stroke="var(--warn)"></rect>
+          <text x="505" y="199" text-anchor="middle" font-weight="700" style="fill:var(--warn)">CP</text>
+          <text x="505" y="215" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">MongoDB, HBase</text>
+
+          <rect x="305" y="320" width="90" height="46" rx="8" style="fill:var(--bg-alt)" stroke="var(--accent-2)"></rect>
+          <text x="350" y="339" text-anchor="middle" font-weight="700" style="fill:var(--accent-2)">AP</text>
+          <text x="350" y="355" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">Cassandra, DynamoDB</text>
+        </g>
+      </svg>
+      <figcaption>Each edge of the triangle is a pair of guarantees a real system can prioritize; the opposite vertex is the one it sacrifices under a partition.</figcaption>
+    </figure>
+  </div>
+
+  <div class="section">
+    <h2>What each trade-off means in practice</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Choice</th><th>Sacrifices</th><th>Behavior during a partition</th><th>Example systems</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>CP</strong> — Consistency + Partition tolerance</td><td>Availability</td><td>May reject/delay requests on the affected side rather than return stale data</td><td>MongoDB (default), HBase, Redis (with strong config)</td></tr>
+          <tr><td><strong>AP</strong> — Availability + Partition tolerance</td><td>Strong consistency</td><td>Keeps responding on all sides; data converges later (eventual consistency)</td><td>Cassandra, DynamoDB, CouchDB, Riak</td></tr>
+          <tr><td><strong>CA</strong> — Consistency + Availability</td><td>Partition tolerance</td><td>Only realistic without real network partitions — essentially a single-node system</td><td>Traditional single-server RDBMS</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="callout">
+    <strong>Why P is treated as mandatory</strong>
+    <p>In any real distributed system spanning multiple nodes, network partitions <em>will</em> eventually happen. So "CA" is only a theoretical corner — practical distributed NoSQL databases really choose between <strong>CP</strong> and <strong>AP</strong>, not whether to support P at all.</p>
+  </div>
+
+  <div class="section">
+    <h2>Choosing CP vs AP — worked examples</h2>
+    <ul class="check-list">
+      <li><strong>Banking / financial ledger</strong> → choose CP. An incorrect balance from a stale read is unacceptable, so the system should refuse a request rather than risk it.</li>
+      <li><strong>Global shopping cart / social feed</strong> → choose AP. Staying responsive matters more than every replica agreeing instantly; brief staleness is tolerable.</li>
+      <li><strong>Tunable consistency</strong> — databases like Cassandra and DynamoDB let you choose consistency strength <em>per operation</em>, blending the trade-off rather than locking into one side globally.</li>
+    </ul>
+  </div>
+
+  <div class="callout warn">
+    <strong>Common exam trap</strong>
+    <p>Don't confuse CAP's "Consistency" with ACID's "Consistency" — CAP is about all replicas agreeing on the same data; ACID is about a transaction obeying integrity constraints. Also remember CAP applies to <strong>distributed, multi-node</strong> systems — it isn't meaningful for a single, non-networked database.</p>
+  </div>
+
+  <div class="section">
+    <h2>Quick self-check</h2>
+    <ul class="check-list">
+      <li>Can you define C, A, and P in one sentence each?</li>
+      <li>Can you explain why a distributed system can't have all three simultaneously?</li>
+      <li>Can you classify MongoDB and Cassandra correctly as CP vs AP?</li>
+    </ul>
+    <p><a class="btn" href="../quiz.html?topic=cap-theorem">Practice this topic (25 questions) →</a></p>
+  </div>
+
+  <div class="topic-nav">
+    <a href="data-representation.html"><span class="dir">← Previous topic</span>NoSQL Data Types &amp; Representation</a>
+    <a class="next" href="properties.html"><span class="dir">Next topic →</span>Properties of NoSQL Databases</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  NoSQL Databases exam prep · Built for personal study
+</footer>
+
+</body>
+</html>

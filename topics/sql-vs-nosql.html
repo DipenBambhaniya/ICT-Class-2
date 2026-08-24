@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Differences between SQL and NoSQL — NoSQL Exam Prep</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="../index.html"><span class="logo-dot">DB</span> NoSQL Exam Prep</a>
+    <nav class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="sql-vs-nosql.html" class="active">SQL vs NoSQL</a>
+      <a href="data-representation.html">Data Types</a>
+      <a href="cap-theorem.html">CAP Theorem</a>
+      <a href="properties.html">Properties</a>
+      <a href="../quiz.html">Practice Quiz</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <div class="topic-header">
+    <span class="pill">Topic 1 of 4</span>
+    <h1>Differences between SQL and NoSQL</h1>
+    <p class="sub">SQL (relational) and NoSQL (non-relational) databases differ in how they structure data, scale, guarantee consistency, and query information. Understanding these differences is the foundation for every other NoSQL concept.</p>
+  </div>
+
+  <div class="section">
+    <h2>The core idea</h2>
+    <p><strong>SQL databases</strong> (MySQL, PostgreSQL, Oracle, SQL Server) store data in <strong>tables</strong> with a fixed, predefined <strong>schema</strong> — every row must follow the same columns and data types. Relationships between tables are modelled with foreign keys and reconstructed at query time using <strong>JOINs</strong>. They are the traditional choice for structured data with strict integrity requirements.</p>
+    <p><strong>NoSQL databases</strong> (MongoDB, Cassandra, Redis, Neo4j) drop the fixed-schema, single-table model. Records can have different shapes, data is often duplicated (denormalized) to avoid expensive joins, and the system is architected from the ground up to spread data across many servers.</p>
+  </div>
+
+  <div class="section">
+    <h2>Visual comparison</h2>
+    <figure class="diagram-box">
+      <svg viewBox="0 0 760 320" xmlns="http://www.w3.org/2000/svg">
+        <!-- SQL side -->
+        <text x="180" y="30" text-anchor="middle" font-size="16" font-weight="700" style="fill:var(--text)">SQL — Table (fixed schema)</text>
+        <g transform="translate(30,50)">
+          <rect x="0" y="0" width="300" height="36" rx="4" style="fill:var(--accent)"></rect>
+          <text x="50" y="24" text-anchor="middle" font-size="13" font-weight="700" style="fill:#fff">id</text>
+          <text x="150" y="24" text-anchor="middle" font-size="13" font-weight="700" style="fill:#fff">name</text>
+          <text x="250" y="24" text-anchor="middle" font-size="13" font-weight="700" style="fill:#fff">email</text>
+          <line x1="100" y1="0" x2="100" y2="36" style="stroke:#fff" stroke-opacity="0.4"></line>
+          <line x1="200" y1="0" x2="200" y2="36" style="stroke:#fff" stroke-opacity="0.4"></line>
+
+          <g font-size="12" style="fill:var(--text)">
+            <rect x="0" y="36" width="300" height="34" style="fill:var(--bg-alt)" stroke="var(--border)"></rect>
+            <text x="50" y="57" text-anchor="middle">1</text>
+            <text x="150" y="57" text-anchor="middle">Asha</text>
+            <text x="250" y="57" text-anchor="middle">asha@x.com</text>
+
+            <rect x="0" y="70" width="300" height="34" style="fill:var(--bg-raised)" stroke="var(--border)"></rect>
+            <text x="50" y="91" text-anchor="middle">2</text>
+            <text x="150" y="91" text-anchor="middle">Ravi</text>
+            <text x="250" y="91" text-anchor="middle">ravi@x.com</text>
+
+            <rect x="0" y="104" width="300" height="34" style="fill:var(--bg-alt)" stroke="var(--border)"></rect>
+            <text x="50" y="125" text-anchor="middle">3</text>
+            <text x="150" y="125" text-anchor="middle">Meera</text>
+            <text x="250" y="125" text-anchor="middle">meera@x.com</text>
+          </g>
+          <rect x="0" y="0" width="300" height="138" fill="none" style="stroke:var(--border)"></rect>
+          <line x1="100" y1="36" x2="100" y2="138" style="stroke:var(--border)"></line>
+          <line x1="200" y1="36" x2="200" y2="138" style="stroke:var(--border)"></line>
+        </g>
+        <text x="180" y="225" text-anchor="middle" font-size="12" style="fill:var(--text-dim)">Every row: same columns, same types.</text>
+        <text x="180" y="243" text-anchor="middle" font-size="12" style="fill:var(--text-dim)">Related tables joined via foreign keys.</text>
+
+        <!-- divider -->
+        <line x1="390" y1="20" x2="390" y2="300" style="stroke:var(--border)" stroke-dasharray="4 6"></line>
+
+        <!-- NoSQL side -->
+        <text x="580" y="30" text-anchor="middle" font-size="16" font-weight="700" style="fill:var(--text)">NoSQL — Document (flexible shape)</text>
+        <g transform="translate(430,50)" font-family="var(--font-mono)" font-size="12.5">
+          <rect x="0" y="0" width="300" height="180" rx="8" style="fill:var(--bg-alt)" stroke="var(--accent-2)"></rect>
+          <text x="14" y="24" style="fill:var(--text)">{</text>
+          <text x="28" y="46" style="fill:var(--accent)">"id"</text>
+          <text x="60" y="46" style="fill:var(--text)">: 1,</text>
+          <text x="28" y="66" style="fill:var(--accent)">"name"</text>
+          <text x="80" y="66" style="fill:var(--text)">: "Asha",</text>
+          <text x="28" y="86" style="fill:var(--accent)">"email"</text>
+          <text x="82" y="86" style="fill:var(--text)">: "asha@x.com",</text>
+          <text x="28" y="106" style="fill:var(--accent)">"address"</text>
+          <text x="92" y="106" style="fill:var(--text)">: { "city": "Rajkot" },</text>
+          <text x="28" y="126" style="fill:var(--accent)">"tags"</text>
+          <text x="70" y="126" style="fill:var(--text)">: ["vip", "new"]</text>
+          <text x="14" y="150" style="fill:var(--text)">}</text>
+          <text x="14" y="168" font-size="11" style="fill:var(--text-dim)" font-family="var(--font-sans)">← nested fields, no fixed columns</text>
+        </g>
+        <text x="580" y="255" text-anchor="middle" font-size="12" style="fill:var(--text-dim)">Every document can differ in shape;</text>
+        <text x="580" y="273" text-anchor="middle" font-size="12" style="fill:var(--text-dim)">related data is often nested/embedded.</text>
+      </svg>
+      <figcaption>A relational table enforces identical columns per row. A NoSQL document embeds nested, variable structure per record.</figcaption>
+    </figure>
+  </div>
+
+  <div class="section">
+    <h2>Key differences at a glance</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Aspect</th><th>SQL (Relational)</th><th>NoSQL (Non-relational)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Schema</td><td>Fixed, predefined; enforced by the database</td><td>Flexible / dynamic; can vary per record</td></tr>
+          <tr><td>Data model</td><td>Tables of rows &amp; columns</td><td>Key-Value, Document, Column-family, or Graph</td></tr>
+          <tr><td>Scaling</td><td>Vertical (bigger server)</td><td>Horizontal (more servers / sharding)</td></tr>
+          <tr><td>Relationships</td><td>JOINs across normalized tables</td><td>Embedding / denormalization; fewer joins</td></tr>
+          <tr><td>Query language</td><td>SQL (standardized)</td><td>Database-specific (MQL, CQL, Cypher, etc.)</td></tr>
+          <tr><td>Consistency</td><td>Strong, via ACID transactions</td><td>Often eventual, via the BASE model</td></tr>
+          <tr><td>Best fit</td><td>Structured data, complex joins, strict integrity (banking, ERP)</td><td>Large-scale, fast-changing, semi/unstructured data (big data, real-time apps)</td></tr>
+          <tr><td>Examples</td><td>MySQL, PostgreSQL, Oracle, SQL Server</td><td>MongoDB, Cassandra, Redis, Neo4j</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>When to choose which</h2>
+    <div class="feature-grid">
+      <div class="f">
+        <span class="icon">🏦</span>
+        <h4>Choose SQL when…</h4>
+        <p>Data is structured and stable, you need complex multi-table joins, and strict ACID transactions are non-negotiable (banking, accounting, ERP).</p>
+      </div>
+      <div class="f">
+        <span class="icon">🚀</span>
+        <h4>Choose NoSQL when…</h4>
+        <p>Data volume/velocity is huge, the schema evolves rapidly, or you need to scale horizontally across commodity servers (social apps, IoT, catalogs).</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout warn">
+    <strong>Common exam trap</strong>
+    <p>"NoSQL means no SQL at all" is a distractor — the accepted meaning is <strong>"Not Only SQL."</strong> Some NoSQL databases (e.g., Cassandra's CQL) even offer SQL-like syntax. Also remember: NoSQL databases are <em>not</em> relational, and SQL databases scale <em>vertically</em>, not horizontally, by default.</p>
+  </div>
+
+  <div class="section">
+    <h2>Quick self-check</h2>
+    <ul class="check-list">
+      <li>Can you name the scaling direction each type defaults to?</li>
+      <li>Can you explain why NoSQL favors denormalization?</li>
+      <li>Can you list one example database and one best-fit use case for each side?</li>
+    </ul>
+    <p><a class="btn" href="../quiz.html?topic=sql-vs-nosql">Practice this topic (25 questions) →</a></p>
+  </div>
+
+  <div class="topic-nav">
+    <a href="../index.html"><span class="dir">← Back</span>Home</a>
+    <a class="next" href="data-representation.html"><span class="dir">Next topic →</span>NoSQL Data Types &amp; Representation</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  NoSQL Databases exam prep · Built for personal study
+</footer>
+
+</body>
+</html>

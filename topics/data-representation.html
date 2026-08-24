@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NoSQL Data Types & Representation — NoSQL Exam Prep</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="../index.html"><span class="logo-dot">DB</span> NoSQL Exam Prep</a>
+    <nav class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="sql-vs-nosql.html">SQL vs NoSQL</a>
+      <a href="data-representation.html" class="active">Data Types</a>
+      <a href="cap-theorem.html">CAP Theorem</a>
+      <a href="properties.html">Properties</a>
+      <a href="../quiz.html">Practice Quiz</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <div class="topic-header">
+    <span class="pill">Topic 2 of 4</span>
+    <h1>NoSQL Data Types &amp; Representation</h1>
+    <p class="sub">"NoSQL" is not one data model — it's an umbrella term for four distinct families, each representing data differently and suited to different problems.</p>
+  </div>
+
+  <div class="section">
+    <h2>The four NoSQL families</h2>
+    <figure class="diagram-box">
+      <svg viewBox="0 0 760 420" xmlns="http://www.w3.org/2000/svg">
+        <!-- Key-Value quadrant -->
+        <g transform="translate(20,20)">
+          <rect x="0" y="0" width="340" height="180" rx="10" style="fill:var(--bg-alt)" stroke="var(--border)"></rect>
+          <text x="16" y="26" font-size="14" font-weight="700" style="fill:var(--accent)">Key-Value Store</text>
+          <g font-size="12.5" font-family="var(--font-mono)">
+            <rect x="16" y="40" width="90" height="28" rx="5" style="fill:var(--accent)"></rect>
+            <text x="61" y="59" text-anchor="middle" style="fill:#fff">user:101</text>
+            <text x="112" y="59" style="fill:var(--text-dim)">→</text>
+            <rect x="130" y="40" width="190" height="28" rx="5" style="fill:var(--bg-raised)" stroke="var(--border)"></rect>
+            <text x="145" y="59" style="fill:var(--text)">"session-token-x92k"</text>
+
+            <rect x="16" y="76" width="90" height="28" rx="5" style="fill:var(--accent)"></rect>
+            <text x="61" y="95" text-anchor="middle" style="fill:#fff">cart:44</text>
+            <text x="112" y="95" style="fill:var(--text-dim)">→</text>
+            <rect x="130" y="76" width="190" height="28" rx="5" style="fill:var(--bg-raised)" stroke="var(--border)"></rect>
+            <text x="145" y="95" style="fill:var(--text)">[ "sku-1", "sku-9" ]</text>
+          </g>
+          <text x="16" y="130" font-size="12" style="fill:var(--text-dim)">Opaque value retrieved only by its key.</text>
+          <text x="16" y="148" font-size="12" style="fill:var(--text-dim)">Example: <tspan style="fill:var(--text)">Redis, DynamoDB</tspan></text>
+          <text x="16" y="166" font-size="12" style="fill:var(--text-dim)">Best for: caching, sessions, fast lookups</text>
+        </g>
+
+        <!-- Document quadrant -->
+        <g transform="translate(400,20)">
+          <rect x="0" y="0" width="340" height="180" rx="10" style="fill:var(--bg-alt)" stroke="var(--border)"></rect>
+          <text x="16" y="26" font-size="14" font-weight="700" style="fill:var(--accent-2)">Document Store</text>
+          <g font-size="12" font-family="var(--font-mono)">
+            <rect x="16" y="38" width="300" height="128" rx="6" style="fill:var(--bg-raised)" stroke="var(--accent-2)"></rect>
+            <text x="28" y="58" style="fill:var(--text)">{</text>
+            <text x="40" y="76" style="fill:var(--accent-2)">"_id"</text><text x="70" y="76" style="fill:var(--text)">: "u101",</text>
+            <text x="40" y="94" style="fill:var(--accent-2)">"name"</text><text x="82" y="94" style="fill:var(--text)">: "Priya",</text>
+            <text x="40" y="112" style="fill:var(--accent-2)">"interests"</text><text x="108" y="112" style="fill:var(--text)">: [..],</text>
+            <text x="40" y="130" style="fill:var(--accent-2)">"address"</text><text x="98" y="130" style="fill:var(--text)">: {..}</text>
+            <text x="28" y="150" style="fill:var(--text)">}</text>
+          </g>
+          <text x="16" y="196" font-size="12" style="fill:var(--text-dim)"></text>
+        </g>
+        <text x="416" y="196" font-size="12" style="fill:var(--text-dim)">Self-contained JSON/BSON document.</text>
+        <text x="416" y="214" font-size="12" style="fill:var(--text-dim)">Example: <tspan style="fill:var(--text)">MongoDB, CouchDB</tspan></text>
+        <text x="416" y="232" font-size="12" style="fill:var(--text-dim)">Best for: profiles, catalogs, CMS</text>
+
+        <!-- Column-family quadrant -->
+        <g transform="translate(20,240)">
+          <rect x="0" y="0" width="340" height="160" rx="10" style="fill:var(--bg-alt)" stroke="var(--border)"></rect>
+          <text x="16" y="26" font-size="14" font-weight="700" style="fill:var(--warn)">Column-Family Store</text>
+          <g font-size="11.5">
+            <rect x="16" y="38" width="60" height="26" style="fill:var(--warn)"></rect>
+            <text x="46" y="55" text-anchor="middle" style="fill:#111">row key</text>
+            <rect x="78" y="38" width="70" height="26" style="fill:var(--bg-raised)" stroke="var(--border)"></rect>
+            <text x="113" y="55" text-anchor="middle" style="fill:var(--text)">name</text>
+            <rect x="150" y="38" width="80" height="26" style="fill:var(--bg-raised)" stroke="var(--border)"></rect>
+            <text x="190" y="55" text-anchor="middle" style="fill:var(--text)">email</text>
+            <rect x="232" y="38" width="90" height="26" style="fill:var(--bg-raised)" stroke="var(--border)"></rect>
+            <text x="277" y="55" text-anchor="middle" style="fill:var(--text)">last_login</text>
+
+            <rect x="16" y="64" width="60" height="26" style="fill:var(--bg-raised)" stroke="var(--border)"></rect>
+            <text x="46" y="81" text-anchor="middle" style="fill:var(--text)">u101</text>
+            <rect x="78" y="64" width="70" height="26" style="fill:var(--bg-raised)" stroke="var(--border)"></rect>
+            <text x="113" y="81" text-anchor="middle" style="fill:var(--text)">Priya</text>
+            <rect x="150" y="64" width="80" height="26" style="fill:var(--bg-raised)" stroke="var(--border)"></rect>
+            <text x="190" y="81" text-anchor="middle" font-size="10" style="fill:var(--text)">p@x.com</text>
+            <rect x="232" y="64" width="90" height="26" style="fill:var(--code-bg)" stroke="var(--border)" stroke-dasharray="2 2"></rect>
+            <text x="277" y="81" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">— empty —</text>
+
+            <rect x="16" y="90" width="60" height="26" style="fill:var(--bg-raised)" stroke="var(--border)"></rect>
+            <text x="46" y="107" text-anchor="middle" style="fill:var(--text)">u102</text>
+            <rect x="78" y="90" width="70" height="26" style="fill:var(--code-bg)" stroke="var(--border)" stroke-dasharray="2 2"></rect>
+            <text x="113" y="107" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">—</text>
+            <rect x="150" y="90" width="80" height="26" style="fill:var(--bg-raised)" stroke="var(--border)"></rect>
+            <text x="190" y="107" text-anchor="middle" font-size="10" style="fill:var(--text)">r@x.com</text>
+            <rect x="232" y="90" width="90" height="26" style="fill:var(--bg-raised)" stroke="var(--border)"></rect>
+            <text x="277" y="107" text-anchor="middle" font-size="10" style="fill:var(--text)">10:41 AM</text>
+          </g>
+          <text x="16" y="140" font-size="12" style="fill:var(--text-dim)">Wide, sparse rows grouped in column families.</text>
+          <text x="16" y="156" font-size="11" style="fill:var(--text-dim)">Example: <tspan style="fill:var(--text)">Cassandra, HBase</tspan></text>
+        </g>
+
+        <!-- Graph quadrant -->
+        <g transform="translate(400,240)">
+          <rect x="0" y="0" width="340" height="160" rx="10" style="fill:var(--bg-alt)" stroke="var(--border)"></rect>
+          <text x="16" y="26" font-size="14" font-weight="700" style="fill:var(--danger)">Graph Database</text>
+
+          <line x1="90" y1="90" x2="180" y2="60" style="stroke:var(--text-dim)"></line>
+          <line x1="90" y1="90" x2="180" y2="120" style="stroke:var(--text-dim)"></line>
+          <line x1="180" y1="60" x2="270" y2="90" style="stroke:var(--text-dim)"></line>
+          <text x="120" y="70" font-size="10" style="fill:var(--text-dim)">FRIENDS</text>
+          <text x="120" y="115" font-size="10" style="fill:var(--text-dim)">FOLLOWS</text>
+          <text x="215" y="70" font-size="10" style="fill:var(--text-dim)">LIKES</text>
+
+          <circle cx="90" cy="90" r="22" style="fill:var(--danger)"></circle>
+          <text x="90" y="94" text-anchor="middle" font-size="11" style="fill:#fff">Asha</text>
+          <circle cx="180" cy="60" r="22" style="fill:var(--accent)"></circle>
+          <text x="180" y="64" text-anchor="middle" font-size="11" style="fill:#fff">Ravi</text>
+          <circle cx="180" cy="120" r="22" style="fill:var(--accent-2)"></circle>
+          <text x="180" y="124" text-anchor="middle" font-size="10" style="fill:#fff">Post #9</text>
+          <circle cx="270" cy="90" r="22" style="fill:var(--warn)"></circle>
+          <text x="270" y="94" text-anchor="middle" font-size="10" style="fill:#111">Movie</text>
+
+          <text x="16" y="140" font-size="12" style="fill:var(--text-dim)">Nodes + edges, both can carry properties.</text>
+          <text x="16" y="156" font-size="11" style="fill:var(--text-dim)">Example: <tspan style="fill:var(--text)">Neo4j, ArangoDB</tspan></text>
+        </g>
+      </svg>
+      <figcaption>The four NoSQL data models — each stores and represents data in a fundamentally different shape.</figcaption>
+    </figure>
+  </div>
+
+  <div class="section">
+    <h2>Model-by-model summary</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Model</th><th>Unit of storage</th><th>Examples</th><th>Best-fit use case</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Key-Value</td><td>A key mapped to an opaque value/blob</td><td>Redis, DynamoDB, Riak</td><td>Caching, session storage, fast single-key lookups</td></tr>
+          <tr><td>Document</td><td>A self-contained JSON/BSON document</td><td>MongoDB, CouchDB, Firestore</td><td>User profiles, product catalogs, CMS content</td></tr>
+          <tr><td>Column-family</td><td>Rows identified by key, columns grouped into families</td><td>Cassandra, HBase</td><td>Time-series data, write-heavy, huge sparse datasets</td></tr>
+          <tr><td>Graph</td><td>Nodes (entities) and edges (relationships), both with properties</td><td>Neo4j, ArangoDB, Amazon Neptune</td><td>Social networks, recommendations, fraud detection</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Representation formats you should recognize</h2>
+    <ul class="check-list">
+      <li><strong>JSON</strong> — human-readable text format; the default representation for most document databases.</li>
+      <li><strong>BSON</strong> — MongoDB's binary-encoded superset of JSON; adds types like dates and binary data, and is faster to parse.</li>
+      <li><strong>Wide-column</strong> — rows can have different columns; column families group related columns for efficient reads.</li>
+      <li><strong>Property graph</strong> — the standard graph representation: labeled nodes and labeled, directed edges, each with key-value properties.</li>
+    </ul>
+  </div>
+
+  <div class="callout warn">
+    <strong>Common exam trap</strong>
+    <p>Watch for matching-style questions pairing a model to the wrong example (e.g., "Graph → Cassandra" is wrong; Cassandra is column-family). Memorize one flagship example per model: <strong>Key-Value → Redis, Document → MongoDB, Column-family → Cassandra, Graph → Neo4j.</strong></p>
+  </div>
+
+  <div class="section">
+    <h2>Quick self-check</h2>
+    <ul class="check-list">
+      <li>Can you match all four models to a flagship database?</li>
+      <li>Can you pick the right model given a use-case description (e.g., "shortest path between friends")?</li>
+      <li>Do you know why document stores avoid multi-table JOINs?</li>
+    </ul>
+    <p><a class="btn" href="../quiz.html?topic=data-representation">Practice this topic (25 questions) →</a></p>
+  </div>
+
+  <div class="topic-nav">
+    <a href="sql-vs-nosql.html"><span class="dir">← Previous topic</span>Differences between SQL and NoSQL</a>
+    <a class="next" href="cap-theorem.html"><span class="dir">Next topic →</span>CAP Theorem</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  NoSQL Databases exam prep · Built for personal study
+</footer>
+
+</body>
+</html>
