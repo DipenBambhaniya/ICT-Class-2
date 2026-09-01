@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Greedy Algorithms — Algorithms</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="../index.html"><span class="logo-dot">DB</span> NoSQL Exam Prep</a>
+    <nav class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../algo.html" class="active">Algorithms</a>
+      <a href="../quiz.html">Practice Quiz</a>
+    </nav>
+  </div>
+</header>
+<nav class="subnav">
+  <a href="algo-analysis.html">Algorithm Analysis</a>
+  <a href="algo-asymptotic.html">Asymptotic Notation</a>
+  <a href="algo-complexity.html">Space & Time Complexity</a>
+  <a href="algo-case-analysis.html">Worst / Average Analysis</a>
+  <a href="algo-divide-conquer.html">Divide & Conquer</a>
+  <a href="algo-traversals.html">Tree & Graph Traversals</a>
+  <a href="algo-searching.html">Searching</a>
+  <a href="algo-sorting-hashing.html">Sorting & Hashing</a>
+  <a href="algo-greedy.html" class="active">Greedy Algorithms</a>
+  <a href="algo-dp.html">Dynamic Programming</a>
+  <a href="algo-graph-search.html">Graph Search</a>
+  <a href="algo-mst.html">Minimum Spanning Trees</a>
+  <a href="algo-shortest-paths.html">Shortest Paths</a>
+</nav>
+
+<main>
+
+  <div class="topic-header">
+    <span class="pill">Unit 3 · 9 of 13</span>
+    <h1>Greedy Algorithms</h1>
+    <p class="sub">A greedy algorithm makes the locally optimal choice at each step and never reconsiders. It is correct only when the problem has the greedy-choice property and optimal substructure — proven by an exchange argument or matroid theory.</p>
+  </div>
+
+  <div class="section">
+    <h2>Key points</h2>
+    <dl class="terms">
+      <dt>Greedy-choice property</dt>
+      <dd>A globally optimal solution is reachable by locally optimal choices.</dd>
+      <dt>Activity selection</dt>
+      <dd>Pick the activity that finishes earliest, repeat among the compatible rest. O(n log n).</dd>
+      <dt>Fractional knapsack</dt>
+      <dd>Take items by decreasing value/weight ratio (splitting the last). 0/1 knapsack does NOT yield to this — needs DP.</dd>
+      <dt>Huffman coding</dt>
+      <dd>Repeatedly merge the two lowest-frequency nodes ⇒ optimal prefix code.</dd>
+      <dt>Exchange argument</dt>
+      <dd>Show any optimal solution can be transformed toward the greedy one without getting worse.</dd>
+    </dl>
+  </div>
+
+  <div class="section">
+    <h2>Diagram</h2>
+    <figure class="diagram-box">
+      <svg viewBox="0 0 720 260" xmlns="http://www.w3.org/2000/svg">
+        <g font-size="11" font-weight="700">
+          <rect x="57.14285714285714" y="40" width="114.28571428571428" height="20" rx="4" fill="var(--accent-2-dim)" stroke="var(--accent-2)"></rect><text x="43.14285714285714" y="55" style="fill:var(--text-dim)">A</text><rect x="114.28571428571428" y="72" width="190.47619047619048" height="20" rx="4" fill="var(--danger-dim)" stroke="var(--danger)"></rect><text x="100.28571428571428" y="87" style="fill:var(--text-dim)">B</text><rect x="247.61904761904762" y="104" width="95.23809523809524" height="20" rx="4" fill="var(--accent-2-dim)" stroke="var(--accent-2)"></rect><text x="233.61904761904762" y="119" style="fill:var(--text-dim)">C</text><rect x="285.7142857142857" y="136" width="190.47619047619048" height="20" rx="4" fill="var(--danger-dim)" stroke="var(--danger)"></rect><text x="271.7142857142857" y="151" style="fill:var(--text-dim)">D</text><rect x="380.95238095238096" y="168" width="133.33333333333331" height="20" rx="4" fill="var(--accent-2-dim)" stroke="var(--accent-2)"></rect><text x="366.95238095238096" y="183" style="fill:var(--text-dim)">E</text><rect x="495.23809523809524" y="200" width="114.28571428571428" height="20" rx="4" fill="var(--danger-dim)" stroke="var(--danger)"></rect><text x="481.23809523809524" y="215" style="fill:var(--text-dim)">F</text>
+          <text x="360" y="245" text-anchor="middle" style="fill:var(--text-dim)">activity selection: greedily keep A, then C, then E (earliest finish each time)</text>
+        </g>
+      </svg>
+      <figcaption>Activity selection: sort by finish time, then greedily take each activity compatible with the last one kept.</figcaption>
+    </figure>
+  </div>
+
+  <div class="section">
+    <h2>Example</h2>
+    <pre class="example"><code>// Fractional knapsack, capacity W
+sort items by value/weight descending
+for each item:
+    if (item.weight <= W) { take all; W -= item.weight; value += item.value; }
+    else { take fraction W/item.weight; value += item.value * W/item.weight; break; }
+
+// Coin change {1,3,4}, amount 6: greedy gives 4+1+1 (3 coins); optimal is 3+3 (2)</code></pre>
+  </div>
+
+  <div class="callout warn">
+    <strong>Common exam traps</strong>
+    <p>Greedy is optimal only with a proof — 0/1 knapsack, general coin change, and longest common subsequence all defeat naive greedy and need DP. Activity selection must sort by FINISH time. Dijkstra (greedy) fails with negative edges. Set-cover's greedy is only an O(log n)-approximation.</p>
+  </div>
+
+  <div class="section">
+    <h2>Practice MCQs</h2>
+    <div class="mcq">
+      <p class="q"><span class="qn">Q1.</span> For a greedy algorithm to be correct, the problem must have:</p>
+      <ol class="opts" type="A">
+        <li>overlapping subproblems</li>
+        <li>the greedy-choice property AND optimal substructure</li>
+        <li>a convex objective only</li>
+        <li>no constraints</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Local choices must lead to a global optimum.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q2.</span> Activity selection greedily picks:</p>
+      <ol class="opts" type="A">
+        <li>the shortest activity</li>
+        <li>the activity that finishes earliest</li>
+        <li>the one that starts earliest</li>
+        <li>randomly</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Earliest finish leaves the most room.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q3.</span> The 0/1 knapsack problem is:</p>
+      <ol class="opts" type="A">
+        <li>solved greedily by value/weight ratio</li>
+        <li>NOT solvable by that greedy strategy; needs DP</li>
+        <li>always O(n log n)</li>
+        <li>in P only for small values</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> The top-ratio item can block a better combination.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q4.</span> Huffman coding repeatedly:</p>
+      <ol class="opts" type="A">
+        <li>splits the highest-frequency symbol</li>
+        <li>merges the two lowest-frequency nodes</li>
+        <li>assigns fixed-length codes</li>
+        <li>sorts the whole alphabet</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> A priority queue yields the two rarest nodes.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q5.</span> Greedy coin change fails for coins {1,3,4}, amount 6. The optimal is:</p>
+      <ol class="opts" type="A">
+        <li>3 coins (4+1+1)</li>
+        <li>2 coins (3+3)</li>
+        <li>6 coins</li>
+        <li>impossible</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Greedy takes 4 first and loses.</p></details>
+    </div>
+    <p style="margin-top:18px"><a class="btn" href="../quiz.html?topic=algo-greedy">Practice all 50 Greedy Algorithms questions →</a></p>
+  </div>
+
+  <div class="topic-nav">
+    <a href="algo-sorting-hashing.html"><span class="dir">← Previous topic</span>Sorting & Hashing</a>
+    <a class="next" href="algo-dp.html"><span class="dir">Next topic →</span>Dynamic Programming</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  GPSC ICT Class-2 exam prep · Unit 3 — Algorithms
+</footer>
+
+<script src="../assets/js/nav.js"></script>
+</body>
+</html>

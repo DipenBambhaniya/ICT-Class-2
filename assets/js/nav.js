@@ -34,6 +34,25 @@
       ]
     },
     {
+      type: "group", label: "3) Algorithms", href: "algo.html",
+      items: [
+        ["Overview", "algo.html"],
+        ["Algorithm Analysis", "topics/algo-analysis.html"],
+        ["Asymptotic Notation", "topics/algo-asymptotic.html"],
+        ["Space & Time Complexity", "topics/algo-complexity.html"],
+        ["Worst / Average Analysis", "topics/algo-case-analysis.html"],
+        ["Divide & Conquer", "topics/algo-divide-conquer.html"],
+        ["Tree & Graph Traversals", "topics/algo-traversals.html"],
+        ["Searching", "topics/algo-searching.html"],
+        ["Sorting & Hashing", "topics/algo-sorting-hashing.html"],
+        ["Greedy Algorithms", "topics/algo-greedy.html"],
+        ["Dynamic Programming", "topics/algo-dp.html"],
+        ["Graph Search", "topics/algo-graph-search.html"],
+        ["Minimum Spanning Trees", "topics/algo-mst.html"],
+        ["Shortest Paths", "topics/algo-shortest-paths.html"]
+      ]
+    },
+    {
       type: "group", label: "4) Databases", href: "dbms.html",
       items: [
         ["Overview", "dbms.html"],

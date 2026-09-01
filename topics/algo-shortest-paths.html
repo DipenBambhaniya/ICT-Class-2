@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shortest Paths — Algorithms</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="../index.html"><span class="logo-dot">DB</span> NoSQL Exam Prep</a>
+    <nav class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../algo.html" class="active">Algorithms</a>
+      <a href="../quiz.html">Practice Quiz</a>
+    </nav>
+  </div>
+</header>
+<nav class="subnav">
+  <a href="algo-analysis.html">Algorithm Analysis</a>
+  <a href="algo-asymptotic.html">Asymptotic Notation</a>
+  <a href="algo-complexity.html">Space & Time Complexity</a>
+  <a href="algo-case-analysis.html">Worst / Average Analysis</a>
+  <a href="algo-divide-conquer.html">Divide & Conquer</a>
+  <a href="algo-traversals.html">Tree & Graph Traversals</a>
+  <a href="algo-searching.html">Searching</a>
+  <a href="algo-sorting-hashing.html">Sorting & Hashing</a>
+  <a href="algo-greedy.html">Greedy Algorithms</a>
+  <a href="algo-dp.html">Dynamic Programming</a>
+  <a href="algo-graph-search.html">Graph Search</a>
+  <a href="algo-mst.html">Minimum Spanning Trees</a>
+  <a href="algo-shortest-paths.html" class="active">Shortest Paths</a>
+</nav>
+
+<main>
+
+  <div class="topic-header">
+    <span class="pill">Unit 3 · 13 of 13</span>
+    <h1>Shortest Paths</h1>
+    <p class="sub">Pick the algorithm by the weights: BFS (unweighted), Dijkstra (non-negative), Bellman-Ford (negative edges, detects negative cycles), Floyd-Warshall (all pairs), topological relaxation (DAG).</p>
+  </div>
+
+  <div class="section">
+    <h2>Key points</h2>
+    <dl class="terms">
+      <dt>BFS</dt>
+      <dd>Unweighted single-source, O(V+E).</dd>
+      <dt>Dijkstra</dt>
+      <dd>Non-negative weights, O((V+E) log V) with a heap. Fails with negative edges.</dd>
+      <dt>Bellman-Ford</dt>
+      <dd>Relax all edges V−1 times, O(VE); a V-th improving pass ⇒ negative cycle.</dd>
+      <dt>Floyd-Warshall</dt>
+      <dd>All-pairs, O(V³) DP over intermediate vertices; negative edges OK, negative cycles detectable via dist[i][i] < 0.</dd>
+      <dt>Relaxation</dt>
+      <dd>if dist[u] + w(u,v) < dist[v]: update dist[v], set parent[v] = u.</dd>
+    </dl>
+  </div>
+
+  <div class="section">
+    <h2>Diagram</h2>
+    <figure class="diagram-box">
+      <svg viewBox="0 0 720 220" xmlns="http://www.w3.org/2000/svg">
+        <g font-size="11" font-weight="700">
+          <text x="55" y="45" style="fill:var(--text)">Unweighted</text><text x="240" y="45" style="fill:var(--accent)">BFS</text><text x="500" y="45" style="fill:var(--accent-2)">O(V + E)</text><text x="55" y="83" style="fill:var(--text)">Non-negative</text><text x="240" y="83" style="fill:var(--accent)">Dijkstra (heap)</text><text x="500" y="83" style="fill:var(--accent-2)">O((V+E) log V)</text><text x="55" y="121" style="fill:var(--text)">Negative edges</text><text x="240" y="121" style="fill:var(--accent)">Bellman-Ford</text><text x="500" y="121" style="fill:var(--accent-2)">O(V·E)</text><text x="55" y="159" style="fill:var(--text)">All pairs</text><text x="240" y="159" style="fill:var(--accent)">Floyd-Warshall</text><text x="500" y="159" style="fill:var(--accent-2)">O(V³)</text><text x="55" y="197" style="fill:var(--text)">Weighted DAG</text><text x="240" y="197" style="fill:var(--accent)">Topological relax</text><text x="500" y="197" style="fill:var(--accent-2)">O(V + E)</text>
+          <text x="55" y="18" style="fill:var(--text-dim)">GRAPH TYPE · ALGORITHM · COMPLEXITY</text>
+        </g>
+      </svg>
+      <figcaption>Choosing a shortest-path algorithm by the graph's weight structure.</figcaption>
+    </figure>
+  </div>
+
+  <div class="section">
+    <h2>Example</h2>
+    <pre class="example"><code>// Dijkstra
+dist[s] = 0; pq.push((0, s));
+while (!pq.empty()) {
+    (d, u) = pq.pop();
+    if (d > dist[u]) continue;              // stale entry
+    for ((v, w) : adj[u])
+        if (dist[u] + w < dist[v]) {
+            dist[v] = dist[u] + w; parent[v] = u; pq.push((dist[v], v));
+        }
+}</code></pre>
+  </div>
+
+  <div class="callout warn">
+    <strong>Common exam traps</strong>
+    <p>Dijkstra fails with negative edges even if it 'seems to work' on a given graph. Bellman-Ford needs exactly V−1 passes (a shortest path has ≤ V−1 edges). A shortest-path tree is not the MST. For a weighted DAG, relax in topological order — no heap, O(V+E), and negatives are fine.</p>
+  </div>
+
+  <div class="section">
+    <h2>Practice MCQs</h2>
+    <div class="mcq">
+      <p class="q"><span class="qn">Q1.</span> Dijkstra's algorithm FAILS when the graph has:</p>
+      <ol class="opts" type="A">
+        <li>cycles</li>
+        <li>negative-weight edges</li>
+        <li>many vertices</li>
+        <li>parallel edges</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> A finalized vertex could be reached more cheaply via a negative edge.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q2.</span> Bellman-Ford runs in:</p>
+      <ol class="opts" type="A">
+        <li>O(V + E)</li>
+        <li>O(V log V)</li>
+        <li>O(V·E)</li>
+        <li>O(V^3)</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: C.</strong> It relaxes all E edges V-1 times.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q3.</span> For shortest paths in a weighted DAG:</p>
+      <ol class="opts" type="A">
+        <li>only Bellman-Ford works</li>
+        <li>relax edges in topological order, O(V+E), negatives OK</li>
+        <li>Dijkstra is required</li>
+        <li>it is NP-hard</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Topological order finalizes each vertex before its out-edges.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q4.</span> Floyd-Warshall computes:</p>
+      <ol class="opts" type="A">
+        <li>single-source shortest paths</li>
+        <li>all-pairs shortest paths in O(V^3)</li>
+        <li>the MST</li>
+        <li>maximum flow</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> DP over allowed intermediate vertices.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q5.</span> The minimum Bellman-Ford passes needed for correctness (no negative cycle) is:</p>
+      <ol class="opts" type="A">
+        <li>1</li>
+        <li>V - 1</li>
+        <li>V</li>
+        <li>E</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> A shortest path has at most V-1 edges.</p></details>
+    </div>
+    <p style="margin-top:18px"><a class="btn" href="../quiz.html?topic=algo-shortest-paths">Practice all 50 Shortest Paths questions →</a></p>
+  </div>
+
+  <div class="topic-nav">
+    <a href="algo-mst.html"><span class="dir">← Previous topic</span>Minimum Spanning Trees</a>
+    <a class="next" href="../quiz.html"><span class="dir">Ready to test yourself? →</span>Take the Practice Quiz</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  GPSC ICT Class-2 exam prep · Unit 3 — Algorithms
+</footer>
+
+<script src="../assets/js/nav.js"></script>
+</body>
+</html>

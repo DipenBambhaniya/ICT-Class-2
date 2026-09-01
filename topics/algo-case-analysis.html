@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Worst, Average & Best-Case Analysis — Algorithms</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="../index.html"><span class="logo-dot">DB</span> NoSQL Exam Prep</a>
+    <nav class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../algo.html" class="active">Algorithms</a>
+      <a href="../quiz.html">Practice Quiz</a>
+    </nav>
+  </div>
+</header>
+<nav class="subnav">
+  <a href="algo-analysis.html">Algorithm Analysis</a>
+  <a href="algo-asymptotic.html">Asymptotic Notation</a>
+  <a href="algo-complexity.html">Space & Time Complexity</a>
+  <a href="algo-case-analysis.html" class="active">Worst / Average Analysis</a>
+  <a href="algo-divide-conquer.html">Divide & Conquer</a>
+  <a href="algo-traversals.html">Tree & Graph Traversals</a>
+  <a href="algo-searching.html">Searching</a>
+  <a href="algo-sorting-hashing.html">Sorting & Hashing</a>
+  <a href="algo-greedy.html">Greedy Algorithms</a>
+  <a href="algo-dp.html">Dynamic Programming</a>
+  <a href="algo-graph-search.html">Graph Search</a>
+  <a href="algo-mst.html">Minimum Spanning Trees</a>
+  <a href="algo-shortest-paths.html">Shortest Paths</a>
+</nav>
+
+<main>
+
+  <div class="topic-header">
+    <span class="pill">Unit 3 · 4 of 13</span>
+    <h1>Worst, Average & Best-Case Analysis</h1>
+    <p class="sub">Worst case is a guarantee for every input; average case assumes an input distribution; best case is often a rare, misleading extreme. Randomized algorithms move the randomness into the algorithm itself.</p>
+  </div>
+
+  <div class="section">
+    <h2>Key points</h2>
+    <dl class="terms">
+      <dt>Worst case</dt>
+      <dd>Upper bound holding for ALL inputs of size n — needed for real-time / hard deadlines.</dd>
+      <dt>Average case</dt>
+      <dd>E[T(n)] over an assumed input distribution (usually 'uniformly random').</dd>
+      <dt>Quicksort</dt>
+      <dd>Worst Θ(n²) (sorted input, bad pivot); average / expected Θ(n log n).</dd>
+      <dt>Randomized (expected) time</dt>
+      <dd>Over the algorithm's own coin flips — holds for EVERY fixed input.</dd>
+      <dt>Las Vegas vs Monte Carlo</dt>
+      <dd>Las Vegas: always correct, random time. Monte Carlo: fixed time, small error probability.</dd>
+    </dl>
+  </div>
+
+  <div class="section">
+    <h2>Diagram</h2>
+    <figure class="diagram-box">
+      <svg viewBox="0 0 720 240" xmlns="http://www.w3.org/2000/svg">
+        <g font-size="11" font-weight="700">
+          <text x="55" y="44" style="fill:var(--text)">Linear search</text><text x="260" y="44" text-anchor="middle" style="fill:var(--accent-2)">1</text><text x="410" y="44" text-anchor="middle" style="fill:var(--accent)">n/2</text><text x="560" y="44" text-anchor="middle" style="fill:var(--danger)">n</text><text x="55" y="79" style="fill:var(--text)">Binary search</text><text x="260" y="79" text-anchor="middle" style="fill:var(--accent-2)">1</text><text x="410" y="79" text-anchor="middle" style="fill:var(--accent)">log n</text><text x="560" y="79" text-anchor="middle" style="fill:var(--danger)">log n</text><text x="55" y="114" style="fill:var(--text)">Quicksort</text><text x="260" y="114" text-anchor="middle" style="fill:var(--accent-2)">n log n</text><text x="410" y="114" text-anchor="middle" style="fill:var(--accent)">n log n</text><text x="560" y="114" text-anchor="middle" style="fill:var(--danger)">n²</text><text x="55" y="149" style="fill:var(--text)">Merge sort</text><text x="260" y="149" text-anchor="middle" style="fill:var(--accent-2)">n log n</text><text x="410" y="149" text-anchor="middle" style="fill:var(--accent)">n log n</text><text x="560" y="149" text-anchor="middle" style="fill:var(--danger)">n log n</text><text x="55" y="184" style="fill:var(--text)">Insertion sort</text><text x="260" y="184" text-anchor="middle" style="fill:var(--accent-2)">n</text><text x="410" y="184" text-anchor="middle" style="fill:var(--accent)">n²</text><text x="560" y="184" text-anchor="middle" style="fill:var(--danger)">n²</text><text x="55" y="219" style="fill:var(--text)">Hash lookup</text><text x="260" y="219" text-anchor="middle" style="fill:var(--accent-2)">1</text><text x="410" y="219" text-anchor="middle" style="fill:var(--accent)">1</text><text x="560" y="219" text-anchor="middle" style="fill:var(--danger)">n</text>
+          <text x="260" y="16" text-anchor="middle" style="fill:var(--text-dim)">BEST</text><text x="410" y="16" text-anchor="middle" style="fill:var(--text-dim)">AVERAGE</text><text x="560" y="16" text-anchor="middle" style="fill:var(--text-dim)">WORST</text>
+        </g>
+      </svg>
+      <figcaption>Best / average / worst case for common algorithms. Merge sort's three coincide; quicksort's and hashing's do not.</figcaption>
+    </figure>
+  </div>
+
+  <div class="section">
+    <h2>Example</h2>
+    <pre class="example"><code>// Quicksort worst case: pivot = first element, input already sorted
+[1,2,3,4,5] → pivot 1 → split 0 : 4 → pivot 2 → split 0 : 3 → ...
+T(n) = T(n-1) + O(n) = O(n²)
+
+// Fix: random pivot or median-of-three ⇒ expected O(n log n) for ANY input</code></pre>
+  </div>
+
+  <div class="callout warn">
+    <strong>Common exam traps</strong>
+    <p>Merge sort's worst = average because it splits by index, not value. A schedule/algorithm can be 'O(n log n)' as a loose upper bound while its tight bound is Θ(n²) — say Θ. Randomized quicksort's worst case is still Θ(n²), but it occurs with negligible probability, so expected time is O(n log n) for every input.</p>
+  </div>
+
+  <div class="section">
+    <h2>Practice MCQs</h2>
+    <div class="mcq">
+      <p class="q"><span class="qn">Q1.</span> Worst-case analysis gives:</p>
+      <ol class="opts" type="A">
+        <li>the typical running time</li>
+        <li>an upper bound holding for EVERY input of size n</li>
+        <li>the fastest possible time</li>
+        <li>the average over random inputs</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> It is a guarantee.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q2.</span> Quicksort worst / average time:</p>
+      <ol class="opts" type="A">
+        <li>n log n / n log n</li>
+        <li>n^2 / n log n</li>
+        <li>n^2 / n^2</li>
+        <li>n log n / n^2</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Bad pivots on sorted data give O(n^2).</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q3.</span> Merge sort's worst, average and best case are:</p>
+      <ol class="opts" type="A">
+        <li>O(n), O(n log n), O(n^2)</li>
+        <li>all O(n log n)</li>
+        <li>all O(n^2)</li>
+        <li>all different</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> It always splits in half and merges linearly.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q4.</span> Insertion sort: best (sorted) / worst (reverse):</p>
+      <ol class="opts" type="A">
+        <li>O(n) / O(n^2)</li>
+        <li>O(n log n) / O(n^2)</li>
+        <li>O(n) / O(n log n)</li>
+        <li>O(1) / O(n)</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: A.</strong> Sorted: one compare per element. Reverse: every element shifts fully.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q5.</span> A Las Vegas algorithm:</p>
+      <ol class="opts" type="A">
+        <li>may give a wrong answer</li>
+        <li>always correct; running time is random</li>
+        <li>fixed time, answer may be wrong</li>
+        <li>never terminates</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Monte Carlo is the fixed-time, possibly-wrong kind.</p></details>
+    </div>
+    <p style="margin-top:18px"><a class="btn" href="../quiz.html?topic=algo-caseanalysis">Practice all 50 Worst, Average & Best-Case Analysis questions →</a></p>
+  </div>
+
+  <div class="topic-nav">
+    <a href="algo-complexity.html"><span class="dir">← Previous topic</span>Space & Time Complexity</a>
+    <a class="next" href="algo-divide-conquer.html"><span class="dir">Next topic →</span>Divide & Conquer</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  GPSC ICT Class-2 exam prep · Unit 3 — Algorithms
+</footer>
+
+<script src="../assets/js/nav.js"></script>
+</body>
+</html>

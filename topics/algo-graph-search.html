@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Graph Search — Algorithms</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="../index.html"><span class="logo-dot">DB</span> NoSQL Exam Prep</a>
+    <nav class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../algo.html" class="active">Algorithms</a>
+      <a href="../quiz.html">Practice Quiz</a>
+    </nav>
+  </div>
+</header>
+<nav class="subnav">
+  <a href="algo-analysis.html">Algorithm Analysis</a>
+  <a href="algo-asymptotic.html">Asymptotic Notation</a>
+  <a href="algo-complexity.html">Space & Time Complexity</a>
+  <a href="algo-case-analysis.html">Worst / Average Analysis</a>
+  <a href="algo-divide-conquer.html">Divide & Conquer</a>
+  <a href="algo-traversals.html">Tree & Graph Traversals</a>
+  <a href="algo-searching.html">Searching</a>
+  <a href="algo-sorting-hashing.html">Sorting & Hashing</a>
+  <a href="algo-greedy.html">Greedy Algorithms</a>
+  <a href="algo-dp.html">Dynamic Programming</a>
+  <a href="algo-graph-search.html" class="active">Graph Search</a>
+  <a href="algo-mst.html">Minimum Spanning Trees</a>
+  <a href="algo-shortest-paths.html">Shortest Paths</a>
+</nav>
+
+<main>
+
+  <div class="topic-header">
+    <span class="pill">Unit 3 · 11 of 13</span>
+    <h1>Graph Search</h1>
+    <p class="sub">Graph search finds paths and reachable states. BFS (queue) gives fewest-edge paths; DFS (stack) gives structure; uniform-cost/Dijkstra order by path cost; A* adds a heuristic to head toward the goal.</p>
+  </div>
+
+  <div class="section">
+    <h2>Key points</h2>
+    <dl class="terms">
+      <dt>BFS</dt>
+      <dd>FIFO queue; fewest-edge shortest path in unweighted graphs; O(V+E); frontier can be O(V).</dd>
+      <dt>DFS</dt>
+      <dd>Stack/recursion; O(V+E); O(depth) memory; cycle detection, topological sort, SCCs.</dd>
+      <dt>Uniform-cost search</dt>
+      <dd>= Dijkstra: expand the lowest-g frontier node; optimal for non-negative weights.</dd>
+      <dt>A*</dt>
+      <dd>Order by f = g + h. Optimal if h is admissible (never overestimates); efficient if h is informative.</dd>
+      <dt>IDDFS / bidirectional</dt>
+      <dd>IDDFS: BFS-optimal with O(bd) memory. Bidirectional: O(b^(d/2)) by meeting in the middle.</dd>
+    </dl>
+  </div>
+
+  <div class="section">
+    <h2>Diagram</h2>
+    <figure class="diagram-box">
+      <svg viewBox="0 0 720 250" xmlns="http://www.w3.org/2000/svg">
+        <g font-size="12" font-weight="700">
+          <circle cx="120" cy="130" r="18" fill="var(--accent)"></circle><text x="120" y="135" text-anchor="middle" style="fill:#fff">S</text>
+          <circle cx="270" cy="70" r="18" fill="var(--accent-dim)" stroke="var(--accent)"></circle><text x="270" y="75" text-anchor="middle" style="fill:var(--accent)">1</text>
+          <circle cx="270" cy="190" r="18" fill="var(--accent-dim)" stroke="var(--accent)"></circle><text x="270" y="195" text-anchor="middle" style="fill:var(--accent)">1</text>
+          <circle cx="430" cy="130" r="18" fill="var(--accent-dim)" stroke="var(--accent)"></circle><text x="430" y="135" text-anchor="middle" style="fill:var(--accent)">2</text>
+          <circle cx="590" cy="130" r="18" fill="var(--accent-2)"></circle><text x="590" y="135" text-anchor="middle" style="fill:#fff">G</text>
+          <g stroke="var(--border)" stroke-width="2"><line x1="136" y1="120" x2="255" y2="80"></line><line x1="136" y1="140" x2="255" y2="180"></line><line x1="285" y1="82" x2="415" y2="120"></line><line x1="285" y1="178" x2="415" y2="140"></line><line x1="448" y1="130" x2="572" y2="130"></line></g>
+          <text x="360" y="235" text-anchor="middle" font-size="11" style="fill:var(--text-dim)">BFS labels each vertex with its distance (in edges) from S; G is 3 edges away</text>
+        </g>
+      </svg>
+      <figcaption>BFS wavefront: vertices are dequeued in non-decreasing distance order.</figcaption>
+    </figure>
+  </div>
+
+  <div class="section">
+    <h2>Example</h2>
+    <pre class="example"><code>// BFS
+q.push(s); dist[s] = 0; seen[s] = true;
+while (!q.empty()) {
+    u = q.pop();
+    for (v : adj[u])
+        if (!seen[v]) { seen[v] = true; dist[v] = dist[u] + 1; q.push(v); }
+}
+
+// A*: priority = g(v) + h(v);  h = 0 ⇒ Dijkstra;  ignore g ⇒ greedy best-first</code></pre>
+  </div>
+
+  <div class="callout warn">
+    <strong>Common exam traps</strong>
+    <p>BFS gives shortest paths only for unit weights; weighted ⇒ Dijkstra. A* needs an admissible heuristic for optimality (consistent ⇒ each node expanded once). Greedy best-first (h only) is neither optimal nor complete. DFS can loop forever on infinite graphs; BFS/IDDFS are complete. 2PL ≠ 2-phase commit; likewise BFS ≠ Dijkstra.</p>
+  </div>
+
+  <div class="section">
+    <h2>Practice MCQs</h2>
+    <div class="mcq">
+      <p class="q"><span class="qn">Q1.</span> To find the fewest-edge path in an unweighted graph, use:</p>
+      <ol class="opts" type="A">
+        <li>DFS</li>
+        <li>BFS</li>
+        <li>Dijkstra</li>
+        <li>Bellman-Ford</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> BFS layers = edge distance.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q2.</span> A* search orders the frontier by:</p>
+      <ol class="opts" type="A">
+        <li>g(n) only</li>
+        <li>h(n) only</li>
+        <li>f(n) = g(n) + h(n)</li>
+        <li>random</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: C.</strong> g = cost so far, h = estimate to goal.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q3.</span> A* is optimal if the heuristic is:</p>
+      <ol class="opts" type="A">
+        <li>fast</li>
+        <li>admissible (never overestimates)</li>
+        <li>zero</li>
+        <li>monotone only</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Consistency additionally avoids re-expansions.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q4.</span> 0-1 BFS (weights 0 or 1) uses a:</p>
+      <ol class="opts" type="A">
+        <li>min-heap</li>
+        <li>deque (push 0-edges front, 1-edges back)</li>
+        <li>stack</li>
+        <li>plain queue</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Keeps the frontier sorted by distance in O(V+E).</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q5.</span> IDDFS space complexity is:</p>
+      <ol class="opts" type="A">
+        <li>O(b^d) like BFS</li>
+        <li>O(bd) — linear like DFS</li>
+        <li>O(1)</li>
+        <li>O(d^2)</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> It keeps only the current path but finds the shallowest goal.</p></details>
+    </div>
+    <p style="margin-top:18px"><a class="btn" href="../quiz.html?topic=algo-graph-search">Practice all 50 Graph Search questions →</a></p>
+  </div>
+
+  <div class="topic-nav">
+    <a href="algo-dp.html"><span class="dir">← Previous topic</span>Dynamic Programming</a>
+    <a class="next" href="algo-mst.html"><span class="dir">Next topic →</span>Minimum Spanning Trees</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  GPSC ICT Class-2 exam prep · Unit 3 — Algorithms
+</footer>
+
+<script src="../assets/js/nav.js"></script>
+</body>
+</html>

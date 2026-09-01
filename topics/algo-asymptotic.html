@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Asymptotic Notation — Algorithms</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="../index.html"><span class="logo-dot">DB</span> NoSQL Exam Prep</a>
+    <nav class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../algo.html" class="active">Algorithms</a>
+      <a href="../quiz.html">Practice Quiz</a>
+    </nav>
+  </div>
+</header>
+<nav class="subnav">
+  <a href="algo-analysis.html">Algorithm Analysis</a>
+  <a href="algo-asymptotic.html" class="active">Asymptotic Notation</a>
+  <a href="algo-complexity.html">Space & Time Complexity</a>
+  <a href="algo-case-analysis.html">Worst / Average Analysis</a>
+  <a href="algo-divide-conquer.html">Divide & Conquer</a>
+  <a href="algo-traversals.html">Tree & Graph Traversals</a>
+  <a href="algo-searching.html">Searching</a>
+  <a href="algo-sorting-hashing.html">Sorting & Hashing</a>
+  <a href="algo-greedy.html">Greedy Algorithms</a>
+  <a href="algo-dp.html">Dynamic Programming</a>
+  <a href="algo-graph-search.html">Graph Search</a>
+  <a href="algo-mst.html">Minimum Spanning Trees</a>
+  <a href="algo-shortest-paths.html">Shortest Paths</a>
+</nav>
+
+<main>
+
+  <div class="topic-header">
+    <span class="pill">Unit 3 · 2 of 13</span>
+    <h1>Asymptotic Notation</h1>
+    <p class="sub">Big-O, Omega and Theta describe how a function grows for large n, dropping constants and lower-order terms so algorithms can be compared by scalability alone.</p>
+  </div>
+
+  <div class="section">
+    <h2>Key points</h2>
+    <dl class="terms">
+      <dt>O(g) — upper bound</dt>
+      <dd>f(n) ≤ c·g(n) for some c and all n ≥ n₀. 'Grows no faster than g'.</dd>
+      <dt>Ω(g) — lower bound</dt>
+      <dd>f(n) ≥ c·g(n). 'Grows at least as fast as g'.</dd>
+      <dt>Θ(g) — tight bound</dt>
+      <dd>Both O(g) and Ω(g). The exact order of growth.</dd>
+      <dt>little-o / little-ω</dt>
+      <dd>Strict versions: f/g → 0 (o) or f/g → ∞ (ω).</dd>
+      <dt>Rules</dt>
+      <dd>Constants and log bases drop; the dominant term wins; O is transitive; only Θ is symmetric.</dd>
+    </dl>
+  </div>
+
+  <div class="section">
+    <h2>Diagram</h2>
+    <figure class="diagram-box">
+      <svg viewBox="0 0 720 270" xmlns="http://www.w3.org/2000/svg">
+        <g font-size="11" font-weight="700">
+          <rect x="50" y="228" width="54" height="12" rx="3" fill="var(--accent-dim)" stroke="var(--accent)"></rect><text x="77" y="255" text-anchor="middle" style="fill:var(--text-dim)">1</text><rect x="132" y="214" width="54" height="26" rx="3" fill="var(--accent-dim)" stroke="var(--accent)"></rect><text x="159" y="255" text-anchor="middle" style="fill:var(--text-dim)">log n</text><rect x="214" y="196" width="54" height="44" rx="3" fill="var(--accent-dim)" stroke="var(--accent)"></rect><text x="241" y="255" text-anchor="middle" style="fill:var(--text-dim)">√n</text><rect x="296" y="170" width="54" height="70" rx="3" fill="var(--accent-dim)" stroke="var(--accent)"></rect><text x="323" y="255" text-anchor="middle" style="fill:var(--text-dim)">n</text><rect x="378" y="140" width="54" height="100" rx="3" fill="var(--accent-dim)" stroke="var(--accent)"></rect><text x="405" y="255" text-anchor="middle" style="fill:var(--text-dim)">n log n</text><rect x="460" y="105" width="54" height="135" rx="3" fill="var(--accent-dim)" stroke="var(--accent)"></rect><text x="487" y="255" text-anchor="middle" style="fill:var(--text-dim)">n²</text><rect x="542" y="65" width="54" height="175" rx="3" fill="var(--accent-dim)" stroke="var(--accent)"></rect><text x="569" y="255" text-anchor="middle" style="fill:var(--text-dim)">2ⁿ</text><rect x="624" y="25" width="54" height="215" rx="3" fill="var(--accent-dim)" stroke="var(--accent)"></rect><text x="651" y="255" text-anchor="middle" style="fill:var(--text-dim)">n!</text>
+        </g>
+      </svg>
+      <figcaption>Growth hierarchy (slowest to fastest): 1 < log n < √n < n < n log n < n² < 2ⁿ < n!.</figcaption>
+    </figure>
+  </div>
+
+  <div class="section">
+    <h2>Example</h2>
+    <pre class="example"><code>3n² + 5n + 2      = Θ(n²)        // drop 5n, 2, and the 3
+log₂ n vs log₁₀ n = same Θ       // bases differ by a constant factor
+n log n vs n^1.01 = n^1.01 wins  // any positive power of n beats a polylog
+2^n vs 2^(n/2)    = 2^n much bigger  // exponents are NOT constant factors
+2^(2n) = 4^n     ≠ Θ(2^n)</code></pre>
+  </div>
+
+  <div class="callout warn">
+    <strong>Common exam traps</strong>
+    <p>'Quicksort's worst case is O(n log n)' is wrong — the tight worst case is Θ(n²). log(n!) = Θ(n log n) (Stirling). n^(1/log n) is a constant. e^n is NOT O(2^n) since e > 2. Dropping the log base is valid; dropping an exponent is not.</p>
+  </div>
+
+  <div class="section">
+    <h2>Practice MCQs</h2>
+    <div class="mcq">
+      <p class="q"><span class="qn">Q1.</span> f(n) = O(g(n)) means:</p>
+      <ol class="opts" type="A">
+        <li>f grows exactly like g</li>
+        <li>f grows no faster than g (upper bound)</li>
+        <li>f grows at least as fast as g</li>
+        <li>f = g for all n</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> There exist c, n0 with f(n) <= c g(n) for n >= n0.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q2.</span> 3n^2 + 5n + 2 is:</p>
+      <ol class="opts" type="A">
+        <li>O(n)</li>
+        <li>Theta(n^2)</li>
+        <li>Theta(n^3)</li>
+        <li>O(log n)</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Drop constants and lower-order terms.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q3.</span> log(n!) is:</p>
+      <ol class="opts" type="A">
+        <li>Theta(n)</li>
+        <li>Theta(n log n)</li>
+        <li>Theta(n^2)</li>
+        <li>Theta(log n)</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> By Stirling's approximation.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q4.</span> Is n^3 = O(n^2)?</p>
+      <ol class="opts" type="A">
+        <li>yes</li>
+        <li>no</li>
+        <li>yes, with a large constant</li>
+        <li>only asymptotically</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> No constant c makes n^3 <= c n^2 for all large n.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q5.</span> log base a vs log base b (a,b>1):</p>
+      <ol class="opts" type="A">
+        <li>different orders of growth</li>
+        <li>differ only by a constant factor (same Theta)</li>
+        <li>one is O of the other only</li>
+        <li>incomparable</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> log_a n = log_b n / log_b a.</p></details>
+    </div>
+    <p style="margin-top:18px"><a class="btn" href="../quiz.html?topic=algo-asymptotic">Practice all 50 Asymptotic Notation questions →</a></p>
+  </div>
+
+  <div class="topic-nav">
+    <a href="algo-analysis.html"><span class="dir">← Previous topic</span>Algorithm Analysis</a>
+    <a class="next" href="algo-complexity.html"><span class="dir">Next topic →</span>Space & Time Complexity</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  GPSC ICT Class-2 exam prep · Unit 3 — Algorithms
+</footer>
+
+<script src="../assets/js/nav.js"></script>
+</body>
+</html>

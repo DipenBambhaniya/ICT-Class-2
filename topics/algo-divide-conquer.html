@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Divide & Conquer — Algorithms</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="../index.html"><span class="logo-dot">DB</span> NoSQL Exam Prep</a>
+    <nav class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../algo.html" class="active">Algorithms</a>
+      <a href="../quiz.html">Practice Quiz</a>
+    </nav>
+  </div>
+</header>
+<nav class="subnav">
+  <a href="algo-analysis.html">Algorithm Analysis</a>
+  <a href="algo-asymptotic.html">Asymptotic Notation</a>
+  <a href="algo-complexity.html">Space & Time Complexity</a>
+  <a href="algo-case-analysis.html">Worst / Average Analysis</a>
+  <a href="algo-divide-conquer.html" class="active">Divide & Conquer</a>
+  <a href="algo-traversals.html">Tree & Graph Traversals</a>
+  <a href="algo-searching.html">Searching</a>
+  <a href="algo-sorting-hashing.html">Sorting & Hashing</a>
+  <a href="algo-greedy.html">Greedy Algorithms</a>
+  <a href="algo-dp.html">Dynamic Programming</a>
+  <a href="algo-graph-search.html">Graph Search</a>
+  <a href="algo-mst.html">Minimum Spanning Trees</a>
+  <a href="algo-shortest-paths.html">Shortest Paths</a>
+</nav>
+
+<main>
+
+  <div class="topic-header">
+    <span class="pill">Unit 3 · 5 of 13</span>
+    <h1>Divide & Conquer</h1>
+    <p class="sub">Divide the problem into smaller independent subproblems, solve each recursively, then combine. The recurrence T(n) = aT(n/b) + f(n) captures the cost; the master theorem solves it.</p>
+  </div>
+
+  <div class="section">
+    <h2>Key points</h2>
+    <dl class="terms">
+      <dt>Three steps</dt>
+      <dd>Divide → conquer (recurse) → combine.</dd>
+      <dt>Master theorem</dt>
+      <dd>Compare f(n) with n^(log_b a): smaller ⇒ Θ(n^(log_b a)); equal ⇒ Θ(n^(log_b a) log n); larger ⇒ Θ(f(n)).</dd>
+      <dt>Merge sort</dt>
+      <dd>T(n) = 2T(n/2) + O(n) ⇒ Θ(n log n). Binary search: T(n) = T(n/2) + O(1) ⇒ Θ(log n).</dd>
+      <dt>Fast multiplication</dt>
+      <dd>Karatsuba T(n) = 3T(n/2) + O(n) ⇒ n^1.585; Strassen 7T(n/2) + O(n²) ⇒ n^2.807.</dd>
+      <dt>vs Dynamic programming</dt>
+      <dd>D&C suits DISJOINT subproblems; overlapping subproblems need memoization (DP).</dd>
+    </dl>
+  </div>
+
+  <div class="section">
+    <h2>Diagram</h2>
+    <figure class="diagram-box">
+      <svg viewBox="0 0 720 195" xmlns="http://www.w3.org/2000/svg">
+        <g font-size="11" font-weight="700">
+          <rect x="300" y="15" width="120" height="26" rx="4" fill="var(--accent-dim)" stroke="var(--accent)"></rect><text x="360" y="33" text-anchor="middle" style="fill:var(--text)">n  (O(n))</text>
+          <rect x="180" y="65" width="120" height="26" rx="4" fill="var(--accent-dim)" stroke="var(--accent)"></rect><text x="240" y="83" text-anchor="middle" style="fill:var(--text)">n/2</text>
+          <rect x="420" y="65" width="120" height="26" rx="4" fill="var(--accent-dim)" stroke="var(--accent)"></rect><text x="480" y="83" text-anchor="middle" style="fill:var(--text)">n/2</text>
+          <rect x="85" y="115" width="90" height="24" rx="4" fill="var(--accent-2-dim)" stroke="var(--accent-2)"></rect><text x="130" y="132" text-anchor="middle" style="fill:var(--text)">n/4</text><rect x="205" y="115" width="90" height="24" rx="4" fill="var(--accent-2-dim)" stroke="var(--accent-2)"></rect><text x="250" y="132" text-anchor="middle" style="fill:var(--text)">n/4</text><rect x="325" y="115" width="90" height="24" rx="4" fill="var(--accent-2-dim)" stroke="var(--accent-2)"></rect><text x="370" y="132" text-anchor="middle" style="fill:var(--text)">n/4</text><rect x="445" y="115" width="90" height="24" rx="4" fill="var(--accent-2-dim)" stroke="var(--accent-2)"></rect><text x="490" y="132" text-anchor="middle" style="fill:var(--text)">n/4</text>
+          <text x="600" y="33" style="fill:var(--text-dim)">O(n)</text><text x="600" y="83" style="fill:var(--text-dim)">O(n)</text><text x="600" y="132" style="fill:var(--text-dim)">O(n)</text>
+          <text x="360" y="175" text-anchor="middle" style="fill:var(--text-dim)">log n levels × O(n)  ⇒  Θ(n log n)</text>
+        </g>
+      </svg>
+      <figcaption>Merge sort's recursion tree: each level totals O(n) work; log n levels give Θ(n log n).</figcaption>
+    </figure>
+  </div>
+
+  <div class="section">
+    <h2>Example</h2>
+    <pre class="example"><code>mergeSort(A):
+    if len(A) <= 1: return A
+    mid = len(A) / 2
+    L = mergeSort(A[:mid]);  R = mergeSort(A[mid:])   // divide + conquer
+    return merge(L, R)                                 // combine, O(n)
+
+// Master theorem: a=2, b=2, f(n)=n = n^(log2 2) ⇒ Θ(n log n)</code></pre>
+  </div>
+
+  <div class="callout warn">
+    <strong>Common exam traps</strong>
+    <p>T(n)=2T(n/2)+O(1) is Θ(n), not Θ(log n) (that's ONE-branch recursion). Binary search recurses into only one half. Pre + post traversal cannot uniquely rebuild a general binary tree. Naive recursive Fibonacci is D&C-shaped but exponential because subproblems overlap — that needs DP.</p>
+  </div>
+
+  <div class="section">
+    <h2>Practice MCQs</h2>
+    <div class="mcq">
+      <p class="q"><span class="qn">Q1.</span> The three steps of divide and conquer are:</p>
+      <ol class="opts" type="A">
+        <li>sort, search, merge</li>
+        <li>divide, conquer (recurse), combine</li>
+        <li>guess, check, repeat</li>
+        <li>hash, probe, resize</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Split, solve recursively, merge.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q2.</span> Binary search's recurrence is:</p>
+      <ol class="opts" type="A">
+        <li>T(n)=2T(n/2)+O(1)</li>
+        <li>T(n)=T(n/2)+O(1)</li>
+        <li>T(n)=T(n/2)+O(n)</li>
+        <li>T(n)=2T(n/2)+O(n)</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> It recurses into ONE half with constant work => O(log n).</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q3.</span> T(n) = 2T(n/2) + O(n^2) solves to:</p>
+      <ol class="opts" type="A">
+        <li>O(n^2)</li>
+        <li>O(n^2 log n)</li>
+        <li>O(n log n)</li>
+        <li>O(n^3)</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: A.</strong> Master case 3: f(n)=n^2 dominates n.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q4.</span> Karatsuba multiplication T(n) = 3T(n/2) + O(n) gives:</p>
+      <ol class="opts" type="A">
+        <li>O(n^2)</li>
+        <li>O(n^1.585)</li>
+        <li>O(n log n)</li>
+        <li>O(n^3)</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> n^(log2 3) ~ n^1.585.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q5.</span> D&C is preferred over DP when subproblems are:</p>
+      <ol class="opts" type="A">
+        <li>heavily overlapping</li>
+        <li>disjoint / independent</li>
+        <li>on a graph</li>
+        <li>sorted</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Overlap calls for memoization.</p></details>
+    </div>
+    <p style="margin-top:18px"><a class="btn" href="../quiz.html?topic=algo-divide-conquer">Practice all 50 Divide & Conquer questions →</a></p>
+  </div>
+
+  <div class="topic-nav">
+    <a href="algo-case-analysis.html"><span class="dir">← Previous topic</span>Worst / Average Analysis</a>
+    <a class="next" href="algo-traversals.html"><span class="dir">Next topic →</span>Tree & Graph Traversals</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  GPSC ICT Class-2 exam prep · Unit 3 — Algorithms
+</footer>
+
+<script src="../assets/js/nav.js"></script>
+</body>
+</html>

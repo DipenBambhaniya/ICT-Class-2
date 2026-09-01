@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Algorithm Analysis — Algorithms</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="../index.html"><span class="logo-dot">DB</span> NoSQL Exam Prep</a>
+    <nav class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../algo.html" class="active">Algorithms</a>
+      <a href="../quiz.html">Practice Quiz</a>
+    </nav>
+  </div>
+</header>
+<nav class="subnav">
+  <a href="algo-analysis.html" class="active">Algorithm Analysis</a>
+  <a href="algo-asymptotic.html">Asymptotic Notation</a>
+  <a href="algo-complexity.html">Space & Time Complexity</a>
+  <a href="algo-case-analysis.html">Worst / Average Analysis</a>
+  <a href="algo-divide-conquer.html">Divide & Conquer</a>
+  <a href="algo-traversals.html">Tree & Graph Traversals</a>
+  <a href="algo-searching.html">Searching</a>
+  <a href="algo-sorting-hashing.html">Sorting & Hashing</a>
+  <a href="algo-greedy.html">Greedy Algorithms</a>
+  <a href="algo-dp.html">Dynamic Programming</a>
+  <a href="algo-graph-search.html">Graph Search</a>
+  <a href="algo-mst.html">Minimum Spanning Trees</a>
+  <a href="algo-shortest-paths.html">Shortest Paths</a>
+</nav>
+
+<main>
+
+  <div class="topic-header">
+    <span class="pill">Unit 3 · 1 of 13</span>
+    <h1>Algorithm Analysis</h1>
+    <p class="sub">Algorithm analysis predicts how running time and memory grow with input size, independent of language and hardware, so you can compare designs before implementing them.</p>
+  </div>
+
+  <div class="section">
+    <h2>Key points</h2>
+    <dl class="terms">
+      <dt>RAM model</dt>
+      <dd>Each simple operation (arithmetic, comparison, array access) costs 1 unit; analysis counts the dominant operation.</dd>
+      <dt>T(n)</dt>
+      <dd>The running-time function. Nested loops multiply; sequential blocks add; the highest-order term wins.</dd>
+      <dt>Recurrences</dt>
+      <dd>Recursive costs are expressed as T(n) = aT(n/b) + f(n); solved by the master theorem, recursion trees, or substitution.</dd>
+      <dt>Amortized analysis</dt>
+      <dd>Average cost per operation over a worst-case SEQUENCE (no probability) — e.g. dynamic-array append is amortized O(1).</dd>
+      <dt>Loop invariant</dt>
+      <dd>A property true before/after every iteration; used to prove correctness (initialization, maintenance, termination).</dd>
+    </dl>
+  </div>
+
+  <div class="section">
+    <h2>Diagram</h2>
+    <figure class="diagram-box">
+      <svg viewBox="0 0 720 190" xmlns="http://www.w3.org/2000/svg">
+        <g font-size="12">
+          <rect x="270" y="20" width="180" height="30" rx="5" fill="var(--accent-dim)" stroke="var(--accent)"></rect><text x="360" y="40" text-anchor="middle" style="fill:var(--text)">T(n)</text>
+          <rect x="150" y="80" width="180" height="30" rx="5" fill="var(--accent-dim)" stroke="var(--accent)"></rect><text x="240" y="100" text-anchor="middle" style="fill:var(--text)">T(n/2)</text>
+          <rect x="390" y="80" width="180" height="30" rx="5" fill="var(--accent-dim)" stroke="var(--accent)"></rect><text x="480" y="100" text-anchor="middle" style="fill:var(--text)">T(n/2)</text>
+          <text x="620" y="40" font-size="11" style="fill:var(--text-dim)">+ O(n) combine</text>
+          <text x="620" y="100" font-size="11" style="fill:var(--text-dim)">+ O(n/2) each</text>
+          <text x="360" y="160" text-anchor="middle" font-size="11" style="fill:var(--text-dim)">log n levels × O(n) work per level  ⇒  T(n) = Θ(n log n)</text>
+        </g>
+      </svg>
+      <figcaption>Recursion tree for T(n) = 2T(n/2) + O(n): the work per level is O(n) and there are log n levels.</figcaption>
+    </figure>
+  </div>
+
+  <div class="section">
+    <h2>Example</h2>
+    <pre class="example"><code>for (i = 1; i <= n; i++)          // n iterations
+    for (j = 1; j <= n; j++)      //   n iterations
+        c[i][j] = a[i][j] + b[i][j];   // O(1)
+// total = n · n · O(1) = Θ(n²)
+
+for (i = 1; i <= n; i *= 2)  op();     // i doubles ⇒ Θ(log n) iterations</code></pre>
+  </div>
+
+  <div class="callout warn">
+    <strong>Common exam traps</strong>
+    <p>A loop that multiplies the counter (<code>i *= 2</code>) runs O(log n) times, not O(n). <code>0 + 1 + 2 + … + (n-1) = Θ(n²)</code>. An algorithm 'linear in n' where n is a numeric input given in binary is actually <em>exponential</em> in the input's bit length (pseudo-polynomial).</p>
+  </div>
+
+  <div class="section">
+    <h2>Practice MCQs</h2>
+    <div class="mcq">
+      <p class="q"><span class="qn">Q1.</span> The RAM model assumes each basic operation costs:</p>
+      <ol class="opts" type="A">
+        <li>variable time</li>
+        <li>constant (unit) time</li>
+        <li>O(log n)</li>
+        <li>time proportional to operand size</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> This machine-independence is what makes asymptotic analysis meaningful.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q2.</span> The loop <code>for (i=1; i&lt;=n; i*=2)</code> runs how many times?</p>
+      <ol class="opts" type="A">
+        <li>n</li>
+        <li>n/2</li>
+        <li>log2 n</li>
+        <li>sqrt n</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: C.</strong> i doubles each step, reaching n after ~log2 n iterations.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q3.</span> <code>for i in 1..n: for j in 1..i: op()</code> runs:</p>
+      <ol class="opts" type="A">
+        <li>O(n)</li>
+        <li>O(n log n)</li>
+        <li>O(n^2)</li>
+        <li>O(2^n)</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: C.</strong> 1 + 2 + ... + n = n(n+1)/2 = O(n^2).</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q4.</span> Amortized analysis gives:</p>
+      <ol class="opts" type="A">
+        <li>the single worst operation's cost</li>
+        <li>the average cost per operation over a worst-case sequence</li>
+        <li>the best case</li>
+        <li>a probabilistic average</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> No probability — it bounds the total over a sequence.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q5.</span> T(n) = T(n-1) + n, T(0) = 0 solves to:</p>
+      <ol class="opts" type="A">
+        <li>Theta(n)</li>
+        <li>Theta(n log n)</li>
+        <li>Theta(n^2)</li>
+        <li>Theta(2^n)</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: C.</strong> n + (n-1) + ... + 1 = n(n+1)/2.</p></details>
+    </div>
+    <p style="margin-top:18px"><a class="btn" href="../quiz.html?topic=algo-analysis">Practice all 50 Algorithm Analysis questions →</a></p>
+  </div>
+
+  <div class="topic-nav">
+    <a href="../algo.html"><span class="dir">← Back to</span>Unit 3 index</a>
+    <a class="next" href="algo-asymptotic.html"><span class="dir">Next topic →</span>Asymptotic Notation</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  GPSC ICT Class-2 exam prep · Unit 3 — Algorithms
+</footer>
+
+<script src="../assets/js/nav.js"></script>
+</body>
+</html>

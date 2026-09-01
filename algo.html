@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Algorithms — Exam Prep</title>
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="index.html"><span class="logo-dot">DB</span> NoSQL Exam Prep</a>
+    <nav class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="algo.html" class="active">Algorithms</a>
+      <a href="quiz.html">Practice Quiz</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <div class="hero">
+    <span class="pill">GPSC ICT Class-2 · Unit 3</span>
+    <h1>Algorithms</h1>
+    <p class="lead">Analysis and design of algorithms — asymptotics, complexity, paradigms (divide &amp; conquer, greedy, DP) and graph algorithms. Each topic has brief notes, a diagram, a worked example and 50 solved MCQs.</p>
+    <a class="btn" href="topics/algo-analysis.html">Start Reading →</a>
+    <a class="btn secondary" href="quiz.html">Practice Quiz →</a>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat"><div class="n">13</div><div class="l">Topics</div></div>
+    <div class="stat"><div class="n">650</div><div class="l">MCQs</div></div>
+    <div class="stat"><div class="n">50</div><div class="l">Per Topic</div></div>
+    <div class="stat"><div class="n">13</div><div class="l">Diagrams</div></div>
+  </div>
+
+  <div class="section">
+    <h2>Topics</h2>
+    <div class="topic-grid">
+      <a class="card" href="topics/algo-analysis.html"><span class="num">01</span><h3>Algorithm Analysis</h3><p>RAM model, counting operations, recurrences, the master theorem, amortized analysis, loop invariants.</p></a>
+      <a class="card" href="topics/algo-asymptotic.html"><span class="num">02</span><h3>Asymptotic Notation</h3><p>Big-O, Omega, Theta, little-o; the growth hierarchy; rules for combining and comparing bounds.</p></a>
+      <a class="card" href="topics/algo-complexity.html"><span class="num">03</span><h3>Space &amp; Time Complexity</h3><p>Auxiliary space, recursion stack cost, in-place algorithms, time-space tradeoffs, DP space reduction.</p></a>
+      <a class="card" href="topics/algo-case-analysis.html"><span class="num">04</span><h3>Worst / Average Analysis</h3><p>Guarantees vs distributions vs rare extremes; randomized algorithms; Las Vegas vs Monte Carlo.</p></a>
+      <a class="card" href="topics/algo-divide-conquer.html"><span class="num">05</span><h3>Divide &amp; Conquer</h3><p>Divide-recurse-combine; the master theorem; merge sort, binary search, Karatsuba, Strassen, closest pair.</p></a>
+      <a class="card" href="topics/algo-traversals.html"><span class="num">06</span><h3>Tree &amp; Graph Traversals</h3><p>Pre/in/post/level order, Morris traversal, DFS/BFS, edge classification, reconstruction, topological sort.</p></a>
+      <a class="card" href="topics/algo-searching.html"><span class="num">07</span><h3>Searching</h3><p>Linear, binary (and 'on the answer'), hashing, exponential/interpolation/jump search, string search.</p></a>
+      <a class="card" href="topics/algo-sorting-hashing.html"><span class="num">08</span><h3>Sorting &amp; Hashing</h3><p>Comparison bound, merge/quick/heap sort, counting/radix/bucket, stability, collision resolution, load factor.</p></a>
+      <a class="card" href="topics/algo-greedy.html"><span class="num">09</span><h3>Greedy Algorithms</h3><p>Greedy-choice property, activity selection, fractional knapsack, Huffman coding, exchange arguments.</p></a>
+      <a class="card" href="topics/algo-dp.html"><span class="num">10</span><h3>Dynamic Programming</h3><p>Optimal substructure, overlapping subproblems, memoization vs tabulation, LCS/edit distance/knapsack/LIS.</p></a>
+      <a class="card" href="topics/algo-graph-search.html"><span class="num">11</span><h3>Graph Search</h3><p>BFS, DFS, uniform-cost search, A* and admissible heuristics, IDDFS, bidirectional search.</p></a>
+      <a class="card" href="topics/algo-mst.html"><span class="num">12</span><h3>Minimum Spanning Trees</h3><p>Kruskal, Prim, Boruvka; the cut and cycle properties; union-find; uniqueness; bottleneck trees.</p></a>
+      <a class="card" href="topics/algo-shortest-paths.html"><span class="num">13</span><h3>Shortest Paths</h3><p>BFS, Dijkstra, Bellman-Ford, Floyd-Warshall, Johnson, DAG relaxation; negative edges and cycles.</p></a>
+    </div>
+  </div>
+
+  <div class="callout tip">
+    <strong>How the topics connect</strong>
+    <p>Analysis, asymptotics, complexity and case-analysis are one toolkit for reasoning about cost. Divide &amp; conquer, greedy and dynamic programming are the three core design paradigms. Traversals, graph search, MST and shortest paths apply those paradigms to graphs — Kruskal is greedy, Bellman-Ford and Floyd-Warshall are DP, and merge sort is divide &amp; conquer.</p>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  GPSC ICT Class-2 exam prep · Unit 3 — Algorithms
+</footer>
+
+<script src="assets/js/nav.js"></script>
+</body>
+</html>

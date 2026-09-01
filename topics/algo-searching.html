@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Searching — Algorithms</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="../index.html"><span class="logo-dot">DB</span> NoSQL Exam Prep</a>
+    <nav class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../algo.html" class="active">Algorithms</a>
+      <a href="../quiz.html">Practice Quiz</a>
+    </nav>
+  </div>
+</header>
+<nav class="subnav">
+  <a href="algo-analysis.html">Algorithm Analysis</a>
+  <a href="algo-asymptotic.html">Asymptotic Notation</a>
+  <a href="algo-complexity.html">Space & Time Complexity</a>
+  <a href="algo-case-analysis.html">Worst / Average Analysis</a>
+  <a href="algo-divide-conquer.html">Divide & Conquer</a>
+  <a href="algo-traversals.html">Tree & Graph Traversals</a>
+  <a href="algo-searching.html" class="active">Searching</a>
+  <a href="algo-sorting-hashing.html">Sorting & Hashing</a>
+  <a href="algo-greedy.html">Greedy Algorithms</a>
+  <a href="algo-dp.html">Dynamic Programming</a>
+  <a href="algo-graph-search.html">Graph Search</a>
+  <a href="algo-mst.html">Minimum Spanning Trees</a>
+  <a href="algo-shortest-paths.html">Shortest Paths</a>
+</nav>
+
+<main>
+
+  <div class="topic-header">
+    <span class="pill">Unit 3 · 7 of 13</span>
+    <h1>Searching</h1>
+    <p class="sub">Locating a value: linear scan O(n) on anything; binary search O(log n) on sorted data; hashing O(1) average with no order. The right structure depends on how the data changes and what queries you need.</p>
+  </div>
+
+  <div class="section">
+    <h2>Key points</h2>
+    <dl class="terms">
+      <dt>Linear search</dt>
+      <dd>O(n), no preconditions.</dd>
+      <dt>Binary search</dt>
+      <dd>O(log n) on a SORTED, randomly-accessible array; also 'binary search on the answer' for any monotone predicate.</dd>
+      <dt>Hashing</dt>
+      <dd>O(1) average lookup, O(n) worst; no ordered operations.</dd>
+      <dt>Balanced BST / skip list</dt>
+      <dd>O(log n) with successor, range and min/max queries.</dd>
+      <dt>Exponential / interpolation / jump search</dt>
+      <dd>Unknown size (exp), uniform data (interp, O(log log n)), block scan (jump, O(√n)).</dd>
+    </dl>
+  </div>
+
+  <div class="section">
+    <h2>Diagram</h2>
+    <figure class="diagram-box">
+      <svg viewBox="0 0 720 185" xmlns="http://www.w3.org/2000/svg">
+        <g font-size="12" font-weight="700">
+          <rect x="60" y="90" width="66" height="40" rx="4" fill="var(--accent-dim)" stroke="var(--accent)"></rect><text x="93" y="115" text-anchor="middle" style="fill:var(--text)">3</text><text x="93" y="78" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">0</text><rect x="136" y="90" width="66" height="40" rx="4" fill="var(--accent-dim)" stroke="var(--accent)"></rect><text x="169" y="115" text-anchor="middle" style="fill:var(--text)">7</text><text x="169" y="78" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">1</text><rect x="212" y="90" width="66" height="40" rx="4" fill="var(--accent-dim)" stroke="var(--accent)"></rect><text x="245" y="115" text-anchor="middle" style="fill:var(--text)">12</text><text x="245" y="78" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">2</text><rect x="288" y="90" width="66" height="40" rx="4" fill="var(--accent-dim)" stroke="var(--accent)"></rect><text x="321" y="115" text-anchor="middle" style="fill:var(--text)">19</text><text x="321" y="78" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">3</text><rect x="364" y="90" width="66" height="40" rx="4" fill="var(--accent-2-dim)" stroke="var(--accent-2)"></rect><text x="397" y="115" text-anchor="middle" style="fill:var(--text)">25</text><text x="397" y="78" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">4</text><rect x="440" y="90" width="66" height="40" rx="4" fill="var(--accent-dim)" stroke="var(--accent)"></rect><text x="473" y="115" text-anchor="middle" style="fill:var(--text)">31</text><text x="473" y="78" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">5</text><rect x="516" y="90" width="66" height="40" rx="4" fill="var(--accent-dim)" stroke="var(--accent)"></rect><text x="549" y="115" text-anchor="middle" style="fill:var(--text)">42</text><text x="549" y="78" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">6</text><rect x="592" y="90" width="66" height="40" rx="4" fill="var(--accent-dim)" stroke="var(--accent)"></rect><text x="625" y="115" text-anchor="middle" style="fill:var(--text)">55</text><text x="625" y="78" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">7</text>
+          <text x="360" y="165" text-anchor="middle" font-size="11" style="fill:var(--text-dim)">find 25:  mid=3 (19&lt;25 → right) · mid=5 (31&gt;25 → left) · mid=4 (25) ✓  — 3 comparisons</text>
+        </g>
+      </svg>
+      <figcaption>Binary search halves the range each step: ~log₂ n comparisons.</figcaption>
+    </figure>
+  </div>
+
+  <div class="section">
+    <h2>Example</h2>
+    <pre class="example"><code>// Binary search — overflow-safe midpoint
+int lo = 0, hi = n - 1;
+while (lo <= hi) {
+    int mid = lo + (hi - lo) / 2;
+    if (a[mid] == key) return mid;
+    if (a[mid] < key) lo = mid + 1; else hi = mid - 1;
+}
+return -1;   // or 'lo' = insertion point (lower_bound)</code></pre>
+  </div>
+
+  <div class="callout warn">
+    <strong>Common exam traps</strong>
+    <p>Compute the midpoint as <code>lo + (hi-lo)/2</code> to avoid overflow. Binary search needs sorted data — maintaining that under inserts is O(n) each, whereas a hash table inserts in O(1). Hashing has an O(n) worst case and no ordered iteration. 'Peak element' can be found in O(log n) by moving toward the larger neighbour.</p>
+  </div>
+
+  <div class="section">
+    <h2>Practice MCQs</h2>
+    <div class="mcq">
+      <p class="q"><span class="qn">Q1.</span> Binary search requires the data to be:</p>
+      <ol class="opts" type="A">
+        <li>unsorted</li>
+        <li>sorted and randomly accessible</li>
+        <li>hashed</li>
+        <li>in a linked list</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> It discards half the range each comparison.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q2.</span> Hash table search has average / worst time:</p>
+      <ol class="opts" type="A">
+        <li>O(1) / O(1)</li>
+        <li>O(1) / O(n)</li>
+        <li>O(log n) / O(n)</li>
+        <li>O(n) / O(n)</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Collisions or a poor hash collapse it to a list.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q3.</span> The safe midpoint formula is:</p>
+      <ol class="opts" type="A">
+        <li>(lo + hi) / 2</li>
+        <li>lo + (hi - lo) / 2</li>
+        <li>hi / 2</li>
+        <li>(lo * hi) / 2</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Avoids integer overflow for large lo + hi.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q4.</span> 'Binary search on the answer' applies when:</p>
+      <ol class="opts" type="A">
+        <li>the feasibility function is monotonic in the parameter</li>
+        <li>the array is unsorted</li>
+        <li>there is no ordering</li>
+        <li>the answer is a string</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: A.</strong> If capacity C works, any C' > C works.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q5.</span> To find the FIRST occurrence of a key with duplicates:</p>
+      <ol class="opts" type="A">
+        <li>plain binary search</li>
+        <li>lower-bound binary search (keep going left on a match)</li>
+        <li>linear search from the end</li>
+        <li>hashing</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Record the match and continue left.</p></details>
+    </div>
+    <p style="margin-top:18px"><a class="btn" href="../quiz.html?topic=algo-searching">Practice all 50 Searching questions →</a></p>
+  </div>
+
+  <div class="topic-nav">
+    <a href="algo-traversals.html"><span class="dir">← Previous topic</span>Tree & Graph Traversals</a>
+    <a class="next" href="algo-sorting-hashing.html"><span class="dir">Next topic →</span>Sorting & Hashing</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  GPSC ICT Class-2 exam prep · Unit 3 — Algorithms
+</footer>
+
+<script src="../assets/js/nav.js"></script>
+</body>
+</html>

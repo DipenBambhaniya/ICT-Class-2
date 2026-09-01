@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sorting & Hashing — Algorithms</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="../index.html"><span class="logo-dot">DB</span> NoSQL Exam Prep</a>
+    <nav class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../algo.html" class="active">Algorithms</a>
+      <a href="../quiz.html">Practice Quiz</a>
+    </nav>
+  </div>
+</header>
+<nav class="subnav">
+  <a href="algo-analysis.html">Algorithm Analysis</a>
+  <a href="algo-asymptotic.html">Asymptotic Notation</a>
+  <a href="algo-complexity.html">Space & Time Complexity</a>
+  <a href="algo-case-analysis.html">Worst / Average Analysis</a>
+  <a href="algo-divide-conquer.html">Divide & Conquer</a>
+  <a href="algo-traversals.html">Tree & Graph Traversals</a>
+  <a href="algo-searching.html">Searching</a>
+  <a href="algo-sorting-hashing.html" class="active">Sorting & Hashing</a>
+  <a href="algo-greedy.html">Greedy Algorithms</a>
+  <a href="algo-dp.html">Dynamic Programming</a>
+  <a href="algo-graph-search.html">Graph Search</a>
+  <a href="algo-mst.html">Minimum Spanning Trees</a>
+  <a href="algo-shortest-paths.html">Shortest Paths</a>
+</nav>
+
+<main>
+
+  <div class="topic-header">
+    <span class="pill">Unit 3 · 8 of 13</span>
+    <h1>Sorting & Hashing</h1>
+    <p class="sub">Comparison sorts are bounded by Ω(n log n); non-comparison sorts (counting, radix, bucket) beat it by using key values. Hashing gives O(1) average operations by mapping keys to buckets and resolving collisions.</p>
+  </div>
+
+  <div class="section">
+    <h2>Key points</h2>
+    <dl class="terms">
+      <dt>Comparison-sort bound</dt>
+      <dd>Ω(n log n) — a decision tree with n! leaves has height ≥ log₂(n!).</dd>
+      <dt>Merge / Quick / Heap sort</dt>
+      <dd>n log n (merge always; quick average; heap always). Merge is stable, O(n) space; heap is in-place; quick has O(n²) worst case.</dd>
+      <dt>Non-comparison sorts</dt>
+      <dd>Counting O(n+k), radix O(d(n+b)), bucket O(n) expected for uniform data.</dd>
+      <dt>Collision resolution</dt>
+      <dd>Separate chaining (list per bucket) or open addressing (linear/quadratic/double probing).</dd>
+      <dt>Load factor α = n/m</dt>
+      <dd>Performance degrades as α → 1 (open addressing) or grows (chaining); resize (rehash) to keep operations O(1) amortized.</dd>
+    </dl>
+  </div>
+
+  <div class="section">
+    <h2>Diagram</h2>
+    <figure class="diagram-box">
+      <svg viewBox="0 0 720 220" xmlns="http://www.w3.org/2000/svg">
+        <g font-size="11" font-weight="700">
+          <text x="55" y="44" style="fill:var(--text)">Merge</text><text x="150" y="44" style="fill:var(--accent)">n log n</text><text x="440" y="44" style="fill:var(--accent-2)">stable: yes</text><text x="580" y="44" style="fill:var(--warn)">O(n)</text><text x="55" y="82" style="fill:var(--text)">Quick</text><text x="150" y="82" style="fill:var(--accent)">n log n avg / n² worst</text><text x="440" y="82" style="fill:var(--accent-2)">stable: no</text><text x="580" y="82" style="fill:var(--warn)">O(log n)</text><text x="55" y="120" style="fill:var(--text)">Heap</text><text x="150" y="120" style="fill:var(--accent)">n log n</text><text x="440" y="120" style="fill:var(--accent-2)">stable: no</text><text x="580" y="120" style="fill:var(--warn)">O(1)</text><text x="55" y="158" style="fill:var(--text)">Counting</text><text x="150" y="158" style="fill:var(--accent)">n + k</text><text x="440" y="158" style="fill:var(--accent-2)">stable: yes</text><text x="580" y="158" style="fill:var(--warn)">O(n+k)</text><text x="55" y="196" style="fill:var(--text)">Radix</text><text x="150" y="196" style="fill:var(--accent)">d(n+b)</text><text x="440" y="196" style="fill:var(--accent-2)">stable: yes</text><text x="580" y="196" style="fill:var(--warn)">O(n+b)</text>
+          <text x="55" y="18" style="fill:var(--text-dim)">SORT · TIME · STABILITY · SPACE</text>
+        </g>
+      </svg>
+      <figcaption>Comparison sorts vs the linear-time non-comparison sorts.</figcaption>
+    </figure>
+  </div>
+
+  <div class="section">
+    <h2>Example</h2>
+    <pre class="example"><code>// Polynomial string hash (Rabin-Karp), rolling in O(1):
+h = (h * p + s[i]) mod m           // add a char
+h = (h - s[i-L] * p^(L-1)) * ... mod m   // remove the oldest char
+
+// Load factor management: when n/m > 0.7, allocate 2m buckets and rehash
+// (amortized O(1) per insert)</code></pre>
+  </div>
+
+  <div class="callout warn">
+    <strong>Common exam traps</strong>
+    <p>Quicksort, heapsort and selection sort are NOT stable. Counting sort is O(n+k) — only good when k = O(n). Merge sort is preferred for linked lists and external sorting; quicksort wins in RAM (cache, constants). Modulo hashing (<code>key % m</code>) remaps almost every key when m changes — use consistent hashing for distributed caches.</p>
+  </div>
+
+  <div class="section">
+    <h2>Practice MCQs</h2>
+    <div class="mcq">
+      <p class="q"><span class="qn">Q1.</span> The comparison-sort lower bound is:</p>
+      <ol class="opts" type="A">
+        <li>Omega(n)</li>
+        <li>Omega(n log n)</li>
+        <li>Omega(n^2)</li>
+        <li>Omega(log n)</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> log2(n!) = Omega(n log n).</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q2.</span> Which sort is NOT comparison-based?</p>
+      <ol class="opts" type="A">
+        <li>merge sort</li>
+        <li>quicksort</li>
+        <li>counting sort</li>
+        <li>heapsort</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: C.</strong> It uses key values directly.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q3.</span> Which sorts are stable (typical implementations)?</p>
+      <ol class="opts" type="A">
+        <li>quicksort and heapsort</li>
+        <li>merge sort, insertion sort, counting sort</li>
+        <li>heapsort and selection sort</li>
+        <li>only radix sort</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Quicksort/heapsort/selection are not stable.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q4.</span> Linear probing suffers from:</p>
+      <ol class="opts" type="A">
+        <li>secondary clustering</li>
+        <li>primary clustering (long contiguous runs)</li>
+        <li>no clustering</li>
+        <li>underflow</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Adjacent collisions merge into runs.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q5.</span> When a hash table's load factor exceeds a threshold, it is:</p>
+      <ol class="opts" type="A">
+        <li>cleared</li>
+        <li>resized (rehashed) to a larger table</li>
+        <li>converted to a BST</li>
+        <li>left as is</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Doubling keeps operations amortized O(1).</p></details>
+    </div>
+    <p style="margin-top:18px"><a class="btn" href="../quiz.html?topic=algo-sorting-hashing">Practice all 50 Sorting & Hashing questions →</a></p>
+  </div>
+
+  <div class="topic-nav">
+    <a href="algo-searching.html"><span class="dir">← Previous topic</span>Searching</a>
+    <a class="next" href="algo-greedy.html"><span class="dir">Next topic →</span>Greedy Algorithms</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  GPSC ICT Class-2 exam prep · Unit 3 — Algorithms
+</footer>
+
+<script src="../assets/js/nav.js"></script>
+</body>
+</html>

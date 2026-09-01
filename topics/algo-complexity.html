@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Space & Time Complexity — Algorithms</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="../index.html"><span class="logo-dot">DB</span> NoSQL Exam Prep</a>
+    <nav class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../algo.html" class="active">Algorithms</a>
+      <a href="../quiz.html">Practice Quiz</a>
+    </nav>
+  </div>
+</header>
+<nav class="subnav">
+  <a href="algo-analysis.html">Algorithm Analysis</a>
+  <a href="algo-asymptotic.html">Asymptotic Notation</a>
+  <a href="algo-complexity.html" class="active">Space & Time Complexity</a>
+  <a href="algo-case-analysis.html">Worst / Average Analysis</a>
+  <a href="algo-divide-conquer.html">Divide & Conquer</a>
+  <a href="algo-traversals.html">Tree & Graph Traversals</a>
+  <a href="algo-searching.html">Searching</a>
+  <a href="algo-sorting-hashing.html">Sorting & Hashing</a>
+  <a href="algo-greedy.html">Greedy Algorithms</a>
+  <a href="algo-dp.html">Dynamic Programming</a>
+  <a href="algo-graph-search.html">Graph Search</a>
+  <a href="algo-mst.html">Minimum Spanning Trees</a>
+  <a href="algo-shortest-paths.html">Shortest Paths</a>
+</nav>
+
+<main>
+
+  <div class="topic-header">
+    <span class="pill">Unit 3 · 3 of 13</span>
+    <h1>Space & Time Complexity</h1>
+    <p class="sub">Time and space are independent resources. Space complexity counts auxiliary memory — recursion stack, tables, buffers — and often trades against time.</p>
+  </div>
+
+  <div class="section">
+    <h2>Key points</h2>
+    <dl class="terms">
+      <dt>Auxiliary space</dt>
+      <dd>Extra memory beyond the input. 'In-place' = O(1) (or O(log n)) auxiliary.</dd>
+      <dt>Recursion cost</dt>
+      <dd>O(depth) stack frames; deep recursion risks stack overflow.</dd>
+      <dt>Time–space tradeoff</dt>
+      <dd>Precomputed tables / memoization / hashing spend memory to save time; recomputation does the reverse.</dd>
+      <dt>Sort space</dt>
+      <dd>Merge sort O(n), quicksort O(log n) stack, heapsort O(1), counting sort O(n+k).</dd>
+      <dt>DP space reduction</dt>
+      <dd>If dp[i] depends only on dp[i-1], keep one row: O(n²) → O(n).</dd>
+    </dl>
+  </div>
+
+  <div class="section">
+    <h2>Diagram</h2>
+    <figure class="diagram-box">
+      <svg viewBox="0 0 720 240" xmlns="http://www.w3.org/2000/svg">
+        <g font-size="11" font-weight="700">
+          <text x="60" y="45" style="fill:var(--text)">Merge sort</text><rect x="230" y="30" width="180" height="22" rx="4" fill="var(--accent-dim)" stroke="var(--accent)"></rect><text x="320" y="45" text-anchor="middle" style="fill:var(--text)">O(n log n)</text><rect x="440" y="30" width="180" height="22" rx="4" fill="var(--accent-2-dim)" stroke="var(--accent-2)"></rect><text x="530" y="45" text-anchor="middle" style="fill:var(--text)">O(n)</text><text x="60" y="85" style="fill:var(--text)">Quicksort</text><rect x="230" y="70" width="180" height="22" rx="4" fill="var(--accent-dim)" stroke="var(--accent)"></rect><text x="320" y="85" text-anchor="middle" style="fill:var(--text)">O(n log n) avg</text><rect x="440" y="70" width="180" height="22" rx="4" fill="var(--accent-2-dim)" stroke="var(--accent-2)"></rect><text x="530" y="85" text-anchor="middle" style="fill:var(--text)">O(log n)</text><text x="60" y="125" style="fill:var(--text)">Heapsort</text><rect x="230" y="110" width="180" height="22" rx="4" fill="var(--accent-dim)" stroke="var(--accent)"></rect><text x="320" y="125" text-anchor="middle" style="fill:var(--text)">O(n log n)</text><rect x="440" y="110" width="180" height="22" rx="4" fill="var(--accent-2-dim)" stroke="var(--accent-2)"></rect><text x="530" y="125" text-anchor="middle" style="fill:var(--text)">O(1)</text><text x="60" y="165" style="fill:var(--text)">Counting sort</text><rect x="230" y="150" width="180" height="22" rx="4" fill="var(--accent-dim)" stroke="var(--accent)"></rect><text x="320" y="165" text-anchor="middle" style="fill:var(--text)">O(n + k)</text><rect x="440" y="150" width="180" height="22" rx="4" fill="var(--accent-2-dim)" stroke="var(--accent-2)"></rect><text x="530" y="165" text-anchor="middle" style="fill:var(--text)">O(n + k)</text><text x="60" y="205" style="fill:var(--text)">Bubble sort</text><rect x="230" y="190" width="180" height="22" rx="4" fill="var(--accent-dim)" stroke="var(--accent)"></rect><text x="320" y="205" text-anchor="middle" style="fill:var(--text)">O(n²)</text><rect x="440" y="190" width="180" height="22" rx="4" fill="var(--accent-2-dim)" stroke="var(--accent-2)"></rect><text x="530" y="205" text-anchor="middle" style="fill:var(--text)">O(1)</text>
+          <text x="320" y="18" text-anchor="middle" style="fill:var(--text-dim)">TIME</text>
+          <text x="530" y="18" text-anchor="middle" style="fill:var(--text-dim)">SPACE</text>
+        </g>
+      </svg>
+      <figcaption>Same asymptotic time can hide very different space costs — heapsort sorts in place, merge sort needs an O(n) buffer.</figcaption>
+    </figure>
+  </div>
+
+  <div class="section">
+    <h2>Example</h2>
+    <pre class="example"><code>// Fibonacci: O(n) time, O(1) space
+long a = 0, b = 1;
+for (int i = 2; i <= n; i++) { long t = a + b; a = b; b = t; }
+
+// 0/1 knapsack: O(nW) time; O(nW) space → O(W) by keeping one row
+for (int i = 0; i < n; i++)
+    for (int w = W; w >= wt[i]; w--)
+        dp[w] = max(dp[w], dp[w - wt[i]] + val[i]);</code></pre>
+  </div>
+
+  <div class="callout warn">
+    <strong>Common exam traps</strong>
+    <p>An O(n²)-time algorithm can use O(1) space (bubble sort) — time and space are separate. Recursive merge sort's stack is O(log n), but its merge buffer is O(n). Iterative binary search is O(1) space; the recursive version is O(log n). 'Total space ≤ O(time)' always holds.</p>
+  </div>
+
+  <div class="section">
+    <h2>Practice MCQs</h2>
+    <div class="mcq">
+      <p class="q"><span class="qn">Q1.</span> An 'in-place' algorithm uses:</p>
+      <ol class="opts" type="A">
+        <li>no memory at all</li>
+        <li>O(1) or O(log n) auxiliary space</li>
+        <li>O(n) extra space</li>
+        <li>only the heap</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Constant (or logarithmic) extra space beyond the input.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q2.</span> Merge sort's space complexity is:</p>
+      <ol class="opts" type="A">
+        <li>O(1)</li>
+        <li>O(log n)</li>
+        <li>O(n) for the merge buffer</li>
+        <li>O(n^2)</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: C.</strong> Plus O(log n) recursion stack.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q3.</span> Which sort is O(n log n) time AND O(1) auxiliary space?</p>
+      <ol class="opts" type="A">
+        <li>merge sort</li>
+        <li>heapsort</li>
+        <li>counting sort</li>
+        <li>standard quicksort</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Heapsort sorts in place.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q4.</span> Reducing a 2D DP to 1D works when:</p>
+      <ol class="opts" type="A">
+        <li>the table is large</li>
+        <li>dp[i][*] depends only on dp[i-1][*]</li>
+        <li>the DP is a graph</li>
+        <li>n is small</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Keep one or two rows instead of the full table.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q5.</span> The recursion depth of the Tower of Hanoi solution for n disks is:</p>
+      <ol class="opts" type="A">
+        <li>O(1)</li>
+        <li>O(n)</li>
+        <li>O(2^n)</li>
+        <li>O(n^2)</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> It makes 2^n-1 moves but the stack is only n deep.</p></details>
+    </div>
+    <p style="margin-top:18px"><a class="btn" href="../quiz.html?topic=algo-complexity">Practice all 50 Space & Time Complexity questions →</a></p>
+  </div>
+
+  <div class="topic-nav">
+    <a href="algo-asymptotic.html"><span class="dir">← Previous topic</span>Asymptotic Notation</a>
+    <a class="next" href="algo-case-analysis.html"><span class="dir">Next topic →</span>Worst / Average Analysis</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  GPSC ICT Class-2 exam prep · Unit 3 — Algorithms
+</footer>
+
+<script src="../assets/js/nav.js"></script>
+</body>
+</html>
