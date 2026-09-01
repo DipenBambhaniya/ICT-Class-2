@@ -664,3 +664,95 @@ pre.example {
   color: var(--text);
   white-space: pre;
 }
+
+/* ---------- left sidebar navigation ---------- */
+
+:root.has-sidenav .nav-links,
+:root.has-sidenav .subnav { display: none; }
+
+.sidenav {
+  position: fixed;
+  top: 0; left: 0; bottom: 0;
+  width: 262px;
+  background: var(--bg-alt);
+  border-right: 1px solid var(--border);
+  overflow-y: auto;
+  z-index: 60;
+  padding: 16px 0 48px;
+  transition: transform 0.2s ease;
+}
+.sidenav .sn-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--text);
+  padding: 6px 20px 14px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 8px;
+}
+.sidenav .sn-brand:hover { text-decoration: none; }
+.sidenav a {
+  display: block;
+  padding: 8px 20px;
+  color: var(--text-dim);
+  font-size: 0.9rem;
+  line-height: 1.35;
+  border-left: 3px solid transparent;
+}
+.sidenav a:hover { background: var(--accent-dim); color: var(--accent); text-decoration: none; }
+.sidenav a.sn-top { font-weight: 600; color: var(--text); }
+.sidenav a.current {
+  color: var(--accent);
+  background: var(--accent-dim);
+  font-weight: 700;
+  border-left-color: var(--accent);
+}
+.sidenav .sn-group { margin-top: 8px; }
+.sidenav .sn-group > .sn-head {
+  padding: 10px 20px;
+  font-size: 0.76rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text);
+  font-weight: 800;
+  cursor: pointer;
+  list-style: none;
+}
+.sidenav .sn-group > .sn-head::-webkit-details-marker { display: none; }
+.sidenav .sn-group > .sn-head::before { content: "▾ "; color: var(--text-dim); }
+.sidenav .sn-group:not([open]) > .sn-head::before { content: "▸ "; }
+.sidenav .sn-group a { padding-left: 34px; font-size: 0.86rem; }
+.sidenav .sn-group a.current { padding-left: 31px; }
+
+.sn-hamburger {
+  display: none;
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: var(--radius-sm);
+  width: 38px; height: 38px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+}
+.sn-backdrop { display: none; }
+
+@media (min-width: 981px) {
+  :root.has-sidenav body { padding-left: 262px; }
+}
+
+@media (max-width: 980px) {
+  .sidenav { transform: translateX(-100%); box-shadow: var(--shadow); }
+  :root.sidenav-open .sidenav { transform: none; }
+  :root.sidenav-open .sn-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    z-index: 55;
+  }
+  :root.has-sidenav .sn-hamburger { display: inline-flex; }
+}
