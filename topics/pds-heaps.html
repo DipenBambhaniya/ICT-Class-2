@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Binary Heaps — Programming &amp; Data Structures</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="../index.html"><span class="logo-dot">DB</span> NoSQL Exam Prep</a>
+    <nav class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../pds.html" class="active">PDS</a>
+      <a href="../dbms.html">DBMS</a>
+      <a href="../quiz.html">Practice Quiz</a>
+    </nav>
+  </div>
+</header>
+<nav class="subnav">
+  <a href="pds-c-programming.html">Programming in C</a>
+  <a href="pds-recursion.html">Recursion</a>
+  <a href="pds-arrays.html">Arrays</a>
+  <a href="pds-stacks.html">Stacks</a>
+  <a href="pds-queues.html">Queues</a>
+  <a href="pds-linked-lists.html">Linked Lists</a>
+  <a href="pds-trees.html">Trees</a>
+  <a href="pds-bst.html">Binary Search Trees</a>
+  <a href="pds-heaps.html" class="active">Binary Heaps</a>
+  <a href="pds-graphs.html">Graphs</a>
+</nav>
+
+<main>
+
+  <div class="topic-header">
+    <span class="pill">Unit 1 · 9 of 10</span>
+    <h1>Binary Heaps</h1>
+    <p class="sub">A binary heap is a complete binary tree stored in an array where every parent is ≤ (min-heap) or ≥ (max-heap) its children. It gives O(1) find-extremum, O(log n) insert and extract, and O(n) bulk build — the standard priority queue.</p>
+  </div>
+
+  <div class="section">
+    <h2>Key points</h2>
+    <dl class="terms">
+      <dt>Array indexing (0-based)</dt>
+      <dd>left(i) = 2i+1, right(i) = 2i+2, parent(i) = (i−1)/2. No pointers, no gaps.</dd>
+      <dt>insert</dt>
+      <dd>Append at the end, then <em>sift up</em> — O(log n).</dd>
+      <dt>extract-min/max</dt>
+      <dd>Swap root with last, remove, <em>sift down</em> the new root — O(log n).</dd>
+      <dt>build-heap</dt>
+      <dd>Bottom-up sift-down from index n/2−1 to 0 — O(n), not O(n log n).</dd>
+      <dt>Heapsort</dt>
+      <dd>Build max-heap O(n), then extract-max n times — O(n log n), in place, not stable.</dd>
+    </dl>
+  </div>
+
+  <div class="section">
+    <h2>Diagram</h2>
+    <figure class="diagram-box">
+      <svg viewBox="0 0 720 260" xmlns="http://www.w3.org/2000/svg">
+        <g font-size="12" font-weight="700">
+          <circle cx="360" cy="40" r="20" fill="var(--accent)"></circle><text x="360" y="45" text-anchor="middle" style="fill:#fff">3</text>
+          <circle cx="240" cy="115" r="20" fill="var(--accent-2)"></circle><text x="240" y="120" text-anchor="middle" style="fill:#fff">8</text>
+          <circle cx="480" cy="115" r="20" fill="var(--accent-2)"></circle><text x="480" y="120" text-anchor="middle" style="fill:#fff">5</text>
+          <circle cx="180" cy="190" r="20" fill="var(--warn)"></circle><text x="180" y="195" text-anchor="middle" style="fill:#111">14</text>
+          <circle cx="300" cy="190" r="20" fill="var(--warn)"></circle><text x="300" y="195" text-anchor="middle" style="fill:#111">9</text>
+          <circle cx="540" cy="190" r="20" fill="var(--warn)"></circle><text x="540" y="195" text-anchor="middle" style="fill:#111">7</text>
+          <g stroke="var(--border)" stroke-width="2"><line x1="345" y1="55" x2="255" y2="100"></line><line x1="375" y1="55" x2="465" y2="100"></line><line x1="228" y1="132" x2="192" y2="173"></line><line x1="252" y1="132" x2="288" y2="173"></line><line x1="492" y1="132" x2="528" y2="173"></line></g>
+          <text x="360" y="235" text-anchor="middle" font-size="11" style="fill:var(--text-dim)">array: [3, 8, 5, 14, 9, 7]   ·   min-heap: every parent ≤ its children</text>
+        </g>
+      </svg>
+      <figcaption>A min-heap: the minimum is always at the root (index 0); the tree is stored compactly as an array.</figcaption>
+    </figure>
+  </div>
+
+  <div class="section">
+    <h2>Example</h2>
+    <pre class="example"><code>/* k largest of n items with a size-k min-heap: O(n log k) */
+for each x in stream:
+    if (heap.size &lt; k)  heap.push(x);
+    else if (x &gt; heap.peek()) { heap.pop(); heap.push(x); }
+/* heap now holds the k largest; its root is the k-th largest */
+
+/* build-heap: for i = n/2 - 1 down to 0: siftDown(i)   → O(n) */</code></pre>
+  </div>
+
+  <div class="callout warn">
+    <strong>Common exam traps</strong>
+    <p>build-heap is <strong>O(n)</strong>, not O(n log n). A heap gives no efficient search or ordered traversal (that's a BST). The minimum of a max-heap is in the leaves — O(n) to find. Heapsort is in-place O(n log n) but <em>not stable</em>. Merging two binary heaps is O(n); use a binomial/Fibonacci heap for cheap merge.</p>
+  </div>
+
+  <div class="section">
+    <h2>Practice MCQs</h2>
+    <div class="mcq">
+      <p class="q"><span class="qn">Q1.</span> In a 0-indexed array heap, the children of index i are at:</p>
+      <ol class="opts" type="A">
+        <li>i-1 and i+1</li>
+        <li>2i and 2i+1</li>
+        <li>2i+1 and 2i+2</li>
+        <li>i/2 and i/2+1</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: C.</strong> 0-indexed: left = 2i+1, right = 2i+2, parent = (i-1)/2.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q2.</span> Building a heap from an arbitrary array of n elements takes:</p>
+      <ol class="opts" type="A">
+        <li>O(n log n)</li>
+        <li>O(n)</li>
+        <li>O(log n)</li>
+        <li>O(n^2)</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Bottom-up sift-down; most nodes are near the leaves and move little.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q3.</span> extract-min from a heap of n elements is:</p>
+      <ol class="opts" type="A">
+        <li>O(1)</li>
+        <li>O(log n)</li>
+        <li>O(n)</li>
+        <li>O(log n) amortized only</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Replace root with the last element and sift it down one path.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q4.</span> The running median of a stream is maintained with:</p>
+      <ol class="opts" type="A">
+        <li>one heap</li>
+        <li>a max-heap (lower half) + a min-heap (upper half)</li>
+        <li>a sorted list</li>
+        <li>a BST only</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> The two heap tops straddle the median; rebalance in O(log n).</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q5.</span> Heapsort is NOT:</p>
+      <ol class="opts" type="A">
+        <li>in place</li>
+        <li>O(n log n) worst case</li>
+        <li>stable</li>
+        <li>comparison-based</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: C.</strong> Sift operations can reorder equal keys.</p></details>
+    </div>
+    <p style="margin-top:18px"><a class="btn" href="../quiz.html?topic=pds-heaps">Practice all 50 Binary Heaps questions →</a></p>
+  </div>
+
+  <div class="topic-nav">
+    <a href="pds-bst.html"><span class="dir">← Previous topic</span>Binary Search Trees</a>
+    <a class="next" href="pds-graphs.html"><span class="dir">Next topic →</span>Graphs</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  GPSC ICT Class-2 exam prep · Unit 1 — Programming &amp; Data Structures
+</footer>
+
+<script src="../assets/js/nav.js"></script>
+</body>
+</html>

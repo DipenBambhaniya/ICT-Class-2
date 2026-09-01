@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Linked Lists — Programming &amp; Data Structures</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="../index.html"><span class="logo-dot">DB</span> NoSQL Exam Prep</a>
+    <nav class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../pds.html" class="active">PDS</a>
+      <a href="../dbms.html">DBMS</a>
+      <a href="../quiz.html">Practice Quiz</a>
+    </nav>
+  </div>
+</header>
+<nav class="subnav">
+  <a href="pds-c-programming.html">Programming in C</a>
+  <a href="pds-recursion.html">Recursion</a>
+  <a href="pds-arrays.html">Arrays</a>
+  <a href="pds-stacks.html">Stacks</a>
+  <a href="pds-queues.html">Queues</a>
+  <a href="pds-linked-lists.html" class="active">Linked Lists</a>
+  <a href="pds-trees.html">Trees</a>
+  <a href="pds-bst.html">Binary Search Trees</a>
+  <a href="pds-heaps.html">Binary Heaps</a>
+  <a href="pds-graphs.html">Graphs</a>
+</nav>
+
+<main>
+
+  <div class="topic-header">
+    <span class="pill">Unit 1 · 6 of 10</span>
+    <h1>Linked Lists</h1>
+    <p class="sub">A linked list chains nodes, each holding data plus a pointer to the next (and, if doubly linked, the previous). Insert/delete at a known node is O(1) with no shifting, but there is no random access — reaching element k is O(k).</p>
+  </div>
+
+  <div class="section">
+    <h2>Key points</h2>
+    <dl class="terms">
+      <dt>Node</dt>
+      <dd>{ data, next } (singly) or { prev, data, next } (doubly).</dd>
+      <dt>Access k-th element</dt>
+      <dd>O(k) — follow next pointers. No index arithmetic.</dd>
+      <dt>Insert / delete at known position</dt>
+      <dd>O(1) pointer surgery (doubly linked needed for O(1) delete given only the node).</dd>
+      <dt>Two-pointer tricks</dt>
+      <dd>slow/fast for the middle and for cycle detection (Floyd); leader/follower gap of k for n-th-from-end.</dd>
+      <dt>Trade-off vs array</dt>
+      <dd>No resize/shift cost and grows one node at a time, but one+ pointer per node and poor cache locality (pointer chasing).</dd>
+    </dl>
+  </div>
+
+  <div class="section">
+    <h2>Diagram</h2>
+    <figure class="diagram-box">
+      <svg viewBox="0 0 720 260" xmlns="http://www.w3.org/2000/svg">
+        <g font-size="12" font-weight="700">
+          <rect x="100" y="100" width="120" height="44" rx="6" fill="var(--accent-dim)" stroke="var(--accent)"></rect><line x1="190" y1="100" x2="190" y2="144" stroke="var(--accent)"></line><text x="160" y="128" text-anchor="middle" style="fill:var(--text)">17</text><rect x="280" y="100" width="120" height="44" rx="6" fill="var(--accent-dim)" stroke="var(--accent)"></rect><line x1="370" y1="100" x2="370" y2="144" stroke="var(--accent)"></line><text x="340" y="128" text-anchor="middle" style="fill:var(--text)">4</text><rect x="460" y="100" width="120" height="44" rx="6" fill="var(--accent-dim)" stroke="var(--accent)"></rect><line x1="550" y1="100" x2="550" y2="144" stroke="var(--accent)"></line><text x="520" y="128" text-anchor="middle" style="fill:var(--text)">42</text>
+          <text x="40" y="128" style="fill:var(--text-dim)">head →</text>
+          <line x1="220" y1="122" x2="280" y2="122" stroke="var(--text-dim)" stroke-width="2" marker-end="url(#a)"></line>
+          <line x1="400" y1="122" x2="460" y2="122" stroke="var(--text-dim)" stroke-width="2" marker-end="url(#a)"></line>
+          <text x="600" y="126" style="fill:var(--text-dim)">NULL</text>
+          <defs><marker id="a" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="var(--text-dim)"></path></marker></defs>
+          <text x="360" y="185" text-anchor="middle" font-size="11" style="fill:var(--text-dim)">to insert after node 4: newnode->next = node4->next; node4->next = newnode;  (O(1))</text>
+        </g>
+      </svg>
+      <figcaption>Nodes scattered in memory, linked by pointers. Splicing a node in or out is a couple of pointer assignments.</figcaption>
+    </figure>
+  </div>
+
+  <div class="section">
+    <h2>Example</h2>
+    <pre class="example"><code>/* Reverse a singly linked list — O(n) time, O(1) space */
+Node *prev = NULL, *cur = head;
+while (cur) {
+    Node *next = cur-&gt;next;
+    cur-&gt;next = prev;
+    prev = cur;
+    cur = next;
+}
+head = prev;
+
+/* Cycle detection: slow = slow->next; fast = fast->next->next; meet ⇒ cycle */</code></pre>
+  </div>
+
+  <div class="callout warn">
+    <strong>Common exam traps</strong>
+    <p>Indexed access is O(n) — that's the array's job. To change the caller's head pointer in C you pass <code>Node **head</code>. Deleting a list means <code>free</code>-ing each node <em>after</em> saving <code>next</code>. Merge sort (not quicksort) is the natural O(n log n) sort for lists.</p>
+  </div>
+
+  <div class="section">
+    <h2>Practice MCQs</h2>
+    <div class="mcq">
+      <p class="q"><span class="qn">Q1.</span> Accessing the k-th element of a singly linked list is:</p>
+      <ol class="opts" type="A">
+        <li>O(1)</li>
+        <li>O(log k)</li>
+        <li>O(k)</li>
+        <li>O(n log n)</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: C.</strong> You must follow k next pointers from the head.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q2.</span> Inserting at the head of a singly linked list is:</p>
+      <ol class="opts" type="A">
+        <li>O(1)</li>
+        <li>O(n)</li>
+        <li>O(log n)</li>
+        <li>O(n) without a tail pointer</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: A.</strong> Point the new node at the old head and update head.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q3.</span> Detecting a cycle in a linked list uses:</p>
+      <ol class="opts" type="A">
+        <li>sorting</li>
+        <li>Floyd's slow/fast pointers</li>
+        <li>a stack</li>
+        <li>binary search</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> If fast (2 steps) meets slow (1 step), there is a cycle — O(n) time, O(1) space.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q4.</span> Which is O(1) on a doubly linked list but O(n) on a singly linked list?</p>
+      <ol class="opts" type="A">
+        <li>insert at head</li>
+        <li>delete a node given only a pointer to it</li>
+        <li>traverse forward</li>
+        <li>search</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> The prev pointer lets you fix the predecessor's link directly.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q5.</span> An LRU cache is typically built from:</p>
+      <ol class="opts" type="A">
+        <li>one array</li>
+        <li>a hash map + doubly linked list</li>
+        <li>a binary heap</li>
+        <li>a stack</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Map for O(1) lookup; list orders by recency, evicting the tail.</p></details>
+    </div>
+    <p style="margin-top:18px"><a class="btn" href="../quiz.html?topic=pds-linked-lists">Practice all 50 Linked Lists questions →</a></p>
+  </div>
+
+  <div class="topic-nav">
+    <a href="pds-queues.html"><span class="dir">← Previous topic</span>Queues</a>
+    <a class="next" href="pds-trees.html"><span class="dir">Next topic →</span>Trees</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  GPSC ICT Class-2 exam prep · Unit 1 — Programming &amp; Data Structures
+</footer>
+
+<script src="../assets/js/nav.js"></script>
+</body>
+</html>

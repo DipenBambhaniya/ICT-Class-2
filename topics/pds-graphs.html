@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Graphs — Programming &amp; Data Structures</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="../index.html"><span class="logo-dot">DB</span> NoSQL Exam Prep</a>
+    <nav class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../pds.html" class="active">PDS</a>
+      <a href="../dbms.html">DBMS</a>
+      <a href="../quiz.html">Practice Quiz</a>
+    </nav>
+  </div>
+</header>
+<nav class="subnav">
+  <a href="pds-c-programming.html">Programming in C</a>
+  <a href="pds-recursion.html">Recursion</a>
+  <a href="pds-arrays.html">Arrays</a>
+  <a href="pds-stacks.html">Stacks</a>
+  <a href="pds-queues.html">Queues</a>
+  <a href="pds-linked-lists.html">Linked Lists</a>
+  <a href="pds-trees.html">Trees</a>
+  <a href="pds-bst.html">Binary Search Trees</a>
+  <a href="pds-heaps.html">Binary Heaps</a>
+  <a href="pds-graphs.html" class="active">Graphs</a>
+</nav>
+
+<main>
+
+  <div class="topic-header">
+    <span class="pill">Unit 1 · 10 of 10</span>
+    <h1>Graphs</h1>
+    <p class="sub">A graph G=(V,E) models arbitrary pairwise relationships — directed or undirected, weighted or not. Representation and traversal choice drive the complexity of every graph algorithm.</p>
+  </div>
+
+  <div class="section">
+    <h2>Key points</h2>
+    <dl class="terms">
+      <dt>Representations</dt>
+      <dd>Adjacency list O(V+E) space (good for sparse); adjacency matrix O(V²) space, O(1) edge lookup (good for dense).</dd>
+      <dt>BFS</dt>
+      <dd>Queue; unit-weight shortest paths; O(V+E).</dd>
+      <dt>DFS</dt>
+      <dd>Stack / recursion; cycle detection, topological sort, SCCs, bridges; O(V+E).</dd>
+      <dt>Shortest paths</dt>
+      <dd>BFS (unweighted), Dijkstra (non-negative, O((V+E)log V)), Bellman-Ford (negative edges, O(VE)), Floyd-Warshall (all pairs, O(V³)).</dd>
+      <dt>MST</dt>
+      <dd>Kruskal (sort edges + union-find) and Prim (grow from a vertex with a heap); a spanning tree has V−1 edges.</dd>
+    </dl>
+  </div>
+
+  <div class="section">
+    <h2>Diagram</h2>
+    <figure class="diagram-box">
+      <svg viewBox="0 0 720 260" xmlns="http://www.w3.org/2000/svg">
+        <g font-size="12" font-weight="700">
+          <circle cx="140" cy="120" r="20" fill="var(--accent)"></circle><text x="140" y="125" text-anchor="middle" style="fill:#fff">A</text>
+          <circle cx="300" cy="60" r="20" fill="var(--accent)"></circle><text x="300" y="65" text-anchor="middle" style="fill:#fff">B</text>
+          <circle cx="300" cy="190" r="20" fill="var(--accent)"></circle><text x="300" y="195" text-anchor="middle" style="fill:#fff">C</text>
+          <circle cx="460" cy="120" r="20" fill="var(--accent)"></circle><text x="460" y="125" text-anchor="middle" style="fill:#fff">D</text>
+          <g stroke="var(--border)" stroke-width="2"><line x1="158" y1="112" x2="282" y2="68"></line><line x1="158" y1="128" x2="282" y2="182"></line><line x1="300" y1="80" x2="300" y2="170"></line><line x1="318" y1="68" x2="442" y2="112"></line><line x1="318" y1="182" x2="442" y2="128"></line></g>
+          <text x="560" y="90" style="fill:var(--text-dim)">adj list:</text>
+          <text x="560" y="112" font-size="11" style="fill:var(--text)">A: B C</text>
+          <text x="560" y="130" font-size="11" style="fill:var(--text)">B: A C D</text>
+          <text x="560" y="148" font-size="11" style="fill:var(--text)">C: A B D</text>
+          <text x="560" y="166" font-size="11" style="fill:var(--text)">D: B C</text>
+        </g>
+      </svg>
+      <figcaption>An undirected graph and its adjacency-list representation (space O(V+E)).</figcaption>
+    </figure>
+  </div>
+
+  <div class="section">
+    <h2>Example</h2>
+    <pre class="example"><code>/* BFS: O(V + E) */
+q.push(s); seen[s] = 1;
+while (!q.empty()) {
+    u = q.pop();
+    for (v : adj[u]) if (!seen[v]) { seen[v] = 1; q.push(v); }
+}
+
+/* Topological sort (Kahn): repeatedly output a vertex with in-degree 0  */
+/* Kruskal MST: sort edges by weight; add edge if union-find says no cycle */</code></pre>
+  </div>
+
+  <div class="callout warn">
+    <strong>Common exam traps</strong>
+    <p>Dijkstra <strong>fails with negative edges</strong> — use Bellman-Ford. Topological sort exists only for a DAG. An adjacency matrix costs O(V²) even for a sparse graph. In BFS, mark visited on enqueue. Deciding a Hamiltonian cycle is NP-complete; an Euler circuit test (all even degree) is polynomial.</p>
+  </div>
+
+  <div class="section">
+    <h2>Practice MCQs</h2>
+    <div class="mcq">
+      <p class="q"><span class="qn">Q1.</span> An adjacency list uses how much space?</p>
+      <ol class="opts" type="A">
+        <li>O(V^2)</li>
+        <li>O(V + E)</li>
+        <li>O(E^2)</li>
+        <li>O(V log E)</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> One list per vertex; total length 2E (undirected).</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q2.</span> BFS and DFS both run in:</p>
+      <ol class="opts" type="A">
+        <li>O(V^2)</li>
+        <li>O(V + E) with an adjacency list</li>
+        <li>O(E log V)</li>
+        <li>O(V!)</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Each vertex and edge is processed a constant number of times.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q3.</span> Dijkstra's algorithm fails when the graph has:</p>
+      <ol class="opts" type="A">
+        <li>cycles</li>
+        <li>negative-weight edges</li>
+        <li>more than 1000 vertices</li>
+        <li>disconnected components</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Its greedy finalize-closest step is invalid with negative edges.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q4.</span> Topological sort is defined for:</p>
+      <ol class="opts" type="A">
+        <li>any graph</li>
+        <li>directed acyclic graphs only</li>
+        <li>undirected connected graphs</li>
+        <li>weighted graphs only</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> A cycle makes a consistent linear order impossible.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q5.</span> A minimum spanning tree of a connected graph with V vertices has:</p>
+      <ol class="opts" type="A">
+        <li>V edges</li>
+        <li>V - 1 edges</li>
+        <li>E - V edges</li>
+        <li>2V edges</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> A spanning tree connects all V vertices acyclically.</p></details>
+    </div>
+    <p style="margin-top:18px"><a class="btn" href="../quiz.html?topic=pds-graphs">Practice all 50 Graphs questions →</a></p>
+  </div>
+
+  <div class="topic-nav">
+    <a href="pds-heaps.html"><span class="dir">← Previous topic</span>Binary Heaps</a>
+    <a class="next" href="../quiz.html"><span class="dir">Ready to test yourself? →</span>Take the Practice Quiz</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  GPSC ICT Class-2 exam prep · Unit 1 — Programming &amp; Data Structures
+</footer>
+
+<script src="../assets/js/nav.js"></script>
+</body>
+</html>

@@ -18,6 +18,22 @@
     { type: "link", label: "Home", href: "index.html" },
     { type: "link", label: "Practice Quiz", href: "quiz.html" },
     {
+      type: "group", label: "1) Programming & Data Structures", href: "pds.html",
+      items: [
+        ["Overview", "pds.html"],
+        ["Programming in C", "topics/pds-c-programming.html"],
+        ["Recursion", "topics/pds-recursion.html"],
+        ["Arrays", "topics/pds-arrays.html"],
+        ["Stacks", "topics/pds-stacks.html"],
+        ["Queues", "topics/pds-queues.html"],
+        ["Linked Lists", "topics/pds-linked-lists.html"],
+        ["Trees", "topics/pds-trees.html"],
+        ["Binary Search Trees", "topics/pds-bst.html"],
+        ["Binary Heaps", "topics/pds-heaps.html"],
+        ["Graphs", "topics/pds-graphs.html"]
+      ]
+    },
+    {
       type: "group", label: "4) Databases", href: "dbms.html",
       items: [
         ["Overview", "dbms.html"],

@@ -403,7 +403,18 @@ ul.check-list li::before {
   display: flex;
   gap: 6px;
   flex-wrap: wrap;
+  align-items: center;
 }
+.chip-group-label {
+  flex-basis: 100%;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 800;
+  color: var(--text-dim);
+  margin: 12px 0 2px;
+}
+.chip-group-label:first-child { margin-top: 0; }
 .chip-toggle button {
   padding: 8px 14px;
   border-radius: 999px;

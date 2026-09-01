@@ -1,37 +1,37 @@
-# NoSQL Databases + DBMS Core — Exam Prep Site
+# GPSC ICT Class-2 — Exam Prep Site
 
-A static study site covering the 4 core NoSQL Database concepts and 8 classical
-relational-DBMS topics, plus a 148-question interactive practice quiz calibrated to
-recent GPSC ICT/IT exam papers.
+A static study site for the GPSC ICT Class-2 syllabus: concept notes with diagrams,
+worked examples and solved MCQs, plus one topic-filterable practice quiz.
+
+**Units live so far:** 1 — Programming &amp; Data Structures (10 topics), 4 — Databases
+(8 topics), 8 — NoSQL Databases (4 topics). **648 quiz questions.**
 
 ## Live site
 
 **https://dipenbambhaniya.github.io/ICT-Class-2/**
 
-- NoSQL topics start at <https://dipenbambhaniya.github.io/ICT-Class-2/topics/sql-vs-nosql.html>
-- DBMS Core hub: <https://dipenbambhaniya.github.io/ICT-Class-2/dbms.html>
+- Unit 1 hub: <https://dipenbambhaniya.github.io/ICT-Class-2/pds.html>
+- Unit 4 hub: <https://dipenbambhaniya.github.io/ICT-Class-2/dbms.html>
+- Unit 8 topics start at <https://dipenbambhaniya.github.io/ICT-Class-2/topics/sql-vs-nosql.html>
 - Practice quiz: <https://dipenbambhaniya.github.io/ICT-Class-2/quiz.html>
 
 ## Contents
 
-- `index.html` — home page, topic overview
-- `topics/sql-vs-nosql.html` — Differences between SQL and NoSQL
-- `topics/data-representation.html` — NoSQL data types / representation
-- `topics/cap-theorem.html` — CAP theorem
-- `topics/properties.html` — Properties of NoSQL databases
-- `dbms.html` — DBMS Core Concepts hub, links the 8 pages below
-- `topics/integrity-constraints.html` — domain / entity / key / referential integrity
-- `topics/normal-forms.html` — 1NF–BCNF–4NF–5NF, functional dependencies
-- `topics/file-organization.html` — heap / sequential / hash / clustered files
-- `topics/indexes.html` — primary / clustering / secondary, dense vs sparse, multi-level
-- `topics/b-trees.html` — B-trees vs B+ trees, splits/merges, fan-out
-- `topics/transaction-processing.html` — ACID, transaction states, anomalies
-- `topics/schedules.html` — serial/non-serial, conflict & view serializability, recoverability
-- `topics/concurrency-control.html` — locking / 2PL, timestamp ordering, MVCC, deadlocks
-- `quiz.html` — 148-question interactive MCQ practice test (filter by topic, instant
-  feedback, score breakdown, review list). Each DBMS page also has inline MCQs with
-  reveal-to-check explanations.
-- `assets/js/questions.js` — the question bank (edit here to add/change questions)
+- `index.html` — home page / syllabus overview
+- `pds.html` — Unit 1 (Programming & Data Structures) hub → `topics/pds-*.html`
+  (Programming in C, Recursion, Arrays, Stacks, Queues, Linked Lists, Trees,
+  Binary Search Trees, Binary Heaps, Graphs)
+- `dbms.html` — Unit 4 (Databases) hub → `topics/` pages for integrity constraints,
+  normal forms, file organization, indexes, B/B+ trees, transactions, schedules,
+  concurrency control
+- `topics/sql-vs-nosql.html`, `data-representation.html`, `cap-theorem.html`,
+  `properties.html` — Unit 8 (NoSQL Databases)
+- `quiz.html` — 648-question interactive MCQ practice test (filter by topic, instant
+  feedback, score breakdown, review list). Every topic page also has inline MCQs
+  with reveal-to-check explanations.
+- `assets/js/questions.js` — NoSQL + Databases question bank
+- `assets/js/q-pds.js` — Programming & Data Structures question bank (50 per topic)
+- `assets/js/nav.js` — left sidebar navigation, grouped by syllabus unit
 - `assets/css/style.css` — shared design system (light/dark aware)
 
 No build step — everything is plain HTML/CSS/JS, so it works directly on GitHub Pages
@@ -79,4 +79,6 @@ Each question in `assets/js/questions.js` follows this shape:
 
 `topic` must be one of: `sql-vs-nosql`, `data-representation`, `cap-theorem`, `properties`,
 `integrity-constraints`, `normal-forms`, `file-organization`, `indexes`, `b-trees`,
-`transactions`, `schedules`, `concurrency-control`.
+`transactions`, `schedules`, `concurrency-control`, `pds-c`, `pds-recursion`,
+`pds-arrays`, `pds-stacks`, `pds-queues`, `pds-linked-lists`, `pds-trees`, `pds-bst`,
+`pds-heaps`, `pds-graphs`.

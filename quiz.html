@@ -27,19 +27,29 @@
 
   <div id="quiz-start">
     <div class="hero">
-      <span class="pill">148 Questions</span>
+      <span class="pill">648 Questions</span>
       <h1>Practice Quiz</h1>
-      <p class="lead">Test yourself with exam-style MCQs on NoSQL Databases and DBMS core concepts, calibrated to GPSC IT-officer level papers. Pick a topic, choose how many questions, and go.</p>
+      <p class="lead">Test yourself with exam-style MCQs across the GPSC ICT Class-2 syllabus — Programming &amp; Data Structures, Databases and NoSQL Databases so far. Pick a topic, choose how many questions, and go.</p>
     </div>
 
     <div class="section">
       <h2>1. Choose a topic</h2>
       <div class="chip-toggle" id="topic-chips">
-        <button class="active" data-topic="all">All Topics (148)</button>
-        <button data-topic="sql-vs-nosql">SQL vs NoSQL (25)</button>
-        <button data-topic="data-representation">Data Representation (25)</button>
-        <button data-topic="cap-theorem">CAP Theorem (25)</button>
-        <button data-topic="properties">Properties (25)</button>
+        <button class="active" data-topic="all">All Topics (648)</button>
+
+        <span class="chip-group-label">1) Programming &amp; Data Structures</span>
+        <button data-topic="pds-c">Programming in C (50)</button>
+        <button data-topic="pds-recursion">Recursion (50)</button>
+        <button data-topic="pds-arrays">Arrays (50)</button>
+        <button data-topic="pds-stacks">Stacks (50)</button>
+        <button data-topic="pds-queues">Queues (50)</button>
+        <button data-topic="pds-linked-lists">Linked Lists (50)</button>
+        <button data-topic="pds-trees">Trees (50)</button>
+        <button data-topic="pds-bst">Binary Search Trees (50)</button>
+        <button data-topic="pds-heaps">Binary Heaps (50)</button>
+        <button data-topic="pds-graphs">Graphs (50)</button>
+
+        <span class="chip-group-label">4) Databases</span>
         <button data-topic="integrity-constraints">Integrity Constraints (6)</button>
         <button data-topic="normal-forms">Normal Forms (6)</button>
         <button data-topic="file-organization">File Organization (6)</button>
@@ -48,6 +58,12 @@
         <button data-topic="transactions">Transactions (6)</button>
         <button data-topic="schedules">Schedules (6)</button>
         <button data-topic="concurrency-control">Concurrency Control (6)</button>
+
+        <span class="chip-group-label">8) NoSQL Databases</span>
+        <button data-topic="sql-vs-nosql">SQL vs NoSQL (25)</button>
+        <button data-topic="data-representation">Data Representation (25)</button>
+        <button data-topic="cap-theorem">CAP Theorem (25)</button>
+        <button data-topic="properties">Properties (25)</button>
       </div>
     </div>
 
@@ -122,6 +138,7 @@
 </footer>
 
 <script src="assets/js/questions.js"></script>
+<script src="assets/js/q-pds.js"></script>
 <script src="assets/js/quiz.js"></script>
 <script src="assets/js/nav.js"></script>
 </body>

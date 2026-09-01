@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trees — Programming &amp; Data Structures</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="../index.html"><span class="logo-dot">DB</span> NoSQL Exam Prep</a>
+    <nav class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../pds.html" class="active">PDS</a>
+      <a href="../dbms.html">DBMS</a>
+      <a href="../quiz.html">Practice Quiz</a>
+    </nav>
+  </div>
+</header>
+<nav class="subnav">
+  <a href="pds-c-programming.html">Programming in C</a>
+  <a href="pds-recursion.html">Recursion</a>
+  <a href="pds-arrays.html">Arrays</a>
+  <a href="pds-stacks.html">Stacks</a>
+  <a href="pds-queues.html">Queues</a>
+  <a href="pds-linked-lists.html">Linked Lists</a>
+  <a href="pds-trees.html" class="active">Trees</a>
+  <a href="pds-bst.html">Binary Search Trees</a>
+  <a href="pds-heaps.html">Binary Heaps</a>
+  <a href="pds-graphs.html">Graphs</a>
+</nav>
+
+<main>
+
+  <div class="topic-header">
+    <span class="pill">Unit 1 · 7 of 10</span>
+    <h1>Trees</h1>
+    <p class="sub">A tree is a connected acyclic graph: n nodes, n−1 edges, one root, each node reached by exactly one path. Binary trees (≤2 children) are the workhorse; traversals visit every node in O(n).</p>
+  </div>
+
+  <div class="section">
+    <h2>Key points</h2>
+    <dl class="terms">
+      <dt>Height / depth</dt>
+      <dd>Depth of a node = edges from the root (root = 0). Height of the tree = max depth. Balanced ⇒ O(log n); degenerate ⇒ O(n).</dd>
+      <dt>Traversals (DFS)</dt>
+      <dd>Pre-order (Root,L,R), In-order (L,Root,R), Post-order (L,R,Root) — all O(n), recursion depth = height.</dd>
+      <dt>Level-order (BFS)</dt>
+      <dd>Visit level by level using a queue.</dd>
+      <dt>Shapes</dt>
+      <dd>Full (0 or 2 children), complete (levels full L→R except last), perfect (full + all leaves same depth).</dd>
+      <dt>Reconstruction</dt>
+      <dd>pre-order + in-order (distinct keys) ⇒ unique tree. pre + post ⇒ unique only for full binary trees.</dd>
+    </dl>
+  </div>
+
+  <div class="section">
+    <h2>Diagram</h2>
+    <figure class="diagram-box">
+      <svg viewBox="0 0 720 260" xmlns="http://www.w3.org/2000/svg">
+        <g font-size="12" font-weight="700">
+          <circle cx="360" cy="40" r="20" fill="var(--accent)"></circle><text x="360" y="45" text-anchor="middle" style="fill:#fff">A</text>
+          <circle cx="240" cy="120" r="20" fill="var(--accent-2)"></circle><text x="240" y="125" text-anchor="middle" style="fill:#fff">B</text>
+          <circle cx="480" cy="120" r="20" fill="var(--accent-2)"></circle><text x="480" y="125" text-anchor="middle" style="fill:#fff">C</text>
+          <circle cx="180" cy="200" r="20" fill="var(--warn)"></circle><text x="180" y="205" text-anchor="middle" style="fill:#111">D</text>
+          <circle cx="300" cy="200" r="20" fill="var(--warn)"></circle><text x="300" y="205" text-anchor="middle" style="fill:#111">E</text>
+          <circle cx="540" cy="200" r="20" fill="var(--warn)"></circle><text x="540" y="205" text-anchor="middle" style="fill:#111">F</text>
+          <g stroke="var(--border)" stroke-width="2"><line x1="345" y1="55" x2="255" y2="105"></line><line x1="375" y1="55" x2="465" y2="105"></line><line x1="228" y1="137" x2="192" y2="183"></line><line x1="252" y1="137" x2="288" y2="183"></line><line x1="492" y1="137" x2="528" y2="183"></line></g>
+          <text x="360" y="245" text-anchor="middle" font-size="11" style="fill:var(--text-dim)">Pre: A B D E C F   ·   In: D B E A C F   ·   Post: D E B F C A</text>
+        </g>
+      </svg>
+      <figcaption>A binary tree and its three depth-first traversal orders.</figcaption>
+    </figure>
+  </div>
+
+  <div class="section">
+    <h2>Example</h2>
+    <pre class="example"><code>void inorder(Node *t) {
+    if (!t) return;             /* base case: empty subtree */
+    inorder(t-&gt;left);
+    visit(t-&gt;key);
+    inorder(t-&gt;right);
+}
+/* Height:  h(t) = t ? 1 + max(h(t->left), h(t->right)) : -1  */
+/* Level-order: enqueue root; dequeue node, enqueue its children */</code></pre>
+  </div>
+
+  <div class="callout warn">
+    <strong>Common exam traps</strong>
+    <p>A tree with n nodes always has exactly n−1 edges and n+1 NULL links. In-order of a <em>BST</em> is sorted (not true for a general binary tree). Post-order is the one to use for freeing a tree or computing subtree aggregates. A skewed tree has height n−1 and O(n) operations.</p>
+  </div>
+
+  <div class="section">
+    <h2>Practice MCQs</h2>
+    <div class="mcq">
+      <p class="q"><span class="qn">Q1.</span> A tree with n nodes has how many edges?</p>
+      <ol class="opts" type="A">
+        <li>n</li>
+        <li>n - 1</li>
+        <li>n + 1</li>
+        <li>2n</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Connected and acyclic ⇒ n-1 edges.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q2.</span> In-order traversal of a binary search tree yields keys:</p>
+      <ol class="opts" type="A">
+        <li>in random order</li>
+        <li>in ascending sorted order</li>
+        <li>in descending order</li>
+        <li>level by level</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Left < node < right, so L-Root-R is sorted.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q3.</span> Level-order traversal uses a:</p>
+      <ol class="opts" type="A">
+        <li>stack</li>
+        <li>queue</li>
+        <li>priority queue</li>
+        <li>hash set</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Enqueue a node, then enqueue its children.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q4.</span> Max nodes in a binary tree of height h (root at 0) is:</p>
+      <ol class="opts" type="A">
+        <li>2^h</li>
+        <li>2^(h+1) - 1</li>
+        <li>h^2</li>
+        <li>2h + 1</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> A perfect tree: 1 + 2 + 4 + ... + 2^h.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q5.</span> Which traversal pair uniquely rebuilds any binary tree with distinct keys?</p>
+      <ol class="opts" type="A">
+        <li>pre + post</li>
+        <li>pre + in (or post + in)</li>
+        <li>in alone</li>
+        <li>level-order alone</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> pre/post give the root; in-order splits the subtrees. pre+post is ambiguous for single-child nodes.</p></details>
+    </div>
+    <p style="margin-top:18px"><a class="btn" href="../quiz.html?topic=pds-trees">Practice all 50 Trees questions →</a></p>
+  </div>
+
+  <div class="topic-nav">
+    <a href="pds-linked-lists.html"><span class="dir">← Previous topic</span>Linked Lists</a>
+    <a class="next" href="pds-bst.html"><span class="dir">Next topic →</span>Binary Search Trees</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  GPSC ICT Class-2 exam prep · Unit 1 — Programming &amp; Data Structures
+</footer>
+
+<script src="../assets/js/nav.js"></script>
+</body>
+</html>

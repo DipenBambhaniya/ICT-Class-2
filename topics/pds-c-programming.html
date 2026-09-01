@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Programming in C — Programming &amp; Data Structures</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="../index.html"><span class="logo-dot">DB</span> NoSQL Exam Prep</a>
+    <nav class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../pds.html" class="active">PDS</a>
+      <a href="../dbms.html">DBMS</a>
+      <a href="../quiz.html">Practice Quiz</a>
+    </nav>
+  </div>
+</header>
+<nav class="subnav">
+  <a href="pds-c-programming.html" class="active">Programming in C</a>
+  <a href="pds-recursion.html">Recursion</a>
+  <a href="pds-arrays.html">Arrays</a>
+  <a href="pds-stacks.html">Stacks</a>
+  <a href="pds-queues.html">Queues</a>
+  <a href="pds-linked-lists.html">Linked Lists</a>
+  <a href="pds-trees.html">Trees</a>
+  <a href="pds-bst.html">Binary Search Trees</a>
+  <a href="pds-heaps.html">Binary Heaps</a>
+  <a href="pds-graphs.html">Graphs</a>
+</nav>
+
+<main>
+
+  <div class="topic-header">
+    <span class="pill">Unit 1 · 1 of 10</span>
+    <h1>Programming in C</h1>
+    <p class="sub">C is a small, statically-typed, procedural language that maps closely to the machine: manual memory management, pointers, and no runtime safety net. Understanding its memory model is the key to everything else.</p>
+  </div>
+
+  <div class="section">
+    <h2>Key points</h2>
+    <dl class="terms">
+      <dt>Data types & sizes</dt>
+      <dd>char (1 byte), int (&ge;2, usually 4), float/double; sizes are implementation-defined. Use <code>sizeof</code>, never assume.</dd>
+      <dt>Storage classes</dt>
+      <dd><code>auto</code> (default local), <code>register</code>, <code>static</code> (persists, file/local scope), <code>extern</code> (defined elsewhere).</dd>
+      <dt>Pointers</dt>
+      <dd>A variable holding an address. <code>*p</code> dereferences; <code>&amp;x</code> takes an address; <code>p->m</code> is <code>(*p).m</code>.</dd>
+      <dt>Memory regions</dt>
+      <dd>Code, static/global (zero-initialized), stack (automatic, LIFO), heap (malloc/free — you manage it).</dd>
+      <dt>Undefined behavior</dt>
+      <dd>Out-of-bounds access, use-after-free, signed overflow, modifying a variable twice between sequence points — the compiler may do anything.</dd>
+    </dl>
+  </div>
+
+  <div class="section">
+    <h2>Diagram</h2>
+    <figure class="diagram-box">
+      <svg viewBox="0 0 720 260" xmlns="http://www.w3.org/2000/svg">
+        <g font-size="12" font-weight="700">
+          <rect x="60" y="30" width="240" height="40" rx="6" fill="var(--accent-dim)" stroke="var(--accent)"></rect><text x="180" y="55" text-anchor="middle" style="fill:var(--accent)">Code / text (read-only)</text>
+          <rect x="60" y="76" width="240" height="40" rx="6" fill="var(--accent-2-dim)" stroke="var(--accent-2)"></rect><text x="180" y="101" text-anchor="middle" style="fill:var(--accent-2)">Static / global data</text>
+          <rect x="60" y="122" width="240" height="52" rx="6" fill="var(--warn-dim)" stroke="var(--warn)"></rect><text x="180" y="145" text-anchor="middle" style="fill:var(--warn)">Heap  ↓ grows up</text><text x="180" y="163" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">malloc / free</text>
+          <rect x="60" y="188" width="240" height="52" rx="6" fill="var(--danger-dim)" stroke="var(--danger)"></rect><text x="180" y="210" text-anchor="middle" style="fill:var(--danger)">Stack  ↑ grows down</text><text x="180" y="228" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">locals, return addresses</text>
+          <text x="420" y="60" style="fill:var(--text)">int g;         → static (0)</text>
+          <text x="420" y="150" style="fill:var(--text)">p = malloc(n); → heap</text>
+          <text x="420" y="214" style="fill:var(--text)">int x;         → stack</text>
+        </g>
+      </svg>
+      <figcaption>The C process memory layout. Stack and heap grow toward each other; running out of either is a crash.</figcaption>
+    </figure>
+  </div>
+
+  <div class="section">
+    <h2>Example</h2>
+    <pre class="example"><code>#include &lt;stdlib.h&gt;
+int *make_array(int n) {
+    int *a = malloc(n * sizeof *a);   /* heap; check for NULL in real code */
+    for (int i = 0; i &lt; n; i++) a[i] = i * i;
+    return a;                          /* ok: heap memory outlives the function */
+}
+/* caller must free() the result — C has no garbage collector */</code></pre>
+  </div>
+
+  <div class="callout warn">
+    <strong>Common exam traps</strong>
+    <p><code>sizeof(int)</code> is not guaranteed to be 4. An array name decays to a pointer except under <code>sizeof</code>/<code>&amp;</code>. <code>char c = 'A'</code> stores 65. Returning the address of a <em>local</em> (stack) variable is undefined behavior; returning heap memory is fine.</p>
+  </div>
+
+  <div class="section">
+    <h2>Practice MCQs</h2>
+    <div class="mcq">
+      <p class="q"><span class="qn">Q1.</span> Which is NOT a storage class in C?</p>
+      <ol class="opts" type="A">
+        <li>auto</li>
+        <li>register</li>
+        <li>static</li>
+        <li>volatile</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: D.</strong> volatile is a type qualifier, not a storage class. The storage classes are auto, register, static, extern.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q2.</span> <code>malloc</code> returns:</p>
+      <ol class="opts" type="A">
+        <li>char *</li>
+        <li>int *</li>
+        <li>void *</li>
+        <li>the requested type</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: C.</strong> void *, implicitly convertible to any object pointer type.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q3.</span> <code>a[i]</code> is exactly equivalent to:</p>
+      <ol class="opts" type="A">
+        <li>*(a + i)</li>
+        <li>*a + i</li>
+        <li>a + i</li>
+        <li>&amp;a[i]</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: A.</strong> Subscripting is defined as *(a+i), which is why i[a] is also legal.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q4.</span> A <code>static</code> local variable:</p>
+      <ol class="opts" type="A">
+        <li>is destroyed on return</li>
+        <li>persists across calls, initialized once</li>
+        <li>is visible to other files</li>
+        <li>cannot be initialized</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> static gives static storage duration with local scope.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q5.</span> <code>int x=5; printf("%d", x++ + ++x);</code> is:</p>
+      <ol class="opts" type="A">
+        <li>11</li>
+        <li>12</li>
+        <li>undefined behavior</li>
+        <li>10</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: C.</strong> x is modified twice with no sequence point between — undefined behavior.</p></details>
+    </div>
+    <p style="margin-top:18px"><a class="btn" href="../quiz.html?topic=pds-c">Practice all 50 Programming in C questions →</a></p>
+  </div>
+
+  <div class="topic-nav">
+    <a href="../pds.html"><span class="dir">← Back to</span>Unit 1 index</a>
+    <a class="next" href="pds-recursion.html"><span class="dir">Next topic →</span>Recursion</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  GPSC ICT Class-2 exam prep · Unit 1 — Programming &amp; Data Structures
+</footer>
+
+<script src="../assets/js/nav.js"></script>
+</body>
+</html>

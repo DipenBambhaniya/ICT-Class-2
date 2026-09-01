@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Recursion — Programming &amp; Data Structures</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="../index.html"><span class="logo-dot">DB</span> NoSQL Exam Prep</a>
+    <nav class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../pds.html" class="active">PDS</a>
+      <a href="../dbms.html">DBMS</a>
+      <a href="../quiz.html">Practice Quiz</a>
+    </nav>
+  </div>
+</header>
+<nav class="subnav">
+  <a href="pds-c-programming.html">Programming in C</a>
+  <a href="pds-recursion.html" class="active">Recursion</a>
+  <a href="pds-arrays.html">Arrays</a>
+  <a href="pds-stacks.html">Stacks</a>
+  <a href="pds-queues.html">Queues</a>
+  <a href="pds-linked-lists.html">Linked Lists</a>
+  <a href="pds-trees.html">Trees</a>
+  <a href="pds-bst.html">Binary Search Trees</a>
+  <a href="pds-heaps.html">Binary Heaps</a>
+  <a href="pds-graphs.html">Graphs</a>
+</nav>
+
+<main>
+
+  <div class="topic-header">
+    <span class="pill">Unit 1 · 2 of 10</span>
+    <h1>Recursion</h1>
+    <p class="sub">A recursive function solves a problem by calling itself on smaller inputs until it reaches a base case. Each call gets its own stack frame, so recursion depth is bounded by the call-stack size.</p>
+  </div>
+
+  <div class="section">
+    <h2>Key points</h2>
+    <dl class="terms">
+      <dt>Base case</dt>
+      <dd>The non-recursive stopping condition. Without one (or without progress toward it) the recursion overflows the stack.</dd>
+      <dt>Recursive case</dt>
+      <dd>Reduces the problem and calls itself on a strictly smaller sub-input.</dd>
+      <dt>Call stack</dt>
+      <dd>Each active call keeps an activation record (parameters, locals, return address). Depth d ⇒ d frames.</dd>
+      <dt>Tail recursion</dt>
+      <dd>The recursive call is the last action; can be compiled to a loop using O(1) stack.</dd>
+      <dt>Memoization</dt>
+      <dd>Cache subproblem results to turn overlapping exponential recursion (e.g. naive Fibonacci) into linear time.</dd>
+    </dl>
+  </div>
+
+  <div class="section">
+    <h2>Diagram</h2>
+    <figure class="diagram-box">
+      <svg viewBox="0 0 720 260" xmlns="http://www.w3.org/2000/svg">
+        <g font-size="12">
+          <rect x="270" y="20" width="180" height="34" rx="6" fill="var(--accent-dim)" stroke="var(--accent)"></rect><text x="360" y="42" text-anchor="middle" style="fill:var(--text)">fact(4) = 4 * fact(3)</text>
+          <rect x="270" y="64" width="180" height="34" rx="6" fill="var(--accent-dim)" stroke="var(--accent)"></rect><text x="360" y="86" text-anchor="middle" style="fill:var(--text)">fact(3) = 3 * fact(2)</text>
+          <rect x="270" y="108" width="180" height="34" rx="6" fill="var(--accent-dim)" stroke="var(--accent)"></rect><text x="360" y="130" text-anchor="middle" style="fill:var(--text)">fact(2) = 2 * fact(1)</text>
+          <rect x="270" y="152" width="180" height="34" rx="6" fill="var(--accent-2-dim)" stroke="var(--accent-2)"></rect><text x="360" y="174" text-anchor="middle" style="fill:var(--text)">fact(1) = 1  ← base case</text>
+          <text x="470" y="42" font-size="11" style="fill:var(--text-dim)">push frames ↓</text>
+          <text x="470" y="174" font-size="11" style="fill:var(--text-dim)">return &amp; multiply ↑ = 24</text>
+        </g>
+      </svg>
+      <figcaption>Recursion winds down to the base case (pushing frames), then unwinds, combining results on the way back up.</figcaption>
+    </figure>
+  </div>
+
+  <div class="section">
+    <h2>Example</h2>
+    <pre class="example"><code>int fact(int n) {
+    if (n &lt;= 1) return 1;          /* base case */
+    return n * fact(n - 1);         /* recursive case */
+}
+/* fact(4) → 4*fact(3) → 4*3*fact(2) → 4*3*2*fact(1) → 4*3*2*1 = 24 */
+
+/* naive Fibonacci: O(2^n) time. Memoized: O(n). */</code></pre>
+  </div>
+
+  <div class="callout warn">
+    <strong>Common exam traps</strong>
+    <p>Naive Fibonacci is exponential <em>time</em> but only O(n) <em>space</em> (one path active at a time). Binary search recursion is T(n)=T(n/2)+O(1) ⇒ O(log n); merge sort is T(n)=2T(n/2)+O(n) ⇒ O(n log n). Every recursion can be rewritten iteratively with an explicit stack.</p>
+  </div>
+
+  <div class="section">
+    <h2>Practice MCQs</h2>
+    <div class="mcq">
+      <p class="q"><span class="qn">Q1.</span> Every recursive function must have:</p>
+      <ol class="opts" type="A">
+        <li>a loop</li>
+        <li>at least one base case</li>
+        <li>a global variable</li>
+        <li>return type int</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Without a base case the recursion never terminates.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q2.</span> Parameters of each recursive call are stored in:</p>
+      <ol class="opts" type="A">
+        <li>the heap</li>
+        <li>a stack frame on the call stack</li>
+        <li>CPU registers only</li>
+        <li>the data segment</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Each call pushes its own activation record.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q3.</span> Naive recursive Fibonacci has time complexity:</p>
+      <ol class="opts" type="A">
+        <li>O(n)</li>
+        <li>O(n log n)</li>
+        <li>O(2^n)</li>
+        <li>O(n^2)</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: C.</strong> The call tree branches twice per level with overlapping subproblems.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q4.</span> T(n) = 2T(n/2) + O(n) solves to:</p>
+      <ol class="opts" type="A">
+        <li>O(n)</li>
+        <li>O(n log n)</li>
+        <li>O(n^2)</li>
+        <li>O(log n)</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> The merge-sort recurrence — Theta(n log n) by the Master Theorem.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q5.</span> Tail-call optimization lets a tail-recursive function use:</p>
+      <ol class="opts" type="A">
+        <li>O(n) stack</li>
+        <li>O(1) stack</li>
+        <li>O(log n) stack</li>
+        <li>no stack</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> With nothing after the call, the current frame is reused like a loop.</p></details>
+    </div>
+    <p style="margin-top:18px"><a class="btn" href="../quiz.html?topic=pds-recursion">Practice all 50 Recursion questions →</a></p>
+  </div>
+
+  <div class="topic-nav">
+    <a href="pds-c-programming.html"><span class="dir">← Previous topic</span>Programming in C</a>
+    <a class="next" href="pds-arrays.html"><span class="dir">Next topic →</span>Arrays</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  GPSC ICT Class-2 exam prep · Unit 1 — Programming &amp; Data Structures
+</footer>
+
+<script src="../assets/js/nav.js"></script>
+</body>
+</html>

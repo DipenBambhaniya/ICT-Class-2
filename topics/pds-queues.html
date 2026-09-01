@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Queues — Programming &amp; Data Structures</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="../index.html"><span class="logo-dot">DB</span> NoSQL Exam Prep</a>
+    <nav class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../pds.html" class="active">PDS</a>
+      <a href="../dbms.html">DBMS</a>
+      <a href="../quiz.html">Practice Quiz</a>
+    </nav>
+  </div>
+</header>
+<nav class="subnav">
+  <a href="pds-c-programming.html">Programming in C</a>
+  <a href="pds-recursion.html">Recursion</a>
+  <a href="pds-arrays.html">Arrays</a>
+  <a href="pds-stacks.html">Stacks</a>
+  <a href="pds-queues.html" class="active">Queues</a>
+  <a href="pds-linked-lists.html">Linked Lists</a>
+  <a href="pds-trees.html">Trees</a>
+  <a href="pds-bst.html">Binary Search Trees</a>
+  <a href="pds-heaps.html">Binary Heaps</a>
+  <a href="pds-graphs.html">Graphs</a>
+</nav>
+
+<main>
+
+  <div class="topic-header">
+    <span class="pill">Unit 1 · 5 of 10</span>
+    <h1>Queues</h1>
+    <p class="sub">A queue is a FIFO container: elements leave in arrival order. Enqueue at the rear, dequeue at the front, both O(1) with the right implementation. Queues model fair, arrival-order processing and power BFS.</p>
+  </div>
+
+  <div class="section">
+    <h2>Key points</h2>
+    <dl class="terms">
+      <dt>Ends</dt>
+      <dd><code>front</code> (dequeue / peek) and <code>rear</code> (enqueue).</dd>
+      <dt>Circular queue</dt>
+      <dd>Fixed array with wrap-around indices <code>(i+1) % cap</code>; avoids the O(n) shift of a naive array queue. Holds cap−1 items (or use a count).</dd>
+      <dt>Linked queue</dt>
+      <dd>Singly linked list with head + tail pointers ⇒ O(1) both ends, unbounded.</dd>
+      <dt>Deque</dt>
+      <dd>Double-ended queue: insert/remove at both ends. Restrict to one end ⇒ stack.</dd>
+      <dt>Priority queue</dt>
+      <dd>Not FIFO — serves by key/priority; a binary heap gives O(log n) insert & extract.</dd>
+    </dl>
+  </div>
+
+  <div class="section">
+    <h2>Diagram</h2>
+    <figure class="diagram-box">
+      <svg viewBox="0 0 720 260" xmlns="http://www.w3.org/2000/svg">
+        <g font-size="13" font-weight="700">
+          <rect x="180" y="90" width="80" height="44" rx="4" fill="var(--accent-dim)" stroke="var(--accent)"></rect><text x="220" y="118" text-anchor="middle" style="fill:var(--text)">7</text><rect x="270" y="90" width="80" height="44" rx="4" fill="var(--accent-dim)" stroke="var(--accent)"></rect><text x="310" y="118" text-anchor="middle" style="fill:var(--text)">12</text><rect x="360" y="90" width="80" height="44" rx="4" fill="var(--accent-dim)" stroke="var(--accent)"></rect><text x="400" y="118" text-anchor="middle" style="fill:var(--text)">3</text><rect x="450" y="90" width="80" height="44" rx="4" fill="var(--accent-dim)" stroke="var(--accent)"></rect><text x="490" y="118" text-anchor="middle" style="fill:var(--text)">9</text>
+          <text x="180" y="78" font-size="11" style="fill:var(--accent-2)">front → dequeue</text>
+          <text x="540" y="78" font-size="11" style="fill:var(--warn)">rear ← enqueue</text>
+          <line x1="150" y1="112" x2="180" y2="112" stroke="var(--accent-2)" stroke-width="2" marker-end="url(#a)"></line>
+          <line x1="540" y1="112" x2="570" y2="112" stroke="var(--warn)" stroke-width="2" marker-end="url(#a)"></line>
+          <defs><marker id="a" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="var(--text-dim)"></path></marker></defs>
+        </g>
+      </svg>
+      <figcaption>Elements enter at the rear and leave at the front — first in, first out.</figcaption>
+    </figure>
+  </div>
+
+  <div class="section">
+    <h2>Example</h2>
+    <pre class="example"><code>/* BFS shortest path (unweighted) */
+enqueue(source); dist[source] = 0; visited[source] = 1;
+while (!empty(q)) {
+    u = dequeue();
+    for each neighbor v of u:
+        if (!visited[v]) { visited[v] = 1; dist[v] = dist[u] + 1; enqueue(v); }
+}
+/* vertices leave the queue in non-decreasing order of distance */</code></pre>
+  </div>
+
+  <div class="callout warn">
+    <strong>Common exam traps</strong>
+    <p>A naive array queue that shifts on dequeue is O(n); use a circular buffer. In BFS, mark a vertex visited <em>when enqueued</em>, not when dequeued. BFS gives shortest paths only with unit edge weights. Round-robin scheduling = circular queue; FCFS = plain FIFO queue.</p>
+  </div>
+
+  <div class="section">
+    <h2>Practice MCQs</h2>
+    <div class="mcq">
+      <p class="q"><span class="qn">Q1.</span> A queue follows which principle?</p>
+      <ol class="opts" type="A">
+        <li>LIFO</li>
+        <li>FIFO</li>
+        <li>priority order</li>
+        <li>random</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> First In, First Out.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q2.</span> Which traversal uses a queue?</p>
+      <ol class="opts" type="A">
+        <li>DFS</li>
+        <li>BFS</li>
+        <li>in-order</li>
+        <li>topological sort via DFS</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> BFS explores level by level in discovery order.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q3.</span> In a circular array of size n (one slot sacrificed), capacity is:</p>
+      <ol class="opts" type="A">
+        <li>n</li>
+        <li>n - 1</li>
+        <li>n + 1</li>
+        <li>n / 2</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Leaving one slot empty distinguishes full from empty.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q4.</span> Round-robin CPU scheduling uses a:</p>
+      <ol class="opts" type="A">
+        <li>stack</li>
+        <li>circular queue</li>
+        <li>priority queue</li>
+        <li>binary tree</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Each process gets a slice, then goes to the back of the ready queue.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q5.</span> A linked-list queue needs a tail pointer to make which operation O(1)?</p>
+      <ol class="opts" type="A">
+        <li>dequeue</li>
+        <li>enqueue</li>
+        <li>search</li>
+        <li>reverse</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Without it, appending at the rear is O(n).</p></details>
+    </div>
+    <p style="margin-top:18px"><a class="btn" href="../quiz.html?topic=pds-queues">Practice all 50 Queues questions →</a></p>
+  </div>
+
+  <div class="topic-nav">
+    <a href="pds-stacks.html"><span class="dir">← Previous topic</span>Stacks</a>
+    <a class="next" href="pds-linked-lists.html"><span class="dir">Next topic →</span>Linked Lists</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  GPSC ICT Class-2 exam prep · Unit 1 — Programming &amp; Data Structures
+</footer>
+
+<script src="../assets/js/nav.js"></script>
+</body>
+</html>
