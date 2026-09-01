@@ -18,7 +18,7 @@
     { type: "link", label: "Home", href: "index.html" },
     { type: "link", label: "Practice Quiz", href: "quiz.html" },
     {
-      type: "group", label: "3) Databases", href: "dbms.html",
+      type: "group", label: "4) Databases", href: "dbms.html",
       items: [
         ["Overview", "dbms.html"],
         ["Integrity Constraints", "topics/integrity-constraints.html"],
