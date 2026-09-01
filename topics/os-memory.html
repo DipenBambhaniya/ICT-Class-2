@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Memory & Virtual Memory — Hardware &amp; Operating Systems</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="../index.html"><span class="logo-dot">DB</span> NoSQL Exam Prep</a>
+    <nav class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../os.html" class="active">Hardware &amp; OS</a>
+      <a href="../quiz.html">Practice Quiz</a>
+    </nav>
+  </div>
+</header>
+<nav class="subnav">
+  <a href="os-hardware.html">Hardware Basics</a>
+  <a href="os-processes.html">Processes</a>
+  <a href="os-threads.html">Threads</a>
+  <a href="os-ipc.html">IPC</a>
+  <a href="os-sync.html">Synchronization</a>
+  <a href="os-deadlock.html">Deadlock</a>
+  <a href="os-scheduling.html">CPU Scheduling</a>
+  <a href="os-memory.html" class="active">Memory & Virtual Memory</a>
+  <a href="os-filesystems.html">File Systems</a>
+</nav>
+
+<main>
+
+  <div class="topic-header">
+    <span class="pill">Unit 5 · 8 of 9</span>
+    <h1>Memory & Virtual Memory</h1>
+    <p class="sub">Virtual memory gives each process a large private address space, using paging to map virtual pages to physical frames (via the page table and TLB) and demand paging to load pages from disk only when touched. Over-committing memory risks thrashing.</p>
+  </div>
+
+  <div class="section">
+    <h2>Key points</h2>
+    <dl class="terms">
+      <dt>Paging</dt>
+      <dd>Virtual space → fixed-size pages; physical → equal frames. No external fragmentation; internal fragmentation ~ half a page per region.</dd>
+      <dt>Page table + TLB</dt>
+      <dd>The page table maps VPN → frame; the TLB caches recent translations. A TLB miss walks the (multi-level) table; a context switch flushes the TLB unless it is ASID-tagged.</dd>
+      <dt>Demand paging & page fault</dt>
+      <dd>Pages load on first reference. A fault ⇒ OS finds a free frame (or evicts a victim, writing it back if the dirty bit is set), loads the page, restarts the instruction.</dd>
+      <dt>Replacement algorithms</dt>
+      <dd>OPT (optimal, unrealisable), FIFO (can show Belady's anomaly), LRU (stack algorithm — no anomaly), Clock / second-chance (LRU approximation using a reference bit).</dd>
+      <dt>Thrashing & working set</dt>
+      <dd>If Σ working sets > RAM, processes page constantly and CPU utilisation collapses. Fix: reduce the degree of multiprogramming (swap a process out).</dd>
+    </dl>
+  </div>
+
+  <div class="section">
+    <h2>Diagram</h2>
+    <figure class="diagram-box">
+      <svg viewBox="0 0 720 240" xmlns="http://www.w3.org/2000/svg">
+        <g font-size="11" font-weight="700">
+          <text x="120" y="24" text-anchor="middle" font-size="12" style="fill:var(--accent)">VIRTUAL (per process)</text>
+          <text x="560" y="24" text-anchor="middle" font-size="12" style="fill:var(--accent-2)">PHYSICAL RAM</text>
+          <rect x="40" y="40" width="120" height="36" rx="4" fill="var(--accent-dim)" stroke="var(--accent)"></rect><text x="100" y="62" text-anchor="middle">page 0</text><rect x="40" y="85" width="120" height="36" rx="4" fill="var(--accent-dim)" stroke="var(--accent)"></rect><text x="100" y="107" text-anchor="middle">page 1</text><rect x="40" y="130" width="120" height="36" rx="4" fill="var(--accent-dim)" stroke="var(--accent)"></rect><text x="100" y="152" text-anchor="middle">page 2</text><rect x="40" y="175" width="120" height="36" rx="4" fill="var(--accent-dim)" stroke="var(--accent)"></rect><text x="100" y="197" text-anchor="middle">page 3</text>
+          <rect x="480" y="40" width="120" height="32" rx="4" fill="var(--accent-2-dim)" stroke="var(--accent-2)"></rect><text x="540" y="60" text-anchor="middle">frame 0</text><rect x="480" y="80" width="120" height="32" rx="4" fill="var(--accent-2-dim)" stroke="var(--accent-2)"></rect><text x="540" y="100" text-anchor="middle">frame 1</text><rect x="480" y="120" width="120" height="32" rx="4" fill="var(--accent-2-dim)" stroke="var(--accent-2)"></rect><text x="540" y="140" text-anchor="middle">frame 2</text><rect x="480" y="160" width="120" height="32" rx="4" fill="var(--accent-2-dim)" stroke="var(--accent-2)"></rect><text x="540" y="180" text-anchor="middle">frame 3</text><rect x="480" y="200" width="120" height="32" rx="4" fill="var(--accent-2-dim)" stroke="var(--accent-2)"></rect><text x="540" y="220" text-anchor="middle">frame 4</text>
+          <rect x="240" y="100" width="130" height="80" rx="6" fill="var(--warn-dim)" stroke="var(--warn)"></rect><text x="305" y="144" text-anchor="middle" font-size="11" font-weight="700" style="fill:var(--text)">page table + TLB</text>
+          <g stroke="var(--text-dim)" stroke-width="1.5" marker-end="url(#a)">
+            <line x1="160" y1="58" x2="240" y2="120"></line>
+            <line x1="370" y1="120" x2="480" y2="56"></line>
+            <line x1="370" y1="150" x2="480" y2="176"></line>
+          </g>
+          <defs><marker id="a" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="var(--text-dim)"></path></marker></defs>
+          <text x="305" y="205" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">a page maps to ANY frame; unmapped pages live on disk</text>
+        </g>
+      </svg>
+      <figcaption>Paging: the MMU translates each virtual page number to a physical frame via the page table (cached in the TLB).</figcaption>
+    </figure>
+  </div>
+
+  <div class="section">
+    <h2>Example</h2>
+    <pre class="example"><code>4 KB pages, 32-bit virtual address:
+   [ 20-bit page number | 12-bit offset ]   (2^12 = 4096)
+
+Page-replacement on reference string  1 2 3 4 1 2 5 1 2 3 4 5  with 3 frames:
+   FIFO  → 9 faults
+   LRU   → 10 faults ... (LRU never shows Belady's anomaly; FIFO with 4 frames
+           gives MORE faults than with 3 — that's the anomaly)
+
+TLB effective access time (98% hit, 1 ns TLB, 100 ns mem):
+   0.98·(1+100) + 0.02·(1+100+100) = 103 ns</code></pre>
+  </div>
+
+  <div class="callout warn">
+    <strong>Common exam traps</strong>
+    <p>Belady's anomaly (more frames ⇒ more faults) affects FIFO but never stack algorithms (LRU, OPT). OPT is optimal but unrealisable. Paging has internal, not external, fragmentation; segmentation is the reverse. A clean (non-dirty) victim page needs no write-back. A context switch flushes an untagged TLB.</p>
+  </div>
+
+  <div class="section">
+    <h2>Practice MCQs</h2>
+    <div class="mcq">
+      <p class="q"><span class="qn">Q1.</span> Internal fragmentation in paging comes from:</p>
+      <ol class="opts" type="A">
+        <li>gaps between allocations</li>
+        <li>the last page of a region being only partly used</li>
+        <li>the page table</li>
+        <li>swapping</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Average waste ~ half a page per region.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q2.</span> A page fault occurs when:</p>
+      <ol class="opts" type="A">
+        <li>the page table is full</li>
+        <li>a referenced page is not in physical memory</li>
+        <li>the TLB is full</li>
+        <li>two processes share a page</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> The OS loads it and restarts the instruction.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q3.</span> FIFO page replacement can suffer from:</p>
+      <ol class="opts" type="A">
+        <li>optimal behaviour</li>
+        <li>Belady's anomaly — more frames causing more faults</li>
+        <li>no faults ever</li>
+        <li>TLB thrashing only</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> LRU and OPT are stack algorithms and never show it.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q4.</span> Thrashing is:</p>
+      <ol class="opts" type="A">
+        <li>fast paging</li>
+        <li>spending more time paging than executing because working sets exceed RAM</li>
+        <li>a disk failure</li>
+        <li>TLB misses</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Fix: reduce the degree of multiprogramming.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q5.</span> The clock (second-chance) algorithm approximates LRU using:</p>
+      <ol class="opts" type="A">
+        <li>full timestamps</li>
+        <li>a per-page reference bit, cleared on a sweep before eviction</li>
+        <li>the page-table size</li>
+        <li>random selection</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Cheap: one hardware bit per page.</p></details>
+    </div>
+    <p style="margin-top:18px"><a class="btn" href="../quiz.html?topic=os-memory">Practice all 50 Memory & Virtual Memory questions →</a></p>
+  </div>
+
+  <div class="topic-nav">
+    <a href="os-scheduling.html"><span class="dir">← Previous topic</span>CPU Scheduling</a>
+    <a class="next" href="os-filesystems.html"><span class="dir">Next topic →</span>File Systems</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  GPSC ICT Class-2 exam prep · Unit 5 — Hardware &amp; Operating Systems
+</footer>
+
+<script src="../assets/js/nav.js"></script>
+</body>
+</html>

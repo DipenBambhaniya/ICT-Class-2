@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Threads — Hardware &amp; Operating Systems</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="../index.html"><span class="logo-dot">DB</span> NoSQL Exam Prep</a>
+    <nav class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../os.html" class="active">Hardware &amp; OS</a>
+      <a href="../quiz.html">Practice Quiz</a>
+    </nav>
+  </div>
+</header>
+<nav class="subnav">
+  <a href="os-hardware.html">Hardware Basics</a>
+  <a href="os-processes.html">Processes</a>
+  <a href="os-threads.html" class="active">Threads</a>
+  <a href="os-ipc.html">IPC</a>
+  <a href="os-sync.html">Synchronization</a>
+  <a href="os-deadlock.html">Deadlock</a>
+  <a href="os-scheduling.html">CPU Scheduling</a>
+  <a href="os-memory.html">Memory & Virtual Memory</a>
+  <a href="os-filesystems.html">File Systems</a>
+</nav>
+
+<main>
+
+  <div class="topic-header">
+    <span class="pill">Unit 5 · 3 of 9</span>
+    <h1>Threads</h1>
+    <p class="sub">A thread is the smallest unit of CPU scheduling — a lightweight execution stream inside a process. Threads of one process share code, data and files but each has its own stack, registers and PC. Cheap to create and switch, but shared mutable state invites race conditions.</p>
+  </div>
+
+  <div class="section">
+    <h2>Key points</h2>
+    <dl class="terms">
+      <dt>Shared vs private</dt>
+      <dd>Shared: text, global/heap data, open files, signals. Private per thread: stack, registers, PC, thread ID.</dd>
+      <dt>Benefits / risks</dt>
+      <dd>Benefit: low creation & switch cost, easy sharing (no IPC), true parallelism on multicore. Risk: one bad thread corrupts shared state; races without synchronization.</dd>
+      <dt>Models</dt>
+      <dd>Many-to-one (user threads, no real parallelism), one-to-one (Linux/Windows — real parallelism, kernel overhead), many-to-many (complex, rare).</dd>
+      <dt>Race condition</dt>
+      <dd>Result depends on thread interleaving on shared data (e.g. two threads doing count++). Fix with a mutex / atomics.</dd>
+      <dt>Concurrency ≠ parallelism</dt>
+      <dd>On one core, threads still help I/O-bound work (overlap waiting) but not CPU-bound work.</dd>
+    </dl>
+  </div>
+
+  <div class="section">
+    <h2>Diagram</h2>
+    <figure class="diagram-box">
+      <svg viewBox="0 0 720 250" xmlns="http://www.w3.org/2000/svg">
+        <g>
+          <rect x="60" y="30" width="600" height="200" rx="10" fill="none" stroke="var(--border)" stroke-width="2"></rect>
+          <text x="80" y="24" font-size="11" font-weight="700" style="fill:var(--text-dim)">Process (one address space)</text>
+          <rect x="90" y="50" width="250" height="36" rx="6" fill="var(--accent-2-dim)" stroke="var(--accent-2)"></rect><text x="215" y="72" text-anchor="middle" font-size="11" font-weight="700" style="fill:var(--text)">Code (text) — shared</text>
+          <rect x="90" y="94" width="250" height="36" rx="6" fill="var(--accent-2-dim)" stroke="var(--accent-2)"></rect><text x="215" y="116" text-anchor="middle" font-size="11" font-weight="700" style="fill:var(--text)">Global / heap data — shared</text>
+          <rect x="90" y="138" width="250" height="36" rx="6" fill="var(--accent-2-dim)" stroke="var(--accent-2)"></rect><text x="215" y="160" text-anchor="middle" font-size="11" font-weight="700" style="fill:var(--text)">Open files — shared</text>
+          <rect x="400" y="50" width="110" height="170" rx="6" fill="var(--accent-dim)" stroke="var(--accent)"></rect><text x="455" y="139" text-anchor="middle" font-size="11" font-weight="700" style="fill:var(--text)">Thread 1: stack + regs + PC</text>
+          <rect x="525" y="50" width="110" height="170" rx="6" fill="var(--accent-dim)" stroke="var(--accent)"></rect><text x="580" y="139" text-anchor="middle" font-size="11" font-weight="700" style="fill:var(--text)">Thread 2: stack + regs + PC</text>
+        </g>
+      </svg>
+      <figcaption>Threads of a process share code, data and files; each keeps its own stack, registers and program counter.</figcaption>
+    </figure>
+  </div>
+
+  <div class="section">
+    <h2>Example</h2>
+    <pre class="example"><code>// The classic race: two threads each do count++ a million times
+void *worker(void *arg) {
+    for (int i = 0; i < 1000000; i++)
+        count++;              // read, add 1, write — NOT atomic
+    return NULL;
+}
+// Final count is somewhere between ~1,000,000 and 2,000,000: updates are lost.
+// Fix: pthread_mutex_lock/unlock around count++, or an atomic type.</code></pre>
+  </div>
+
+  <div class="callout warn">
+    <strong>Common exam traps</strong>
+    <p>User-level threads: one blocking syscall blocks ALL of them, and they cannot use multiple cores. Concurrency (interleaving) is not parallelism (simultaneous execution). Java's volatile gives visibility, not atomicity — x++ still needs a lock. After fork() in a threaded program, only the calling thread exists in the child.</p>
+  </div>
+
+  <div class="section">
+    <h2>Practice MCQs</h2>
+    <div class="mcq">
+      <p class="q"><span class="qn">Q1.</span> Threads of the same process share:</p>
+      <ol class="opts" type="A">
+        <li>stack and registers</li>
+        <li>code, global/heap data, open files</li>
+        <li>the program counter</li>
+        <li>nothing</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Each thread has a private stack, registers and PC.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q2.</span> The main danger of threads is:</p>
+      <ol class="opts" type="A">
+        <li>they are slow</li>
+        <li>shared mutable data leads to race conditions without synchronization</li>
+        <li>they cannot be scheduled</li>
+        <li>they need a separate PID</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> A bug in one thread can crash the whole process.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q3.</span> User-level threads:</p>
+      <ol class="opts" type="A">
+        <li>are scheduled by the kernel</li>
+        <li>are managed by a user library; the kernel sees one process, and one blocking call blocks all</li>
+        <li>always beat kernel threads</li>
+        <li>cannot share data</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Fast but no multicore use and no independent blocking.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q4.</span> A context switch between two threads of the SAME process is cheaper because:</p>
+      <ol class="opts" type="A">
+        <li>threads are smaller programs</li>
+        <li>no address-space (page table / TLB) switch is needed</li>
+        <li>threads have no registers</li>
+        <li>it is done in hardware</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> The MMU context and caches stay warm.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q5.</span> Multithreading on a single-core CPU:</p>
+      <ol class="opts" type="A">
+        <li>gives no benefit at all</li>
+        <li>still helps I/O-bound programs via concurrency, but not CPU-bound ones</li>
+        <li>doubles CPU speed</li>
+        <li>always deadlocks</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Concurrency ≠ parallelism.</p></details>
+    </div>
+    <p style="margin-top:18px"><a class="btn" href="../quiz.html?topic=os-threads">Practice all 50 Threads questions →</a></p>
+  </div>
+
+  <div class="topic-nav">
+    <a href="os-processes.html"><span class="dir">← Previous topic</span>Processes</a>
+    <a class="next" href="os-ipc.html"><span class="dir">Next topic →</span>IPC</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  GPSC ICT Class-2 exam prep · Unit 5 — Hardware &amp; Operating Systems
+</footer>
+
+<script src="../assets/js/nav.js"></script>
+</body>
+</html>

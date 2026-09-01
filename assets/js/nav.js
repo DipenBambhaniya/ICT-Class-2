@@ -67,6 +67,21 @@
       ]
     },
     {
+      type: "group", label: "5) Hardware & Operating Systems", href: "os.html",
+      items: [
+        ["Overview", "os.html"],
+        ["Hardware Basics", "topics/os-hardware.html"],
+        ["Processes", "topics/os-processes.html"],
+        ["Threads", "topics/os-threads.html"],
+        ["Inter-process Communication", "topics/os-ipc.html"],
+        ["Concurrency & Synchronization", "topics/os-sync.html"],
+        ["Deadlock", "topics/os-deadlock.html"],
+        ["CPU Scheduling", "topics/os-scheduling.html"],
+        ["Memory & Virtual Memory", "topics/os-memory.html"],
+        ["File Systems", "topics/os-filesystems.html"]
+      ]
+    },
+    {
       type: "group", label: "8) NoSQL Databases",
       items: [
         ["SQL vs NoSQL", "topics/sql-vs-nosql.html"],

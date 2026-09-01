@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hardware Basics — Hardware &amp; Operating Systems</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="../index.html"><span class="logo-dot">DB</span> NoSQL Exam Prep</a>
+    <nav class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../os.html" class="active">Hardware &amp; OS</a>
+      <a href="../quiz.html">Practice Quiz</a>
+    </nav>
+  </div>
+</header>
+<nav class="subnav">
+  <a href="os-hardware.html" class="active">Hardware Basics</a>
+  <a href="os-processes.html">Processes</a>
+  <a href="os-threads.html">Threads</a>
+  <a href="os-ipc.html">IPC</a>
+  <a href="os-sync.html">Synchronization</a>
+  <a href="os-deadlock.html">Deadlock</a>
+  <a href="os-scheduling.html">CPU Scheduling</a>
+  <a href="os-memory.html">Memory & Virtual Memory</a>
+  <a href="os-filesystems.html">File Systems</a>
+</nav>
+
+<main>
+
+  <div class="topic-header">
+    <span class="pill">Unit 5 · 1 of 9</span>
+    <h1>Hardware Basics</h1>
+    <p class="sub">The OS manages a Von Neumann machine: a CPU (ALU + control unit) fetching instructions and data over a shared bus from a memory hierarchy, with I/O devices, interrupts and DMA.</p>
+  </div>
+
+  <div class="section">
+    <h2>Key points</h2>
+    <dl class="terms">
+      <dt>Von Neumann model</dt>
+      <dd>Instructions and data share one memory and one bus (the 'Von Neumann bottleneck'). Cycle: fetch → decode → execute → write-back.</dd>
+      <dt>Memory hierarchy</dt>
+      <dd>Registers → L1/L2/L3 cache → RAM → SSD/HDD → tape. Faster = smaller and costlier. Exploits temporal and spatial locality.</dd>
+      <dt>Interrupts & DMA</dt>
+      <dd>An interrupt diverts the CPU to a handler (saving context). DMA lets a device move a block to/from memory without per-byte CPU work.</dd>
+      <dt>Pipelining & hazards</dt>
+      <dd>Overlapping instruction stages boosts throughput; data/control/structural hazards cause stalls. Branch prediction hides control hazards.</dd>
+      <dt>RISC vs CISC</dt>
+      <dd>RISC (ARM, RISC-V): few simple fixed-length instructions, load/store. CISC (x86): rich variable-length instructions.</dd>
+    </dl>
+  </div>
+
+  <div class="section">
+    <h2>Diagram</h2>
+    <figure class="diagram-box">
+      <svg viewBox="0 0 720 260" xmlns="http://www.w3.org/2000/svg">
+        <g>
+          <rect x="40" y="40" width="150" height="46" rx="6" fill="var(--accent-dim)" stroke="var(--accent)"></rect><text x="115" y="67" text-anchor="middle" font-size="11" font-weight="700" style="fill:var(--text)">Registers</text>
+          <rect x="40" y="96" width="220" height="40" rx="6" fill="var(--accent-dim)" stroke="var(--accent)"></rect><text x="150" y="120" text-anchor="middle" font-size="11" font-weight="700" style="fill:var(--text)">L1 / L2 / L3 cache</text>
+          <rect x="40" y="146" width="300" height="40" rx="6" fill="var(--accent-2-dim)" stroke="var(--accent-2)"></rect><text x="190" y="170" text-anchor="middle" font-size="11" font-weight="700" style="fill:var(--text)">Main memory (DRAM)</text>
+          <rect x="40" y="196" width="420" height="40" rx="6" fill="var(--warn-dim)" stroke="var(--warn)"></rect><text x="250" y="220" text-anchor="middle" font-size="11" font-weight="700" style="fill:var(--text)">SSD / HDD (non-volatile)</text>
+          <text x="500" y="66" font-size="11" style="fill:var(--text-dim)">~1 ns · &lt;1 KB</text>
+          <text x="500" y="120" font-size="11" style="fill:var(--text-dim)">~1-30 ns · KB-MB</text>
+          <text x="500" y="170" font-size="11" style="fill:var(--text-dim)">~100 ns · GB</text>
+          <text x="500" y="220" font-size="11" style="fill:var(--text-dim)">~100 us-10 ms · TB</text>
+        </g>
+      </svg>
+      <figcaption>The memory hierarchy: each level down is ~10-1000x slower but far larger and cheaper per byte.</figcaption>
+    </figure>
+  </div>
+
+  <div class="section">
+    <h2>Example</h2>
+    <pre class="example"><code>Instruction cycle (RISC):
+  FETCH    load instruction at [PC] into IR;  PC += 4
+  DECODE   identify opcode, read source registers
+  EXECUTE  ALU computes / address is formed
+  MEMORY   load or store (only load/store instructions)
+  WRITEBACK put the result into the destination register
+
+Amdahl's law: if 20% of a task is serial, max speedup = 1 / 0.20 = 5x</code></pre>
+  </div>
+
+  <div class="callout warn">
+    <strong>Common exam traps</strong>
+    <p>A 32-bit address bus limits addressable memory to 2^32 = 4 GB. Higher clock speed does not mean faster: performance = clock × IPC. RAM is volatile; ROM/flash/disk are not. DMA still needs the CPU to set up and to handle the completion interrupt.</p>
+  </div>
+
+  <div class="section">
+    <h2>Practice MCQs</h2>
+    <div class="mcq">
+      <p class="q"><span class="qn">Q1.</span> The Von Neumann architecture stores:</p>
+      <ol class="opts" type="A">
+        <li>programs and data in separate memories</li>
+        <li>programs and data in the same memory</li>
+        <li>only data in memory</li>
+        <li>programs in registers</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> One shared memory; the Harvard architecture separates them.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q2.</span> Which memory is fastest and smallest?</p>
+      <ol class="opts" type="A">
+        <li>main memory (RAM)</li>
+        <li>CPU registers</li>
+        <li>L3 cache</li>
+        <li>SSD</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Registers sit at the top of the hierarchy.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q3.</span> A 32-bit processor can directly address at most:</p>
+      <ol class="opts" type="A">
+        <li>2^16 bytes</li>
+        <li>2^32 bytes = 4 GB</li>
+        <li>2^64 bytes</li>
+        <li>unlimited</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> The address bus width bounds the space.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q4.</span> DMA allows:</p>
+      <ol class="opts" type="A">
+        <li>the CPU to access disk directly</li>
+        <li>a device to transfer a block to/from memory without per-byte CPU involvement</li>
+        <li>faster cache</li>
+        <li>virtual memory</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> The CPU sets it up and gets an interrupt on completion.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q5.</span> Amdahl's law says parallel speedup is limited by:</p>
+      <ol class="opts" type="A">
+        <li>the number of cores only</li>
+        <li>the fraction of the program that stays sequential</li>
+        <li>the clock speed</li>
+        <li>the cache size</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> 10% serial ⇒ at most 10x speedup.</p></details>
+    </div>
+    <p style="margin-top:18px"><a class="btn" href="../quiz.html?topic=os-hardware">Practice all 50 Hardware Basics questions →</a></p>
+  </div>
+
+  <div class="topic-nav">
+    <a href="../os.html"><span class="dir">← Back to</span>Unit 5 index</a>
+    <a class="next" href="os-processes.html"><span class="dir">Next topic →</span>Processes</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  GPSC ICT Class-2 exam prep · Unit 5 — Hardware &amp; Operating Systems
+</footer>
+
+<script src="../assets/js/nav.js"></script>
+</body>
+</html>

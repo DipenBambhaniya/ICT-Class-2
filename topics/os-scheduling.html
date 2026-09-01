@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CPU Scheduling — Hardware &amp; Operating Systems</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="../index.html"><span class="logo-dot">DB</span> NoSQL Exam Prep</a>
+    <nav class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../os.html" class="active">Hardware &amp; OS</a>
+      <a href="../quiz.html">Practice Quiz</a>
+    </nav>
+  </div>
+</header>
+<nav class="subnav">
+  <a href="os-hardware.html">Hardware Basics</a>
+  <a href="os-processes.html">Processes</a>
+  <a href="os-threads.html">Threads</a>
+  <a href="os-ipc.html">IPC</a>
+  <a href="os-sync.html">Synchronization</a>
+  <a href="os-deadlock.html">Deadlock</a>
+  <a href="os-scheduling.html" class="active">CPU Scheduling</a>
+  <a href="os-memory.html">Memory & Virtual Memory</a>
+  <a href="os-filesystems.html">File Systems</a>
+</nav>
+
+<main>
+
+  <div class="topic-header">
+    <span class="pill">Unit 5 · 7 of 9</span>
+    <h1>CPU Scheduling</h1>
+    <p class="sub">The short-term scheduler picks which ready process runs next, trading off throughput, turnaround, waiting time, response time and fairness. No single algorithm is best for every workload.</p>
+  </div>
+
+  <div class="section">
+    <h2>Key points</h2>
+    <dl class="terms">
+      <dt>FCFS</dt>
+      <dd>Non-preemptive, by arrival. Simple but the convoy effect (short jobs stuck behind a long one) hurts average wait.</dd>
+      <dt>SJF / SRTF</dt>
+      <dd>Shortest (remaining) job first — provably minimises average waiting time, but needs burst prediction and can starve long jobs. SRTF is the preemptive version.</dd>
+      <dt>Round Robin</dt>
+      <dd>Each ready process gets a fixed quantum in turn (preemptive). Great response time; small quantum ⇒ switch overhead, large quantum ⇒ FCFS.</dd>
+      <dt>Priority + aging</dt>
+      <dd>Run the highest priority; aging raises a waiting process's priority to prevent starvation.</dd>
+      <dt>Multilevel feedback queue</dt>
+      <dd>Multiple queues; CPU-heavy processes sink to lower-priority long-quantum queues, interactive ones stay high — approximates SJF without knowing bursts. (Real-time: RMS by period, EDF by deadline.)</dd>
+    </dl>
+  </div>
+
+  <div class="section">
+    <h2>Diagram</h2>
+    <figure class="diagram-box">
+      <svg viewBox="0 0 720 140" xmlns="http://www.w3.org/2000/svg">
+        <g font-size="11" font-weight="700">
+          <text x="60" y="30" style="fill:var(--text-dim)">Jobs (arrive at t=0): P1=6  P2=8  P3=7  P4=3</text>
+          <text x="60" y="70" style="fill:var(--text)">FCFS (P1 P2 P3 P4)</text>
+          <rect x="240" y="55" width="90" height="20" fill="var(--accent-dim)" stroke="var(--accent)"></rect><text x="285" y="70" text-anchor="middle" font-size="9">P1</text>
+          <rect x="330" y="55" width="120" height="20" fill="var(--accent-dim)" stroke="var(--accent)"></rect><text x="390" y="70" text-anchor="middle" font-size="9">P2</text>
+          <rect x="450" y="55" width="105" height="20" fill="var(--accent-dim)" stroke="var(--accent)"></rect><text x="502" y="70" text-anchor="middle" font-size="9">P3</text>
+          <rect x="555" y="55" width="45" height="20" fill="var(--accent-dim)" stroke="var(--accent)"></rect><text x="577" y="70" text-anchor="middle" font-size="9">P4</text>
+          <text x="620" y="70" font-size="10" style="fill:var(--danger)">avg wait 10.25</text>
+          <text x="60" y="110" style="fill:var(--text)">SJF (P4 P1 P3 P2)</text>
+          <rect x="240" y="95" width="45" height="20" fill="var(--accent-2-dim)" stroke="var(--accent-2)"></rect><text x="262" y="110" text-anchor="middle" font-size="9">P4</text>
+          <rect x="285" y="95" width="90" height="20" fill="var(--accent-2-dim)" stroke="var(--accent-2)"></rect><text x="330" y="110" text-anchor="middle" font-size="9">P1</text>
+          <rect x="375" y="95" width="105" height="20" fill="var(--accent-2-dim)" stroke="var(--accent-2)"></rect><text x="427" y="110" text-anchor="middle" font-size="9">P3</text>
+          <rect x="480" y="95" width="120" height="20" fill="var(--accent-2-dim)" stroke="var(--accent-2)"></rect><text x="540" y="110" text-anchor="middle" font-size="9">P2</text>
+          <text x="620" y="110" font-size="10" style="fill:var(--accent-2)">avg wait 7</text>
+        </g>
+      </svg>
+      <figcaption>Same jobs, two policies: SJF reorders shortest-first and cuts the average waiting time from 10.25 to 7.</figcaption>
+    </figure>
+  </div>
+
+  <div class="section">
+    <h2>Example</h2>
+    <pre class="example"><code>Jobs (all arrive t=0):  P1=6  P2=8  P3=7  P4=3
+
+FCFS order P1,P2,P3,P4:  waits = 0, 6, 14, 21  →  avg = 10.25
+SJF  order P4,P1,P3,P2:  waits = 0, 3,  9, 16  →  avg = 7.0
+
+RR quantum 4:  P1 P2 P3 P4 | P1 P2 P3 | P2 P3 | ...  (better response, more switches)</code></pre>
+  </div>
+
+  <div class="callout warn">
+    <strong>Common exam traps</strong>
+    <p>SJF minimises AVERAGE waiting time but can starve long jobs and needs burst prediction. RR quantum too small ⇒ context-switch overhead; too large ⇒ becomes FCFS. The convoy effect is an FCFS problem. RMS caps schedulable utilisation at ~69%; EDF can reach 100% on a uniprocessor.</p>
+  </div>
+
+  <div class="section">
+    <h2>Practice MCQs</h2>
+    <div class="mcq">
+      <p class="q"><span class="qn">Q1.</span> SJF (Shortest Job First) is optimal for:</p>
+      <ol class="opts" type="A">
+        <li>response time</li>
+        <li>minimising average waiting time</li>
+        <li>fairness</li>
+        <li>throughput of long jobs</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Provable by an exchange argument.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q2.</span> If the Round Robin quantum is too small:</p>
+      <ol class="opts" type="A">
+        <li>response time worsens</li>
+        <li>context-switch overhead dominates</li>
+        <li>it behaves like SJF</li>
+        <li>starvation occurs</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Too large ⇒ RR degenerates into FCFS.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q3.</span> The convoy effect occurs in:</p>
+      <ol class="opts" type="A">
+        <li>Round Robin</li>
+        <li>FCFS — short jobs wait behind one long job</li>
+        <li>SJF</li>
+        <li>multilevel feedback</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> It reduces CPU and device utilisation.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q4.</span> Aging in scheduling means:</p>
+      <ol class="opts" type="A">
+        <li>killing old processes</li>
+        <li>raising the priority of long-waiting processes to prevent starvation</li>
+        <li>lowering priority over time</li>
+        <li>clearing the ready queue</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> It bounds any process's waiting time.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q5.</span> Multilevel FEEDBACK queue scheduling:</p>
+      <ol class="opts" type="A">
+        <li>never moves processes</li>
+        <li>moves processes between queues by behaviour, approximating SJF without known burst times</li>
+        <li>uses only FCFS</li>
+        <li>requires known burst times</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> CPU-heavy jobs sink; I/O-heavy jobs stay high.</p></details>
+    </div>
+    <p style="margin-top:18px"><a class="btn" href="../quiz.html?topic=os-scheduling">Practice all 50 CPU Scheduling questions →</a></p>
+  </div>
+
+  <div class="topic-nav">
+    <a href="os-deadlock.html"><span class="dir">← Previous topic</span>Deadlock</a>
+    <a class="next" href="os-memory.html"><span class="dir">Next topic →</span>Memory & Virtual Memory</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  GPSC ICT Class-2 exam prep · Unit 5 — Hardware &amp; Operating Systems
+</footer>
+
+<script src="../assets/js/nav.js"></script>
+</body>
+</html>

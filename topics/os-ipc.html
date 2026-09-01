@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inter-process Communication — Hardware &amp; Operating Systems</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="../index.html"><span class="logo-dot">DB</span> NoSQL Exam Prep</a>
+    <nav class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../os.html" class="active">Hardware &amp; OS</a>
+      <a href="../quiz.html">Practice Quiz</a>
+    </nav>
+  </div>
+</header>
+<nav class="subnav">
+  <a href="os-hardware.html">Hardware Basics</a>
+  <a href="os-processes.html">Processes</a>
+  <a href="os-threads.html">Threads</a>
+  <a href="os-ipc.html" class="active">IPC</a>
+  <a href="os-sync.html">Synchronization</a>
+  <a href="os-deadlock.html">Deadlock</a>
+  <a href="os-scheduling.html">CPU Scheduling</a>
+  <a href="os-memory.html">Memory & Virtual Memory</a>
+  <a href="os-filesystems.html">File Systems</a>
+</nav>
+
+<main>
+
+  <div class="topic-header">
+    <span class="pill">Unit 5 · 4 of 9</span>
+    <h1>Inter-process Communication</h1>
+    <p class="sub">Processes have separate address spaces, so the OS must mediate any data they exchange. The two models are shared memory (fast, you synchronize it yourself, single machine) and message passing (safer, kernel-mediated, works across machines).</p>
+  </div>
+
+  <div class="section">
+    <h2>Key points</h2>
+    <dl class="terms">
+      <dt>Shared memory</dt>
+      <dd>Processes map a common region; after setup, reads/writes need no kernel call. You must add locks/semaphores. Lowest latency for bulk data on one host.</dd>
+      <dt>Message passing</dt>
+      <dd>send() / receive() via pipes, message queues, or sockets. Synchronization is built in; naturally distributable; per-message copy/kernel cost.</dd>
+      <dt>Pipes</dt>
+      <dd>Anonymous: unidirectional byte stream between related processes (`ls | grep`). Named (FIFO): has a filesystem name, so unrelated processes can use it.</dd>
+      <dt>Sockets</dt>
+      <dd>Bidirectional; TCP (reliable stream) or UDP (unreliable datagrams); the only mechanism that crosses machine boundaries. Unix domain sockets for fast local IPC.</dd>
+      <dt>Signals</dt>
+      <dd>Asynchronous notifications — which signal was sent, little else. Good for control, not data. SIGKILL/SIGSTOP cannot be caught.</dd>
+    </dl>
+  </div>
+
+  <div class="section">
+    <h2>Diagram</h2>
+    <figure class="diagram-box">
+      <svg viewBox="0 0 720 190" xmlns="http://www.w3.org/2000/svg">
+        <g>
+          <text x="180" y="24" text-anchor="middle" font-size="12" font-weight="800" style="fill:var(--accent)">SHARED MEMORY</text>
+          <rect x="60" y="40" width="100" height="40" rx="6" fill="var(--accent-dim)" stroke="var(--accent)"></rect><text x="110" y="64" text-anchor="middle" font-size="11" font-weight="700" style="fill:var(--text)">Process A</text>
+          <rect x="200" y="40" width="100" height="40" rx="6" fill="var(--accent-dim)" stroke="var(--accent)"></rect><text x="250" y="64" text-anchor="middle" font-size="11" font-weight="700" style="fill:var(--text)">Process B</text>
+          <rect x="110" y="110" width="140" height="34" rx="6" fill="var(--accent-2-dim)" stroke="var(--accent-2)"></rect><text x="180" y="131" text-anchor="middle" font-size="11" font-weight="700" style="fill:var(--text)">shared region</text>
+          <line x1="110" y1="80" x2="150" y2="110" stroke="var(--text-dim)" stroke-width="2"></line>
+          <line x1="250" y1="80" x2="210" y2="110" stroke="var(--text-dim)" stroke-width="2"></line>
+          <text x="180" y="165" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">direct access · you add locks</text>
+
+          <text x="530" y="24" text-anchor="middle" font-size="12" font-weight="800" style="fill:var(--warn)">MESSAGE PASSING</text>
+          <rect x="410" y="40" width="100" height="40" rx="6" fill="var(--accent-dim)" stroke="var(--accent)"></rect><text x="460" y="64" text-anchor="middle" font-size="11" font-weight="700" style="fill:var(--text)">Process A</text>
+          <rect x="610" y="40" width="100" height="40" rx="6" fill="var(--accent-dim)" stroke="var(--accent)"></rect><text x="660" y="64" text-anchor="middle" font-size="11" font-weight="700" style="fill:var(--text)">Process B</text>
+          <rect x="490" y="110" width="140" height="34" rx="6" fill="var(--warn-dim)" stroke="var(--warn)"></rect><text x="560" y="131" text-anchor="middle" font-size="11" font-weight="700" style="fill:var(--text)">kernel channel</text>
+          <line x1="460" y1="80" x2="520" y2="110" stroke="var(--text-dim)" stroke-width="2" marker-end="url(#a)"></line>
+          <line x1="600" y1="110" x2="660" y2="80" stroke="var(--text-dim)" stroke-width="2" marker-end="url(#a)"></line>
+          <defs><marker id="a" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="var(--text-dim)"></path></marker></defs>
+          <text x="560" y="165" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">send / receive · kernel copies</text>
+        </g>
+      </svg>
+      <figcaption>Shared memory: fastest, single machine, manual synchronization. Message passing: safer, distributable, per-message overhead.</figcaption>
+    </figure>
+  </div>
+
+  <div class="section">
+    <h2>Example</h2>
+    <pre class="example"><code>// Anonymous pipe: connect stdout of a child to a parent
+int fd[2]; pipe(fd);            // fd[0] = read end, fd[1] = write end
+if (fork() == 0) {             // child
+    close(fd[0]);
+    dup2(fd[1], STDOUT_FILENO); // child's stdout → pipe
+    execlp("ls", "ls", NULL);
+}
+close(fd[1]);
+// parent reads the child's output from fd[0]; read() returns 0 (EOF) when
+// all write ends are closed.</code></pre>
+  </div>
+
+  <div class="callout warn">
+    <strong>Common exam traps</strong>
+    <p>Anonymous pipes only connect processes with a common ancestor. Writing to a pipe whose read end is closed raises SIGPIPE. Shared memory is fastest but you own the synchronization; message passing has it built in. Only sockets cross machine boundaries. System V IPC objects persist until explicitly removed (leak risk).</p>
+  </div>
+
+  <div class="section">
+    <h2>Practice MCQs</h2>
+    <div class="mcq">
+      <p class="q"><span class="qn">Q1.</span> The two fundamental IPC models are:</p>
+      <ol class="opts" type="A">
+        <li>files and pipes</li>
+        <li>shared memory and message passing</li>
+        <li>signals and sockets</li>
+        <li>threads and processes</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Fast-but-manual vs safe-but-copied.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q2.</span> A pipe provides:</p>
+      <ol class="opts" type="A">
+        <li>random access</li>
+        <li>a unidirectional byte stream between related processes</li>
+        <li>shared memory</li>
+        <li>a priority message queue</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> `ls | grep` connects a parent and child.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q3.</span> Which IPC crosses machine boundaries?</p>
+      <ol class="opts" type="A">
+        <li>shared memory</li>
+        <li>sockets (TCP/UDP)</li>
+        <li>anonymous pipes</li>
+        <li>signals</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Only network sockets (or RPC over them).</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q4.</span> When all write ends of a pipe are closed, a read() returns:</p>
+      <ol class="opts" type="A">
+        <li>an error</li>
+        <li>0 (end-of-file)</li>
+        <li>the last byte forever</li>
+        <li>SIGPIPE</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> EOF tells the reader no more data will come.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q5.</span> The main drawback of signals for IPC is:</p>
+      <ol class="opts" type="A">
+        <li>too much data</li>
+        <li>very limited information and standard signals are not queued</li>
+        <li>they are slow</li>
+        <li>they need root</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Good for control, not data transfer.</p></details>
+    </div>
+    <p style="margin-top:18px"><a class="btn" href="../quiz.html?topic=os-ipc">Practice all 50 Inter-process Communication questions →</a></p>
+  </div>
+
+  <div class="topic-nav">
+    <a href="os-threads.html"><span class="dir">← Previous topic</span>Threads</a>
+    <a class="next" href="os-sync.html"><span class="dir">Next topic →</span>Synchronization</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  GPSC ICT Class-2 exam prep · Unit 5 — Hardware &amp; Operating Systems
+</footer>
+
+<script src="../assets/js/nav.js"></script>
+</body>
+</html>

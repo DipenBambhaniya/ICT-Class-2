@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Deadlock — Hardware &amp; Operating Systems</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="../index.html"><span class="logo-dot">DB</span> NoSQL Exam Prep</a>
+    <nav class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../os.html" class="active">Hardware &amp; OS</a>
+      <a href="../quiz.html">Practice Quiz</a>
+    </nav>
+  </div>
+</header>
+<nav class="subnav">
+  <a href="os-hardware.html">Hardware Basics</a>
+  <a href="os-processes.html">Processes</a>
+  <a href="os-threads.html">Threads</a>
+  <a href="os-ipc.html">IPC</a>
+  <a href="os-sync.html">Synchronization</a>
+  <a href="os-deadlock.html" class="active">Deadlock</a>
+  <a href="os-scheduling.html">CPU Scheduling</a>
+  <a href="os-memory.html">Memory & Virtual Memory</a>
+  <a href="os-filesystems.html">File Systems</a>
+</nav>
+
+<main>
+
+  <div class="topic-header">
+    <span class="pill">Unit 5 · 6 of 9</span>
+    <h1>Deadlock</h1>
+    <p class="sub">Deadlock is a set of processes each permanently blocked waiting for a resource another holds. It needs all four Coffman conditions at once; breaking any one prevents it. Approaches: prevention, avoidance (Banker's), detection & recovery, or ignore it.</p>
+  </div>
+
+  <div class="section">
+    <h2>Key points</h2>
+    <dl class="terms">
+      <dt>Coffman conditions</dt>
+      <dd>Mutual exclusion, hold-and-wait, no preemption, circular wait — all four must hold.</dd>
+      <dt>Prevention</dt>
+      <dd>Structurally deny one condition: request all resources up front (no hold-and-wait), make resources preemptible, or impose a global resource ordering (no circular wait).</dd>
+      <dt>Avoidance (Banker's)</dt>
+      <dd>Needs each process's maximum claim. Grant a request only if the resulting state is 'safe' (a completion order exists). Conservative — may deny safe-looking requests.</dd>
+      <dt>Detection & recovery</dt>
+      <dd>Wait-for graph (single-instance: a cycle = deadlock); recover by aborting a victim or rolling it back to a checkpoint.</dd>
+      <dt>Deadlock vs starvation vs livelock</dt>
+      <dd>Deadlock: permanently stuck, system stalls. Starvation: one process indefinitely delayed, system progresses. Livelock: busy but no progress.</dd>
+    </dl>
+  </div>
+
+  <div class="section">
+    <h2>Diagram</h2>
+    <figure class="diagram-box">
+      <svg viewBox="0 0 720 230" xmlns="http://www.w3.org/2000/svg">
+        <g font-size="12" font-weight="700">
+          <circle cx="200" cy="90" r="26" fill="var(--accent-dim)" stroke="var(--accent)" stroke-width="2"></circle><text x="200" y="95" text-anchor="middle" style="fill:var(--accent)">P1</text>
+          <circle cx="500" cy="90" r="26" fill="var(--accent-dim)" stroke="var(--accent)" stroke-width="2"></circle><text x="500" y="95" text-anchor="middle" style="fill:var(--accent)">P2</text>
+          <rect x="330" y="30" width="40" height="40" rx="4" fill="var(--accent-2-dim)" stroke="var(--accent-2)" stroke-width="2"></rect><text x="350" y="55" text-anchor="middle" style="fill:var(--accent-2)">R1</text>
+          <rect x="330" y="120" width="40" height="40" rx="4" fill="var(--warn-dim)" stroke="var(--warn)" stroke-width="2"></rect><text x="350" y="145" text-anchor="middle" style="fill:var(--warn)">R2</text>
+          <g stroke="var(--text-dim)" stroke-width="2" fill="none" marker-end="url(#a)">
+            <path d="M330 45 L226 82"></path>
+            <path d="M226 98 L330 138"></path>
+            <path d="M370 138 L474 100"></path>
+            <path d="M474 82 L370 50"></path>
+          </g>
+          <defs><marker id="a" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="var(--text-dim)"></path></marker></defs>
+          <text x="350" y="210" text-anchor="middle" font-size="11" style="fill:var(--text-dim)">P1 holds R1 wants R2 · P2 holds R2 wants R1 · cycle = deadlock</text>
+        </g>
+      </svg>
+      <figcaption>A resource-allocation graph with a cycle: with single-instance resources, a cycle means deadlock.</figcaption>
+    </figure>
+  </div>
+
+  <div class="section">
+    <h2>Example</h2>
+    <pre class="example"><code>Banker's algorithm — safety check:
+  Work = Available;  Finish[i] = false for all i
+  repeat:
+    find i with Finish[i] == false AND Need[i] <= Work
+    if found: Work += Allocation[i];  Finish[i] = true
+    else break
+  if all Finish[i] == true  →  SAFE state
+
+Grant a request only if Request <= Need, Request <= Available,
+and the resulting state passes this check; otherwise the process waits.</code></pre>
+  </div>
+
+  <div class="callout warn">
+    <strong>Common exam traps</strong>
+    <p>'Bounded waiting' is a critical-section property, NOT a Coffman condition (the fourth is 'no preemption'). An unsafe state is not necessarily deadlocked — the OS just lost the guarantee. A cycle means deadlock only for single-instance resources. Most general-purpose OSes use the ostrich algorithm for user processes.</p>
+  </div>
+
+  <div class="section">
+    <h2>Practice MCQs</h2>
+    <div class="mcq">
+      <p class="q"><span class="qn">Q1.</span> The four Coffman conditions are:</p>
+      <ol class="opts" type="A">
+        <li>preemption, sharing, ordering, waiting</li>
+        <li>mutual exclusion, hold-and-wait, no preemption, circular wait</li>
+        <li>starvation, aging, priority, quantum</li>
+        <li>fetch, decode, execute, stall</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> All four must hold simultaneously.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q2.</span> Deadlock AVOIDANCE (Banker's algorithm) requires:</p>
+      <ol class="opts" type="A">
+        <li>no information</li>
+        <li>advance knowledge of each process's maximum resource needs</li>
+        <li>a resource-allocation graph only</li>
+        <li>killing processes</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> It grants a request only if the resulting state is safe.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q3.</span> A 'safe state' means:</p>
+      <ol class="opts" type="A">
+        <li>no process is running</li>
+        <li>an ordering exists in which every process can obtain its max resources, run and release</li>
+        <li>the system is idle</li>
+        <li>no resources are allocated</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> A safe state is deadlock-free.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q4.</span> Requiring a process to request ALL resources before starting prevents:</p>
+      <ol class="opts" type="A">
+        <li>circular wait</li>
+        <li>hold and wait</li>
+        <li>mutual exclusion</li>
+        <li>no preemption</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Downside: low utilization and possible starvation.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q5.</span> A livelock is:</p>
+      <ol class="opts" type="A">
+        <li>a deadlock that resolves</li>
+        <li>processes not blocked but continually reacting to each other without progressing</li>
+        <li>a lock that never releases</li>
+        <li>normal operation</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> CPU is busy; randomized backoff usually breaks it.</p></details>
+    </div>
+    <p style="margin-top:18px"><a class="btn" href="../quiz.html?topic=os-deadlock">Practice all 50 Deadlock questions →</a></p>
+  </div>
+
+  <div class="topic-nav">
+    <a href="os-sync.html"><span class="dir">← Previous topic</span>Synchronization</a>
+    <a class="next" href="os-scheduling.html"><span class="dir">Next topic →</span>CPU Scheduling</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  GPSC ICT Class-2 exam prep · Unit 5 — Hardware &amp; Operating Systems
+</footer>
+
+<script src="../assets/js/nav.js"></script>
+</body>
+</html>

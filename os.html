@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hardware & Operating Systems — Exam Prep</title>
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="index.html"><span class="logo-dot">DB</span> NoSQL Exam Prep</a>
+    <nav class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="os.html" class="active">Hardware &amp; OS</a>
+      <a href="quiz.html">Practice Quiz</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <div class="hero">
+    <span class="pill">GPSC ICT Class-2 · Unit 5</span>
+    <h1>Hardware &amp; Operating Systems</h1>
+    <p class="lead">Computer organisation plus the core OS abstractions — processes, threads, IPC, synchronisation, deadlock, CPU scheduling, virtual memory and file systems. Each topic has brief notes, a diagram, a worked example and 50 solved MCQs.</p>
+    <a class="btn" href="topics/os-hardware.html">Start Reading →</a>
+    <a class="btn secondary" href="quiz.html">Practice Quiz →</a>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat"><div class="n">9</div><div class="l">Topics</div></div>
+    <div class="stat"><div class="n">450</div><div class="l">MCQs</div></div>
+    <div class="stat"><div class="n">50</div><div class="l">Per Topic</div></div>
+    <div class="stat"><div class="n">9</div><div class="l">Diagrams</div></div>
+  </div>
+
+  <div class="section">
+    <h2>Topics</h2>
+    <div class="topic-grid">
+      <a class="card" href="topics/os-hardware.html"><span class="num">01</span><h3>Hardware Basics</h3><p>Von Neumann model, memory hierarchy &amp; locality, interrupts &amp; DMA, pipelining &amp; hazards, RISC vs CISC, RAID.</p></a>
+      <a class="card" href="topics/os-processes.html"><span class="num">02</span><h3>Processes</h3><p>PCB, the five-state model, context switching, fork / exec / wait / exit, zombies &amp; orphans, the three schedulers.</p></a>
+      <a class="card" href="topics/os-threads.html"><span class="num">03</span><h3>Threads</h3><p>Shared vs private state, user vs kernel threads, threading models, race conditions, concurrency vs parallelism.</p></a>
+      <a class="card" href="topics/os-ipc.html"><span class="num">04</span><h3>Inter-process Communication</h3><p>Shared memory vs message passing, pipes &amp; FIFOs, message queues, sockets, signals, RPC and marshalling.</p></a>
+      <a class="card" href="topics/os-sync.html"><span class="num">05</span><h3>Concurrency &amp; Synchronization</h3><p>Critical section, semaphores, mutexes, monitors &amp; condition variables, producer-consumer, readers-writers, dining philosophers.</p></a>
+      <a class="card" href="topics/os-deadlock.html"><span class="num">06</span><h3>Deadlock</h3><p>Coffman conditions, prevention, avoidance (Banker's &amp; safe states), detection (wait-for graph) &amp; recovery, wait-die / wound-wait.</p></a>
+      <a class="card" href="topics/os-scheduling.html"><span class="num">07</span><h3>CPU Scheduling</h3><p>FCFS, SJF / SRTF, Round Robin, priority &amp; aging, multilevel feedback queues, real-time (RMS, EDF), Gantt-chart metrics.</p></a>
+      <a class="card" href="topics/os-memory.html"><span class="num">08</span><h3>Memory &amp; Virtual Memory</h3><p>Paging, page tables &amp; the TLB, demand paging &amp; page faults, replacement (OPT / FIFO / LRU / Clock), thrashing &amp; the working set.</p></a>
+      <a class="card" href="topics/os-filesystems.html"><span class="num">09</span><h3>File Systems</h3><p>Inodes, allocation methods, hard vs symbolic links, free-space management, journaling &amp; copy-on-write, the page cache &amp; fsync.</p></a>
+    </div>
+  </div>
+
+  <div class="callout tip">
+    <strong>How the topics connect</strong>
+    <p>Hardware sets the stage; the OS abstracts it. A process is the unit of resource ownership, a thread the unit of scheduling. IPC and synchronisation let concurrent activities cooperate — and deadlock is what goes wrong when they wait on each other. CPU scheduling divides time; virtual memory divides space; the file system provides durable named storage.</p>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  GPSC ICT Class-2 exam prep · Unit 5 — Hardware &amp; Operating Systems
+</footer>
+
+<script src="assets/js/nav.js"></script>
+</body>
+</html>

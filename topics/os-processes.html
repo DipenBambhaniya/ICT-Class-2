@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Processes — Hardware &amp; Operating Systems</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="../index.html"><span class="logo-dot">DB</span> NoSQL Exam Prep</a>
+    <nav class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../os.html" class="active">Hardware &amp; OS</a>
+      <a href="../quiz.html">Practice Quiz</a>
+    </nav>
+  </div>
+</header>
+<nav class="subnav">
+  <a href="os-hardware.html">Hardware Basics</a>
+  <a href="os-processes.html" class="active">Processes</a>
+  <a href="os-threads.html">Threads</a>
+  <a href="os-ipc.html">IPC</a>
+  <a href="os-sync.html">Synchronization</a>
+  <a href="os-deadlock.html">Deadlock</a>
+  <a href="os-scheduling.html">CPU Scheduling</a>
+  <a href="os-memory.html">Memory & Virtual Memory</a>
+  <a href="os-filesystems.html">File Systems</a>
+</nav>
+
+<main>
+
+  <div class="topic-header">
+    <span class="pill">Unit 5 · 2 of 9</span>
+    <h1>Processes</h1>
+    <p class="sub">A process is a program in execution with its own address space, tracked by the OS via a Process Control Block. It moves through New → Ready → Running → Waiting → Terminated as it competes for the CPU and waits on I/O.</p>
+  </div>
+
+  <div class="section">
+    <h2>Key points</h2>
+    <dl class="terms">
+      <dt>PCB</dt>
+      <dd>The OS's per-process record: state, PC, registers, memory limits, open files, PID, scheduling info. Saved/restored on a context switch (pure overhead).</dd>
+      <dt>Five states</dt>
+      <dd>New (being created), Ready (waiting for CPU), Running, Waiting/Blocked (on I/O or an event), Terminated.</dd>
+      <dt>fork / exec / wait / exit</dt>
+      <dd>fork() clones the process (COW); exec() replaces its image; wait() reaps a child (else it is a zombie); exit() terminates it.</dd>
+      <dt>Schedulers</dt>
+      <dd>Long-term (admission / degree of multiprogramming), medium-term (swapping), short-term (which ready process runs next — runs on every ms).</dd>
+      <dt>Zombie vs orphan</dt>
+      <dd>Zombie: dead child not yet wait()ed. Orphan: parent died first; adopted by init (PID 1).</dd>
+    </dl>
+  </div>
+
+  <div class="section">
+    <h2>Diagram</h2>
+    <figure class="diagram-box">
+      <svg viewBox="0 0 720 250" xmlns="http://www.w3.org/2000/svg">
+        <g>
+          <rect x="280" y="20" width="90" height="34" rx="6" fill="var(--accent-dim)" stroke="var(--accent)"></rect><text x="325" y="41" text-anchor="middle" font-size="11" font-weight="700" style="fill:var(--text)">New</text>
+          <rect x="280" y="100" width="90" height="34" rx="6" fill="var(--accent-dim)" stroke="var(--accent)"></rect><text x="325" y="121" text-anchor="middle" font-size="11" font-weight="700" style="fill:var(--text)">Ready</text>
+          <rect x="470" y="100" width="100" height="34" rx="6" fill="var(--accent-2-dim)" stroke="var(--accent-2)"></rect><text x="520" y="121" text-anchor="middle" font-size="11" font-weight="700" style="fill:var(--text)">Running</text>
+          <rect x="470" y="190" width="100" height="34" rx="6" fill="var(--warn-dim)" stroke="var(--warn)"></rect><text x="520" y="211" text-anchor="middle" font-size="11" font-weight="700" style="fill:var(--text)">Waiting</text>
+          <rect x="280" y="190" width="90" height="34" rx="6" fill="var(--danger-dim)" stroke="var(--danger)"></rect><text x="325" y="211" text-anchor="middle" font-size="11" font-weight="700" style="fill:var(--text)">Terminated</text>
+          <g stroke="var(--text-dim)" stroke-width="2" fill="none" marker-end="url(#a)">
+            <path d="M325 54 L325 100"></path>
+            <path d="M370 112 L466 112"></path>
+            <path d="M520 134 L520 190"></path>
+            <path d="M466 207 L372 207"></path>
+            <path d="M470 122 Q400 122 372 118"></path>
+            <path d="M520 100 Q560 60 400 45 Q360 40 360 54"></path>
+          </g>
+          <defs><marker id="a" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="var(--text-dim)"></path></marker></defs>
+          <text x="200" y="118" font-size="10" style="fill:var(--text-dim)">dispatch →</text>
+          <text x="585" y="120" font-size="10" style="fill:var(--text-dim)">timeout / preempt</text>
+          <text x="585" y="165" font-size="10" style="fill:var(--text-dim)">I/O request</text>
+          <text x="390" y="222" font-size="10" style="fill:var(--text-dim)">I/O done → Ready</text>
+        </g>
+      </svg>
+      <figcaption>Process state transitions. A process may cycle Running ↔ Ready ↔ Waiting many times before Terminated.</figcaption>
+    </figure>
+  </div>
+
+  <div class="section">
+    <h2>Example</h2>
+    <pre class="example"><code>pid_t pid = fork();
+if (pid == 0) {                 // child: pid == 0
+    execlp("ls", "ls", "-l", NULL);   // replace image; never returns on success
+    _exit(127);                 // exec failed
+} else {                        // parent: pid == child's PID
+    int status;
+    waitpid(pid, &status, 0);   // reap the child (avoid a zombie)
+}</code></pre>
+  </div>
+
+  <div class="callout warn">
+    <strong>Common exam traps</strong>
+    <p>A program is passive (a file); a process is active. fork() returns twice: 0 to the child, the child's PID to the parent. A context switch does no useful work. A zombie holds only a PCB (until wait()); an orphan is a live process adopted by init.</p>
+  </div>
+
+  <div class="section">
+    <h2>Practice MCQs</h2>
+    <div class="mcq">
+      <p class="q"><span class="qn">Q1.</span> The Process Control Block (PCB) stores:</p>
+      <ol class="opts" type="A">
+        <li>only the process name</li>
+        <li>state, PC, registers, memory limits, open files, PID, scheduling info</li>
+        <li>the source code</li>
+        <li>only the priority</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> It is saved/restored on every context switch.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q2.</span> A process moves from Running to Waiting when:</p>
+      <ol class="opts" type="A">
+        <li>its quantum expires</li>
+        <li>it requests I/O or waits on an event</li>
+        <li>it is dispatched</li>
+        <li>it is admitted</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Running→Ready is preemption; Running→Waiting is I/O.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q3.</span> fork() returns:</p>
+      <ol class="opts" type="A">
+        <li>0 in both processes</li>
+        <li>0 to the child, the child's PID to the parent</li>
+        <li>the parent's PID to the child</li>
+        <li>-1 always</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> This is how each process knows its role.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q4.</span> A zombie process is:</p>
+      <ol class="opts" type="A">
+        <li>one using 100% CPU</li>
+        <li>a terminated child whose exit status has not been wait()ed</li>
+        <li>stuck in a loop</li>
+        <li>malicious</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> The PCB lingers until the parent reaps it.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q5.</span> The short-term scheduler:</p>
+      <ol class="opts" type="A">
+        <li>admits new jobs</li>
+        <li>selects which ready process runs next; runs very frequently</li>
+        <li>swaps processes to disk</li>
+        <li>handles page faults</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> It must be fast because it runs on every scheduling decision.</p></details>
+    </div>
+    <p style="margin-top:18px"><a class="btn" href="../quiz.html?topic=os-processes">Practice all 50 Processes questions →</a></p>
+  </div>
+
+  <div class="topic-nav">
+    <a href="os-hardware.html"><span class="dir">← Previous topic</span>Hardware Basics</a>
+    <a class="next" href="os-threads.html"><span class="dir">Next topic →</span>Threads</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  GPSC ICT Class-2 exam prep · Unit 5 — Hardware &amp; Operating Systems
+</footer>
+
+<script src="../assets/js/nav.js"></script>
+</body>
+</html>

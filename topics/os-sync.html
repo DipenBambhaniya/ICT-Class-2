@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Concurrency & Synchronization — Hardware &amp; Operating Systems</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="../index.html"><span class="logo-dot">DB</span> NoSQL Exam Prep</a>
+    <nav class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../os.html" class="active">Hardware &amp; OS</a>
+      <a href="../quiz.html">Practice Quiz</a>
+    </nav>
+  </div>
+</header>
+<nav class="subnav">
+  <a href="os-hardware.html">Hardware Basics</a>
+  <a href="os-processes.html">Processes</a>
+  <a href="os-threads.html">Threads</a>
+  <a href="os-ipc.html">IPC</a>
+  <a href="os-sync.html" class="active">Synchronization</a>
+  <a href="os-deadlock.html">Deadlock</a>
+  <a href="os-scheduling.html">CPU Scheduling</a>
+  <a href="os-memory.html">Memory & Virtual Memory</a>
+  <a href="os-filesystems.html">File Systems</a>
+</nav>
+
+<main>
+
+  <div class="topic-header">
+    <span class="pill">Unit 5 · 5 of 9</span>
+    <h1>Concurrency & Synchronization</h1>
+    <p class="sub">When concurrent threads/processes share data, synchronization ensures the result is correct (equivalent to some valid serial order) without needlessly limiting parallelism. The critical-section problem demands mutual exclusion, progress and bounded waiting.</p>
+  </div>
+
+  <div class="section">
+    <h2>Key points</h2>
+    <dl class="terms">
+      <dt>Critical section</dt>
+      <dd>Code that accesses shared data and must run one-at-a-time. Protected by mutexes, semaphores or monitors.</dd>
+      <dt>Semaphore</dt>
+      <dd>wait()/P decrements (blocks if it would go negative); signal()/V increments (wakes a waiter). Counting (N resources) or binary (lock/signal).</dd>
+      <dt>Mutex vs semaphore</dt>
+      <dd>A mutex has ownership (only the locker unlocks) and often priority inheritance; a semaphore is for signalling / counting and any thread can signal it.</dd>
+      <dt>Monitor + condition variable</dt>
+      <dd>A module with automatic mutual exclusion; a condition variable lets a thread wait (releasing the lock) until a predicate holds. Always re-check in a while loop (spurious wakeups).</dd>
+      <dt>Classic problems</dt>
+      <dd>Producer-consumer (bounded buffer: mutex + empty + full semaphores), readers-writers, dining philosophers (deadlock/starvation).</dd>
+    </dl>
+  </div>
+
+  <div class="section">
+    <h2>Diagram</h2>
+    <figure class="diagram-box">
+      <svg viewBox="0 0 720 150" xmlns="http://www.w3.org/2000/svg">
+        <g>
+          <rect x="60" y="40" width="130" height="40" rx="6" fill="var(--accent-dim)" stroke="var(--accent)"></rect><text x="125" y="64" text-anchor="middle" font-size="11" font-weight="700" style="fill:var(--text)">Producer</text>
+          <rect x="295" y="30" width="130" height="60" rx="6" fill="var(--accent-2-dim)" stroke="var(--accent-2)"></rect><text x="360" y="64" text-anchor="middle" font-size="11" font-weight="700" style="fill:var(--text)">Bounded buffer</text>
+          <rect x="530" y="40" width="130" height="40" rx="6" fill="var(--accent-dim)" stroke="var(--accent)"></rect><text x="595" y="64" text-anchor="middle" font-size="11" font-weight="700" style="fill:var(--text)">Consumer</text>
+          <line x1="190" y1="60" x2="293" y2="60" stroke="var(--text-dim)" stroke-width="2" marker-end="url(#a)"></line>
+          <line x1="425" y1="60" x2="528" y2="60" stroke="var(--text-dim)" stroke-width="2" marker-end="url(#a)"></line>
+          <defs><marker id="a" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="var(--text-dim)"></path></marker></defs>
+          <text x="125" y="120" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">wait(empty); wait(mutex)</text>
+          <text x="360" y="118" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">mutex=1, empty=N, full=0</text>
+          <text x="595" y="120" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">wait(full); wait(mutex)</text>
+        </g>
+      </svg>
+      <figcaption>Producer-consumer: a mutex protects the buffer; the `empty` and `full` semaphores block the producer when full and the consumer when empty.</figcaption>
+    </figure>
+  </div>
+
+  <div class="section">
+    <h2>Example</h2>
+    <pre class="example"><code>// Producer                         // Consumer
+wait(empty);   // slots available     wait(full);    // items available
+wait(mutex);                          wait(mutex);
+  buffer[in] = item; in = (in+1)%N;     item = buffer[out]; out = (out+1)%N;
+signal(mutex);                        signal(mutex);
+signal(full);  // one more item       signal(empty); // one more slot
+
+// If the producer does wait(mutex) BEFORE wait(empty): DEADLOCK when full.</code></pre>
+  </div>
+
+  <div class="callout warn">
+    <strong>Common exam traps</strong>
+    <p>Always acquire resource semaphores (empty/full) BEFORE the mutex, or you deadlock. Re-check a condition variable's predicate in a `while`, not an `if` (spurious wakeups, signal-and-continue). A binary semaphore is not a mutex — no ownership. Disabling interrupts only works on a single core. Reader-priority readers-writers starves writers.</p>
+  </div>
+
+  <div class="section">
+    <h2>Practice MCQs</h2>
+    <div class="mcq">
+      <p class="q"><span class="qn">Q1.</span> The critical-section problem requires:</p>
+      <ol class="opts" type="A">
+        <li>speed, size, simplicity</li>
+        <li>mutual exclusion, progress, and bounded waiting</li>
+        <li>fairness only</li>
+        <li>determinism</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> One at a time; no indefinite postponement; no starvation.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q2.</span> A counting semaphore with value S:</p>
+      <ol class="opts" type="A">
+        <li>allows S threads through wait() before blocking</li>
+        <li>allows only 1 thread ever</li>
+        <li>is identical to a mutex</li>
+        <li>cannot go below 0</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: A.</strong> V() increments; a negative internal count means waiters are queued.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q3.</span> In the bounded-buffer solution the semaphores are:</p>
+      <ol class="opts" type="A">
+        <li>one mutex only</li>
+        <li>mutex (=1), empty (=N), full (=0)</li>
+        <li>three mutexes</li>
+        <li>two turn variables</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> empty/full block the producer/consumer; mutex protects the buffer.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q4.</span> A condition variable must be used with:</p>
+      <ol class="opts" type="A">
+        <li>another condition variable</li>
+        <li>a mutex</li>
+        <li>a semaphore</li>
+        <li>a spinlock only</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> wait() atomically releases the mutex and sleeps.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q5.</span> The dining philosophers problem illustrates:</p>
+      <ol class="opts" type="A">
+        <li>scheduling</li>
+        <li>deadlock and starvation in resource allocation</li>
+        <li>paging</li>
+        <li>file systems</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> 5 philosophers need 2 adjacent forks each.</p></details>
+    </div>
+    <p style="margin-top:18px"><a class="btn" href="../quiz.html?topic=os-sync">Practice all 50 Concurrency & Synchronization questions →</a></p>
+  </div>
+
+  <div class="topic-nav">
+    <a href="os-ipc.html"><span class="dir">← Previous topic</span>IPC</a>
+    <a class="next" href="os-deadlock.html"><span class="dir">Next topic →</span>Deadlock</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  GPSC ICT Class-2 exam prep · Unit 5 — Hardware &amp; Operating Systems
+</footer>
+
+<script src="../assets/js/nav.js"></script>
+</body>
+</html>
