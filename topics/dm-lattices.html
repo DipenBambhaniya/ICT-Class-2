@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Partial Orders & Lattices — Discrete Mathematics</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="../index.html"><span class="logo-dot">DB</span> NoSQL Exam Prep</a>
+    <nav class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../dm.html" class="active">Discrete Math</a>
+      <a href="../quiz.html">Practice Quiz</a>
+    </nav>
+  </div>
+</header>
+<nav class="subnav">
+  <a href="dm-logic.html">Logic</a>
+  <a href="dm-sets.html">Sets, Relations, Functions</a>
+  <a href="dm-lattices.html" class="active">Partial Orders & Lattices</a>
+  <a href="dm-groups.html">Groups</a>
+  <a href="dm-graphs.html">Graph Theory</a>
+  <a href="dm-combinatorics.html">Combinatorics</a>
+</nav>
+
+<main>
+
+  <div class="topic-header">
+    <span class="pill">Unit 2 · 3 of 6</span>
+    <h1>Partial Orders & Lattices</h1>
+    <p class="sub">A poset orders some (not necessarily all) pairs. A lattice is a poset where every pair has a least upper bound (join, ∨) and a greatest lower bound (meet, ∧). Special cases: bounded, distributive, complemented, Boolean.</p>
+  </div>
+
+  <div class="section">
+    <h2>Key points</h2>
+    <dl class="terms">
+      <dt>Poset</dt>
+      <dd>Reflexive + antisymmetric + transitive. Incomparable elements form antichains; totally ordered subsets are chains.</dd>
+      <dt>Join & meet</dt>
+      <dd>a ∨ b = least upper bound; a ∧ b = greatest lower bound. A lattice has both for every pair; a complete lattice for every subset.</dd>
+      <dt>Hasse diagram</dt>
+      <dd>Draws only the covering relation upward — reflexive and transitive edges omitted. It fully determines a finite poset.</dd>
+      <dt>Examples</dt>
+      <dd>(P(S), ⊆): join = ∪, meet = ∩. (ℤ⁺, |): join = lcm, meet = gcd. Every chain is a distributive lattice (join = max, meet = min).</dd>
+      <dt>Distributive / Boolean</dt>
+      <dd>Distributive: a ∧ (b ∨ c) = (a ∧ b) ∨ (a ∧ c). Boolean = complemented + distributive. M₃ and N₅ are the forbidden sublattices for distributivity.</dd>
+    </dl>
+  </div>
+
+  <div class="section">
+    <h2>Diagram</h2>
+    <figure class="diagram-box">
+      <svg viewBox="0 0 720 240" xmlns="http://www.w3.org/2000/svg">
+        <g font-size="12" font-weight="700">
+          <circle cx="360" cy="30" r="16" fill="var(--accent)"></circle><text x="360" y="35" text-anchor="middle" style="fill:#fff">1</text>
+          <circle cx="240" cy="110" r="16" fill="var(--accent-2)"></circle><text x="240" y="115" text-anchor="middle" style="fill:#fff">a</text>
+          <circle cx="360" cy="110" r="16" fill="var(--accent-2)"></circle><text x="360" y="115" text-anchor="middle" style="fill:#fff">b</text>
+          <circle cx="480" cy="110" r="16" fill="var(--accent-2)"></circle><text x="480" y="115" text-anchor="middle" style="fill:#fff">c</text>
+          <circle cx="360" cy="190" r="16" fill="var(--warn)"></circle><text x="360" y="195" text-anchor="middle" style="fill:#111">0</text>
+          <g stroke="var(--border)" stroke-width="2">
+            <line x1="349" y1="42" x2="251" y2="98"></line><line x1="360" y1="46" x2="360" y2="94"></line><line x1="371" y1="42" x2="469" y2="98"></line>
+            <line x1="251" y1="122" x2="349" y2="178"></line><line x1="360" y1="126" x2="360" y2="174"></line><line x1="469" y1="122" x2="371" y2="178"></line>
+          </g>
+          <text x="360" y="225" text-anchor="middle" font-size="11" font-weight="400" style="fill:var(--text-dim)">M₃: a ∨ b = 1, a ∧ b = 0 — modular but NOT distributive</text>
+        </g>
+      </svg>
+      <figcaption>The diamond lattice M₃: every pair joins to the top and meets at the bottom. It is the smallest non-distributive modular lattice.</figcaption>
+    </figure>
+  </div>
+
+  <div class="section">
+    <h2>Example</h2>
+    <pre class="example"><code>Divisibility lattice on divisors of 12  {1, 2, 3, 4, 6, 12}:
+                 12              a ∨ b = lcm(a, b)
+                /  \             a ∧ b = gcd(a, b)
+               4    6            2 ∨ 3 = 6,  2 ∧ 3 = 1
+               |  /  \           bottom = 1, top = 12
+               2      3          D_12 is a distributive lattice
+                \    /
+                  1
+
+D_30 = divisors of 30 (= 2·3·5, squarefree) ≅ the Boolean lattice B_3.</code></pre>
+  </div>
+
+  <div class="callout warn">
+    <strong>Common exam traps</strong>
+    <p>A poset can have many MAXIMAL elements but at most one GREATEST element. Meet of the empty set = top; join of the empty set = bottom. (ℤ⁺, |) has a bottom (1) but no top. Every distributive lattice is modular, not vice versa. A finite lattice is distributive iff it has no M₃ or N₅ sublattice.</p>
+  </div>
+
+  <div class="section">
+    <h2>Practice MCQs</h2>
+    <div class="mcq">
+      <p class="q"><span class="qn">Q1.</span> A partially ordered set has a relation that is:</p>
+      <ol class="opts" type="A">
+        <li>reflexive, symmetric, transitive</li>
+        <li>reflexive, antisymmetric, transitive</li>
+        <li>irreflexive, transitive</li>
+        <li>total</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Some pairs may be incomparable.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q2.</span> A LATTICE is a poset in which:</p>
+      <ol class="opts" type="A">
+        <li>every element is maximal</li>
+        <li>every pair of elements has both a join and a meet</li>
+        <li>there are no incomparable elements</li>
+        <li>every subset has a join</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> A complete lattice: every subset has a join and meet.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q3.</span> In (ℤ⁺, |) ordered by divisibility, a ∨ b is:</p>
+      <ol class="opts" type="A">
+        <li>gcd(a, b)</li>
+        <li>lcm(a, b)</li>
+        <li>a + b</li>
+        <li>a · b</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Join = lcm, meet = gcd.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q4.</span> A lattice is DISTRIBUTIVE if:</p>
+      <ol class="opts" type="A">
+        <li>a ∨ (b ∧ c) = (a ∨ b) ∧ (a ∨ c) for all a, b, c</li>
+        <li>it has a top and bottom</li>
+        <li>it is a chain</li>
+        <li>every element has a complement</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: A.</strong> M₃ and N₅ are the forbidden sublattices.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q5.</span> A BOOLEAN algebra is:</p>
+      <ol class="opts" type="A">
+        <li>any lattice</li>
+        <li>a complemented distributive lattice</li>
+        <li>a chain</li>
+        <li>a poset with no top</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> (P(S), ⊆) is the canonical example.</p></details>
+    </div>
+    <p style="margin-top:18px"><a class="btn" href="../quiz.html?topic=dm-lattices">Practice all 50 Partial Orders & Lattices questions →</a></p>
+  </div>
+
+  <div class="topic-nav">
+    <a href="dm-sets.html"><span class="dir">← Previous topic</span>Sets, Relations, Functions</a>
+    <a class="next" href="dm-groups.html"><span class="dir">Next topic →</span>Groups</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  GPSC ICT Class-2 exam prep · Unit 2 — Discrete Mathematics
+</footer>
+
+<script src="../assets/js/nav.js"></script>
+</body>
+</html>

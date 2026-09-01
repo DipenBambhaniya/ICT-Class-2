@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Graph Theory — Discrete Mathematics</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="../index.html"><span class="logo-dot">DB</span> NoSQL Exam Prep</a>
+    <nav class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../dm.html" class="active">Discrete Math</a>
+      <a href="../quiz.html">Practice Quiz</a>
+    </nav>
+  </div>
+</header>
+<nav class="subnav">
+  <a href="dm-logic.html">Logic</a>
+  <a href="dm-sets.html">Sets, Relations, Functions</a>
+  <a href="dm-lattices.html">Partial Orders & Lattices</a>
+  <a href="dm-groups.html">Groups</a>
+  <a href="dm-graphs.html" class="active">Graph Theory</a>
+  <a href="dm-combinatorics.html">Combinatorics</a>
+</nav>
+
+<main>
+
+  <div class="topic-header">
+    <span class="pill">Unit 2 · 5 of 6</span>
+    <h1>Graph Theory</h1>
+    <p class="sub">A graph is vertices joined by edges. The classic results: the handshaking lemma, trees, bipartiteness and colouring, Euler vs Hamilton, matchings (Hall, König), planarity (Euler's formula, Kuratowski) and connectivity.</p>
+  </div>
+
+  <div class="section">
+    <h2>Key points</h2>
+    <dl class="terms">
+      <dt>Handshaking lemma</dt>
+      <dd>Σ deg(v) = 2|E|. So the number of odd-degree vertices is even. K_n has C(n,2) edges.</dd>
+      <dt>Trees</dt>
+      <dd>n vertices, n−1 edges, connected and acyclic (any 2 imply the 3rd). Unique path between any two vertices. Labeled spanning trees of K_n: n^(n−2) (Cayley).</dd>
+      <dt>Colouring</dt>
+      <dd>χ(G) = min colours for a proper vertex colouring. χ = 2 ⇔ bipartite ⇔ no odd cycle. Greedy uses ≤ Δ+1; planar graphs ≤ 4 (Four Colour Theorem).</dd>
+      <dt>Euler vs Hamilton</dt>
+      <dd>Euler circuit (every edge once): all degrees even — polynomial test. Hamiltonian cycle (every vertex once): NP-complete.</dd>
+      <dt>Matchings & planarity</dt>
+      <dd>Hall's theorem: matching saturating X ⇔ |N(S)| ≥ |S| ∀ S ⊆ X. König: max matching = min vertex cover (bipartite). Euler: V − E + F = 2; simple planar ⇒ E ≤ 3V − 6.</dd>
+    </dl>
+  </div>
+
+  <div class="section">
+    <h2>Diagram</h2>
+    <figure class="diagram-box">
+      <svg viewBox="0 0 720 240" xmlns="http://www.w3.org/2000/svg">
+        <g font-size="12" font-weight="700">
+          <circle cx="130" cy="70" r="16" fill="var(--accent)"></circle><text x="130" y="75" text-anchor="middle" style="fill:#fff">A</text>
+          <circle cx="130" cy="180" r="16" fill="var(--accent)"></circle><text x="130" y="185" text-anchor="middle" style="fill:#fff">B</text>
+          <circle cx="290" cy="70" r="16" fill="var(--accent-2)"></circle><text x="290" y="75" text-anchor="middle" style="fill:#fff">1</text>
+          <circle cx="290" cy="180" r="16" fill="var(--accent-2)"></circle><text x="290" y="185" text-anchor="middle" style="fill:#fff">2</text>
+          <g stroke="var(--border)" stroke-width="2"><line x1="146" y1="70" x2="274" y2="70"></line><line x1="146" y1="180" x2="274" y2="180"></line><line x1="144" y1="80" x2="276" y2="170"></line></g>
+          <line x1="146" y1="70" x2="274" y2="70" stroke="var(--accent-2)" stroke-width="4"></line>
+          <line x1="146" y1="180" x2="274" y2="180" stroke="var(--accent-2)" stroke-width="4"></line>
+          <text x="210" y="220" text-anchor="middle" font-size="11" font-weight="400" style="fill:var(--text-dim)">bipartite: perfect matching {A-1, B-2} (thick)</text>
+          <text x="470" y="70" font-weight="400" style="fill:var(--text-dim)">bipartite ⇔ 2-colourable</text>
+          <text x="470" y="94" font-weight="400" style="fill:var(--text-dim)">⇔ no odd cycle</text>
+          <text x="470" y="130" font-weight="400" style="fill:var(--text-dim)">König: max matching</text>
+          <text x="470" y="152" font-weight="400" style="fill:var(--text-dim)">= min vertex cover</text>
+        </g>
+      </svg>
+      <figcaption>A bipartite graph with a perfect matching. König's theorem links maximum matching and minimum vertex cover in bipartite graphs.</figcaption>
+    </figure>
+  </div>
+
+  <div class="section">
+    <h2>Example</h2>
+    <pre class="example"><code>Handshaking: a graph with degree sequence (3, 3, 3, 3, 2) — is it possible?
+  Σ deg = 14 = 2|E| ⇒ |E| = 7.  OK (sum is even).
+  Degree sequence (3, 3, 3, 1): Σ = 10 ⇒ |E| = 5, and 3 odd-degree vertices —
+  IMPOSSIBLE, the count of odd-degree vertices must be even.
+
+Euler's formula: K_4 drawn planar has V=4, E=6, F=4 → 4 − 6 + 4 = 2. ✓
+K_5: E = 10 > 3·5 − 6 = 9 ⇒ NOT planar.</code></pre>
+  </div>
+
+  <div class="callout warn">
+    <strong>Common exam traps</strong>
+    <p>Euler circuit (edges) needs all-even degrees — a polynomial test; Hamiltonian cycle (vertices) is NP-complete. χ(G) = 2 requires the graph to have an edge AND be bipartite. The number of odd-degree vertices is always even. E ≤ 3V − 6 only for SIMPLE planar graphs with V ≥ 3 (bipartite planar: E ≤ 2V − 4).</p>
+  </div>
+
+  <div class="section">
+    <h2>Practice MCQs</h2>
+    <div class="mcq">
+      <p class="q"><span class="qn">Q1.</span> The sum of all vertex degrees in an undirected graph equals:</p>
+      <ol class="opts" type="A">
+        <li>|V|</li>
+        <li>|E|</li>
+        <li>2|E| (handshaking lemma)</li>
+        <li>|V| + |E|</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: C.</strong> The number of odd-degree vertices is therefore even.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q2.</span> A tree on n vertices has exactly:</p>
+      <ol class="opts" type="A">
+        <li>n edges</li>
+        <li>n − 1 edges, connected and acyclic</li>
+        <li>2n edges</li>
+        <li>n/2 edges</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Any two of {connected, acyclic, n−1 edges} imply the third.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q3.</span> A graph is BIPARTITE iff:</p>
+      <ol class="opts" type="A">
+        <li>it has an even number of vertices</li>
+        <li>it contains no odd-length cycle (2-colourable)</li>
+        <li>it is connected</li>
+        <li>it is a tree</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Trees and even cycles are bipartite.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q4.</span> An Euler circuit exists in a connected graph iff:</p>
+      <ol class="opts" type="A">
+        <li>every vertex has even degree</li>
+        <li>it is bipartite</li>
+        <li>it has n−1 edges</li>
+        <li>every vertex has odd degree</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: A.</strong> An Euler PATH exists iff 0 or 2 vertices have odd degree.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q5.</span> Euler's formula for a connected planar graph: V − E + F equals:</p>
+      <ol class="opts" type="A">
+        <li>0</li>
+        <li>1</li>
+        <li>2</li>
+        <li>V</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: C.</strong> F counts faces including the outer face; hence E ≤ 3V − 6.</p></details>
+    </div>
+    <p style="margin-top:18px"><a class="btn" href="../quiz.html?topic=dm-graphs">Practice all 50 Graph Theory questions →</a></p>
+  </div>
+
+  <div class="topic-nav">
+    <a href="dm-groups.html"><span class="dir">← Previous topic</span>Groups</a>
+    <a class="next" href="dm-combinatorics.html"><span class="dir">Next topic →</span>Combinatorics</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  GPSC ICT Class-2 exam prep · Unit 2 — Discrete Mathematics
+</footer>
+
+<script src="../assets/js/nav.js"></script>
+</body>
+</html>

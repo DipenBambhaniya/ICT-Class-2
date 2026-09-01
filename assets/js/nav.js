@@ -34,6 +34,18 @@
       ]
     },
     {
+      type: "group", label: "2) Discrete Mathematics", href: "dm.html",
+      items: [
+        ["Overview", "dm.html"],
+        ["Logic (Propositional & FOL)", "topics/dm-logic.html"],
+        ["Sets, Relations, Functions", "topics/dm-sets.html"],
+        ["Partial Orders & Lattices", "topics/dm-lattices.html"],
+        ["Groups", "topics/dm-groups.html"],
+        ["Graph Theory", "topics/dm-graphs.html"],
+        ["Combinatorics", "topics/dm-combinatorics.html"]
+      ]
+    },
+    {
       type: "group", label: "3) Algorithms", href: "algo.html",
       items: [
         ["Overview", "algo.html"],

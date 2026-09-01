@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sets, Relations, Functions — Discrete Mathematics</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="../index.html"><span class="logo-dot">DB</span> NoSQL Exam Prep</a>
+    <nav class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../dm.html" class="active">Discrete Math</a>
+      <a href="../quiz.html">Practice Quiz</a>
+    </nav>
+  </div>
+</header>
+<nav class="subnav">
+  <a href="dm-logic.html">Logic</a>
+  <a href="dm-sets.html" class="active">Sets, Relations, Functions</a>
+  <a href="dm-lattices.html">Partial Orders & Lattices</a>
+  <a href="dm-groups.html">Groups</a>
+  <a href="dm-graphs.html">Graph Theory</a>
+  <a href="dm-combinatorics.html">Combinatorics</a>
+</nav>
+
+<main>
+
+  <div class="topic-header">
+    <span class="pill">Unit 2 · 2 of 6</span>
+    <h1>Sets, Relations, Functions</h1>
+    <p class="sub">Sets are unordered collections; relations are subsets of a Cartesian product; functions are relations that assign exactly one output per input. Cardinality, equivalence relations, partial orders and the injective/surjective/bijective classification are the core.</p>
+  </div>
+
+  <div class="section">
+    <h2>Key points</h2>
+    <dl class="terms">
+      <dt>Set identities</dt>
+      <dd>|P(A)| = 2^|A|; |A ∪ B| = |A| + |B| − |A ∩ B| (inclusion-exclusion); De Morgan; distributive laws.</dd>
+      <dt>Relation properties</dt>
+      <dd>Reflexive (aRa), symmetric (aRb ⇒ bRa), antisymmetric (aRb ∧ bRa ⇒ a=b), transitive (aRb ∧ bRc ⇒ aRc).</dd>
+      <dt>Equivalence relation</dt>
+      <dd>Reflexive + symmetric + transitive ⇒ partitions the set into disjoint equivalence classes (and vice versa).</dd>
+      <dt>Partial order</dt>
+      <dd>Reflexive + antisymmetric + transitive (e.g. ⊆, divisibility). A total order compares every pair.</dd>
+      <dt>Function types</dt>
+      <dd>Injective (distinct inputs → distinct outputs), surjective (range = codomain), bijective (both — invertible). #functions = n^m; for finite equal-size sets, injective ⇔ surjective ⇔ bijective.</dd>
+    </dl>
+  </div>
+
+  <div class="section">
+    <h2>Diagram</h2>
+    <figure class="diagram-box">
+      <svg viewBox="0 0 720 250" xmlns="http://www.w3.org/2000/svg">
+        <g>
+          <circle cx="270" cy="120" r="90" fill="var(--accent-dim)" fill-opacity="0.5" stroke="var(--accent)" stroke-width="2"></circle>
+          <circle cx="380" cy="120" r="90" fill="var(--accent-2-dim)" fill-opacity="0.5" stroke="var(--accent-2)" stroke-width="2"></circle>
+          <text x="210" y="60" font-size="13" font-weight="700" style="fill:var(--accent)">A</text>
+          <text x="440" y="60" font-size="13" font-weight="700" style="fill:var(--accent-2)">B</text>
+          <text x="200" y="125" font-size="11" style="fill:var(--text)">A \ B</text>
+          <text x="320" y="125" font-size="11" font-weight="700" style="fill:var(--text)">A ∩ B</text>
+          <text x="425" y="125" font-size="11" style="fill:var(--text)">B \ A</text>
+          <text x="325" y="235" text-anchor="middle" font-size="11" style="fill:var(--text-dim)">|A ∪ B| = |A| + |B| − |A ∩ B|</text>
+        </g>
+      </svg>
+      <figcaption>Inclusion-exclusion: adding |A| and |B| double-counts the intersection, so subtract it once.</figcaption>
+    </figure>
+  </div>
+
+  <div class="section">
+    <h2>Example</h2>
+    <pre class="example"><code>A = {1,2,3},  B = {3,4}
+  A ∪ B = {1,2,3,4}      A ∩ B = {3}      A \ B = {1,2}
+  A × B = {(1,3),(1,4),(2,3),(2,4),(3,3),(3,4)}    |A × B| = 3·2 = 6
+  P(A) has 2³ = 8 subsets
+
+Relation "≡ (mod 3)" on Z: reflexive, symmetric, transitive ⇒ equivalence
+  classes {…,-3,0,3,…}, {…,-2,1,4,…}, {…,-1,2,5,…}</code></pre>
+  </div>
+
+  <div class="callout warn">
+    <strong>Common exam traps</strong>
+    <p>The empty set is a subset of EVERY set (vacuously). |P(A)| = 2^|A|, not 2·|A|. For INFINITE sets, injective does not imply surjective (n ↦ n+1 on ℕ). An equivalence relation partitions; a partial order does not. Antisymmetric ≠ 'not symmetric' — the identity relation is both symmetric and antisymmetric.</p>
+  </div>
+
+  <div class="section">
+    <h2>Practice MCQs</h2>
+    <div class="mcq">
+      <p class="q"><span class="qn">Q1.</span> The power set of an n-element set has:</p>
+      <ol class="opts" type="A">
+        <li>n elements</li>
+        <li>2n elements</li>
+        <li>2^n elements</li>
+        <li>n! elements</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: C.</strong> Each element is in or out of a subset.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q2.</span> An EQUIVALENCE relation is:</p>
+      <ol class="opts" type="A">
+        <li>reflexive, symmetric, transitive</li>
+        <li>reflexive, antisymmetric, transitive</li>
+        <li>symmetric only</li>
+        <li>transitive only</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: A.</strong> It partitions the set into equivalence classes.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q3.</span> A function f is INJECTIVE if:</p>
+      <ol class="opts" type="A">
+        <li>every codomain element has a preimage</li>
+        <li>f(a1) = f(a2) implies a1 = a2</li>
+        <li>|A| = |B|</li>
+        <li>f is increasing</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Distinct inputs give distinct outputs.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q4.</span> The number of functions from an m-set to an n-set is:</p>
+      <ol class="opts" type="A">
+        <li>m^n</li>
+        <li>n^m</li>
+        <li>mn</li>
+        <li>n!/(n-m)!</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Each of m inputs picks one of n outputs.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q5.</span> The pigeonhole principle states:</p>
+      <ol class="opts" type="A">
+        <li>every function is injective</li>
+        <li>if n items go into m < n boxes, some box has ≥ 2 items</li>
+        <li>sets are countable</li>
+        <li>functions compose</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Generalized: some box has ≥ ⌈n/m⌉ items.</p></details>
+    </div>
+    <p style="margin-top:18px"><a class="btn" href="../quiz.html?topic=dm-sets">Practice all 50 Sets, Relations, Functions questions →</a></p>
+  </div>
+
+  <div class="topic-nav">
+    <a href="dm-logic.html"><span class="dir">← Previous topic</span>Logic</a>
+    <a class="next" href="dm-lattices.html"><span class="dir">Next topic →</span>Partial Orders & Lattices</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  GPSC ICT Class-2 exam prep · Unit 2 — Discrete Mathematics
+</footer>
+
+<script src="../assets/js/nav.js"></script>
+</body>
+</html>

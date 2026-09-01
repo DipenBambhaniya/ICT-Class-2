@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Logic (Propositional & First-Order) — Discrete Mathematics</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="../index.html"><span class="logo-dot">DB</span> NoSQL Exam Prep</a>
+    <nav class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../dm.html" class="active">Discrete Math</a>
+      <a href="../quiz.html">Practice Quiz</a>
+    </nav>
+  </div>
+</header>
+<nav class="subnav">
+  <a href="dm-logic.html" class="active">Logic</a>
+  <a href="dm-sets.html">Sets, Relations, Functions</a>
+  <a href="dm-lattices.html">Partial Orders & Lattices</a>
+  <a href="dm-groups.html">Groups</a>
+  <a href="dm-graphs.html">Graph Theory</a>
+  <a href="dm-combinatorics.html">Combinatorics</a>
+</nav>
+
+<main>
+
+  <div class="topic-header">
+    <span class="pill">Unit 2 · 1 of 6</span>
+    <h1>Logic (Propositional & First-Order)</h1>
+    <p class="sub">Propositional logic combines true/false statements with connectives; first-order logic adds predicates, variables and quantifiers. The tools: truth tables, equivalences, inference rules, and validity vs satisfiability.</p>
+  </div>
+
+  <div class="section">
+    <h2>Key points</h2>
+    <dl class="terms">
+      <dt>Connectives</dt>
+      <dd>~ (not), ∧ (and), ∨ (or), → (implies — false only when T→F), ↔ (iff — same truth value).</dd>
+      <dt>Key equivalences</dt>
+      <dd>p → q ≡ ~p ∨ q; contrapositive ~q → ~p ≡ p → q (converse q → p is NOT); De Morgan ~(p ∧ q) ≡ ~p ∨ ~q.</dd>
+      <dt>Inference</dt>
+      <dd>Modus ponens (p→q, p ⊢ q), modus tollens (p→q, ~q ⊢ ~p). Affirming the consequent and denying the antecedent are fallacies.</dd>
+      <dt>Tautology / SAT</dt>
+      <dd>Tautology = true under every assignment; a formula is valid iff its negation is unsatisfiable. SAT (is there a satisfying assignment?) is NP-complete.</dd>
+      <dt>Quantifiers</dt>
+      <dd>~(∀x P) ≡ ∃x ~P; ~(∃x P) ≡ ∀x ~P. Order matters: ∀x∃y ≠ ∃y∀x. FOL validity is only semi-decidable.</dd>
+    </dl>
+  </div>
+
+  <div class="section">
+    <h2>Diagram</h2>
+    <figure class="diagram-box">
+      <svg viewBox="0 0 720 190" xmlns="http://www.w3.org/2000/svg">
+        <g font-size="12" font-weight="700">
+          <text x="60" y="30" style="fill:var(--text-dim)">Truth table for  p → q</text>
+          <rect x="80" y="40" width="110" height="26" rx="3" fill="var(--bg-alt)" stroke="var(--border)"></rect><text x="135" y="58" text-anchor="middle" style="fill:var(--text)">p</text><rect x="200" y="40" width="110" height="26" rx="3" fill="var(--bg-alt)" stroke="var(--border)"></rect><text x="255" y="58" text-anchor="middle" style="fill:var(--text)">q</text><rect x="320" y="40" width="110" height="26" rx="3" fill="var(--bg-alt)" stroke="var(--border)"></rect><text x="375" y="58" text-anchor="middle" style="fill:var(--text)">p → q</text><rect x="80" y="72" width="110" height="26" rx="3" fill="var(--accent-2-dim)" stroke="var(--border)"></rect><text x="135" y="90" text-anchor="middle" style="fill:var(--text)">T</text><rect x="200" y="72" width="110" height="26" rx="3" fill="var(--accent-2-dim)" stroke="var(--border)"></rect><text x="255" y="90" text-anchor="middle" style="fill:var(--text)">T</text><rect x="320" y="72" width="110" height="26" rx="3" fill="var(--accent-2-dim)" stroke="var(--border)"></rect><text x="375" y="90" text-anchor="middle" style="fill:var(--text)">T</text><rect x="80" y="104" width="110" height="26" rx="3" fill="var(--accent-2-dim)" stroke="var(--border)"></rect><text x="135" y="122" text-anchor="middle" style="fill:var(--text)">T</text><rect x="200" y="104" width="110" height="26" rx="3" fill="var(--danger-dim)" stroke="var(--border)"></rect><text x="255" y="122" text-anchor="middle" style="fill:var(--text)">F</text><rect x="320" y="104" width="110" height="26" rx="3" fill="var(--danger-dim)" stroke="var(--border)"></rect><text x="375" y="122" text-anchor="middle" style="fill:var(--text)">F</text><rect x="80" y="136" width="110" height="26" rx="3" fill="var(--danger-dim)" stroke="var(--border)"></rect><text x="135" y="154" text-anchor="middle" style="fill:var(--text)">F</text><rect x="200" y="136" width="110" height="26" rx="3" fill="var(--accent-2-dim)" stroke="var(--border)"></rect><text x="255" y="154" text-anchor="middle" style="fill:var(--text)">T</text><rect x="320" y="136" width="110" height="26" rx="3" fill="var(--accent-2-dim)" stroke="var(--border)"></rect><text x="375" y="154" text-anchor="middle" style="fill:var(--text)">T</text><rect x="80" y="168" width="110" height="26" rx="3" fill="var(--danger-dim)" stroke="var(--border)"></rect><text x="135" y="186" text-anchor="middle" style="fill:var(--text)">F</text><rect x="200" y="168" width="110" height="26" rx="3" fill="var(--danger-dim)" stroke="var(--border)"></rect><text x="255" y="186" text-anchor="middle" style="fill:var(--text)">F</text><rect x="320" y="168" width="110" height="26" rx="3" fill="var(--accent-2-dim)" stroke="var(--border)"></rect><text x="375" y="186" text-anchor="middle" style="fill:var(--text)">T</text>
+          <text x="480" y="90" font-weight="400" style="fill:var(--text-dim)">→ is FALSE only</text>
+          <text x="480" y="112" font-weight="400" style="fill:var(--text-dim)">when p is T and q is F</text>
+          <text x="480" y="150" font-weight="400" style="fill:var(--text-dim)">p → q  ≡  ~p ∨ q</text>
+        </g>
+      </svg>
+      <figcaption>The implication p → q is true in every case except a true premise with a false conclusion.</figcaption>
+    </figure>
+  </div>
+
+  <div class="section">
+    <h2>Example</h2>
+    <pre class="example"><code>Prove:  (p → q) ∧ ~q  ⊢  ~p   (modus tollens)
+  1. p → q            premise
+  2. ~q               premise
+  3. ~q → ~p          contrapositive of 1
+  4. ~p               modus ponens on 2, 3
+
+Quantifier negation:
+  ~( ∀x  Prime(x) → Odd(x) )   ≡   ∃x ( Prime(x) ∧ ~Odd(x) )   [witness: x = 2]</code></pre>
+  </div>
+
+  <div class="callout warn">
+    <strong>Common exam traps</strong>
+    <p>The converse (q → p) is NOT equivalent to p → q; the contrapositive (~q → ~p) IS. 'If pigs fly then 2+2=4' is TRUE (false premise). ~(∀x P) is ∃x ~P, not ∀x ~P. Swapping ∀x∃y to ∃y∀x strengthens the claim. A valid argument can have false premises (it just isn't sound).</p>
+  </div>
+
+  <div class="section">
+    <h2>Practice MCQs</h2>
+    <div class="mcq">
+      <p class="q"><span class="qn">Q1.</span> The implication p → q is FALSE only when:</p>
+      <ol class="opts" type="A">
+        <li>p is false</li>
+        <li>p is true and q is false</li>
+        <li>q is true</li>
+        <li>both are true</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> A true premise with a false conclusion.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q2.</span> The contrapositive of p → q is:</p>
+      <ol class="opts" type="A">
+        <li>q → p</li>
+        <li>~p → ~q</li>
+        <li>~q → ~p</li>
+        <li>p → ~q</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: C.</strong> Equivalent to the original; the converse is not.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q3.</span> p → q is logically equivalent to:</p>
+      <ol class="opts" type="A">
+        <li>~p ∨ q</li>
+        <li>p ∨ ~q</li>
+        <li>~p ∧ q</li>
+        <li>q → p</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: A.</strong> Material implication — used in CNF conversion.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q4.</span> ~(∀x P(x)) is equivalent to:</p>
+      <ol class="opts" type="A">
+        <li>∀x ~P(x)</li>
+        <li>∃x ~P(x)</li>
+        <li>∃x P(x)</li>
+        <li>∀x P(x)</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> One counterexample refutes a universal.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q5.</span> The Boolean satisfiability problem (SAT) is:</p>
+      <ol class="opts" type="A">
+        <li>in P</li>
+        <li>NP-complete (Cook-Levin)</li>
+        <li>undecidable</li>
+        <li>trivial</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> It was the first problem proven NP-complete.</p></details>
+    </div>
+    <p style="margin-top:18px"><a class="btn" href="../quiz.html?topic=dm-logic">Practice all 50 Logic (Propositional & First-Order) questions →</a></p>
+  </div>
+
+  <div class="topic-nav">
+    <a href="../dm.html"><span class="dir">← Back to</span>Unit 2 index</a>
+    <a class="next" href="dm-sets.html"><span class="dir">Next topic →</span>Sets, Relations, Functions</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  GPSC ICT Class-2 exam prep · Unit 2 — Discrete Mathematics
+</footer>
+
+<script src="../assets/js/nav.js"></script>
+</body>
+</html>
