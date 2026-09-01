@@ -1,7 +1,8 @@
-# NoSQL Databases — Exam Prep Site
+# NoSQL Databases + DBMS Core — Exam Prep Site
 
-A static study site covering the 4 core NoSQL Database concepts, plus a 100-question
-interactive practice quiz calibrated to recent GPSC ICT/IT exam papers.
+A static study site covering the 4 core NoSQL Database concepts and 8 classical
+relational-DBMS topics, plus a 148-question interactive practice quiz calibrated to
+recent GPSC ICT/IT exam papers.
 
 ## Contents
 
@@ -10,8 +11,18 @@ interactive practice quiz calibrated to recent GPSC ICT/IT exam papers.
 - `topics/data-representation.html` — NoSQL data types / representation
 - `topics/cap-theorem.html` — CAP theorem
 - `topics/properties.html` — Properties of NoSQL databases
-- `quiz.html` — 100-question interactive MCQ practice test (filter by topic, instant
-  feedback, score breakdown, review list)
+- `dbms.html` — DBMS Core Concepts hub, links the 8 pages below
+- `topics/integrity-constraints.html` — domain / entity / key / referential integrity
+- `topics/normal-forms.html` — 1NF–BCNF–4NF–5NF, functional dependencies
+- `topics/file-organization.html` — heap / sequential / hash / clustered files
+- `topics/indexes.html` — primary / clustering / secondary, dense vs sparse, multi-level
+- `topics/b-trees.html` — B-trees vs B+ trees, splits/merges, fan-out
+- `topics/transaction-processing.html` — ACID, transaction states, anomalies
+- `topics/schedules.html` — serial/non-serial, conflict & view serializability, recoverability
+- `topics/concurrency-control.html` — locking / 2PL, timestamp ordering, MVCC, deadlocks
+- `quiz.html` — 148-question interactive MCQ practice test (filter by topic, instant
+  feedback, score breakdown, review list). Each DBMS page also has inline MCQs with
+  reveal-to-check explanations.
 - `assets/js/questions.js` — the question bank (edit here to add/change questions)
 - `assets/css/style.css` — shared design system (light/dark aware)
 
@@ -58,4 +69,6 @@ Each question in `assets/js/questions.js` follows this shape:
   exp: "Short explanation of why the answer is correct." }
 ```
 
-`topic` must be one of: `sql-vs-nosql`, `data-representation`, `cap-theorem`, `properties`.
+`topic` must be one of: `sql-vs-nosql`, `data-representation`, `cap-theorem`, `properties`,
+`integrity-constraints`, `normal-forms`, `file-organization`, `indexes`, `b-trees`,
+`transactions`, `schedules`, `concurrency-control`.

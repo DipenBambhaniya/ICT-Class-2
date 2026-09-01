@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>File Organization — DBMS Core</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="../index.html"><span class="logo-dot">DB</span> NoSQL Exam Prep</a>
+    <nav class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="sql-vs-nosql.html">SQL vs NoSQL</a>
+      <a href="data-representation.html">Data Types</a>
+      <a href="cap-theorem.html">CAP Theorem</a>
+      <a href="properties.html">Properties</a>
+      <a href="../dbms.html" class="active">DBMS Core</a>
+      <a href="../quiz.html">Practice Quiz</a>
+    </nav>
+  </div>
+</header>
+<nav class="subnav">
+  <a href="integrity-constraints.html">Integrity Constraints</a>
+  <a href="normal-forms.html">Normal Forms</a>
+  <a href="file-organization.html" class="active">File Organization</a>
+  <a href="indexes.html">Indexes</a>
+  <a href="b-trees.html">B / B+ Trees</a>
+  <a href="transaction-processing.html">Transactions</a>
+  <a href="schedules.html">Schedules</a>
+  <a href="concurrency-control.html">Concurrency Control</a>
+</nav>
+
+<main>
+
+  <div class="topic-header">
+    <span class="pill">DBMS Core · 3 of 8</span>
+    <h1>File Organization</h1>
+    <p class="sub">File organization describes how a relation's records are physically arranged into disk blocks. The choice fixes the cost of insert, delete, equality search and range search — because the dominant cost in a DBMS is block (page) I/O, not CPU.</p>
+  </div>
+
+  <div class="section">
+    <h2>Key terms</h2>
+    <dl class="terms">
+      <dt>Block / page</dt>
+      <dd>The fixed-size unit transferred between disk and memory (e.g. 4 KB). All cost is counted in block accesses.</dd>
+      <dt>Blocking factor (bfr)</dt>
+      <dd>Number of records that fit in one block = ⌊block size / record size⌋.</dd>
+      <dt>Spanned vs unspanned</dt>
+      <dd>Spanned: a record may cross a block boundary. Unspanned: each record lies wholly inside one block (wastes the leftover bytes).</dd>
+      <dt>Ordering field / key</dt>
+      <dd>The attribute a sequential file is physically sorted on. If it is also unique it is the <em>ordering key</em>.</dd>
+    </dl>
+  </div>
+
+  <div class="section">
+    <h2>Diagram — three organizations</h2>
+    <figure class="diagram-box">
+      <svg viewBox="0 0 720 320" xmlns="http://www.w3.org/2000/svg">
+        <g font-size="11" font-weight="700">
+          <!-- heap -->
+          <text x="120" y="24" text-anchor="middle" font-size="12" style="fill:var(--accent)">HEAP (pile)</text>
+          <rect x="30" y="36" width="180" height="34" rx="5" fill="var(--accent-dim)" stroke="var(--accent)"></rect>
+          <text x="120" y="58" text-anchor="middle" style="fill:var(--text)">50 · 12 · 87</text>
+          <rect x="30" y="76" width="180" height="34" rx="5" fill="var(--accent-dim)" stroke="var(--accent)"></rect>
+          <text x="120" y="98" text-anchor="middle" style="fill:var(--text)">4 · 63 · 29</text>
+          <text x="120" y="132" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">insert = append · search = scan all</text>
+
+          <!-- sequential -->
+          <text x="360" y="24" text-anchor="middle" font-size="12" style="fill:var(--accent-2)">SEQUENTIAL (sorted)</text>
+          <rect x="270" y="36" width="180" height="34" rx="5" fill="var(--accent-2-dim)" stroke="var(--accent-2)"></rect>
+          <text x="360" y="58" text-anchor="middle" style="fill:var(--text)">4 · 12 · 29</text>
+          <rect x="270" y="76" width="180" height="34" rx="5" fill="var(--accent-2-dim)" stroke="var(--accent-2)"></rect>
+          <text x="360" y="98" text-anchor="middle" style="fill:var(--text)">50 · 63 · 87</text>
+          <text x="360" y="132" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">binary search · range scan easy</text>
+
+          <!-- hash -->
+          <text x="600" y="24" text-anchor="middle" font-size="12" style="fill:var(--warn)">HASH (h(k) mod 3)</text>
+          <rect x="520" y="36" width="160" height="26" rx="5" fill="var(--warn-dim)" stroke="var(--warn)"></rect>
+          <text x="600" y="54" text-anchor="middle" style="fill:var(--text)">B0: 12 · 63</text>
+          <rect x="520" y="66" width="160" height="26" rx="5" fill="var(--warn-dim)" stroke="var(--warn)"></rect>
+          <text x="600" y="84" text-anchor="middle" style="fill:var(--text)">B1: 4 · 87</text>
+          <rect x="520" y="96" width="160" height="26" rx="5" fill="var(--warn-dim)" stroke="var(--warn)"></rect>
+          <text x="600" y="114" text-anchor="middle" style="fill:var(--text)">B2: 50 · 29</text>
+          <text x="600" y="150" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">O(1) equality · range = full scan</text>
+        </g>
+      </svg>
+      <figcaption>Same six keys, three physical layouts. Sorting helps range queries; hashing helps exact-match lookups; a heap helps neither but has the cheapest insert.</figcaption>
+    </figure>
+  </div>
+
+  <div class="section">
+    <h2>Comparison of methods</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Organization</th><th>Insert</th><th>Equality search</th><th>Range search</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Heap / Pile</strong> (unordered)</td><td>Very fast — append to last block</td><td>Linear scan, avg b/2 blocks</td><td>Full scan (b blocks)</td><td>Good for bulk load; deletes leave gaps</td></tr>
+          <tr><td><strong>Sequential / Ordered</strong></td><td>Slow — must keep order (overflow blocks used)</td><td>Binary search ≈ log₂b blocks</td><td>Excellent — read consecutive blocks</td><td>Needs periodic reorganization</td></tr>
+          <tr><td><strong>Hash / Direct</strong></td><td>Fast (unless bucket overflow)</td><td>≈ 1 block on the hash field</td><td>Poor — hashing destroys order</td><td>Static vs dynamic (extendible / linear) hashing</td></tr>
+          <tr><td><strong>Clustered</strong></td><td>Moderate</td><td>Fast for the clustering key</td><td>Good for the clustering key</td><td>Related rows of one/more tables stored together to speed joins</td></tr>
+          <tr><td><strong>Index-sequential (ISAM / B+ tree)</strong></td><td>Moderate</td><td>Fast via index</td><td>Good — leaves are ordered/linked</td><td>Combines an index with ordered data</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Example — blocking factor</h2>
+    <pre class="example"><code>Block size      = 4096 bytes
+Record size     = 200 bytes
+Number of rows  = 30000
+
+Blocking factor bfr = floor(4096 / 200) = 20 records/block
+Blocks needed  b    = ceil(30000 / 20)  = 1500 blocks
+
+Heap  equality search (avg) = b / 2   = 750 block reads
+Sorted equality search      = log2(1500) ≈ 11 block reads</code></pre>
+  </div>
+
+  <div class="callout warn">
+    <strong>Common exam traps</strong>
+    <p>Hashing gives near-constant lookup <em>only</em> for the exact hash field with an equality predicate — it is useless for <code>BETWEEN</code> / <code>ORDER BY</code> / <code>&lt;</code> ranges. A heap file has the cheapest insertion but the most expensive search. "Sequential file" means physically sorted on disk — not merely "read one record after another".</p>
+  </div>
+
+  <div class="section">
+    <h2>Practice MCQs</h2>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q1.</span> In which file organization is a new record simply inserted at the end of the file?</p>
+      <ol class="opts" type="A">
+        <li>Sequential (ordered) file</li>
+        <li>Heap (pile / unordered) file</li>
+        <li>Hash file</li>
+        <li>B+ tree file</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B — Heap file.</strong> Records are placed in insertion order at the end of the last block, making insertion O(1) but forcing a linear scan for retrieval.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q2.</span> Hash file organization performs worst for which type of query?</p>
+      <ol class="opts" type="A">
+        <li>Equality search on the hash field</li>
+        <li>Range search (e.g. salary BETWEEN 30000 AND 50000)</li>
+        <li>Single-record insertion</li>
+        <li>Primary-key point lookup</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> A hash function scatters keys across buckets with no order relationship, so a range query must scan every bucket — hashing only helps exact-match lookups.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q3.</span> The number of records that can be stored in one disk block is called the:</p>
+      <ol class="opts" type="A">
+        <li>Fill factor</li>
+        <li>Blocking factor</li>
+        <li>Fan-out</li>
+        <li>Selectivity</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B — Blocking factor</strong> (bfr) = ⌊block size ÷ record size⌋ for fixed-length unspanned records.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q4.</span> A file organization where records that are frequently accessed together (often from different relations) are physically stored in the same blocks is called:</p>
+      <ol class="opts" type="A">
+        <li>Heap organization</li>
+        <li>Clustered (clustering) organization</li>
+        <li>Hash organization</li>
+        <li>Spanned organization</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Clustering stores related rows together so a join or a multi-row lookup on the clustering key needs far fewer block reads.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q5.</span> With b sorted blocks, the number of block accesses for a binary search on the ordering key is approximately:</p>
+      <ol class="opts" type="A">
+        <li>b</li>
+        <li>b / 2</li>
+        <li>log₂ b</li>
+        <li>1</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: C — log₂ b.</strong> Because the blocks are physically ordered on the search key, binary search halves the range each step.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q6.</span> "Unspanned" record organization means:</p>
+      <ol class="opts" type="A">
+        <li>A record may be split across two blocks</li>
+        <li>Every record is stored entirely within a single block</li>
+        <li>Records are stored without any blocking</li>
+        <li>Records are compressed before storage</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Unspanned means no record crosses a block boundary; leftover bytes at the end of a block are wasted. Spanned organization allows a record to continue into the next block.</p></details>
+    </div>
+  </div>
+
+  <div class="topic-nav">
+    <a href="normal-forms.html"><span class="dir">← Previous topic</span>Normal Forms</a>
+    <a class="next" href="indexes.html"><span class="dir">Next topic →</span>Indexes</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  NoSQL Databases exam prep · DBMS Core concepts · Built for personal study
+</footer>
+
+</body>
+</html>

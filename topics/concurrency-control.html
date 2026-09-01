@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Concurrency Control — DBMS Core</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="../index.html"><span class="logo-dot">DB</span> NoSQL Exam Prep</a>
+    <nav class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="sql-vs-nosql.html">SQL vs NoSQL</a>
+      <a href="data-representation.html">Data Types</a>
+      <a href="cap-theorem.html">CAP Theorem</a>
+      <a href="properties.html">Properties</a>
+      <a href="../dbms.html" class="active">DBMS Core</a>
+      <a href="../quiz.html">Practice Quiz</a>
+    </nav>
+  </div>
+</header>
+<nav class="subnav">
+  <a href="integrity-constraints.html">Integrity Constraints</a>
+  <a href="normal-forms.html">Normal Forms</a>
+  <a href="file-organization.html">File Organization</a>
+  <a href="indexes.html">Indexes</a>
+  <a href="b-trees.html">B / B+ Trees</a>
+  <a href="transaction-processing.html">Transactions</a>
+  <a href="schedules.html">Schedules</a>
+  <a href="concurrency-control.html" class="active">Concurrency Control</a>
+</nav>
+
+<main>
+
+  <div class="topic-header">
+    <span class="pill">DBMS Core · 8 of 8</span>
+    <h1>Concurrency Control</h1>
+    <p class="sub">Concurrency-control protocols decide how to interleave the operations of simultaneous transactions so that the resulting schedule is always serializable and recoverable — without giving up too much throughput.</p>
+  </div>
+
+  <div class="section">
+    <h2>Lock-based protocols</h2>
+    <p>Transactions must acquire a lock before accessing a data item. Two lock modes:</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Requested ↓ / Held →</th><th>None</th><th>Shared (S)</th><th>Exclusive (X)</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Shared (S)</strong> — for read</td><td>✔ grant</td><td>✔ grant</td><td>✘ wait</td></tr>
+          <tr><td><strong>Exclusive (X)</strong> — for write</td><td>✔ grant</td><td>✘ wait</td><td>✘ wait</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <dl class="terms">
+      <dt>Two-Phase Locking (2PL)</dt>
+      <dd>Each transaction has a <strong>growing phase</strong> (only acquires locks) followed by a <strong>shrinking phase</strong> (only releases locks). Once it releases any lock it can never acquire another. 2PL <strong>guarantees conflict-serializable</strong> schedules.</dd>
+      <dt>Strict 2PL</dt>
+      <dd>All <em>exclusive</em> locks held until commit/abort → cascadeless + recoverable. Most common in practice.</dd>
+      <dt>Rigorous 2PL</dt>
+      <dd>All locks (S and X) held until commit → serialization order = commit order.</dd>
+      <dt>Downside</dt>
+      <dd>2PL can cause <strong>deadlock</strong> and starvation; it does not by itself prevent deadlock.</dd>
+    </dl>
+  </div>
+
+  <div class="section">
+    <h2>Diagram — the two phases of 2PL</h2>
+    <figure class="diagram-box">
+      <svg viewBox="0 0 720 260" xmlns="http://www.w3.org/2000/svg">
+        <line x1="50" y1="210" x2="680" y2="210" stroke="var(--border)" stroke-width="2"></line>
+        <line x1="50" y1="210" x2="50" y2="30" stroke="var(--border)" stroke-width="2"></line>
+        <text x="40" y="25" text-anchor="end" font-size="10" style="fill:var(--text-dim)">locks held</text>
+        <text x="680" y="230" text-anchor="end" font-size="10" style="fill:var(--text-dim)">time →</text>
+        <polyline points="50,210 130,170 210,130 300,90 380,90 470,140 560,180 640,210" fill="none" stroke="var(--accent)" stroke-width="3"></polyline>
+        <line x1="380" y1="30" x2="380" y2="210" stroke="var(--warn)" stroke-width="1.5" stroke-dasharray="4 3"></line>
+        <text x="380" y="24" text-anchor="middle" font-size="11" font-weight="700" style="fill:var(--warn)">lock point</text>
+        <text x="200" y="235" text-anchor="middle" font-size="11" font-weight="700" style="fill:var(--accent)">Growing phase (acquire)</text>
+        <text x="520" y="235" text-anchor="middle" font-size="11" font-weight="700" style="fill:var(--accent-2)">Shrinking phase (release)</text>
+      </svg>
+      <figcaption>After the lock point (peak), the transaction may only release locks. In <strong>strict</strong> 2PL the descent is a vertical drop at commit — all write locks released at once.</figcaption>
+    </figure>
+  </div>
+
+  <div class="section">
+    <h2>Other protocol families</h2>
+    <dl class="terms">
+      <dt>Timestamp Ordering (TO)</dt>
+      <dd>Each transaction gets a unique timestamp TS. Conflicting operations must execute in timestamp order; a transaction that arrives "too late" is aborted and restarted with a new TS. <strong>No deadlock</strong>, but possible starvation and cascading rollback. The <em>Thomas write rule</em> ignores obsolete writes.</dd>
+      <dt>Multiversion / MVCC (snapshot isolation)</dt>
+      <dd>Writers create a new version instead of overwriting; readers see a consistent snapshot and never block writers. Used by PostgreSQL, Oracle, MySQL InnoDB.</dd>
+      <dt>Optimistic (validation-based)</dt>
+      <dd>Three phases: <strong>read</strong> (work on private copies), <strong>validation</strong> (check for conflicts at commit), <strong>write</strong> (apply if valid, else abort). Best when conflicts are rare.</dd>
+    </dl>
+  </div>
+
+  <div class="section">
+    <h2>Deadlock handling</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Approach</th><th>How it works</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Prevention — Wait-Die</strong></td><td>Older waits for younger; younger requesting an older's lock is aborted ("dies"). Non-preemptive.</td></tr>
+          <tr><td><strong>Prevention — Wound-Wait</strong></td><td>Older requesting a younger's lock preempts ("wounds") it; younger waits for older. Preemptive.</td></tr>
+          <tr><td><strong>Detection</strong></td><td>Maintain a <strong>wait-for graph</strong>; a cycle = deadlock → abort a victim transaction.</td></tr>
+          <tr><td><strong>Timeout</strong></td><td>Abort any transaction that waits longer than a threshold. Simple but may kill non-deadlocked transactions.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Example — 2PL schedule</h2>
+    <pre class="example"><code>T1:  lock-X(A)  read(A)  A:=A-50  write(A)  lock-X(B) ... unlock(A) ...
+T2:  lock-S(A)                    -- BLOCKED: T1 holds X on A
+     ... waits until T1 reaches its shrinking phase and unlocks A ...
+
+Growing phase of T1 : all lock-X(...) acquired, none released
+Lock point          : just before the first unlock
+Shrinking phase     : unlock(A), unlock(B)   -- no new locks allowed here</code></pre>
+  </div>
+
+  <div class="callout warn">
+    <strong>Common exam traps</strong>
+    <p>Basic 2PL ensures serializability but <em>not</em> freedom from deadlock, and not cascadelessness — you need <strong>strict</strong> 2PL for that. Timestamp ordering is <em>deadlock-free</em> (it aborts instead of waiting). Two-phase locking (2PL) is unrelated to the two-phase <em>commit</em> (2PC) protocol used for distributed atomicity.</p>
+  </div>
+
+  <div class="section">
+    <h2>Practice MCQs</h2>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q1.</span> The two-phase locking protocol guarantees:</p>
+      <ol class="opts" type="A">
+        <li>Freedom from deadlock</li>
+        <li>Conflict-serializable schedules</li>
+        <li>Cascadeless schedules always</li>
+        <li>Maximum concurrency</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> 2PL's growing-then-shrinking discipline is sufficient to guarantee conflict serializability, but it can still deadlock, and only <em>strict</em> 2PL guarantees cascadelessness.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q2.</span> Under 2PL, once a transaction releases its first lock it:</p>
+      <ol class="opts" type="A">
+        <li>Must immediately commit</li>
+        <li>Cannot acquire any new locks</li>
+        <li>Can still acquire shared locks but not exclusive locks</li>
+        <li>Enters the growing phase</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> The first unlock marks the transition to the shrinking phase; from then on the transaction may only release locks, never request new ones.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q3.</span> Which concurrency-control method is inherently free of deadlock?</p>
+      <ol class="opts" type="A">
+        <li>Two-phase locking</li>
+        <li>Strict two-phase locking</li>
+        <li>Timestamp ordering protocol</li>
+        <li>Graph-based locking with shared locks</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: C.</strong> Timestamp ordering never makes a transaction wait for a lock — a conflicting late operation is simply aborted and restarted — so no wait-for cycle can form.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q4.</span> In the wait-die deadlock-prevention scheme, when an older transaction requests an item locked by a younger one:</p>
+      <ol class="opts" type="A">
+        <li>The older transaction is aborted</li>
+        <li>The older transaction waits</li>
+        <li>The younger transaction is aborted</li>
+        <li>Both transactions are aborted</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> In wait-die, an older (higher-priority) transaction is allowed to wait for a younger one; only a younger transaction requesting an older one's lock is rolled back ("dies").</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q5.</span> A shared (S) lock held by T1 on item Q is compatible with:</p>
+      <ol class="opts" type="A">
+        <li>An exclusive lock request by T2 on Q</li>
+        <li>A shared lock request by T2 on Q</li>
+        <li>Both shared and exclusive requests by T2</li>
+        <li>No other lock request</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Multiple transactions may hold shared (read) locks simultaneously; an exclusive (write) lock requires that no other lock of any kind is held.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q6.</span> Optimistic concurrency control performs conflict checking during which phase?</p>
+      <ol class="opts" type="A">
+        <li>Read phase</li>
+        <li>Validation phase</li>
+        <li>Write phase</li>
+        <li>Commit-log phase</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B — Validation phase.</strong> The transaction works on private copies during the read phase, then at commit time the validation phase checks whether its read/write set conflicts with recently committed transactions; if so it aborts and restarts.</p></details>
+    </div>
+  </div>
+
+  <div class="topic-nav">
+    <a href="schedules.html"><span class="dir">← Previous topic</span>Types of Schedules</a>
+    <a class="next" href="../quiz.html"><span class="dir">Ready to test yourself? →</span>Take the Practice Quiz</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  NoSQL Databases exam prep · DBMS Core concepts · Built for personal study
+</footer>
+
+</body>
+</html>

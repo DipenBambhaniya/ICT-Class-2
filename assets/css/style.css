@@ -583,3 +583,84 @@ ul.check-list li::before {
   .nav-links { width: 100%; justify-content: flex-start; }
   .question-card { padding: 18px; }
 }
+
+/* ---------- DBMS sub-navigation ---------- */
+
+.subnav {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 10px 20px 0;
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.subnav a {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-dim);
+  padding: 6px 11px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--bg-raised);
+}
+.subnav a:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+.subnav a.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+/* ---------- inline MCQ blocks on topic pages ---------- */
+
+.mcq {
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--accent);
+  border-radius: var(--radius-sm);
+  background: var(--bg-raised);
+  padding: 16px 18px;
+  margin: 14px 0;
+}
+.mcq .q { font-weight: 600; margin: 0 0 10px; }
+.mcq .q .qn {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--accent);
+  font-weight: 700;
+  margin-right: 6px;
+}
+.mcq ol.opts { margin: 0 0 10px; padding-left: 1.5em; }
+.mcq ol.opts li { padding: 3px 0; color: var(--text); }
+.mcq details {
+  border-top: 1px dashed var(--border);
+  padding-top: 10px;
+}
+.mcq details summary {
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--accent);
+  list-style: none;
+}
+.mcq details summary::-webkit-details-marker { display: none; }
+.mcq details summary::before { content: "▸ "; }
+.mcq details[open] summary::before { content: "▾ "; }
+.mcq details p {
+  margin: 10px 0 0;
+  font-size: 0.9rem;
+  color: var(--text-dim);
+}
+.mcq details p strong { color: var(--accent-2); }
+
+/* ---------- definition / term list ---------- */
+
+dl.terms { margin: 14px 0; }
+dl.terms dt { font-weight: 700; margin-top: 12px; color: var(--text); }
+dl.terms dd { margin: 4px 0 0; color: var(--text-dim); font-size: 0.94rem; }
+
+pre.example {
+  display: block;
+  padding: 14px 16px;
+  margin: 12px 0;
+  overflow-x: auto;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  border: 1px solid var(--border);
+  color: var(--text);
+  white-space: pre;
+}

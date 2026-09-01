@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Integrity Constraints — DBMS Core</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="../index.html"><span class="logo-dot">DB</span> NoSQL Exam Prep</a>
+    <nav class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="sql-vs-nosql.html">SQL vs NoSQL</a>
+      <a href="data-representation.html">Data Types</a>
+      <a href="cap-theorem.html">CAP Theorem</a>
+      <a href="properties.html">Properties</a>
+      <a href="../dbms.html" class="active">DBMS Core</a>
+      <a href="../quiz.html">Practice Quiz</a>
+    </nav>
+  </div>
+</header>
+<nav class="subnav">
+  <a href="integrity-constraints.html" class="active">Integrity Constraints</a>
+  <a href="normal-forms.html">Normal Forms</a>
+  <a href="file-organization.html">File Organization</a>
+  <a href="indexes.html">Indexes</a>
+  <a href="b-trees.html">B / B+ Trees</a>
+  <a href="transaction-processing.html">Transactions</a>
+  <a href="schedules.html">Schedules</a>
+  <a href="concurrency-control.html">Concurrency Control</a>
+</nav>
+
+<main>
+
+  <div class="topic-header">
+    <span class="pill">DBMS Core · 1 of 8</span>
+    <h1>Integrity Constraints</h1>
+    <p class="sub">Integrity constraints are rules a relational DBMS enforces automatically so that the data in the database always stays accurate, valid and consistent — no matter what insert, update or delete an application attempts.</p>
+  </div>
+
+  <div class="section">
+    <h2>The main types</h2>
+    <dl class="terms">
+      <dt>Domain constraint</dt>
+      <dd>Every attribute value must be an atomic value drawn from its declared domain (data type, size, format). Enforced by column type plus <code>NOT NULL</code>, <code>CHECK</code>, and <code>DEFAULT</code>.</dd>
+      <dt>Entity integrity constraint</dt>
+      <dd>No attribute of a <strong>primary key</strong> may be <code>NULL</code>, and the primary key value must be unique. This guarantees every tuple (row) is individually identifiable.</dd>
+      <dt>Key constraint</dt>
+      <dd>Every candidate key must hold unique values across all rows — declared with <code>PRIMARY KEY</code> or <code>UNIQUE</code>.</dd>
+      <dt>Referential integrity constraint</dt>
+      <dd>A <strong>foreign key</strong> value in the child table must either match some existing primary key value in the parent table, or be entirely <code>NULL</code>. It stops "dangling" references.</dd>
+      <dt>General / semantic constraints (assertions &amp; triggers)</dt>
+      <dd>Business rules that span rows or tables, e.g. "an account balance can never go below zero" — expressed via <code>CHECK</code>, <code>ASSERTION</code>, or a trigger.</dd>
+    </dl>
+  </div>
+
+  <div class="section">
+    <h2>Diagram — referential integrity</h2>
+    <figure class="diagram-box">
+      <svg viewBox="0 0 720 300" xmlns="http://www.w3.org/2000/svg">
+        <!-- parent table -->
+        <rect x="40" y="50" width="230" height="180" rx="10" fill="var(--accent-dim)" stroke="var(--accent)" stroke-width="2"></rect>
+        <text x="155" y="76" text-anchor="middle" font-size="14" font-weight="800" style="fill:var(--accent)">DEPARTMENT (parent)</text>
+        <line x1="40" y1="88" x2="270" y2="88" stroke="var(--accent)" stroke-width="1.5"></line>
+        <text x="60" y="115" font-size="12.5" font-weight="700" style="fill:var(--text)">Dept_ID  🔑 PK</text>
+        <text x="60" y="145" font-size="12.5" style="fill:var(--text)">Dept_Name</text>
+        <text x="60" y="175" font-size="12.5" style="fill:var(--text)">10  · Sales</text>
+        <text x="60" y="200" font-size="12.5" style="fill:var(--text)">20  · Research</text>
+
+        <!-- child table -->
+        <rect x="450" y="40" width="230" height="215" rx="10" fill="var(--accent-2-dim)" stroke="var(--accent-2)" stroke-width="2"></rect>
+        <text x="565" y="66" text-anchor="middle" font-size="14" font-weight="800" style="fill:var(--accent-2)">EMPLOYEE (child)</text>
+        <line x1="450" y1="78" x2="680" y2="78" stroke="var(--accent-2)" stroke-width="1.5"></line>
+        <text x="470" y="104" font-size="12.5" font-weight="700" style="fill:var(--text)">Emp_ID  🔑 PK</text>
+        <text x="470" y="132" font-size="12.5" font-weight="700" style="fill:var(--text)">Dept_ID  🔗 FK</text>
+        <text x="470" y="160" font-size="12.5" style="fill:var(--text)">101 · 10  ✔</text>
+        <text x="470" y="184" font-size="12.5" style="fill:var(--text)">102 · 20  ✔</text>
+        <text x="470" y="208" font-size="12.5" style="fill:var(--danger)">103 · 99  ✘ rejected</text>
+
+        <!-- arrow -->
+        <line x1="450" y1="126" x2="272" y2="104" stroke="var(--text-dim)" stroke-width="2" marker-end="url(#ah)"></line>
+        <defs>
+          <marker id="ah" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+            <path d="M0,0 L8,3 L0,6 Z" fill="var(--text-dim)"></path>
+          </marker>
+        </defs>
+        <text x="360" y="150" text-anchor="middle" font-size="11" style="fill:var(--text-dim)">FK must exist as a PK</text>
+      </svg>
+      <figcaption>Inserting Employee 103 with <code>Dept_ID = 99</code> violates referential integrity because department 99 does not exist — the DBMS rejects it.</figcaption>
+    </figure>
+  </div>
+
+  <div class="section">
+    <h2>Example — declaring constraints in SQL</h2>
+    <pre class="example"><code>CREATE TABLE Department (
+    Dept_ID    INT        PRIMARY KEY,              -- entity integrity + key
+    Dept_Name  VARCHAR(40) NOT NULL UNIQUE          -- domain + key
+);
+
+CREATE TABLE Employee (
+    Emp_ID   INT         PRIMARY KEY,
+    Name     VARCHAR(50) NOT NULL,                  -- domain constraint
+    Salary   DECIMAL(9,2) CHECK (Salary &gt; 0),      -- semantic constraint
+    Dept_ID  INT,
+    FOREIGN KEY (Dept_ID) REFERENCES Department(Dept_ID)
+        ON DELETE SET NULL                          -- referential action
+        ON UPDATE CASCADE
+);</code></pre>
+    <p>Referential actions decide what happens to child rows when a referenced parent row changes:</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Action</th><th>On delete / update of parent key</th></tr></thead>
+        <tbody>
+          <tr><td><strong>CASCADE</strong></td><td>Automatically delete / update the matching child rows too</td></tr>
+          <tr><td><strong>SET NULL</strong></td><td>Set the foreign key in child rows to <code>NULL</code></td></tr>
+          <tr><td><strong>SET DEFAULT</strong></td><td>Set the foreign key to its declared default value</td></tr>
+          <tr><td><strong>RESTRICT / NO ACTION</strong></td><td>Reject the operation if any child row still references the parent</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="callout warn">
+    <strong>Common exam traps</strong>
+    <p><strong>Entity integrity</strong> = primary key attributes cannot be NULL. <strong>Referential integrity</strong> = foreign key must match an existing primary key (or be NULL). Students often swap these two. Also: a foreign key <em>can</em> be NULL unless it is also declared <code>NOT NULL</code>; and it may reference a <code>UNIQUE</code> column, not only a primary key.</p>
+  </div>
+
+  <div class="section">
+    <h2>Practice MCQs</h2>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q1.</span> The rule "no primary key attribute value may be NULL" is called:</p>
+      <ol class="opts" type="A">
+        <li>Referential integrity</li>
+        <li>Entity integrity</li>
+        <li>Domain integrity</li>
+        <li>Key integrity</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B — Entity integrity.</strong> It ensures every tuple can be uniquely identified; a NULL in any part of the primary key would break that identification, so it is forbidden.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q2.</span> A foreign key value that does not match any primary key value in the referenced relation violates:</p>
+      <ol class="opts" type="A">
+        <li>Entity integrity</li>
+        <li>Domain constraint</li>
+        <li>Referential integrity</li>
+        <li>Tuple ordering</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: C — Referential integrity.</strong> The foreign key must either be NULL or equal to an existing primary key value in the parent table; a "dangling" reference is rejected.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q3.</span> <code>CHECK (Age &gt;= 18)</code> on a column is an example of a:</p>
+      <ol class="opts" type="A">
+        <li>Referential constraint</li>
+        <li>Domain / semantic constraint</li>
+        <li>Entity constraint</li>
+        <li>Candidate key constraint</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> A CHECK restricts the set of allowed values for an attribute, i.e. it narrows the column's domain, so it is a domain (semantic) constraint.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q4.</span> With <code>ON DELETE CASCADE</code> defined on the Employee→Department foreign key, deleting a department will:</p>
+      <ol class="opts" type="A">
+        <li>Be rejected because employees still reference it</li>
+        <li>Set the employees' Dept_ID to NULL</li>
+        <li>Automatically delete all employees in that department</li>
+        <li>Delete the department but leave orphaned employee rows</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: C.</strong> CASCADE propagates the delete to matching child rows, so all employees of that department are removed automatically, keeping referential integrity intact.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q5.</span> Which statement about a foreign key is TRUE?</p>
+      <ol class="opts" type="A">
+        <li>It must always be part of the primary key of its own table</li>
+        <li>It can be NULL unless additionally declared NOT NULL</li>
+        <li>It can never reference a column in the same table</li>
+        <li>It must reference a non-unique column</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> A foreign key may hold NULL (meaning "no relationship") unless a NOT NULL constraint is added. Self-referencing foreign keys (e.g. Employee.Manager_ID → Employee.Emp_ID) are allowed, and the referenced column must be a key (PRIMARY KEY or UNIQUE).</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q6.</span> Constraints that cannot be expressed on a single table and instead express a condition over the whole database are declared using:</p>
+      <ol class="opts" type="A">
+        <li>NOT NULL</li>
+        <li>PRIMARY KEY</li>
+        <li>An assertion (or a trigger)</li>
+        <li>A DEFAULT clause</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: C.</strong> An <code>ASSERTION</code> defines a global predicate the whole database must satisfy; where assertions are unsupported, triggers are used to enforce the same multi-table business rule.</p></details>
+    </div>
+  </div>
+
+  <div class="topic-nav">
+    <a href="../dbms.html"><span class="dir">← Back to</span>DBMS Core index</a>
+    <a class="next" href="normal-forms.html"><span class="dir">Next topic →</span>Normal Forms</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  NoSQL Databases exam prep · DBMS Core concepts · Built for personal study
+</footer>
+
+</body>
+</html>

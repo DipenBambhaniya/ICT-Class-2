@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Indexes — DBMS Core</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="../index.html"><span class="logo-dot">DB</span> NoSQL Exam Prep</a>
+    <nav class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="sql-vs-nosql.html">SQL vs NoSQL</a>
+      <a href="data-representation.html">Data Types</a>
+      <a href="cap-theorem.html">CAP Theorem</a>
+      <a href="properties.html">Properties</a>
+      <a href="../dbms.html" class="active">DBMS Core</a>
+      <a href="../quiz.html">Practice Quiz</a>
+    </nav>
+  </div>
+</header>
+<nav class="subnav">
+  <a href="integrity-constraints.html">Integrity Constraints</a>
+  <a href="normal-forms.html">Normal Forms</a>
+  <a href="file-organization.html">File Organization</a>
+  <a href="indexes.html" class="active">Indexes</a>
+  <a href="b-trees.html">B / B+ Trees</a>
+  <a href="transaction-processing.html">Transactions</a>
+  <a href="schedules.html">Schedules</a>
+  <a href="concurrency-control.html">Concurrency Control</a>
+</nav>
+
+<main>
+
+  <div class="topic-header">
+    <span class="pill">DBMS Core · 4 of 8</span>
+    <h1>Indexes</h1>
+    <p class="sub">An index is a small auxiliary structure storing <em>(search-key value → pointer)</em> entries in sorted order, so the DBMS can locate rows without scanning the whole table. It speeds up reads at the cost of extra storage and slower writes.</p>
+  </div>
+
+  <div class="section">
+    <h2>Classification</h2>
+    <dl class="terms">
+      <dt>Primary index</dt>
+      <dd>Built on the <strong>ordering key field</strong> of a sequentially organized file (one entry per block — sparse). At most one per table.</dd>
+      <dt>Clustering index</dt>
+      <dd>Built on an <strong>ordering non-key field</strong> (values repeat). One entry per distinct value. The data file is physically ordered by this field.</dd>
+      <dt>Secondary index</dt>
+      <dd>Built on a <strong>non-ordering field</strong>. Must be <em>dense</em> (one entry per record, or one per distinct value with buckets). Many allowed per table.</dd>
+      <dt>Dense vs sparse</dt>
+      <dd>Dense: an index entry for every search-key value in the data file. Sparse: an index entry only for some values (e.g. one per block) — smaller, but the data file must be ordered.</dd>
+      <dt>Multi-level index</dt>
+      <dd>An index on the index — repeated until the top level fits in one block. A B+ tree is the dynamic form of a multi-level index.</dd>
+    </dl>
+  </div>
+
+  <div class="section">
+    <h2>Diagram — sparse primary index</h2>
+    <figure class="diagram-box">
+      <svg viewBox="0 0 720 300" xmlns="http://www.w3.org/2000/svg">
+        <text x="120" y="24" text-anchor="middle" font-size="12" font-weight="800" style="fill:var(--accent)">INDEX (sparse)</text>
+        <text x="470" y="24" text-anchor="middle" font-size="12" font-weight="800" style="fill:var(--accent-2)">DATA FILE (sorted)</text>
+
+        <g font-size="12">
+          <rect x="40" y="40" width="150" height="30" rx="5" fill="var(--accent-dim)" stroke="var(--accent)"></rect>
+          <text x="60" y="60" style="fill:var(--text)">10 · ●</text>
+          <rect x="40" y="110" width="150" height="30" rx="5" fill="var(--accent-dim)" stroke="var(--accent)"></rect>
+          <text x="60" y="130" style="fill:var(--text)">40 · ●</text>
+          <rect x="40" y="180" width="150" height="30" rx="5" fill="var(--accent-dim)" stroke="var(--accent)"></rect>
+          <text x="60" y="200" style="fill:var(--text)">70 · ●</text>
+
+          <rect x="360" y="36" width="200" height="40" rx="5" fill="var(--accent-2-dim)" stroke="var(--accent-2)"></rect>
+          <text x="380" y="61" style="fill:var(--text)">10 · 20 · 30</text>
+          <rect x="360" y="106" width="200" height="40" rx="5" fill="var(--accent-2-dim)" stroke="var(--accent-2)"></rect>
+          <text x="380" y="131" style="fill:var(--text)">40 · 50 · 60</text>
+          <rect x="360" y="176" width="200" height="40" rx="5" fill="var(--accent-2-dim)" stroke="var(--accent-2)"></rect>
+          <text x="380" y="201" style="fill:var(--text)">70 · 80 · 90</text>
+        </g>
+        <g stroke="var(--text-dim)" stroke-width="2" marker-end="url(#a2)">
+          <line x1="190" y1="55" x2="358" y2="55"></line>
+          <line x1="190" y1="125" x2="358" y2="125"></line>
+          <line x1="190" y1="195" x2="358" y2="195"></line>
+        </g>
+        <defs><marker id="a2" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="var(--text-dim)"></path></marker></defs>
+        <text x="360" y="256" text-anchor="middle" font-size="11" style="fill:var(--text-dim)">One index entry per data block → index points to the first (anchor) record of each block.</text>
+      </svg>
+      <figcaption>To find key 50: binary-search the small index for the largest anchor ≤ 50 (= 40), follow its pointer, then scan that one data block.</figcaption>
+    </figure>
+  </div>
+
+  <div class="section">
+    <h2>Ordered vs hash · properties</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Aspect</th><th>Ordered index (B+ tree)</th><th>Hash index</th></tr></thead>
+        <tbody>
+          <tr><td>Equality lookup</td><td>O(log n)</td><td>O(1) average</td></tr>
+          <tr><td>Range / prefix / ORDER BY</td><td>Efficient (linked leaves)</td><td>Not supported</td></tr>
+          <tr><td>Structure</td><td>Balanced tree of key ranges</td><td>Hash function → bucket</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <ul class="check-list">
+      <li><strong>Composite index</strong> on (A, B): usable for predicates on A, or A+B, but not B alone (leftmost-prefix rule).</li>
+      <li><strong>Covering index</strong>: contains every column the query needs, so the table itself is never read.</li>
+      <li><strong>Cost</strong>: every <code>INSERT</code>/<code>UPDATE</code>/<code>DELETE</code> must also maintain each affected index, and indexes consume disk space.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>Example — index blocking</h2>
+    <pre class="example"><code>Data:  r = 30000 records, B = 1500 blocks (bfr = 20)
+Index entry = key(9 B) + pointer(6 B) = 15 B,  block = 4096 B
+Index blocking factor  = floor(4096 / 15) = 273 entries/block
+
+Sparse primary index (1 entry per data block):
+   index entries = 1500  ->  index blocks = ceil(1500 / 273) = 6
+   search cost = log2(6) + 1  ≈ 4 block reads   (vs 750 for a heap scan)
+
+Dense secondary index (1 entry per record):
+   index entries = 30000 ->  index blocks = ceil(30000 / 273) = 110</code></pre>
+  </div>
+
+  <div class="callout warn">
+    <strong>Common exam traps</strong>
+    <p>A <strong>primary index</strong> is on the ordering <em>key</em> and is <em>sparse</em>; a <strong>secondary index</strong> is on a non-ordering field and must be <em>dense</em>. A table can have only one primary/clustering index (physical order) but many secondary indexes. An index does <em>not</em> change query results — only speed. Over-indexing hurts write-heavy workloads.</p>
+  </div>
+
+  <div class="section">
+    <h2>Practice MCQs</h2>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q1.</span> An index that has one entry for every distinct search-key value in the data file is called:</p>
+      <ol class="opts" type="A">
+        <li>Sparse index</li>
+        <li>Dense index</li>
+        <li>Primary index</li>
+        <li>Secondary index</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B — Dense index.</strong> A sparse index stores entries for only some values (typically one per block) and therefore requires the data file to be ordered on that field.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q2.</span> A primary index is built on:</p>
+      <ol class="opts" type="A">
+        <li>A non-ordering, non-key field</li>
+        <li>The ordering key field of a sequentially ordered file</li>
+        <li>Any candidate key</li>
+        <li>The most frequently queried column</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> A primary index is defined on the field that both is the primary/ordering key <em>and</em> determines the physical sort order of the file, so it can be sparse (one entry per block).</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q3.</span> Which type of index MUST be dense?</p>
+      <ol class="opts" type="A">
+        <li>Primary index</li>
+        <li>Clustering index</li>
+        <li>Secondary index on a non-ordering field</li>
+        <li>Sparse multi-level index</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: C.</strong> Because the data file is not ordered on a secondary field, the index cannot rely on block anchors — it needs an entry for every record (or every distinct value plus buckets).</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q4.</span> A composite index on (Last_Name, First_Name) can be used efficiently for a query filtering only on:</p>
+      <ol class="opts" type="A">
+        <li>First_Name</li>
+        <li>Last_Name</li>
+        <li>First_Name OR Last_Name equally</li>
+        <li>Neither column</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B — Last_Name.</strong> By the leftmost-prefix rule an ordered composite index supports predicates on a leading prefix of its columns, so Last_Name alone works but First_Name alone does not.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q5.</span> Which is a genuine disadvantage of adding many indexes to a table?</p>
+      <ol class="opts" type="A">
+        <li>SELECT queries return wrong rows</li>
+        <li>INSERT, UPDATE and DELETE become slower and use more storage</li>
+        <li>The table can no longer have a primary key</li>
+        <li>Range queries stop working</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Every write must update all affected indexes, and each index occupies disk space; correctness of results is unaffected.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q6.</span> A "multi-level index" is essentially:</p>
+      <ol class="opts" type="A">
+        <li>An index stored on multiple disks</li>
+        <li>An index built on top of another (lower-level) index</li>
+        <li>An index with multiple search keys</li>
+        <li>A hash index with several buckets</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> When the first-level index is itself too large to search quickly, a second-level (sparse) index is built over it, repeating until the top level fits in one block — the idea B+ trees generalise.</p></details>
+    </div>
+  </div>
+
+  <div class="topic-nav">
+    <a href="file-organization.html"><span class="dir">← Previous topic</span>File Organization</a>
+    <a class="next" href="b-trees.html"><span class="dir">Next topic →</span>B and B+ Trees</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  NoSQL Databases exam prep · DBMS Core concepts · Built for personal study
+</footer>
+
+</body>
+</html>

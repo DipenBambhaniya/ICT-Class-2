@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Types of Schedules — DBMS Core</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="../index.html"><span class="logo-dot">DB</span> NoSQL Exam Prep</a>
+    <nav class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="sql-vs-nosql.html">SQL vs NoSQL</a>
+      <a href="data-representation.html">Data Types</a>
+      <a href="cap-theorem.html">CAP Theorem</a>
+      <a href="properties.html">Properties</a>
+      <a href="../dbms.html" class="active">DBMS Core</a>
+      <a href="../quiz.html">Practice Quiz</a>
+    </nav>
+  </div>
+</header>
+<nav class="subnav">
+  <a href="integrity-constraints.html">Integrity Constraints</a>
+  <a href="normal-forms.html">Normal Forms</a>
+  <a href="file-organization.html">File Organization</a>
+  <a href="indexes.html">Indexes</a>
+  <a href="b-trees.html">B / B+ Trees</a>
+  <a href="transaction-processing.html">Transactions</a>
+  <a href="schedules.html" class="active">Schedules</a>
+  <a href="concurrency-control.html">Concurrency Control</a>
+</nav>
+
+<main>
+
+  <div class="topic-header">
+    <span class="pill">DBMS Core · 7 of 8</span>
+    <h1>Types of Schedules</h1>
+    <p class="sub">A schedule is the chronological order in which the operations of several concurrent transactions are executed. The goal of concurrency control is to allow only schedules that are both <em>serializable</em> (correct) and <em>recoverable</em> (safe after failure).</p>
+  </div>
+
+  <div class="section">
+    <h2>Basic classification</h2>
+    <dl class="terms">
+      <dt>Serial schedule</dt>
+      <dd>Transactions run one after another with no interleaving. Always correct, but no concurrency.</dd>
+      <dt>Non-serial schedule</dt>
+      <dd>Operations of different transactions are interleaved. Higher throughput, but may be incorrect.</dd>
+      <dt>Serializable schedule</dt>
+      <dd>A non-serial schedule whose effect is equivalent to <em>some</em> serial schedule of the same transactions — the correctness criterion.</dd>
+    </dl>
+  </div>
+
+  <div class="section">
+    <h2>Serializability</h2>
+    <dl class="terms">
+      <dt>Conflicting operations</dt>
+      <dd>Two operations conflict if they belong to different transactions, act on the same data item, and at least one is a <code>write</code> (W-W, R-W, W-R).</dd>
+      <dt>Conflict serializable</dt>
+      <dd>Can be transformed into a serial schedule by swapping only non-conflicting adjacent operations. Test: the <strong>precedence (serialization) graph</strong> has <strong>no cycle</strong>.</dd>
+      <dt>View serializable</dt>
+      <dd>Equivalent to a serial schedule in terms of initial reads, final writes, and "reads-from" relationships. Every conflict-serializable schedule is view-serializable; the extra view-serializable ones contain blind writes.</dd>
+    </dl>
+  </div>
+
+  <div class="section">
+    <h2>Recoverability classes</h2>
+    <figure class="diagram-box">
+      <svg viewBox="0 0 720 260" xmlns="http://www.w3.org/2000/svg">
+        <g font-size="12" font-weight="700">
+          <rect x="30"  y="40" width="660" height="180" rx="10" fill="none" stroke="var(--border)" stroke-width="2"></rect>
+          <text x="360" y="30" text-anchor="middle" style="fill:var(--text-dim)">Recoverable schedules</text>
+          <rect x="70"  y="60" width="580" height="140" rx="10" fill="var(--accent-dim)" stroke="var(--accent)" stroke-width="2"></rect>
+          <text x="360" y="80" text-anchor="middle" style="fill:var(--accent)">Cascadeless (avoids cascading abort)</text>
+          <rect x="120" y="98" width="480" height="90" rx="10" fill="var(--accent-2-dim)" stroke="var(--accent-2)" stroke-width="2"></rect>
+          <text x="360" y="118" text-anchor="middle" style="fill:var(--accent-2)">Strict</text>
+          <rect x="250" y="130" width="220" height="45" rx="10" fill="var(--warn-dim)" stroke="var(--warn)" stroke-width="2"></rect>
+          <text x="360" y="157" text-anchor="middle" style="fill:var(--warn)">Serial</text>
+        </g>
+      </svg>
+      <figcaption>Nesting of schedule classes: every serial schedule is strict, every strict schedule is cascadeless, every cascadeless schedule is recoverable. Stricter classes are safer but allow less concurrency.</figcaption>
+    </figure>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Class</th><th>Rule</th><th>Guarantees</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Recoverable</strong></td><td>A transaction commits only after every transaction it read from has committed</td><td>No committed transaction depends on a later-aborted one</td></tr>
+          <tr><td><strong>Cascadeless (ACA)</strong></td><td>A transaction may read a value only after the transaction that wrote it has committed</td><td>Aborting one transaction never forces others to abort</td></tr>
+          <tr><td><strong>Strict</strong></td><td>No transaction may read <em>or write</em> an item until the last transaction to write it has committed/aborted</td><td>Simple undo using before-images; basis of Strict 2PL</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Example — precedence graph test</h2>
+    <pre class="example"><code>Schedule S:  R1(A)  W1(A)  R2(A)  W2(A)  R1(B)  W1(B)  R2(B)  W2(B)
+
+Conflicts:  W1(A)->R2(A) , W1(A)->W2(A)   => edge T1 -> T2
+            W1(B)->R2(B) , W1(B)->W2(B)   => edge T1 -> T2
+Precedence graph:  T1 --> T2      (no cycle)  =>  CONFLICT SERIALIZABLE
+Equivalent serial order:  T1 , T2
+
+Schedule S2: R1(A) R2(A) W1(A) W2(A)
+Edges:  R2(A)->W1(A): T2->T1    R1(A)->W2(A): T1->T2
+Graph has cycle T1<->T2  =>  NOT conflict serializable</code></pre>
+  </div>
+
+  <div class="callout warn">
+    <strong>Common exam traps</strong>
+    <p>Conflict serializable ⟹ view serializable, but not the reverse. A schedule can be serializable yet <em>not</em> recoverable, and recoverable yet <em>not</em> serializable — the two properties are independent. Two reads never conflict. The precedence-graph test proves conflict-serializability; a cycle means "not conflict serializable" (it might still be view serializable).</p>
+  </div>
+
+  <div class="section">
+    <h2>Practice MCQs</h2>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q1.</span> A schedule is conflict serializable if and only if its precedence (serialization) graph:</p>
+      <ol class="opts" type="A">
+        <li>Contains at least one cycle</li>
+        <li>Is acyclic (contains no cycle)</li>
+        <li>Is a complete graph</li>
+        <li>Has exactly one node</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> An acyclic precedence graph can be topologically sorted, and that order is an equivalent serial schedule; a cycle means no consistent serial order exists.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q2.</span> Two operations conflict when they are from different transactions, access the same item, and:</p>
+      <ol class="opts" type="A">
+        <li>Both are reads</li>
+        <li>At least one is a write</li>
+        <li>Both belong to committed transactions</li>
+        <li>They occur in the same block</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Read–read does not conflict; read–write, write–read and write–write do, because their relative order changes the outcome.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q3.</span> A schedule in which a transaction can read a data item only after the transaction that last wrote it has committed is called:</p>
+      <ol class="opts" type="A">
+        <li>Recoverable schedule</li>
+        <li>Cascadeless schedule</li>
+        <li>Serial schedule</li>
+        <li>View serializable schedule</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B — Cascadeless (ACA).</strong> Because no transaction ever reads uncommitted data, aborting one transaction can never cascade into aborting others.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q4.</span> Which is TRUE about view serializability?</p>
+      <ol class="opts" type="A">
+        <li>Every view-serializable schedule is conflict serializable</li>
+        <li>Every conflict-serializable schedule is view serializable</li>
+        <li>View serializability is easy to test in polynomial time</li>
+        <li>View serializable schedules cannot contain blind writes</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Conflict serializability is the stricter condition, so it implies view serializability. The reverse fails for schedules with blind writes, and testing view serializability is NP-hard.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q5.</span> In a schedule, T2 reads a value written by T1, and T2 commits before T1 commits. This schedule is:</p>
+      <ol class="opts" type="A">
+        <li>Strict</li>
+        <li>Cascadeless</li>
+        <li>Non-recoverable</li>
+        <li>Serial</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: C — Non-recoverable.</strong> If T1 later aborts, T2 has already committed based on data that never existed, and a committed transaction cannot be undone.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q6.</span> A serial schedule of n transactions is:</p>
+      <ol class="opts" type="A">
+        <li>Always incorrect</li>
+        <li>Always serializable and recoverable</li>
+        <li>Never strict</li>
+        <li>Only allowed with two transactions</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Running transactions one at a time with no interleaving is correct by definition and is also strict (hence cascadeless and recoverable); it simply offers no concurrency.</p></details>
+    </div>
+  </div>
+
+  <div class="topic-nav">
+    <a href="transaction-processing.html"><span class="dir">← Previous topic</span>Transaction Processing</a>
+    <a class="next" href="concurrency-control.html"><span class="dir">Next topic →</span>Concurrency Control</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  NoSQL Databases exam prep · DBMS Core concepts · Built for personal study
+</footer>
+
+</body>
+</html>

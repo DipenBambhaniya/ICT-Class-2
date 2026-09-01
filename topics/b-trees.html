@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B and B+ Trees — DBMS Core</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="../index.html"><span class="logo-dot">DB</span> NoSQL Exam Prep</a>
+    <nav class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="sql-vs-nosql.html">SQL vs NoSQL</a>
+      <a href="data-representation.html">Data Types</a>
+      <a href="cap-theorem.html">CAP Theorem</a>
+      <a href="properties.html">Properties</a>
+      <a href="../dbms.html" class="active">DBMS Core</a>
+      <a href="../quiz.html">Practice Quiz</a>
+    </nav>
+  </div>
+</header>
+<nav class="subnav">
+  <a href="integrity-constraints.html">Integrity Constraints</a>
+  <a href="normal-forms.html">Normal Forms</a>
+  <a href="file-organization.html">File Organization</a>
+  <a href="indexes.html">Indexes</a>
+  <a href="b-trees.html" class="active">B / B+ Trees</a>
+  <a href="transaction-processing.html">Transactions</a>
+  <a href="schedules.html">Schedules</a>
+  <a href="concurrency-control.html">Concurrency Control</a>
+</nav>
+
+<main>
+
+  <div class="topic-header">
+    <span class="pill">DBMS Core · 5 of 8</span>
+    <h1>B and B+ Trees</h1>
+    <p class="sub">B-trees and B+ trees are balanced, multi-way search trees designed for disk. A high branching factor keeps them only 3–4 levels deep even for millions of keys, so any record is found in a handful of block reads. B+ trees are the default index structure in almost every relational DBMS.</p>
+  </div>
+
+  <div class="section">
+    <h2>Core properties</h2>
+    <dl class="terms">
+      <dt>Order / fan-out (m)</dt>
+      <dd>Maximum number of child pointers in a node. Chosen so one node ≈ one disk block, giving a large m (often 100+).</dd>
+      <dt>Balanced</dt>
+      <dd>Every leaf is at the same depth. Height ≈ log<sub>m</sub>(N), so search/insert/delete are all O(log N) block accesses.</dd>
+      <dt>Node fill rule</dt>
+      <dd>Except the root, every node is at least half full — between ⌈m/2⌉ and m children. This bounds wasted space and keeps height low.</dd>
+      <dt>Split &amp; merge</dt>
+      <dd>Insert into a full node → <em>split</em> and push the middle key up. Delete below half full → <em>borrow</em> from a sibling or <em>merge</em>.</dd>
+    </dl>
+  </div>
+
+  <div class="section">
+    <h2>B-tree vs B+ tree</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Aspect</th><th>B-tree</th><th>B+ tree</th></tr></thead>
+        <tbody>
+          <tr><td>Where data/record pointers live</td><td>In <strong>every</strong> node (internal + leaf)</td><td>In the <strong>leaf</strong> nodes only</td></tr>
+          <tr><td>Internal nodes hold</td><td>Keys + data pointers + child pointers</td><td>Keys + child pointers only (routing)</td></tr>
+          <tr><td>Key duplication</td><td>Each key appears once in the whole tree</td><td>Separator keys are copied up; every key also appears in a leaf</td></tr>
+          <tr><td>Leaf linkage</td><td>Leaves not linked</td><td>Leaves form a linked list → fast range scans &amp; full-index scan</td></tr>
+          <tr><td>Fan-out</td><td>Lower (internal nodes carry data)</td><td>Higher → shorter tree</td></tr>
+          <tr><td>Search cost</td><td>Can stop early at an internal node</td><td>Always traverses to a leaf (predictable)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Diagram — a B+ tree</h2>
+    <figure class="diagram-box">
+      <svg viewBox="0 0 720 300" xmlns="http://www.w3.org/2000/svg">
+        <g font-size="12" font-weight="700">
+          <!-- root -->
+          <rect x="310" y="24" width="100" height="34" rx="5" fill="var(--accent-dim)" stroke="var(--accent)" stroke-width="2"></rect>
+          <text x="360" y="46" text-anchor="middle" style="fill:var(--text)">| 30 |</text>
+
+          <!-- internal -->
+          <rect x="130" y="110" width="110" height="34" rx="5" fill="var(--accent-dim)" stroke="var(--accent)" stroke-width="2"></rect>
+          <text x="185" y="132" text-anchor="middle" style="fill:var(--text)">| 11 | 20 |</text>
+          <rect x="470" y="110" width="130" height="34" rx="5" fill="var(--accent-dim)" stroke="var(--accent)" stroke-width="2"></rect>
+          <text x="535" y="132" text-anchor="middle" style="fill:var(--text)">| 40 | 55 |</text>
+
+          <!-- leaves -->
+          <g font-weight="400">
+            <rect x="40" y="200" width="90" height="30" rx="4" fill="var(--accent-2-dim)" stroke="var(--accent-2)"></rect><text x="85" y="220" text-anchor="middle" style="fill:var(--text)">5 · 9</text>
+            <rect x="140" y="200" width="90" height="30" rx="4" fill="var(--accent-2-dim)" stroke="var(--accent-2)"></rect><text x="185" y="220" text-anchor="middle" style="fill:var(--text)">11 · 15</text>
+            <rect x="240" y="200" width="90" height="30" rx="4" fill="var(--accent-2-dim)" stroke="var(--accent-2)"></rect><text x="285" y="220" text-anchor="middle" style="fill:var(--text)">20 · 27</text>
+            <rect x="410" y="200" width="90" height="30" rx="4" fill="var(--accent-2-dim)" stroke="var(--accent-2)"></rect><text x="455" y="220" text-anchor="middle" style="fill:var(--text)">30 · 37</text>
+            <rect x="510" y="200" width="90" height="30" rx="4" fill="var(--accent-2-dim)" stroke="var(--accent-2)"></rect><text x="555" y="220" text-anchor="middle" style="fill:var(--text)">40 · 52</text>
+            <rect x="610" y="200" width="90" height="30" rx="4" fill="var(--accent-2-dim)" stroke="var(--accent-2)"></rect><text x="655" y="220" text-anchor="middle" style="fill:var(--text)">55 · 61</text>
+          </g>
+        </g>
+        <g stroke="var(--accent)" stroke-width="1.5">
+          <line x1="345" y1="58" x2="185" y2="110"></line>
+          <line x1="375" y1="58" x2="535" y2="110"></line>
+          <line x1="150" y1="144" x2="85" y2="200"></line>
+          <line x1="185" y1="144" x2="185" y2="200"></line>
+          <line x1="220" y1="144" x2="285" y2="200"></line>
+          <line x1="500" y1="144" x2="455" y2="200"></line>
+          <line x1="535" y1="144" x2="555" y2="200"></line>
+          <line x1="570" y1="144" x2="655" y2="200"></line>
+        </g>
+        <line x1="40" y1="245" x2="700" y2="245" stroke="var(--warn)" stroke-width="1.5" stroke-dasharray="4 3"></line>
+        <text x="370" y="264" text-anchor="middle" font-size="10.5" style="fill:var(--text-dim)">leaves are chained left→right for range scans; internal keys are only signposts</text>
+      </svg>
+      <figcaption>Search for 37: root (37 ≥ 30 → right) → internal |40|55| (37 &lt; 40 → left) → leaf 30·37. Range 15–40: land on leaf 11·15, then walk the leaf chain.</figcaption>
+    </figure>
+  </div>
+
+  <div class="section">
+    <h2>Example — insertion with a split (order 3, max 2 keys/leaf)</h2>
+    <pre class="example"><code>Start leaf:      [ 11 , 15 ]           parent: | 20 |
+Insert 13  ->    [ 11 , 13 , 15 ]      overflow (3 &gt; 2)  -> SPLIT
+Split:           [ 11 ]   [ 13 , 15 ]  push copy of 13 up
+Parent becomes:  | 13 | 20 |
+
+Height only grows when the ROOT splits — that is why a B+ tree
+stays balanced and shallow.</code></pre>
+  </div>
+
+  <div class="callout warn">
+    <strong>Common exam traps</strong>
+    <p>In a <strong>B+ tree</strong> the actual data / record pointers are in the leaves <em>only</em>; internal nodes are pure routing. Both trees are always height-balanced — an insertion never makes one path longer than another. A B-tree can find a key at an internal node and stop early; a B+ tree always descends to a leaf. B+ trees beat B-trees for range queries because of the linked leaf list.</p>
+  </div>
+
+  <div class="section">
+    <h2>Practice MCQs</h2>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q1.</span> In a B+ tree, record (data) pointers are stored in:</p>
+      <ol class="opts" type="A">
+        <li>The root node only</li>
+        <li>All internal nodes</li>
+        <li>The leaf nodes only</li>
+        <li>A separate overflow area</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: C.</strong> B+ tree internal nodes hold only separator keys and child pointers; every actual key with its data pointer sits in a leaf, and the leaves are linked for sequential access.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q2.</span> The main reason B+ trees are preferred over B-trees for database indexes handling range queries is:</p>
+      <ol class="opts" type="A">
+        <li>They use less disk space always</li>
+        <li>Their leaf nodes are linked in a sorted list, enabling efficient sequential/range scans</li>
+        <li>They are not height-balanced</li>
+        <li>They store no keys in internal nodes</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> After locating the start of a range at a leaf, the DBMS follows the leaf-level linked list to read all qualifying keys in order without revisiting internal nodes.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q3.</span> In a B-tree of order m, every non-root internal node has at least how many children?</p>
+      <ol class="opts" type="A">
+        <li>1</li>
+        <li>2</li>
+        <li>⌈m/2⌉</li>
+        <li>m</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: C — ⌈m/2⌉.</strong> The half-full rule guarantees at least ⌈m/2⌉ children (⌈m/2⌉−1 keys) in every node except the root, which keeps the tree height ≈ log<sub>m</sub>N.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q4.</span> When a key is inserted into a B+ tree leaf that is already full, the DBMS:</p>
+      <ol class="opts" type="A">
+        <li>Rejects the insertion</li>
+        <li>Splits the node and propagates a separator key to the parent</li>
+        <li>Converts the leaf into an internal node</li>
+        <li>Stores the key in the root</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> The overfull node splits into two half-full nodes and a copy of the middle key is inserted into the parent; splits cascade upward only if the parent is also full.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q5.</span> The height of a B+ tree holding N keys with node fan-out f is approximately:</p>
+      <ol class="opts" type="A">
+        <li>N / f</li>
+        <li>√N</li>
+        <li>log<sub>f</sub> N</li>
+        <li>f · log N</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: C — log<sub>f</sub> N.</strong> Each level multiplies capacity by the fan-out, so a large f (many keys per block) keeps a multi-million-row index just 3–4 levels — hence 3–4 block reads per lookup.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q6.</span> Which statement about B-trees is FALSE?</p>
+      <ol class="opts" type="A">
+        <li>All leaf nodes are at the same level</li>
+        <li>A search key may appear in an internal node</li>
+        <li>The tree can become unbalanced after many insertions</li>
+        <li>It is designed to minimise disk block accesses</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: C.</strong> B-trees stay perfectly height-balanced by construction — splits and merges keep every leaf at the same depth no matter the insertion order.</p></details>
+    </div>
+  </div>
+
+  <div class="topic-nav">
+    <a href="indexes.html"><span class="dir">← Previous topic</span>Indexes</a>
+    <a class="next" href="transaction-processing.html"><span class="dir">Next topic →</span>Transaction Processing</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  NoSQL Databases exam prep · DBMS Core concepts · Built for personal study
+</footer>
+
+</body>
+</html>

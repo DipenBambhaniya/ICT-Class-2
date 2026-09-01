@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DBMS Core Concepts — Exam Prep</title>
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="index.html"><span class="logo-dot">DB</span> NoSQL Exam Prep</a>
+    <nav class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="topics/sql-vs-nosql.html">SQL vs NoSQL</a>
+      <a href="topics/data-representation.html">Data Types</a>
+      <a href="topics/cap-theorem.html">CAP Theorem</a>
+      <a href="topics/properties.html">Properties</a>
+      <a href="dbms.html" class="active">DBMS Core</a>
+      <a href="quiz.html">Practice Quiz</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <div class="hero">
+    <span class="pill">ICT / GPSC Exam Prep</span>
+    <h1>DBMS Core Concepts</h1>
+    <p class="lead">Eight classical relational-DBMS topics — the storage, indexing and transaction internals that recur in GPSC ICT / IT-officer papers. Each page has a brief explanation, a diagram, a worked example, and MCQs with explained answers.</p>
+    <a class="btn" href="topics/integrity-constraints.html">Start Reading →</a>
+    <a class="btn secondary" href="quiz.html">Practice Quiz →</a>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat"><div class="n">8</div><div class="l">Topics</div></div>
+    <div class="stat"><div class="n">48</div><div class="l">Inline MCQs</div></div>
+    <div class="stat"><div class="n">8</div><div class="l">Diagrams</div></div>
+    <div class="stat"><div class="n">8</div><div class="l">Worked Examples</div></div>
+  </div>
+
+  <div class="section">
+    <h2>Topics</h2>
+    <div class="topic-grid">
+
+      <a class="card" href="topics/integrity-constraints.html">
+        <span class="num">01</span>
+        <h3>Integrity Constraints</h3>
+        <p>Domain, entity, key and referential integrity; foreign-key referential actions (CASCADE / SET NULL / RESTRICT).</p>
+      </a>
+
+      <a class="card" href="topics/normal-forms.html">
+        <span class="num">02</span>
+        <h3>Normal Forms</h3>
+        <p>Functional dependencies, 1NF–BCNF–4NF–5NF, partial vs transitive dependency, decomposition and anomalies.</p>
+      </a>
+
+      <a class="card" href="topics/file-organization.html">
+        <span class="num">03</span>
+        <h3>File Organization</h3>
+        <p>Heap, sequential, hash and clustered files; blocking factor; cost of insert / search / range scan.</p>
+      </a>
+
+      <a class="card" href="topics/indexes.html">
+        <span class="num">04</span>
+        <h3>Indexes</h3>
+        <p>Primary, clustering and secondary indexes; dense vs sparse; multi-level; composite and covering indexes.</p>
+      </a>
+
+      <a class="card" href="topics/b-trees.html">
+        <span class="num">05</span>
+        <h3>B and B+ Trees</h3>
+        <p>Balanced multi-way search trees; order / fan-out; splits and merges; why B+ trees win for range queries.</p>
+      </a>
+
+      <a class="card" href="topics/transaction-processing.html">
+        <span class="num">06</span>
+        <h3>Transaction Processing</h3>
+        <p>ACID properties, transaction states, and the anomalies (lost update, dirty read, phantom) isolation prevents.</p>
+      </a>
+
+      <a class="card" href="topics/schedules.html">
+        <span class="num">07</span>
+        <h3>Types of Schedules</h3>
+        <p>Serial vs non-serial; conflict and view serializability; precedence graph; recoverable, cascadeless, strict.</p>
+      </a>
+
+      <a class="card" href="topics/concurrency-control.html">
+        <span class="num">08</span>
+        <h3>Concurrency Control</h3>
+        <p>Locking and 2PL, timestamp ordering, MVCC, optimistic validation, and deadlock prevention / detection.</p>
+      </a>
+
+    </div>
+  </div>
+
+  <div class="callout tip">
+    <strong>How the topics connect</strong>
+    <p>File organization and indexes decide <em>where data sits on disk</em>; B+ trees are the structure that makes indexes scale. Transactions, schedules and concurrency control are one chain: a transaction is the unit of work, a schedule is how several are interleaved, and concurrency control is the mechanism that keeps every schedule serializable and recoverable.</p>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  NoSQL Databases exam prep · DBMS Core concepts · Built for personal study
+</footer>
+
+</body>
+</html>

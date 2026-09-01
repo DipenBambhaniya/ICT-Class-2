@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Normal Forms — DBMS Core</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="../index.html"><span class="logo-dot">DB</span> NoSQL Exam Prep</a>
+    <nav class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="sql-vs-nosql.html">SQL vs NoSQL</a>
+      <a href="data-representation.html">Data Types</a>
+      <a href="cap-theorem.html">CAP Theorem</a>
+      <a href="properties.html">Properties</a>
+      <a href="../dbms.html" class="active">DBMS Core</a>
+      <a href="../quiz.html">Practice Quiz</a>
+    </nav>
+  </div>
+</header>
+<nav class="subnav">
+  <a href="integrity-constraints.html">Integrity Constraints</a>
+  <a href="normal-forms.html" class="active">Normal Forms</a>
+  <a href="file-organization.html">File Organization</a>
+  <a href="indexes.html">Indexes</a>
+  <a href="b-trees.html">B / B+ Trees</a>
+  <a href="transaction-processing.html">Transactions</a>
+  <a href="schedules.html">Schedules</a>
+  <a href="concurrency-control.html">Concurrency Control</a>
+</nav>
+
+<main>
+
+  <div class="topic-header">
+    <span class="pill">DBMS Core · 2 of 8</span>
+    <h1>Normal Forms</h1>
+    <p class="sub">Normalization is the process of decomposing relations to remove redundancy and update, insert and delete anomalies. Each normal form is a stricter test based on the functional dependencies that hold on the relation.</p>
+  </div>
+
+  <div class="section">
+    <h2>Building blocks</h2>
+    <dl class="terms">
+      <dt>Functional dependency (FD) X → Y</dt>
+      <dd>The value of attribute set X uniquely determines the value of attribute set Y. E.g. <code>Roll_No → Name</code>.</dd>
+      <dt>Prime vs non-prime attribute</dt>
+      <dd>A <em>prime</em> attribute belongs to some candidate key; a <em>non-prime</em> attribute belongs to none.</dd>
+      <dt>Partial dependency</dt>
+      <dd>A non-prime attribute depends on <em>part</em> of a composite candidate key (attacked by 2NF).</dd>
+      <dt>Transitive dependency</dt>
+      <dd>A non-prime attribute depends on another non-prime attribute (attacked by 3NF).</dd>
+    </dl>
+  </div>
+
+  <div class="section">
+    <h2>Diagram — the normalization ladder</h2>
+    <figure class="diagram-box">
+      <svg viewBox="0 0 720 320" xmlns="http://www.w3.org/2000/svg">
+        <g font-size="12">
+          <rect x="30"  y="240" width="150" height="56" rx="8" fill="var(--accent-dim)" stroke="var(--accent)" stroke-width="2"></rect>
+          <text x="105" y="264" text-anchor="middle" font-weight="800" style="fill:var(--accent)">1NF</text>
+          <text x="105" y="283" text-anchor="middle" style="fill:var(--text-dim)">atomic values</text>
+
+          <rect x="150" y="184" width="150" height="56" rx="8" fill="var(--accent-dim)" stroke="var(--accent)" stroke-width="2"></rect>
+          <text x="225" y="208" text-anchor="middle" font-weight="800" style="fill:var(--accent)">2NF</text>
+          <text x="225" y="227" text-anchor="middle" style="fill:var(--text-dim)">no partial dep.</text>
+
+          <rect x="270" y="128" width="150" height="56" rx="8" fill="var(--accent-2-dim)" stroke="var(--accent-2)" stroke-width="2"></rect>
+          <text x="345" y="152" text-anchor="middle" font-weight="800" style="fill:var(--accent-2)">3NF</text>
+          <text x="345" y="171" text-anchor="middle" style="fill:var(--text-dim)">no transitive dep.</text>
+
+          <rect x="390" y="72" width="150" height="56" rx="8" fill="var(--accent-2-dim)" stroke="var(--accent-2)" stroke-width="2"></rect>
+          <text x="465" y="96" text-anchor="middle" font-weight="800" style="fill:var(--accent-2)">BCNF</text>
+          <text x="465" y="115" text-anchor="middle" style="fill:var(--text-dim)">every det. is a key</text>
+
+          <rect x="510" y="16" width="180" height="56" rx="8" fill="var(--warn-dim)" stroke="var(--warn)" stroke-width="2"></rect>
+          <text x="600" y="40" text-anchor="middle" font-weight="800" style="fill:var(--warn)">4NF · 5NF</text>
+          <text x="600" y="59" text-anchor="middle" style="fill:var(--text-dim)">multivalued / join dep.</text>
+        </g>
+        <text x="360" y="313" text-anchor="middle" font-size="11" style="fill:var(--text-dim)">Each level assumes all lower levels are already satisfied — less redundancy, more tables.</text>
+      </svg>
+      <figcaption>Higher normal forms are progressively stricter: 1NF ⊃ 2NF ⊃ 3NF ⊃ BCNF ⊃ 4NF ⊃ 5NF.</figcaption>
+    </figure>
+  </div>
+
+  <div class="section">
+    <h2>The forms at a glance</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Form</th><th>Requirement (given all lower forms hold)</th><th>Removes</th></tr></thead>
+        <tbody>
+          <tr><td><strong>1NF</strong></td><td>All attributes hold atomic (indivisible) values; no repeating groups or multivalued cells</td><td>Non-atomic data</td></tr>
+          <tr><td><strong>2NF</strong></td><td>No non-prime attribute is partially dependent on any candidate key (full functional dependency)</td><td>Partial dependency</td></tr>
+          <tr><td><strong>3NF</strong></td><td>No non-prime attribute is transitively dependent on a candidate key. For every FD X→A, X is a superkey OR A is prime</td><td>Transitive dependency</td></tr>
+          <tr><td><strong>BCNF</strong></td><td>For every non-trivial FD X→Y, X must be a superkey (stricter than 3NF)</td><td>Anomalies from overlapping candidate keys</td></tr>
+          <tr><td><strong>4NF</strong></td><td>No non-trivial multivalued dependency unless the determinant is a superkey</td><td>Multivalued dependency</td></tr>
+          <tr><td><strong>5NF (PJ/NF)</strong></td><td>Every join dependency is implied by the candidate keys</td><td>Join dependency</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Example — 1NF to 3NF</h2>
+    <pre class="example"><code>Unnormalized:
+STUDENT(Roll, Name, Courses[])          -- "Courses" holds {DBMS, OS}
+
+1NF  (make values atomic):
+STUDENT_COURSE(Roll, Name, Course)      -- one row per (Roll, Course)
+    Candidate key = {Roll, Course}
+
+2NF  (remove partial dependency Roll -> Name):
+STUDENT(Roll, Name)
+ENROLL(Roll, Course)
+
+Now add: STUDENT(Roll, Name, Dept, HOD)  with  Dept -> HOD
+3NF  (remove transitive dependency Roll -> Dept -> HOD):
+STUDENT(Roll, Name, Dept)
+DEPARTMENT(Dept, HOD)</code></pre>
+  </div>
+
+  <div class="callout warn">
+    <strong>Common exam traps</strong>
+    <p>2NF only matters when the key is <strong>composite</strong> — a single-attribute key can have no partial dependency, so it is automatically 2NF. Every BCNF relation is in 3NF, but not vice-versa. 3NF decomposition is always <em>lossless and dependency-preserving</em>; BCNF decomposition is lossless but may <em>not</em> preserve all dependencies.</p>
+  </div>
+
+  <div class="section">
+    <h2>Practice MCQs</h2>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q1.</span> A relation is in 2NF if it is in 1NF and:</p>
+      <ol class="opts" type="A">
+        <li>Every determinant is a candidate key</li>
+        <li>No non-prime attribute has a partial dependency on a candidate key</li>
+        <li>There are no transitive dependencies</li>
+        <li>It has no multivalued dependencies</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> 2NF eliminates partial dependencies — a non-prime attribute must depend on the <em>whole</em> candidate key, not just part of a composite key. Option A describes BCNF; option C describes 3NF.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q2.</span> In R(A, B, C) with candidate key A and FDs A→B and B→C, R is in:</p>
+      <ol class="opts" type="A">
+        <li>1NF only (transitive dependency A→B→C)</li>
+        <li>2NF but not 3NF</li>
+        <li>3NF and BCNF</li>
+        <li>Not even 1NF</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Key A is single-attribute so there is no partial dependency → 2NF holds. But C is a non-prime attribute transitively dependent on A through B (A→B→C), which violates 3NF.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q3.</span> Which normal form deals with removing repeating groups / non-atomic attribute values?</p>
+      <ol class="opts" type="A">
+        <li>1NF</li>
+        <li>2NF</li>
+        <li>3NF</li>
+        <li>BCNF</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: A — 1NF.</strong> First normal form requires that every attribute contains only atomic (single, indivisible) values, with no arrays, sets or repeating groups.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q4.</span> A relation is in BCNF if, for every non-trivial functional dependency X → Y:</p>
+      <ol class="opts" type="A">
+        <li>Y is a prime attribute</li>
+        <li>X is a superkey</li>
+        <li>X is a single attribute</li>
+        <li>Y is fully dependent on X</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> BCNF requires the left side (determinant) of every non-trivial FD to be a superkey. This is stricter than 3NF, which also allows the case where Y is a prime attribute.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q5.</span> Which anomaly is NOT typically caused by redundancy in an un-normalized relation?</p>
+      <ol class="opts" type="A">
+        <li>Insertion anomaly</li>
+        <li>Deletion anomaly</li>
+        <li>Update anomaly</li>
+        <li>Deadlock</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: D — Deadlock.</strong> Deadlock is a concurrency-control problem. Insertion, deletion and update anomalies are exactly the redundancy problems that normalization removes.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q6.</span> 4NF is concerned with eliminating:</p>
+      <ol class="opts" type="A">
+        <li>Transitive dependencies</li>
+        <li>Partial dependencies</li>
+        <li>Non-trivial multivalued dependencies</li>
+        <li>Join dependencies</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: C.</strong> 4NF removes non-trivial multivalued dependencies (where a determinant is not a superkey). Join dependencies are the concern of 5NF.</p></details>
+    </div>
+  </div>
+
+  <div class="topic-nav">
+    <a href="integrity-constraints.html"><span class="dir">← Previous topic</span>Integrity Constraints</a>
+    <a class="next" href="file-organization.html"><span class="dir">Next topic →</span>File Organization</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  NoSQL Databases exam prep · DBMS Core concepts · Built for personal study
+</footer>
+
+</body>
+</html>

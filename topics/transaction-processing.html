@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Transaction Processing — DBMS Core</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="../index.html"><span class="logo-dot">DB</span> NoSQL Exam Prep</a>
+    <nav class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="sql-vs-nosql.html">SQL vs NoSQL</a>
+      <a href="data-representation.html">Data Types</a>
+      <a href="cap-theorem.html">CAP Theorem</a>
+      <a href="properties.html">Properties</a>
+      <a href="../dbms.html" class="active">DBMS Core</a>
+      <a href="../quiz.html">Practice Quiz</a>
+    </nav>
+  </div>
+</header>
+<nav class="subnav">
+  <a href="integrity-constraints.html">Integrity Constraints</a>
+  <a href="normal-forms.html">Normal Forms</a>
+  <a href="file-organization.html">File Organization</a>
+  <a href="indexes.html">Indexes</a>
+  <a href="b-trees.html">B / B+ Trees</a>
+  <a href="transaction-processing.html" class="active">Transactions</a>
+  <a href="schedules.html">Schedules</a>
+  <a href="concurrency-control.html">Concurrency Control</a>
+</nav>
+
+<main>
+
+  <div class="topic-header">
+    <span class="pill">DBMS Core · 6 of 8</span>
+    <h1>Transaction Processing</h1>
+    <p class="sub">A transaction is a single logical unit of work — a sequence of read and write operations that must execute as an all-or-nothing whole, taking the database from one consistent state to another.</p>
+  </div>
+
+  <div class="section">
+    <h2>ACID properties</h2>
+    <div class="feature-grid">
+      <div class="f"><span class="icon">⚛️</span><h4>Atomicity</h4><p>All operations complete, or none do. A partial transaction is rolled back. Ensured by the recovery manager.</p></div>
+      <div class="f"><span class="icon">✅</span><h4>Consistency</h4><p>A transaction moves the DB from one valid state to another, preserving all integrity constraints.</p></div>
+      <div class="f"><span class="icon">🔒</span><h4>Isolation</h4><p>Concurrent transactions do not see each other's uncommitted intermediate state; the result equals some serial order. Ensured by the concurrency-control manager.</p></div>
+      <div class="f"><span class="icon">💾</span><h4>Durability</h4><p>Once committed, changes survive crashes — persisted via the write-ahead log.</p></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Diagram — transaction state transitions</h2>
+    <figure class="diagram-box">
+      <svg viewBox="0 0 720 300" xmlns="http://www.w3.org/2000/svg">
+        <g font-size="12" font-weight="700">
+          <rect x="40" y="120" width="110" height="44" rx="8" fill="var(--accent-dim)" stroke="var(--accent)" stroke-width="2"></rect>
+          <text x="95" y="147" text-anchor="middle" style="fill:var(--accent)">Active</text>
+
+          <rect x="230" y="40" width="150" height="44" rx="8" fill="var(--accent-dim)" stroke="var(--accent)" stroke-width="2"></rect>
+          <text x="305" y="67" text-anchor="middle" style="fill:var(--accent)">Partially Committed</text>
+
+          <rect x="470" y="40" width="120" height="44" rx="8" fill="var(--accent-2-dim)" stroke="var(--accent-2)" stroke-width="2"></rect>
+          <text x="530" y="67" text-anchor="middle" style="fill:var(--accent-2)">Committed</text>
+
+          <rect x="230" y="200" width="110" height="44" rx="8" fill="var(--danger-dim)" stroke="var(--danger)" stroke-width="2"></rect>
+          <text x="285" y="227" text-anchor="middle" style="fill:var(--danger)">Failed</text>
+
+          <rect x="470" y="200" width="120" height="44" rx="8" fill="var(--danger-dim)" stroke="var(--danger)" stroke-width="2"></rect>
+          <text x="530" y="227" text-anchor="middle" style="fill:var(--danger)">Aborted</text>
+        </g>
+        <g stroke="var(--text-dim)" stroke-width="2" fill="none" marker-end="url(#ar)">
+          <path d="M150 132 L230 75"></path>
+          <path d="M380 62 L470 62"></path>
+          <path d="M150 152 L230 210"></path>
+          <path d="M305 84 L295 200"></path>
+          <path d="M340 222 L470 222"></path>
+        </g>
+        <defs><marker id="ar" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="var(--text-dim)"></path></marker></defs>
+        <g font-size="10" style="fill:var(--text-dim)">
+          <text x="175" y="95">last op done</text>
+          <text x="405" y="52">commit</text>
+          <text x="150" y="195">error / abort</text>
+          <text x="345" y="150">write fails</text>
+          <text x="380" y="240">rollback done</text>
+        </g>
+      </svg>
+      <figcaption>A transaction reaches <strong>committed</strong> only through <em>partially committed</em>; any failure routes it through <em>failed</em> → <em>aborted</em>, where the recovery manager undoes its changes (rollback).</figcaption>
+    </figure>
+  </div>
+
+  <div class="section">
+    <h2>Example — a fund transfer</h2>
+    <pre class="example"><code>T:  transfer 500 from A to B
+    BEGIN
+    read(A)                A = 2000
+    A := A - 500
+    write(A)               -- crash here => atomicity must UNDO write(A)
+    read(B)                B = 800
+    B := B + 500
+    write(B)
+    COMMIT                 -- durability: once logged, survives a crash
+
+Consistency rule preserved:  A + B is unchanged (2800 before and after).</code></pre>
+  </div>
+
+  <div class="section">
+    <h2>Problems that appear without isolation</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Problem</th><th>What happens</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Lost update</strong></td><td>Two transactions read the same item and both write back; the first write is overwritten and lost</td></tr>
+          <tr><td><strong>Dirty read</strong> (uncommitted dependency)</td><td>T2 reads a value T1 wrote, then T1 aborts — T2 has used data that never officially existed</td></tr>
+          <tr><td><strong>Unrepeatable read</strong></td><td>T1 reads an item twice and gets different values because T2 updated it in between</td></tr>
+          <tr><td><strong>Phantom read</strong></td><td>T1 re-runs a range query and new rows inserted by T2 appear</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="callout warn">
+    <strong>Common exam traps</strong>
+    <p><strong>Atomicity</strong> and <strong>Durability</strong> are the recovery manager's job (log-based); <strong>Isolation</strong> is the concurrency-control manager's job (locks / timestamps). "Consistency" in ACID means integrity constraints hold — <em>not</em> the CAP meaning of replicas agreeing. A committed transaction can never be rolled back.</p>
+  </div>
+
+  <div class="section">
+    <h2>Practice MCQs</h2>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q1.</span> The property guaranteeing that a transaction executes completely or not at all is:</p>
+      <ol class="opts" type="A">
+        <li>Consistency</li>
+        <li>Atomicity</li>
+        <li>Isolation</li>
+        <li>Durability</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B — Atomicity.</strong> If a transaction fails midway, the recovery manager undoes every change it made so the database shows an all-or-nothing effect.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q2.</span> A transaction that has executed its final operation but whose changes are not yet permanently written is in which state?</p>
+      <ol class="opts" type="A">
+        <li>Active</li>
+        <li>Partially committed</li>
+        <li>Committed</li>
+        <li>Aborted</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B — Partially committed.</strong> It has finished computing but the system must still flush the log/buffers; only after that does it move to the committed state.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q3.</span> Transaction T2 reads a data item written by T1; T1 then aborts. This anomaly is a:</p>
+      <ol class="opts" type="A">
+        <li>Lost update</li>
+        <li>Dirty read</li>
+        <li>Phantom read</li>
+        <li>Unrepeatable read</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B — Dirty read.</strong> T2 depended on an uncommitted value that was subsequently rolled back, so T2's computation is based on data that never committed.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q4.</span> Durability in a DBMS is typically implemented using:</p>
+      <ol class="opts" type="A">
+        <li>Two-phase locking</li>
+        <li>A write-ahead / transaction log persisted to non-volatile storage</li>
+        <li>Timestamp ordering</li>
+        <li>Normalization</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Log records for a committed transaction are forced to disk before commit returns, so the changes can be redone after a crash even if the data pages were still in memory.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q5.</span> Which ACID property is enforced by the concurrency-control component?</p>
+      <ol class="opts" type="A">
+        <li>Atomicity</li>
+        <li>Durability</li>
+        <li>Isolation</li>
+        <li>Consistency</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: C — Isolation.</strong> Locking, timestamp ordering or MVCC make concurrent transactions behave as if they ran one after another. Atomicity and durability are handled by recovery.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q6.</span> Two transactions each read balance = 1000, each add 100, each write 1100. Final balance is 1100 instead of 1200. This is the:</p>
+      <ol class="opts" type="A">
+        <li>Phantom problem</li>
+        <li>Lost update problem</li>
+        <li>Deadlock problem</li>
+        <li>Cascading rollback problem</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B — Lost update.</strong> The second write overwrites the first transaction's update, so one increment silently disappears. Locking or serialisable isolation prevents it.</p></details>
+    </div>
+  </div>
+
+  <div class="topic-nav">
+    <a href="b-trees.html"><span class="dir">← Previous topic</span>B and B+ Trees</a>
+    <a class="next" href="schedules.html"><span class="dir">Next topic →</span>Types of Schedules</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  NoSQL Databases exam prep · DBMS Core concepts · Built for personal study
+</footer>
+
+</body>
+</html>
