@@ -4,6 +4,14 @@ A static study site covering the 4 core NoSQL Database concepts and 8 classical
 relational-DBMS topics, plus a 148-question interactive practice quiz calibrated to
 recent GPSC ICT/IT exam papers.
 
+## Live site
+
+**https://dipenbambhaniya.github.io/ICT-Class-2/**
+
+- NoSQL topics start at <https://dipenbambhaniya.github.io/ICT-Class-2/topics/sql-vs-nosql.html>
+- DBMS Core hub: <https://dipenbambhaniya.github.io/ICT-Class-2/dbms.html>
+- Practice quiz: <https://dipenbambhaniya.github.io/ICT-Class-2/quiz.html>
+
 ## Contents
 
 - `index.html` — home page, topic overview
