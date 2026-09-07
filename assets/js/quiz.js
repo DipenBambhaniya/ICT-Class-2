@@ -26,12 +26,26 @@
     return a;
   }
 
+  // The question bank stores the correct answer at a fixed index (almost
+  // always the longest/most detailed option), so rendering options in
+  // stored order lets test-takers guess correctly without knowing the
+  // material. Shuffle each question's options per attempt to remove that
+  // shortcut, without mutating the shared QUESTIONS data.
+  function shuffleQuestionOptions(q) {
+    const order = shuffle([0, 1, 2, 3]);
+    return {
+      ...q,
+      options: order.map((i) => q.options[i]),
+      answer: order.indexOf(q.answer),
+    };
+  }
+
   function buildPool(topic, size) {
     let source = QUESTIONS;
     if (topic !== "all") source = QUESTIONS.filter((q) => q.topic === topic);
     const shuffled = shuffle(source);
     const n = size === "all" ? shuffled.length : Math.min(Number(size), shuffled.length);
-    return shuffled.slice(0, n);
+    return shuffled.slice(0, n).map(shuffleQuestionOptions);
   }
 
   function startQuiz(topic, size) {
