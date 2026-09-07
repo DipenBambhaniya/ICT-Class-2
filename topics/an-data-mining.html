@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Data Mining Techniques — Analytics</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="../index.html"><span class="logo-dot">DB</span> NoSQL Exam Prep</a>
+    <nav class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../analytics.html" class="active">Analytics</a>
+      <a href="../quiz.html">Practice Quiz</a>
+    </nav>
+  </div>
+</header>
+<nav class="subnav">
+  <a href="an-desc-pred.html">Descriptive &amp; Predictive</a>
+  <a href="an-olap.html">OLAP</a>
+  <a href="an-oltp-olap.html">OLTP vs OLAP</a>
+  <a href="an-data-cubes.html">Data Cubes</a>
+  <a href="an-warehousing.html">Data Warehousing</a>
+  <a href="an-schemas.html">Schema Models</a>
+  <a href="an-data-mining.html" class="active">Data Mining</a>
+  <a href="an-in-db.html">In-Database Analytics</a>
+  <a href="an-adv-sql.html">Advanced SQL</a>
+</nav>
+
+<main>
+
+  <div class="topic-header">
+    <span class="pill">Unit 7 · 7 of 9</span>
+    <h1>Data Mining Techniques</h1>
+    <p class="sub">Data mining discovers patterns, relationships, and knowledge from large datasets using statistical/ML techniques — the concrete tools that power predictive and prescriptive analytics.</p>
+  </div>
+
+  <div class="section">
+    <h2>Key points</h2>
+    <dl class="terms">
+      <dt>Classification (supervised)</dt>
+      <dd>Assigns records to predefined categories using labeled training data (e.g. loan default: yes/no). Decision trees are a common, interpretable technique.</dd>
+      <dt>Clustering (unsupervised)</dt>
+      <dd>Groups similar records with NO predefined labels (e.g. customer segmentation). K-means is the classic algorithm; the analyst chooses k.</dd>
+      <dt>Association rule mining</dt>
+      <dd>Discovers frequent co-occurrences ("market basket analysis"). Key metrics: support (frequency), confidence (conditional probability), lift (strength beyond chance).</dd>
+      <dt>Regression (supervised)</dt>
+      <dd>Predicts a CONTINUOUS numeric value (vs. classification's discrete category).</dd>
+      <dt>Evaluation</dt>
+      <dd>Confusion matrix, precision (of predicted positives, % actually positive), recall (of actual positives, % caught), and the precision/recall trade-off. Guard against overfitting via train/test splits.</dd>
+    </dl>
+  </div>
+
+  <div class="section">
+    <h2>Diagram</h2>
+    <figure class="diagram-box">
+      <svg viewBox="0 0 720 180" xmlns="http://www.w3.org/2000/svg">
+        <g>
+          <rect x="30" y="30" width="200" height="50" rx="6" fill="var(--accent-dim)" stroke="var(--accent)"></rect><text x="130" y="60" text-anchor="middle" font-size="11" font-weight="700" style="fill:var(--text)">Classification / Regression</text>
+          <text x="130" y="100" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">Supervised: needs labeled outcomes</text>
+          <rect x="260" y="30" width="200" height="50" rx="6" fill="var(--warn-dim)" stroke="var(--warn)"></rect><text x="360" y="60" text-anchor="middle" font-size="11" font-weight="700" style="fill:var(--text)">Clustering</text>
+          <text x="360" y="100" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">Unsupervised: no predefined labels</text>
+          <rect x="490" y="30" width="200" height="50" rx="6" fill="var(--accent-2-dim)" stroke="var(--accent-2)"></rect><text x="590" y="60" text-anchor="middle" font-size="11" font-weight="700" style="fill:var(--text)">Association Rules</text>
+          <text x="590" y="100" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">Co-occurrence patterns</text>
+        </g>
+      </svg>
+      <figcaption>Three major data mining technique families, split by whether they need labeled training data.</figcaption>
+    </figure>
+  </div>
+
+  <div class="section">
+    <h2>Example</h2>
+    <pre class="example"><code>Association rule metrics, "bread -> butter":
+
+Transactions total: 1000
+Contain bread: 200        Contain both bread & butter: 120
+Contain butter: 300
+
+Support(bread,butter)  = 120/1000        = 0.12  (12% of all transactions)
+Confidence(bread->butter) = 120/200      = 0.60  (60% of bread buyers also buy butter)
+Lift = Confidence / P(butter) = 0.60 / (300/1000) = 0.60/0.30 = 2.0
+  -> Lift > 1: buying bread makes buying butter TWICE as likely
+     compared to baseline -- a genuinely useful association.</code></pre>
+  </div>
+
+  <div class="callout warn">
+    <strong>Common exam traps</strong>
+    <p>Classification predicts a CATEGORY (discrete); regression predicts a NUMBER (continuous) — don't mix them up. Clustering needs NO labels; classification/regression DO. Lift > 1 means positive association; lift = 1 means no real relationship (independence). High accuracy can be misleading on imbalanced data — precision/recall matter more there.</p>
+  </div>
+
+  <div class="section">
+    <h2>Practice MCQs</h2>
+    <div class="mcq">
+      <p class="q"><span class="qn">Q1.</span> Classification is used to:</p>
+      <ol class="opts" type="A">
+        <li>Group records with no predefined categories</li>
+        <li>Assign records to predefined categories using labeled training data</li>
+        <li>Discover frequent item combinations</li>
+        <li>Reduce the number of dimensions</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> A supervised learning technique.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q2.</span> Clustering is used to:</p>
+      <ol class="opts" type="A">
+        <li>Assign records to predefined categories</li>
+        <li>Group similar records with NO predefined class labels</li>
+        <li>Predict a continuous numeric value</li>
+        <li>Only work on time-series data</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Unsupervised — e.g. customer segmentation.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q3.</span> "Confidence" in association rule mining measures:</p>
+      <ol class="opts" type="A">
+        <li>Overall itemset frequency</li>
+        <li>P(B|A) — the likelihood of B given A</li>
+        <li>The number of clusters</li>
+        <li>Regression fit quality</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Assesses a rule's reliability.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q4.</span> Overfitting means a model:</p>
+      <ol class="opts" type="A">
+        <li>Is too simple to capture any pattern</li>
+        <li>Fits training data too closely and performs poorly on new data</li>
+        <li>Always performs equally well on training and new data</li>
+        <li>Is unrelated to predictive modeling</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Guarded against via train/test splits and cross-validation.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q5.</span> "Recall" as a classification metric measures:</p>
+      <ol class="opts" type="A">
+        <li>Of all actual positives, the % correctly identified</li>
+        <li>Overall accuracy across all predictions</li>
+        <li>A clustering quality measure</li>
+        <li>The association rule confidence metric</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: A.</strong> High recall means few missed (false negative) cases.</p></details>
+    </div>
+    <p style="margin-top:18px"><a class="btn" href="../quiz.html?topic=an-data-mining">Practice all 50 Data Mining questions →</a></p>
+  </div>
+
+  <div class="topic-nav">
+    <a href="an-schemas.html"><span class="dir">← Previous topic</span>Star/Snowflake/Fact Constellation Schemas</a>
+    <a class="next" href="an-in-db.html"><span class="dir">Next topic →</span>In-Database Analytics</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  GPSC ICT Class-2 exam prep · Unit 7 — Analytics
+</footer>
+
+<script src="../assets/js/nav.js"></script>
+</body>
+</html>

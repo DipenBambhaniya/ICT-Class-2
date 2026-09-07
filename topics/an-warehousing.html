@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Data Warehousing — Analytics</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="../index.html"><span class="logo-dot">DB</span> NoSQL Exam Prep</a>
+    <nav class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../analytics.html" class="active">Analytics</a>
+      <a href="../quiz.html">Practice Quiz</a>
+    </nav>
+  </div>
+</header>
+<nav class="subnav">
+  <a href="an-desc-pred.html">Descriptive &amp; Predictive</a>
+  <a href="an-olap.html">OLAP</a>
+  <a href="an-oltp-olap.html">OLTP vs OLAP</a>
+  <a href="an-data-cubes.html">Data Cubes</a>
+  <a href="an-warehousing.html" class="active">Data Warehousing</a>
+  <a href="an-schemas.html">Schema Models</a>
+  <a href="an-data-mining.html">Data Mining</a>
+  <a href="an-in-db.html">In-Database Analytics</a>
+  <a href="an-adv-sql.html">Advanced SQL</a>
+</nav>
+
+<main>
+
+  <div class="topic-header">
+    <span class="pill">Unit 7 · 5 of 9</span>
+    <h1>Data Warehousing</h1>
+    <p class="sub">A data warehouse is a subject-oriented, integrated, time-variant, non-volatile store built via ETL from operational systems, designed to support historical analysis and management decision-making.</p>
+  </div>
+
+  <div class="section">
+    <h2>Key points</h2>
+    <dl class="terms">
+      <dt>Four defining characteristics (Inmon)</dt>
+      <dd>Subject-oriented (organized by business entity, not application), Integrated (reconciled across sources), Time-variant (retains history), Non-volatile (loaded, not continuously overwritten).</dd>
+      <dt>ETL / ELT</dt>
+      <dd>Extract from sources → Transform/clean/reshape → Load into the warehouse. ELT (common on modern cloud warehouses) loads first, then transforms using the warehouse's own compute.</dd>
+      <dt>Inmon vs Kimball</dt>
+      <dd>Inmon: build one centralized, normalized enterprise warehouse first, then derive data marts. Kimball: build dimensional data marts first, unify via shared "conformed dimensions."</dd>
+      <dt>Grain</dt>
+      <dd>The level of detail per fact table row — a foundational design decision. Choosing too coarse a grain permanently limits future analysis.</dd>
+      <dt>Slowly Changing Dimensions (SCD)</dt>
+      <dd>Type 1: overwrite (lose history). Type 2: add a new row with effective dates (preserve full history) — the most common approach.</dd>
+    </dl>
+  </div>
+
+  <div class="section">
+    <h2>Diagram</h2>
+    <figure class="diagram-box">
+      <svg viewBox="0 0 720 180" xmlns="http://www.w3.org/2000/svg">
+        <g>
+          <rect x="20" y="70" width="120" height="40" rx="6" fill="var(--accent-dim)" stroke="var(--accent)"></rect><text x="80" y="94" text-anchor="middle" font-size="10" font-weight="700" style="fill:var(--text)">OLTP Source A</text>
+          <rect x="20" y="120" width="120" height="40" rx="6" fill="var(--accent-dim)" stroke="var(--accent)"></rect><text x="80" y="144" text-anchor="middle" font-size="10" font-weight="700" style="fill:var(--text)">OLTP Source B</text>
+          <rect x="200" y="95" width="120" height="40" rx="6" fill="var(--warn-dim)" stroke="var(--warn)"></rect><text x="260" y="119" text-anchor="middle" font-size="10" font-weight="700" style="fill:var(--text)">ETL / Staging</text>
+          <rect x="380" y="95" width="140" height="40" rx="6" fill="var(--accent-2-dim)" stroke="var(--accent-2)"></rect><text x="450" y="119" text-anchor="middle" font-size="10" font-weight="700" style="fill:var(--text)">Data Warehouse</text>
+          <rect x="580" y="60" width="100" height="30" rx="6" fill="var(--danger-dim)" stroke="var(--danger)"></rect><text x="630" y="80" text-anchor="middle" font-size="9" font-weight="700" style="fill:var(--text)">Sales Mart</text>
+          <rect x="580" y="100" width="100" height="30" rx="6" fill="var(--danger-dim)" stroke="var(--danger)"></rect><text x="630" y="120" text-anchor="middle" font-size="9" font-weight="700" style="fill:var(--text)">Finance Mart</text>
+          <path d="M140 90 L200 105" stroke="var(--text-dim)" stroke-width="2" marker-end="url(#a9)"></path>
+          <path d="M140 140 L200 125" stroke="var(--text-dim)" stroke-width="2" marker-end="url(#a9)"></path>
+          <path d="M320 115 L380 115" stroke="var(--text-dim)" stroke-width="2" marker-end="url(#a9)"></path>
+          <path d="M520 110 L580 80" stroke="var(--text-dim)" stroke-width="2" marker-end="url(#a9)"></path>
+          <path d="M520 120 L580 115" stroke="var(--text-dim)" stroke-width="2" marker-end="url(#a9)"></path>
+          <defs><marker id="a9" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="var(--text-dim)"></path></marker></defs>
+        </g>
+      </svg>
+      <figcaption>ETL integrates multiple operational sources into a warehouse, from which department-specific data marts are derived.</figcaption>
+    </figure>
+  </div>
+
+  <div class="section">
+    <h2>Example</h2>
+    <pre class="example"><code>Slowly Changing Dimension — Type 2 (preserve history):
+
+Before: Customer 501, Region = "West"
+Customer moves to "East" region.
+
+Type 1 (overwrite):
+  Customer 501, Region = "East"   <- history lost
+
+Type 2 (new row, effective dates):
+  Customer 501, Region = "West", valid 2022-01-01 to 2024-03-14
+  Customer 501, Region = "East", valid 2024-03-15 to present
+  -> Old sales still correctly attribute to "West"</code></pre>
+  </div>
+
+  <div class="callout warn">
+    <strong>Common exam traps</strong>
+    <p>ETL = Extract, Transform, Load (transform BEFORE loading); ELT loads first, then transforms. "Non-volatile" doesn't mean data never changes overall — it means loaded data isn't continuously overwritten like OLTP data. Kimball = bottom-up (marts first); Inmon = top-down (enterprise warehouse first). Choosing too coarse a grain cannot be fixed later without re-collecting detail.</p>
+  </div>
+
+  <div class="section">
+    <h2>Practice MCQs</h2>
+    <div class="mcq">
+      <p class="q"><span class="qn">Q1.</span> ETL stands for:</p>
+      <ol class="opts" type="A">
+        <li>Extract, Transfer, Load</li>
+        <li>Extract, Transform, Load</li>
+        <li>Evaluate, Test, Launch</li>
+        <li>Export, Transmit, Log</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> The standard process for populating a data warehouse.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q2.</span> "Subject-oriented" as a warehouse characteristic means data is organized around:</p>
+      <ol class="opts" type="A">
+        <li>Specific operational applications</li>
+        <li>Major business subjects/entities like Customer or Sales</li>
+        <li>Random categories</li>
+        <li>Physical storage devices</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Contrasts with OLTP's application-centric organization.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q3.</span> A "data mart" is:</p>
+      <ol class="opts" type="A">
+        <li>An identical copy of the entire warehouse</li>
+        <li>A smaller subset tailored to a specific department's needs</li>
+        <li>A type of OLTP system</li>
+        <li>A retail point-of-sale terminal</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Can be derived from an enterprise warehouse or built independently.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q4.</span> A Type 2 Slowly Changing Dimension handles a changed attribute by:</p>
+      <ol class="opts" type="A">
+        <li>Overwriting the old value</li>
+        <li>Creating a new row preserving the old value alongside the new one</li>
+        <li>Deleting the record</li>
+        <li>Ignoring the change</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Preserves historical accuracy for past facts.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q5.</span> "Grain" in fact table design refers to:</p>
+      <ol class="opts" type="A">
+        <li>The physical storage medium</li>
+        <li>The level of detail represented by one fact table row</li>
+        <li>A dimension hierarchy level</li>
+        <li>An unrelated networking term</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> A foundational, hard-to-change design decision.</p></details>
+    </div>
+    <p style="margin-top:18px"><a class="btn" href="../quiz.html?topic=an-warehousing">Practice all 50 Data Warehousing questions →</a></p>
+  </div>
+
+  <div class="topic-nav">
+    <a href="an-data-cubes.html"><span class="dir">← Previous topic</span>Data Cubes</a>
+    <a class="next" href="an-schemas.html"><span class="dir">Next topic →</span>Star/Snowflake/Fact Constellation Schemas</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  GPSC ICT Class-2 exam prep · Unit 7 — Analytics
+</footer>
+
+<script src="../assets/js/nav.js"></script>
+</body>
+</html>

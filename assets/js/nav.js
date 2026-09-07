@@ -110,6 +110,21 @@
       ]
     },
     {
+      type: "group", label: "7) Analytics", href: "analytics.html",
+      items: [
+        ["Overview", "analytics.html"],
+        ["Descriptive & Predictive Analytics", "topics/an-desc-pred.html"],
+        ["OLAP", "topics/an-olap.html"],
+        ["OLTP vs OLAP", "topics/an-oltp-olap.html"],
+        ["Data Cubes", "topics/an-data-cubes.html"],
+        ["Data Warehousing", "topics/an-warehousing.html"],
+        ["Star / Snowflake / Fact Constellation", "topics/an-schemas.html"],
+        ["Data Mining Techniques", "topics/an-data-mining.html"],
+        ["In-Database Analytics", "topics/an-in-db.html"],
+        ["Advanced SQL", "topics/an-adv-sql.html"]
+      ]
+    },
+    {
       type: "group", label: "8) NoSQL Databases",
       items: [
         ["SQL vs NoSQL", "topics/sql-vs-nosql.html"],
