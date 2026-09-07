@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LAN Technologies (Ethernet) — Computer Networks</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="../index.html"><span class="logo-dot">DB</span> NoSQL Exam Prep</a>
+    <nav class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../cn.html" class="active">Computer Networks</a>
+      <a href="../quiz.html">Practice Quiz</a>
+    </nav>
+  </div>
+</header>
+<nav class="subnav">
+  <a href="cn-layering.html">Layering</a>
+  <a href="cn-ethernet.html" class="active">Ethernet</a>
+  <a href="cn-flow-error.html">Flow &amp; Error Control</a>
+  <a href="cn-switching.html">Switching</a>
+  <a href="cn-ip.html">IPv4/IPv6</a>
+  <a href="cn-routing.html">Routing</a>
+  <a href="cn-transport.html">TCP/UDP</a>
+  <a href="cn-app-layer.html">Application Layer</a>
+  <a href="cn-wifi.html">Wi-Fi</a>
+  <a href="cn-security.html">Security</a>
+</nav>
+
+<main>
+
+  <div class="topic-header">
+    <span class="pill">Unit 6 · 2 of 10</span>
+    <h1>LAN Technologies (Ethernet)</h1>
+    <p class="sub">Ethernet (IEEE 802.3) is the dominant wired LAN technology. Modern switched, full-duplex Ethernet has mostly retired the collision-handling machinery of its original shared-medium design, but that history still shows up on exams.</p>
+  </div>
+
+  <div class="section">
+    <h2>Key points</h2>
+    <dl class="terms">
+      <dt>CSMA/CD</dt>
+      <dd>Classic shared-medium Ethernet: sense the carrier, transmit, detect collisions, jam and back off exponentially. Irrelevant on modern full-duplex switched links.</dd>
+      <dt>MAC address</dt>
+      <dd>48-bit address burned into the NIC, e.g. 00:1A:2B:3C:4D:5E. First 24 bits are the OUI (vendor).</dd>
+      <dt>Frame format</dt>
+      <dd>Preamble, destination MAC, source MAC, EtherType/length, payload (46-1500 bytes), FCS (CRC-32 trailer).</dd>
+      <dt>Hub vs Switch</dt>
+      <dd>A hub is a Physical-layer repeater (one shared collision domain). A switch learns MAC-to-port mappings and forwards intelligently, giving each port its own collision domain.</dd>
+      <dt>VLANs</dt>
+      <dd>802.1Q tags let one physical switch fabric be logically split into multiple isolated broadcast domains.</dd>
+    </dl>
+  </div>
+
+  <div class="section">
+    <h2>Diagram</h2>
+    <figure class="diagram-box">
+      <svg viewBox="0 0 720 220" xmlns="http://www.w3.org/2000/svg">
+        <g>
+          <rect x="20" y="80" width="70" height="30" rx="6" fill="var(--accent-dim)" stroke="var(--accent)"></rect><text x="55" y="100" text-anchor="middle" font-size="10" font-weight="700" style="fill:var(--text)">Preamble</text>
+          <rect x="90" y="80" width="90" height="30" rx="6" fill="var(--accent-2-dim)" stroke="var(--accent-2)"></rect><text x="135" y="100" text-anchor="middle" font-size="10" font-weight="700" style="fill:var(--text)">Dest MAC</text>
+          <rect x="180" y="80" width="90" height="30" rx="6" fill="var(--accent-2-dim)" stroke="var(--accent-2)"></rect><text x="225" y="100" text-anchor="middle" font-size="10" font-weight="700" style="fill:var(--text)">Src MAC</text>
+          <rect x="270" y="80" width="70" height="30" rx="6" fill="var(--warn-dim)" stroke="var(--warn)"></rect><text x="305" y="100" text-anchor="middle" font-size="10" font-weight="700" style="fill:var(--text)">EtherType</text>
+          <rect x="340" y="80" width="240" height="30" rx="6" fill="var(--accent-dim)" stroke="var(--accent)"></rect><text x="460" y="100" text-anchor="middle" font-size="10" font-weight="700" style="fill:var(--text)">Payload (46-1500 B)</text>
+          <rect x="580" y="80" width="80" height="30" rx="6" fill="var(--danger-dim)" stroke="var(--danger)"></rect><text x="620" y="100" text-anchor="middle" font-size="10" font-weight="700" style="fill:var(--text)">FCS (CRC)</text>
+          <text x="360" y="150" font-size="10" style="fill:var(--text-dim)">Minimum frame: 64 bytes total. Maximum standard payload (MTU): 1500 bytes.</text>
+        </g>
+      </svg>
+      <figcaption>The Ethernet frame format.</figcaption>
+    </figure>
+  </div>
+
+  <div class="section">
+    <h2>Example</h2>
+    <pre class="example"><code>How a switch learns and forwards:
+
+1. Frame arrives on port 3, source MAC = AA:AA:AA:AA:AA:AA
+   -> Switch records: AA:AA:AA:AA:AA:AA is on port 3
+
+2. Destination MAC = BB:BB:BB:BB:BB:BB, not yet in the table
+   -> Switch FLOODS the frame out every port except port 3
+
+3. Later, BB:...:BB replies; the switch now learns port 5 -> BB:...:BB
+   -> Future frames to BB:...:BB go ONLY to port 5 (no more flooding)</code></pre>
+  </div>
+
+  <div class="callout warn">
+    <strong>Common exam traps</strong>
+    <p>Minimum Ethernet frame = 64 bytes; standard max payload (MTU) = 1500 bytes. A hub floods everything (Layer 1); a switch learns and forwards selectively (Layer 2). CSMA/CD is about COLLISION DETECTION and is largely obsolete on full-duplex switched links — Wi-Fi uses CSMA/CA (avoidance) instead, not CD. VLANs are configured with 802.1Q tags, not IP addresses.</p>
+  </div>
+
+  <div class="section">
+    <h2>Practice MCQs</h2>
+    <div class="mcq">
+      <p class="q"><span class="qn">Q1.</span> Ethernet is standardized under which IEEE working group?</p>
+      <ol class="opts" type="A">
+        <li>802.11</li>
+        <li>802.3</li>
+        <li>802.15</li>
+        <li>802.1</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> 802.3 covers wired Ethernet's Physical and MAC sublayer.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q2.</span> A MAC address is:</p>
+      <ol class="opts" type="A">
+        <li>A 32-bit logical address from an ISP</li>
+        <li>A 48-bit address burned into the NIC</li>
+        <li>The same as an IP address</li>
+        <li>A random session ID</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Written as six hex byte pairs.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q3.</span> The minimum Ethernet frame size is:</p>
+      <ol class="opts" type="A">
+        <li>14 bytes</li>
+        <li>64 bytes</li>
+        <li>1500 bytes</li>
+        <li>1518 bytes</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> This ensured collisions could be detected within the transmission time on legacy shared segments.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q4.</span> A switch improves on a hub mainly by:</p>
+      <ol class="opts" type="A">
+        <li>Using a faster cable type</li>
+        <li>Forwarding frames only to the relevant port, reducing collisions</li>
+        <li>Increasing the maximum frame size</li>
+        <li>Removing the need for MAC addresses</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Each port becomes its own collision domain.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q5.</span> A VLAN is used to:</p>
+      <ol class="opts" type="A">
+        <li>Increase cable distance</li>
+        <li>Logically segment one physical switch into multiple isolated broadcast domains</li>
+        <li>Replace IP addressing</li>
+        <li>Encrypt traffic</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> 802.1Q tags identify which VLAN a frame belongs to.</p></details>
+    </div>
+    <p style="margin-top:18px"><a class="btn" href="../quiz.html?topic=cn-ethernet">Practice all 50 Ethernet questions →</a></p>
+  </div>
+
+  <div class="topic-nav">
+    <a href="cn-layering.html"><span class="dir">← Previous topic</span>Concept of Layering</a>
+    <a class="next" href="cn-flow-error.html"><span class="dir">Next topic →</span>Flow &amp; Error Control</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  GPSC ICT Class-2 exam prep · Unit 6 — Computer Networks
+</footer>
+
+<script src="../assets/js/nav.js"></script>
+</body>
+</html>

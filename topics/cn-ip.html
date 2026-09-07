@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IPv4 / IPv6 &amp; Routers — Computer Networks</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="../index.html"><span class="logo-dot">DB</span> NoSQL Exam Prep</a>
+    <nav class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../cn.html" class="active">Computer Networks</a>
+      <a href="../quiz.html">Practice Quiz</a>
+    </nav>
+  </div>
+</header>
+<nav class="subnav">
+  <a href="cn-layering.html">Layering</a>
+  <a href="cn-ethernet.html">Ethernet</a>
+  <a href="cn-flow-error.html">Flow &amp; Error Control</a>
+  <a href="cn-switching.html">Switching</a>
+  <a href="cn-ip.html" class="active">IPv4/IPv6</a>
+  <a href="cn-routing.html">Routing</a>
+  <a href="cn-transport.html">TCP/UDP</a>
+  <a href="cn-app-layer.html">Application Layer</a>
+  <a href="cn-wifi.html">Wi-Fi</a>
+  <a href="cn-security.html">Security</a>
+</nav>
+
+<main>
+
+  <div class="topic-header">
+    <span class="pill">Unit 6 · 5 of 10</span>
+    <h1>IPv4 / IPv6 &amp; Routers</h1>
+    <p class="sub">IP provides logical, hierarchical addressing and best-effort, connectionless delivery across networks. Routers forward packets hop by hop based on the destination address and a routing/forwarding table.</p>
+  </div>
+
+  <div class="section">
+    <h2>Key points</h2>
+    <dl class="terms">
+      <dt>IPv4</dt>
+      <dd>32-bit address (e.g. 192.168.1.10), ~4.3 billion addresses — exhausted, which motivated IPv6.</dd>
+      <dt>IPv6</dt>
+      <dd>128-bit address (e.g. 2001:db8::1), vast address space, simplified fixed header, no router fragmentation, SLAAC autoconfiguration, no broadcast (multicast instead).</dd>
+      <dt>CIDR / subnetting</dt>
+      <dd>/24 means the first 24 bits are the network prefix. Longest-prefix-match decides which route a router uses when several match.</dd>
+      <dt>NAT</dt>
+      <dd>Lets many private hosts share one public IPv4 address — a workaround for address exhaustion, largely unnecessary with IPv6's huge space.</dd>
+      <dt>Router</dt>
+      <dd>Operates at Layer 3; each interface sits on a different subnet; forwards using its routing table and, per-packet, its (control-plane-built) forwarding table.</dd>
+    </dl>
+  </div>
+
+  <div class="section">
+    <h2>Diagram</h2>
+    <figure class="diagram-box">
+      <svg viewBox="0 0 720 200" xmlns="http://www.w3.org/2000/svg">
+        <g>
+          <rect x="40" y="70" width="140" height="50" rx="6" fill="var(--accent-dim)" stroke="var(--accent)"></rect><text x="110" y="99" text-anchor="middle" font-size="11" font-weight="700" style="fill:var(--text)">Host A<tspan x="110" dy="14" font-size="9">192.168.1.10/24</tspan></text>
+          <rect x="300" y="60" width="120" height="70" rx="6" fill="var(--warn-dim)" stroke="var(--warn)"></rect><text x="360" y="90" text-anchor="middle" font-size="11" font-weight="700" style="fill:var(--text)">Router</text><text x="360" y="105" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">.1 on each subnet</text>
+          <rect x="540" y="70" width="140" height="50" rx="6" fill="var(--accent-2-dim)" stroke="var(--accent-2)"></rect><text x="610" y="99" text-anchor="middle" font-size="11" font-weight="700" style="fill:var(--text)">Host B<tspan x="610" dy="14" font-size="9">10.0.0.20/24</tspan></text>
+          <path d="M180 95 L300 95" stroke="var(--text-dim)" stroke-width="2" fill="none" marker-end="url(#a4)"></path>
+          <path d="M420 95 L540 95" stroke="var(--text-dim)" stroke-width="2" fill="none" marker-end="url(#a4)"></path>
+          <defs><marker id="a4" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="var(--text-dim)"></path></marker></defs>
+          <text x="360" y="160" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">Host A's destination (10.0.0.20) is on a DIFFERENT subnet, so it sends via its default gateway (the router)</text>
+        </g>
+      </svg>
+      <figcaption>A router connects different subnets; each of its interfaces has an address on the subnet it serves.</figcaption>
+    </figure>
+  </div>
+
+  <div class="section">
+    <h2>Example</h2>
+    <pre class="example"><code>Subnetting 192.168.1.0/24 into 4 subnets (borrow 2 bits -> /26):
+
+192.168.1.0/26    hosts .1  - .62    (broadcast .63)
+192.168.1.64/26   hosts .65 - .126   (broadcast .127)
+192.168.1.128/26  hosts .129- .190   (broadcast .191)
+192.168.1.192/26  hosts .193- .254   (broadcast .255)
+
+Each /26 gives 2^(32-26) - 2 = 62 usable host addresses.</code></pre>
+  </div>
+
+  <div class="callout warn">
+    <strong>Common exam traps</strong>
+    <p>A /24 gives 254 usable hosts (256 minus network and broadcast addresses). Private ranges: 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16. 127.0.0.1 is loopback, not a real network address. IPv6 removed the header checksum and in-transit router fragmentation (only the source fragments, aided by Path MTU Discovery). IPv6 uses Neighbor Discovery Protocol (ICMPv6), not ARP.</p>
+  </div>
+
+  <div class="section">
+    <h2>Practice MCQs</h2>
+    <div class="mcq">
+      <p class="q"><span class="qn">Q1.</span> An IPv4 address is:</p>
+      <ol class="opts" type="A">
+        <li>48 bits</li>
+        <li>32 bits, written as four dotted decimal octets</li>
+        <li>128 bits</li>
+        <li>16 bits</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> E.g. 192.168.1.10.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q2.</span> A /24 subnet has how many usable host addresses?</p>
+      <ol class="opts" type="A">
+        <li>256</li>
+        <li>254</li>
+        <li>255</li>
+        <li>128</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> 256 total minus network and broadcast addresses.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q3.</span> NAT is primarily used to:</p>
+      <ol class="opts" type="A">
+        <li>Encrypt traffic</li>
+        <li>Let multiple private devices share one public IPv4 address</li>
+        <li>Perform DNS resolution</li>
+        <li>Route between IPv6 networks</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> A workaround for IPv4 address exhaustion.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q4.</span> A router's fundamental job is to:</p>
+      <ol class="opts" type="A">
+        <li>Translate domain names to IPs</li>
+        <li>Forward packets between networks based on destination IP and its routing table</li>
+        <li>Filter frames by MAC address</li>
+        <li>Provide DHCP only</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Operates at Layer 3.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q5.</span> IPv6 replaced ARP with:</p>
+      <ol class="opts" type="A">
+        <li>DHCP exclusively</li>
+        <li>Neighbor Discovery Protocol (using ICMPv6)</li>
+        <li>No resolution mechanism at all</li>
+        <li>DNS for every local lookup</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> NDP also handles router discovery and duplicate address detection.</p></details>
+    </div>
+    <p style="margin-top:18px"><a class="btn" href="../quiz.html?topic=cn-ip">Practice all 50 IPv4/IPv6 questions →</a></p>
+  </div>
+
+  <div class="topic-nav">
+    <a href="cn-switching.html"><span class="dir">← Previous topic</span>Switching</a>
+    <a class="next" href="cn-routing.html"><span class="dir">Next topic →</span>Routing Algorithms</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  GPSC ICT Class-2 exam prep · Unit 6 — Computer Networks
+</footer>
+
+<script src="../assets/js/nav.js"></script>
+</body>
+</html>

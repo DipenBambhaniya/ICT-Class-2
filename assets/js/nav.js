@@ -94,6 +94,22 @@
       ]
     },
     {
+      type: "group", label: "6) Computer Networks", href: "cn.html",
+      items: [
+        ["Overview", "cn.html"],
+        ["Concept of Layering", "topics/cn-layering.html"],
+        ["LAN Technologies (Ethernet)", "topics/cn-ethernet.html"],
+        ["Flow & Error Control", "topics/cn-flow-error.html"],
+        ["Switching", "topics/cn-switching.html"],
+        ["IPv4 / IPv6 & Routers", "topics/cn-ip.html"],
+        ["Routing Algorithms", "topics/cn-routing.html"],
+        ["TCP/UDP, Sockets & Congestion Control", "topics/cn-transport.html"],
+        ["Application Layer Protocols", "topics/cn-app-layer.html"],
+        ["Basics of Wi-Fi", "topics/cn-wifi.html"],
+        ["Network Security", "topics/cn-security.html"]
+      ]
+    },
+    {
       type: "group", label: "8) NoSQL Databases",
       items: [
         ["SQL vs NoSQL", "topics/sql-vs-nosql.html"],

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Network Security — Computer Networks</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="../index.html"><span class="logo-dot">DB</span> NoSQL Exam Prep</a>
+    <nav class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../cn.html" class="active">Computer Networks</a>
+      <a href="../quiz.html">Practice Quiz</a>
+    </nav>
+  </div>
+</header>
+<nav class="subnav">
+  <a href="cn-layering.html">Layering</a>
+  <a href="cn-ethernet.html">Ethernet</a>
+  <a href="cn-flow-error.html">Flow &amp; Error Control</a>
+  <a href="cn-switching.html">Switching</a>
+  <a href="cn-ip.html">IPv4/IPv6</a>
+  <a href="cn-routing.html">Routing</a>
+  <a href="cn-transport.html">TCP/UDP</a>
+  <a href="cn-app-layer.html">Application Layer</a>
+  <a href="cn-wifi.html">Wi-Fi</a>
+  <a href="cn-security.html" class="active">Security</a>
+</nav>
+
+<main>
+
+  <div class="topic-header">
+    <span class="pill">Unit 6 · 10 of 10</span>
+    <h1>Network Security</h1>
+    <p class="sub">Security combines authentication (verifying identity), cryptography (confidentiality, integrity, trust) and network controls (firewalls, segmentation) as layered, complementary defenses — no single mechanism is sufficient alone.</p>
+  </div>
+
+  <div class="section">
+    <h2>Key points</h2>
+    <dl class="terms">
+      <dt>Authentication vs authorization</dt>
+      <dd>Authentication verifies WHO you are (password, token, biometric — ideally multiple factors). Authorization decides WHAT an authenticated identity may do.</dd>
+      <dt>Symmetric vs public-key crypto</dt>
+      <dd>Symmetric (AES): one shared secret key, fast, but key distribution is hard. Public-key (RSA/ECC): a key pair (public/private); solves distribution but is computationally heavier.</dd>
+      <dt>Digital signatures</dt>
+      <dd>Hash the message, then encrypt the hash with the SENDER's private key. Anyone can verify with the sender's public key — proves integrity AND authorship (non-repudiation).</dd>
+      <dt>Certificates &amp; PKI</dt>
+      <dd>A certificate binds a public key to an identity, signed by a trusted Certificate Authority (CA). Browsers trust a chain from the certificate up to a trusted root CA.</dd>
+      <dt>Firewalls</dt>
+      <dd>Packet-filtering (headers only) → stateful (tracks connections) → application-layer (inspects content). Default-deny is the safer baseline policy.</dd>
+    </dl>
+  </div>
+
+  <div class="section">
+    <h2>Diagram</h2>
+    <figure class="diagram-box">
+      <svg viewBox="0 0 720 220" xmlns="http://www.w3.org/2000/svg">
+        <g>
+          <rect x="30" y="30" width="160" height="40" rx="6" fill="var(--accent-dim)" stroke="var(--accent)"></rect><text x="110" y="55" text-anchor="middle" font-size="10" font-weight="700" style="fill:var(--text)">Message + hash</text>
+          <rect x="260" y="30" width="180" height="40" rx="6" fill="var(--warn-dim)" stroke="var(--warn)"></rect><text x="350" y="55" text-anchor="middle" font-size="10" font-weight="700" style="fill:var(--text)">Encrypt hash with SENDER's private key</text>
+          <rect x="510" y="30" width="180" height="40" rx="6" fill="var(--accent-2-dim)" stroke="var(--accent-2)"></rect><text x="600" y="55" text-anchor="middle" font-size="10" font-weight="700" style="fill:var(--text)">Digital signature attached</text>
+          <path d="M190 50 L260 50" stroke="var(--text-dim)" stroke-width="2" marker-end="url(#a6)"></path>
+          <path d="M440 50 L510 50" stroke="var(--text-dim)" stroke-width="2" marker-end="url(#a6)"></path>
+          <defs><marker id="a6" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="var(--text-dim)"></path></marker></defs>
+          <text x="360" y="120" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">Receiver: decrypts the signature with the SENDER's PUBLIC key to recover the hash,</text>
+          <text x="360" y="140" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">then re-hashes the received message and compares -- match = authentic AND untampered.</text>
+        </g>
+      </svg>
+      <figcaption>How a digital signature proves both integrity and authorship.</figcaption>
+    </figure>
+  </div>
+
+  <div class="section">
+    <h2>Example</h2>
+    <pre class="example"><code>TLS handshake (simplified) combining both crypto types:
+
+1. Server presents its certificate (contains its PUBLIC key,
+   signed by a trusted CA)
+2. Client verifies the certificate chain up to a trusted root CA
+3. Client and server use asymmetric crypto to securely agree
+   on a SHARED SYMMETRIC session key
+4. All further data is encrypted with fast symmetric crypto
+   (e.g. AES) using that session key
+
+-> asymmetric crypto solves key exchange; symmetric crypto
+   handles the actual bulk data efficiently.</code></pre>
+  </div>
+
+  <div class="callout warn">
+    <strong>Common exam traps</strong>
+    <p>A digital signature is made with the SENDER's private key and verified with the sender's public key — the reverse of confidential encryption (encrypt with the RECIPIENT's public key). Hashing is one-way (for integrity/passwords); encryption is reversible (for confidentiality). MAC filtering and SSID hiding are NOT strong security. A firewall alone does not stop an already-authorized insider or malicious content riding over an allowed port — defense in depth uses multiple layered controls.</p>
+  </div>
+
+  <div class="section">
+    <h2>Practice MCQs</h2>
+    <div class="mcq">
+      <p class="q"><span class="qn">Q1.</span> Authentication refers to:</p>
+      <ol class="opts" type="A">
+        <li>Encrypting data</li>
+        <li>Verifying the claimed identity of a user or system</li>
+        <li>Ensuring data isn't modified in transit</li>
+        <li>Making a resource available</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Distinct from authorization (what you're allowed to do).</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q2.</span> Symmetric-key cryptography uses:</p>
+      <ol class="opts" type="A">
+        <li>A public and a private key</li>
+        <li>The same secret key for encryption and decryption</li>
+        <li>No key at all</li>
+        <li>A key that changes every bit</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Both parties must securely share this same key beforehand.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q3.</span> A digital signature is created by:</p>
+      <ol class="opts" type="A">
+        <li>Encrypting the message with the recipient's public key</li>
+        <li>Hashing the message, then encrypting that hash with the sender's private key</li>
+        <li>Attaching the sender's name as plain text</li>
+        <li>Using only symmetric encryption</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Anyone can verify it with the sender's public key.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q4.</span> A Certificate Authority (CA) is responsible for:</p>
+      <ol class="opts" type="A">
+        <li>Generating a website's private key for itself</li>
+        <li>Verifying identity and signing a certificate binding it to a public key</li>
+        <li>Encrypting all HTTPS traffic directly</li>
+        <li>Storing every user's password</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Browsers trust a chain up to a root CA.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q5.</span> A stateful firewall improves on packet filtering by:</p>
+      <ol class="opts" type="A">
+        <li>Ignoring all connection context</li>
+        <li>Tracking active connection state to make smarter filtering decisions</li>
+        <li>Encrypting every packet automatically</li>
+        <li>Only working with UDP</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> It can recognize legitimate return traffic for an already-established connection.</p></details>
+    </div>
+    <p style="margin-top:18px"><a class="btn" href="../quiz.html?topic=cn-security">Practice all 50 Network Security questions →</a></p>
+  </div>
+
+  <div class="topic-nav">
+    <a href="cn-wifi.html"><span class="dir">← Previous topic</span>Basics of Wi-Fi</a>
+    <a class="next" href="../cn.html"><span class="dir">Back to →</span>Unit 6 index</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  GPSC ICT Class-2 exam prep · Unit 6 — Computer Networks
+</footer>
+
+<script src="../assets/js/nav.js"></script>
+</body>
+</html>

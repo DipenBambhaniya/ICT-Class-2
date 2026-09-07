@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Routing Algorithms — Computer Networks</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="../index.html"><span class="logo-dot">DB</span> NoSQL Exam Prep</a>
+    <nav class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../cn.html" class="active">Computer Networks</a>
+      <a href="../quiz.html">Practice Quiz</a>
+    </nav>
+  </div>
+</header>
+<nav class="subnav">
+  <a href="cn-layering.html">Layering</a>
+  <a href="cn-ethernet.html">Ethernet</a>
+  <a href="cn-flow-error.html">Flow &amp; Error Control</a>
+  <a href="cn-switching.html">Switching</a>
+  <a href="cn-ip.html">IPv4/IPv6</a>
+  <a href="cn-routing.html" class="active">Routing</a>
+  <a href="cn-transport.html">TCP/UDP</a>
+  <a href="cn-app-layer.html">Application Layer</a>
+  <a href="cn-wifi.html">Wi-Fi</a>
+  <a href="cn-security.html">Security</a>
+</nav>
+
+<main>
+
+  <div class="topic-header">
+    <span class="pill">Unit 6 · 6 of 10</span>
+    <h1>Routing Algorithms</h1>
+    <p class="sub">Routers build their forwarding tables dynamically using one of two families of algorithm: distance vector (share distances with neighbors) or link state (share the full topology with everyone).</p>
+  </div>
+
+  <div class="section">
+    <h2>Key points</h2>
+    <dl class="terms">
+      <dt>Distance vector</dt>
+      <dd>Each router shares its own routing table with direct neighbors only ("routing by rumor"). Based on the Bellman-Ford algorithm. Example: RIP.</dd>
+      <dt>Link state</dt>
+      <dd>Each router floods its direct link costs to EVERY router, so all routers build the same topology map, then independently run Dijkstra's algorithm. Example: OSPF.</dd>
+      <dt>Count-to-infinity</dt>
+      <dd>A classic distance-vector failure mode where a bad route's cost creeps up slowly after a failure. Mitigated by split horizon, poison reverse, hold-down timers.</dd>
+      <dt>Path vector</dt>
+      <dd>BGP (used between autonomous systems) tracks the whole AS path, letting a router detect a loop by seeing its own AS already in the path.</dd>
+      <dt>Convergence</dt>
+      <dd>Link state generally converges faster and is more loop-resistant than distance vector, at the cost of more memory/CPU/flooding overhead per router.</dd>
+    </dl>
+  </div>
+
+  <div class="section">
+    <h2>Diagram</h2>
+    <figure class="diagram-box">
+      <svg viewBox="0 0 720 220" xmlns="http://www.w3.org/2000/svg">
+        <g>
+          <circle cx="120" cy="60" r="26" fill="var(--accent-dim)" stroke="var(--accent)"></circle><text x="120" y="65" text-anchor="middle" font-size="11" font-weight="700" style="fill:var(--text)">A</text>
+          <circle cx="280" cy="60" r="26" fill="var(--accent-dim)" stroke="var(--accent)"></circle><text x="280" y="65" text-anchor="middle" font-size="11" font-weight="700" style="fill:var(--text)">B</text>
+          <circle cx="200" cy="160" r="26" fill="var(--accent-dim)" stroke="var(--accent)"></circle><text x="200" y="165" text-anchor="middle" font-size="11" font-weight="700" style="fill:var(--text)">C</text>
+          <line x1="146" y1="60" x2="254" y2="60" stroke="var(--text-dim)" stroke-width="2"></line><text x="200" y="50" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">cost 1</text>
+          <line x1="135" y1="83" x2="185" y2="138" stroke="var(--text-dim)" stroke-width="2"></line><text x="140" y="115" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">cost 4</text>
+          <line x1="265" y1="83" x2="215" y2="138" stroke="var(--text-dim)" stroke-width="2"></line><text x="260" y="115" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">cost 1</text>
+          <text x="450" y="50" font-size="10" style="fill:var(--text-dim)">Distance vector: C only knows "B says cost 1 to reach A via B"</text>
+          <text x="450" y="70" font-size="10" style="fill:var(--text-dim)">-&gt; C computes: min(4 direct, 1+1 via B) = 2 via B</text>
+          <text x="450" y="100" font-size="10" style="fill:var(--text-dim)">Link state: C sees the WHOLE graph (A-B=1, A-C=4, B-C=1)</text>
+          <text x="450" y="120" font-size="10" style="fill:var(--text-dim)">-&gt; C runs Dijkstra itself and gets the same answer directly</text>
+        </g>
+      </svg>
+      <figcaption>Both approaches can find the same shortest path, but distance vector reasons from neighbor-reported distances while link state reasons from a full topology graph.</figcaption>
+    </figure>
+  </div>
+
+  <div class="section">
+    <h2>Example</h2>
+    <pre class="example"><code>Count-to-infinity (simplified):
+
+Initially: C -> A costs 2 (via B)   B -> A costs 1 (direct)
+
+Link B-A fails. B doesn't know a better route, but hears
+C still claims "cost 2 to A" (stale info) -- B updates to
+cost 3 via C. C then hears B's new claim of 3 and updates
+to cost 4 via B. This ping-pong continues, slowly climbing
+toward "infinity" (e.g. 16 in RIP) before the route is
+finally marked unreachable -- this is exactly why link
+state's full-topology view avoids this failure mode.</code></pre>
+  </div>
+
+  <div class="callout warn">
+    <strong>Common exam traps</strong>
+    <p>Distance vector = Bellman-Ford; link state = Dijkstra. RIP is distance vector; OSPF is link state; BGP is path vector (used BETWEEN autonomous systems, not within one). Split horizon alone does not solve every loop scenario — real protocols combine several techniques (split horizon, poison reverse, hold-down timers, triggered updates). Link state needs MORE memory/CPU per router than distance vector, not less.</p>
+  </div>
+
+  <div class="section">
+    <h2>Practice MCQs</h2>
+    <div class="mcq">
+      <p class="q"><span class="qn">Q1.</span> Distance vector routing is based on which algorithm?</p>
+      <ol class="opts" type="A">
+        <li>Dijkstra's algorithm</li>
+        <li>Bellman-Ford</li>
+        <li>Prim's algorithm</li>
+        <li>Kruskal's algorithm</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Each router iteratively relaxes distance estimates from neighbors.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q2.</span> Link state routing uses which shortest-path algorithm?</p>
+      <ol class="opts" type="A">
+        <li>Bellman-Ford</li>
+        <li>Dijkstra's algorithm</li>
+        <li>Floyd-Warshall exclusively</li>
+        <li>Kruskal's algorithm</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Run once every router has the same full topology.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q3.</span> RIP is an example of which routing family?</p>
+      <ol class="opts" type="A">
+        <li>Link state</li>
+        <li>Distance vector</li>
+        <li>Path vector</li>
+        <li>Static routing</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> RIP uses hop count as its metric.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q4.</span> The count-to-infinity problem occurs in:</p>
+      <ol class="opts" type="A">
+        <li>Link state routing</li>
+        <li>Distance vector routing</li>
+        <li>Static routing only</li>
+        <li>IPv6 addressing</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Caused by routers trusting neighbor-reported distances without seeing the actual path.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q5.</span> BGP is best classified as:</p>
+      <ol class="opts" type="A">
+        <li>A distance vector protocol</li>
+        <li>A path vector protocol</li>
+        <li>A pure link state protocol</li>
+        <li>A protocol used only within a single LAN</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> It tracks the full AS path to detect and avoid loops between autonomous systems.</p></details>
+    </div>
+    <p style="margin-top:18px"><a class="btn" href="../quiz.html?topic=cn-routing">Practice all 50 Routing questions →</a></p>
+  </div>
+
+  <div class="topic-nav">
+    <a href="cn-ip.html"><span class="dir">← Previous topic</span>IPv4/IPv6 &amp; Routers</a>
+    <a class="next" href="cn-transport.html"><span class="dir">Next topic →</span>TCP/UDP, Sockets &amp; Congestion Control</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  GPSC ICT Class-2 exam prep · Unit 6 — Computer Networks
+</footer>
+
+<script src="../assets/js/nav.js"></script>
+</body>
+</html>

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Basics of Wi-Fi — Computer Networks</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="../index.html"><span class="logo-dot">DB</span> NoSQL Exam Prep</a>
+    <nav class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../cn.html" class="active">Computer Networks</a>
+      <a href="../quiz.html">Practice Quiz</a>
+    </nav>
+  </div>
+</header>
+<nav class="subnav">
+  <a href="cn-layering.html">Layering</a>
+  <a href="cn-ethernet.html">Ethernet</a>
+  <a href="cn-flow-error.html">Flow &amp; Error Control</a>
+  <a href="cn-switching.html">Switching</a>
+  <a href="cn-ip.html">IPv4/IPv6</a>
+  <a href="cn-routing.html">Routing</a>
+  <a href="cn-transport.html">TCP/UDP</a>
+  <a href="cn-app-layer.html">Application Layer</a>
+  <a href="cn-wifi.html" class="active">Wi-Fi</a>
+  <a href="cn-security.html">Security</a>
+</nav>
+
+<main>
+
+  <div class="topic-header">
+    <span class="pill">Unit 6 · 9 of 10</span>
+    <h1>Basics of Wi-Fi</h1>
+    <p class="sub">802.11 adapts LAN concepts to a shared, broadcast, half-duplex radio medium. Because a station can't reliably detect a collision while transmitting, Wi-Fi avoids collisions rather than detecting them, and encryption is essential rather than optional.</p>
+  </div>
+
+  <div class="section">
+    <h2>Key points</h2>
+    <dl class="terms">
+      <dt>CSMA/CA</dt>
+      <dd>Carrier Sense Multiple Access with Collision AVOIDANCE — sense, defer, random backoff, then transmit. RTS/CTS mitigates the hidden terminal problem.</dd>
+      <dt>Hidden terminal problem</dt>
+      <dd>Two stations both in range of an AP but not of each other may transmit simultaneously, colliding at the AP without either sensing the other.</dd>
+      <dt>AP / SSID / BSS</dt>
+      <dd>An Access Point bridges wireless clients (infrastructure mode). SSID is the network name. A BSS is one AP plus its associated clients; an ESS links multiple BSSs under one SSID.</dd>
+      <dt>Security</dt>
+      <dd>WEP is broken; WPA2 is the long-standing baseline; WPA3 adds SAE (resists offline password-guessing) — always prefer WPA2/WPA3 over open or WEP networks.</dd>
+      <dt>Bands &amp; interference</dt>
+      <dd>2.4 GHz: longer range, more interference, fewer non-overlapping channels (1/6/11). 5/6 GHz: shorter range, less congestion, more channels/throughput.</dd>
+    </dl>
+  </div>
+
+  <div class="section">
+    <h2>Diagram</h2>
+    <figure class="diagram-box">
+      <svg viewBox="0 0 720 200" xmlns="http://www.w3.org/2000/svg">
+        <g>
+          <circle cx="150" cy="100" r="22" fill="var(--accent-dim)" stroke="var(--accent)"></circle><text x="150" y="105" text-anchor="middle" font-size="10" font-weight="700" style="fill:var(--text)">A</text>
+          <circle cx="360" cy="100" r="26" fill="var(--warn-dim)" stroke="var(--warn)"></circle><text x="360" y="105" text-anchor="middle" font-size="10" font-weight="700" style="fill:var(--text)">AP</text>
+          <circle cx="570" cy="100" r="22" fill="var(--accent-dim)" stroke="var(--accent)"></circle><text x="570" y="105" text-anchor="middle" font-size="10" font-weight="700" style="fill:var(--text)">B</text>
+          <line x1="172" y1="100" x2="334" y2="100" stroke="var(--text-dim)" stroke-width="2"></line>
+          <line x1="386" y1="100" x2="548" y2="100" stroke="var(--text-dim)" stroke-width="2"></line>
+          <text x="260" y="90" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">in range of AP</text>
+          <text x="460" y="90" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">in range of AP</text>
+          <text x="360" y="150" text-anchor="middle" font-size="10" style="fill:var(--danger)">A and B are NOT in range of each other -&gt; hidden terminal problem</text>
+          <text x="360" y="170" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">Both may sense an idle channel and transmit simultaneously, colliding only at the AP</text>
+        </g>
+      </svg>
+      <figcaption>The hidden terminal problem — the reason RTS/CTS reservation exists in 802.11.</figcaption>
+    </figure>
+  </div>
+
+  <div class="section">
+    <h2>Example</h2>
+    <pre class="example"><code>RTS/CTS exchange mitigating the hidden terminal problem:
+
+Station A -> AP:  RTS (Request to Send)
+AP        -> ALL: CTS (Clear to Send) -- heard by BOTH A and B
+Station B: hears the CTS, knows the medium is reserved, stays silent
+Station A -> AP:  sends data safely, no collision from B</code></pre>
+  </div>
+
+  <div class="callout warn">
+    <strong>Common exam traps</strong>
+    <p>Wi-Fi uses CSMA/CA, NOT CSMA/CD (collision detection doesn't work well on a half-duplex radio link). WEP is insecure and should never be used. MAC filtering and SSID hiding are weak, easily-bypassed measures — not substitutes for WPA2/WPA3 encryption. 5 GHz has MORE channels/throughput but SHORTER range than 2.4 GHz, not the reverse.</p>
+  </div>
+
+  <div class="section">
+    <h2>Practice MCQs</h2>
+    <div class="mcq">
+      <p class="q"><span class="qn">Q1.</span> Wi-Fi is standardized under which IEEE family?</p>
+      <ol class="opts" type="A">
+        <li>802.3</li>
+        <li>802.11</li>
+        <li>802.15</li>
+        <li>802.1</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Amendments include 802.11n, ac, ax (Wi-Fi 6).</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q2.</span> Wi-Fi's medium access method is:</p>
+      <ol class="opts" type="A">
+        <li>CSMA/CD, exactly like Ethernet</li>
+        <li>CSMA/CA (Collision Avoidance)</li>
+        <li>Pure ALOHA with no carrier sensing</li>
+        <li>Token passing</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> A station cannot reliably detect a collision while transmitting on a half-duplex radio link.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q3.</span> The hidden terminal problem occurs when:</p>
+      <ol class="opts" type="A">
+        <li>Two stations in range of an AP but not of each other may collide at the AP</li>
+        <li>All stations are always in range of each other</li>
+        <li>A station has no MAC address</li>
+        <li>The AP is physically hidden</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: A.</strong> RTS/CTS mitigates this.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q4.</span> Which is the most secure choice among these?</p>
+      <ol class="opts" type="A">
+        <li>WEP</li>
+        <li>Open network (no password)</li>
+        <li>WPA2/WPA3</li>
+        <li>MAC filtering alone</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: C.</strong> WEP is broken; MAC filtering/SSID hiding alone are weak.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q5.</span> Compared to 2.4 GHz, the 5 GHz Wi-Fi band generally offers:</p>
+      <ol class="opts" type="A">
+        <li>Longer range and better wall penetration</li>
+        <li>Shorter range but more channels and less congestion</li>
+        <li>Identical characteristics</li>
+        <li>No support for higher data rates</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> This is why dual-band routers offer both.</p></details>
+    </div>
+    <p style="margin-top:18px"><a class="btn" href="../quiz.html?topic=cn-wifi">Practice all 50 Wi-Fi questions →</a></p>
+  </div>
+
+  <div class="topic-nav">
+    <a href="cn-app-layer.html"><span class="dir">← Previous topic</span>Application Layer Protocols</a>
+    <a class="next" href="cn-security.html"><span class="dir">Next topic →</span>Network Security</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  GPSC ICT Class-2 exam prep · Unit 6 — Computer Networks
+</footer>
+
+<script src="../assets/js/nav.js"></script>
+</body>
+</html>
