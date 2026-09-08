@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Threats, Attacks &amp; Ethical Hacking — Cyber Security</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="../index.html"><span class="logo-dot">DB</span> NoSQL Exam Prep</a>
+    <nav class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../cyber.html" class="active">Cyber Security</a>
+      <a href="../quiz.html">Practice Quiz</a>
+    </nav>
+  </div>
+</header>
+<nav class="subnav">
+  <a href="cy-threats.html" class="active">Threats &amp; Attacks</a>
+  <a href="cy-data-protection.html">Data Protection</a>
+  <a href="cy-risk-mgmt.html">Risk Management</a>
+  <a href="cy-laws.html">Laws &amp; Governance</a>
+</nav>
+
+<main>
+
+  <div class="topic-header">
+    <span class="pill">Unit 12 · 1 of 4</span>
+    <h1>Threats, Vulnerabilities, Attacks &amp; Ethical Hacking</h1>
+    <p class="sub">Threat, vulnerability and attack are distinct terms often confused in exams. Malware, social engineering, DoS/DDoS/botnets and Wi-Fi-based attacks are the main offensive techniques — and ethical hacking (authorized penetration testing) is the defensive practice of finding these weaknesses before attackers do.</p>
+  </div>
+
+  <div class="section">
+    <h2>Key points</h2>
+    <dl class="terms">
+      <dt>Threat vs vulnerability vs attack</dt>
+      <dd>Threat = potential danger. Vulnerability = exploitable weakness. Attack = the actual exploitation attempt.</dd>
+      <dt>Malware family</dt>
+      <dd>Virus (needs a host + user action), worm (self-spreading, no host needed), Trojan (disguised, doesn't self-replicate), ransomware (encrypts for ransom), spyware (covert monitoring).</dd>
+      <dt>Social engineering</dt>
+      <dd>Phishing/spear phishing/vishing/smishing, pretexting, baiting — manipulating people rather than exploiting code.</dd>
+      <dt>DoS · DDoS · Botnet</dt>
+      <dd>DoS floods a target from one source; DDoS floods it from many (often via a botnet of compromised "zombie" machines controlled by a C2 server).</dd>
+      <dt>Ethical hacking</dt>
+      <dd>Authorized pen testing (white/black/grey-box) following recon → scanning → gaining access → maintaining access → covering tracks, done legally to improve security.</dd>
+    </dl>
+  </div>
+
+  <div class="section">
+    <h2>Diagram</h2>
+    <figure class="diagram-box">
+      <svg viewBox="0 0 720 180" xmlns="http://www.w3.org/2000/svg">
+        <g font-size="10" font-weight="700">
+          <text x="20" y="20" style="fill:var(--text-dim)">Threat → Vulnerability → Attack → Impact</text>
+          <rect x="30" y="40" width="140" height="45" rx="6" fill="var(--accent-dim)" stroke="var(--accent)"></rect>
+          <text x="100" y="66" text-anchor="middle" style="fill:var(--accent)">Threat</text>
+          <rect x="210" y="40" width="140" height="45" rx="6" fill="var(--accent-2-dim)" stroke="var(--accent-2)"></rect>
+          <text x="280" y="66" text-anchor="middle" style="fill:var(--accent-2)">Vulnerability</text>
+          <rect x="390" y="40" width="140" height="45" rx="6" fill="var(--warn-dim)" stroke="var(--warn)"></rect>
+          <text x="460" y="66" text-anchor="middle" style="fill:var(--warn)">Attack</text>
+          <rect x="570" y="40" width="120" height="45" rx="6" fill="var(--danger-dim)" stroke="var(--danger)"></rect>
+          <text x="630" y="66" text-anchor="middle" style="fill:var(--danger)">Impact</text>
+          <path d="M170 62 L210 62" stroke="var(--text-dim)" stroke-width="2" marker-end="url(#arrcy)"></path>
+          <path d="M350 62 L390 62" stroke="var(--text-dim)" stroke-width="2" marker-end="url(#arrcy)"></path>
+          <path d="M530 62 L570 62" stroke="var(--text-dim)" stroke-width="2" marker-end="url(#arrcy)"></path>
+        </g>
+        <defs><marker id="arrcy" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 z" fill="var(--text-dim)"></path></marker></defs>
+        <g font-size="9">
+          <text x="100" y="105" text-anchor="middle" style="fill:var(--text-dim)">e.g. a botnet operator</text>
+          <text x="280" y="105" text-anchor="middle" style="fill:var(--text-dim)">e.g. unpatched server</text>
+          <text x="460" y="105" text-anchor="middle" style="fill:var(--text-dim)">e.g. DDoS flood</text>
+          <text x="630" y="105" text-anchor="middle" style="fill:var(--text-dim)">e.g. site offline</text>
+        </g>
+        <text x="360" y="145" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">Ethical hacking works the same chain in reverse: authorized testers find the vulnerability BEFORE an attacker exploits it.</text>
+      </svg>
+      <figcaption>A threat only becomes real harm if it finds a vulnerability to exploit — closing vulnerabilities breaks the chain.</figcaption>
+    </figure>
+  </div>
+
+  <div class="section">
+    <h2>Example</h2>
+    <pre class="example"><code>An attacker builds a botnet, then launches a DDoS attack:
+  1. Infect thousands of IoT devices with malware -> each becomes a "bot"
+  2. Bots connect to the attacker's Command & Control (C2) server, awaiting orders
+  3. C2 server instructs all bots to flood a target website with requests
+     simultaneously (distributed = hard to block by source IP alone)
+  4. Target's servers are overwhelmed -> legitimate users can't access it (DoS)
+
+An ethical hacker, hired to test the SAME target beforehand, would instead:
+  1. Get written authorization defining scope (black-box test)
+  2. Reconnaissance -> scanning -> attempt controlled exploitation
+  3. Report the DDoS-susceptibility finding, WITHOUT actually taking the site down
+  4. Recommend mitigations (rate limiting, DDoS protection service, etc.)</code></pre>
+  </div>
+
+  <div class="callout warn">
+    <strong>Common exam traps</strong>
+    <p>A virus needs a host file + user action; a worm self-replicates over a network with neither. DDoS = distributed (many sources, via a botnet); DoS = single source. White-box = full internal knowledge; black-box = none; grey-box = partial. Ethical hacking is defined by AUTHORIZATION, not by the techniques used (which mirror real attacks).</p>
+  </div>
+
+  <div class="section">
+    <h2>Practice MCQs</h2>
+    <div class="mcq">
+      <p class="q"><span class="qn">Q1.</span> A computer worm, unlike a virus:</p>
+      <ol class="opts" type="A">
+        <li>Requires a host file to attach to and spread</li>
+        <li>Self-replicates and spreads across networks without needing to attach to a host file or requiring user action</li>
+        <li>Can only run on a single isolated machine with no network access</li>
+        <li>Is a legitimate diagnostic tool</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Worms exploit network vulnerabilities to spread autonomously, unlike viruses which need a host and typically user action.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q2.</span> A DDoS (Distributed Denial of Service) attack, compared to a basic DoS attack:</p>
+      <ol class="opts" type="A">
+        <li>Originates from a single source, making it easy to block</li>
+        <li>Is launched from multiple (often compromised) sources simultaneously, making it harder to block/mitigate than a single-source DoS</li>
+        <li>Only targets email servers</li>
+        <li>Cannot cause any service disruption</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> The distributed nature of DDoS attacks makes simple IP-blocking defenses far less effective.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q3.</span> A botnet is:</p>
+      <ol class="opts" type="A">
+        <li>A single powerful attacker's personal computer</li>
+        <li>A network of compromised computers ('bots' or 'zombies') controlled remotely by an attacker, often used to launch DDoS attacks or send spam</li>
+        <li>A legitimate cloud computing service</li>
+        <li>An antivirus scanning tool</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Botnets can comprise thousands to millions of infected devices, giving attackers massive coordinated attack capacity.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q4.</span> Ethical hacking refers to:</p>
+      <ol class="opts" type="A">
+        <li>Illegally breaking into systems for personal gain</li>
+        <li>Authorized, legal attempts to find and exploit vulnerabilities in a system, with the owner's permission, to improve security</li>
+        <li>A type of malware</li>
+        <li>Only theoretical study with no actual system testing</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Explicit authorization is what distinguishes ethical hacking from illegal, malicious hacking.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q5.</span> A rogue/evil-twin Wi-Fi hotspot:</p>
+      <ol class="opts" type="A">
+        <li>Is a certified, secure access point provided by the venue</li>
+        <li>Is a fake wireless access point set up to mimic a legitimate one, tricking users into connecting so the attacker can intercept their traffic</li>
+        <li>Cannot be used to intercept any user data</li>
+        <li>Always uses stronger encryption than a legitimate hotspot</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Evil-twin attacks exploit users' tendency to connect to familiar-sounding public Wi-Fi names without verification.</p></details>
+    </div>
+    <p style="margin-top:18px"><a class="btn" href="../quiz.html?topic=cy-threats">Practice all 50 Threats, Attacks &amp; Ethical Hacking questions →</a></p>
+  </div>
+
+  <div class="topic-nav">
+    <a href="../cyber.html"><span class="dir">← Back to</span>Unit 12 index</a>
+    <a class="next" href="cy-data-protection.html"><span class="dir">Next topic →</span>Data Security, Privacy &amp; Protection</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  GPSC ICT Class-2 exam prep · Unit 12 — Cyber Security
+</footer>
+
+<script src="../assets/js/nav.js"></script>
+</body>
+</html>

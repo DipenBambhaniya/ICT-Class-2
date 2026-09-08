@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Data Security, Privacy &amp; Protection — Cyber Security</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="../index.html"><span class="logo-dot">DB</span> NoSQL Exam Prep</a>
+    <nav class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../cyber.html" class="active">Cyber Security</a>
+      <a href="../quiz.html">Practice Quiz</a>
+    </nav>
+  </div>
+</header>
+<nav class="subnav">
+  <a href="cy-threats.html">Threats &amp; Attacks</a>
+  <a href="cy-data-protection.html" class="active">Data Protection</a>
+  <a href="cy-risk-mgmt.html">Risk Management</a>
+  <a href="cy-laws.html">Laws &amp; Governance</a>
+</nav>
+
+<main>
+
+  <div class="topic-header">
+    <span class="pill">Unit 12 · 2 of 4</span>
+    <h1>Data Security, Privacy &amp; Protection</h1>
+    <p class="sub">Data security protects data from unauthorized access; data privacy governs whether and how it's appropriately collected and used in the first place — "data protection" is the umbrella term covering both. The CIA triad (Confidentiality, Integrity, Availability) frames the core security goals.</p>
+  </div>
+
+  <div class="section">
+    <h2>Key points</h2>
+    <dl class="terms">
+      <dt>CIA triad</dt>
+      <dd>Confidentiality (no unauthorized disclosure), Integrity (no unauthorized modification), Availability (accessible to authorized users when needed).</dd>
+      <dt>Security ≠ Privacy</dt>
+      <dd>Security = preventing unauthorized access/breach. Privacy = ensuring even AUTHORIZED collection/use respects individual rights and consent.</dd>
+      <dt>Anonymization vs pseudonymization</dt>
+      <dd>Anonymization is irreversible (no re-identification possible); pseudonymization replaces identifiers but remains re-identifiable with a separately held key.</dd>
+      <dt>Core principles</dt>
+      <dd>Data minimization (collect only what's needed), purpose limitation (don't repurpose without consent), least privilege access.</dd>
+      <dt>Encryption</dt>
+      <dd>At rest (stored data) vs in transit (data moving over a network) — both needed; a stolen encryption key defeats either.</dd>
+    </dl>
+  </div>
+
+  <div class="section">
+    <h2>Diagram</h2>
+    <figure class="diagram-box">
+      <svg viewBox="0 0 720 170" xmlns="http://www.w3.org/2000/svg">
+        <g font-size="11" font-weight="700">
+          <text x="20" y="20" style="fill:var(--text-dim)">The CIA triad</text>
+          <polygon points="360,35 300,140 420,140" fill="none" stroke="var(--text-dim)" stroke-width="2"></polygon>
+          <circle cx="360" cy="35" r="8" fill="var(--accent)"></circle>
+          <text x="360" y="20" text-anchor="middle" style="fill:var(--accent)">Confidentiality</text>
+          <circle cx="300" cy="140" r="8" fill="var(--accent-2)"></circle>
+          <text x="255" y="160" text-anchor="middle" style="fill:var(--accent-2)">Integrity</text>
+          <circle cx="420" cy="140" r="8" fill="var(--warn)"></circle>
+          <text x="465" y="160" text-anchor="middle" style="fill:var(--warn)">Availability</text>
+        </g>
+        <text x="580" y="60" font-size="10" style="fill:var(--text-dim)">Confidentiality: no unauthorized</text>
+        <text x="580" y="76" font-size="10" style="fill:var(--text-dim)">disclosure (encryption, ACLs)</text>
+        <text x="580" y="98" font-size="10" style="fill:var(--text-dim)">Integrity: no unauthorized change</text>
+        <text x="580" y="114" font-size="10" style="fill:var(--text-dim)">(hashing, checksums)</text>
+        <text x="580" y="136" font-size="10" style="fill:var(--text-dim)">Availability: accessible when</text>
+        <text x="580" y="152" font-size="10" style="fill:var(--text-dim)">needed (redundancy, anti-DoS)</text>
+      </svg>
+      <figcaption>Every data security control ultimately serves one (or more) of these three goals.</figcaption>
+    </figure>
+  </div>
+
+  <div class="section">
+    <h2>Example</h2>
+    <pre class="example"><code>A hospital handling patient records:
+  Confidentiality: records encrypted at rest; role-based access control so
+                    only a patient's own care team can view their chart
+  Integrity:        digital signatures/checksums detect any unauthorized
+                     edit to a diagnosis or prescription
+  Availability:      redundant servers + tested backups ensure doctors can
+                     access records even during a system outage
+
+Privacy layer on top of security: the hospital collects only data needed
+for care (minimization), gets patient consent before sharing data with a
+research study (purpose limitation), and anonymizes records used in a
+published study so individual patients can't be re-identified.</code></pre>
+  </div>
+
+  <div class="callout warn">
+    <strong>Common exam traps</strong>
+    <p>Availability is about ACCESS when needed — a DoS attack is an availability violation, not confidentiality. Anonymized data must be irreversible; if it can be re-identified by combining datasets, it was only pseudonymized. Encryption is only as strong as its KEY MANAGEMENT — a leaked key defeats even strong encryption. Security and privacy are related but distinct: strong security with no consent for data use is still a privacy failure.</p>
+  </div>
+
+  <div class="section">
+    <h2>Practice MCQs</h2>
+    <div class="mcq">
+      <p class="q"><span class="qn">Q1.</span> The CIA triad in information security stands for:</p>
+      <ol class="opts" type="A">
+        <li>Central Intelligence Agency (unrelated to security concepts)</li>
+        <li>Confidentiality, Integrity, and Availability — the three core goals of information security</li>
+        <li>Cybersecurity, Identity, and Authentication</li>
+        <li>Compliance, Insurance, and Auditing</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> These three properties are the foundational objectives most security controls aim to protect.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q2.</span> Data privacy, as distinct from data security, primarily concerns:</p>
+      <ol class="opts" type="A">
+        <li>Only the technical mechanisms used to prevent unauthorized data access</li>
+        <li>The appropriate collection, use, and sharing of personal information in line with individuals' rights and expectations, complementing but distinct from the technical controls of data security</li>
+        <li>Only encrypting network traffic</li>
+        <li>A synonym for data security with no meaningful distinction</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Data security protects data from unauthorized access/breach; data privacy governs whether and how data should be collected/used in the first place.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q3.</span> Data anonymization involves:</p>
+      <ol class="opts" type="A">
+        <li>Encrypting data with a key that can later be used to decrypt it</li>
+        <li>Irreversibly removing or altering personally identifiable information so individuals can no longer be identified from the data</li>
+        <li>Simply renaming a file</li>
+        <li>Backing up data to a secondary location</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Properly anonymized data cannot be re-linked back to a specific individual, unlike pseudonymized data.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q4.</span> Which scenario best illustrates a violation of the availability leg of the CIA triad?</p>
+      <ol class="opts" type="A">
+        <li>An unauthorized user reads confidential customer data</li>
+        <li>A DDoS attack takes an organization's website offline for several hours</li>
+        <li>Data is properly encrypted both at rest and in transit</li>
+        <li>An audit log correctly records every data access</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Denial-of-service style disruptions specifically target the availability of systems/data to legitimate users.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q5.</span> The data minimization principle in data protection means:</p>
+      <ol class="opts" type="A">
+        <li>Collecting as much personal data as possible, just in case it's useful later</li>
+        <li>Collecting and retaining only the personal data that is actually necessary for the specific, defined purpose</li>
+        <li>Never collecting any data at all under any circumstances</li>
+        <li>Only applies to financial data, not other personal data</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Data minimization reduces privacy risk and the potential impact of a future breach by limiting what data exists to be exposed.</p></details>
+    </div>
+    <p style="margin-top:18px"><a class="btn" href="../quiz.html?topic=cy-data-protection">Practice all 50 Data Security, Privacy &amp; Protection questions →</a></p>
+  </div>
+
+  <div class="topic-nav">
+    <a href="cy-threats.html"><span class="dir">← Previous topic</span>Threats, Attacks &amp; Ethical Hacking</a>
+    <a class="next" href="cy-risk-mgmt.html"><span class="dir">Next topic →</span>IT Security &amp; Risk Management</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  GPSC ICT Class-2 exam prep · Unit 12 — Cyber Security
+</footer>
+
+<script src="../assets/js/nav.js"></script>
+</body>
+</html>

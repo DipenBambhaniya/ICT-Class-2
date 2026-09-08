@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IT Security &amp; Risk Management — Cyber Security</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="../index.html"><span class="logo-dot">DB</span> NoSQL Exam Prep</a>
+    <nav class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../cyber.html" class="active">Cyber Security</a>
+      <a href="../quiz.html">Practice Quiz</a>
+    </nav>
+  </div>
+</header>
+<nav class="subnav">
+  <a href="cy-threats.html">Threats &amp; Attacks</a>
+  <a href="cy-data-protection.html">Data Protection</a>
+  <a href="cy-risk-mgmt.html" class="active">Risk Management</a>
+  <a href="cy-laws.html">Laws &amp; Governance</a>
+</nav>
+
+<main>
+
+  <div class="topic-header">
+    <span class="pill">Unit 12 · 3 of 4</span>
+    <h1>IT Security &amp; Risk Management</h1>
+    <p class="sub">Risk management turns threats and vulnerabilities into a structured, ongoing process: identify, assess, treat, monitor. Incident response handles what happens when prevention fails. In India, CERT-In coordinates this at a national level as the nodal cybersecurity incident-response agency.</p>
+  </div>
+
+  <div class="section">
+    <h2>Key points</h2>
+    <dl class="terms">
+      <dt>Risk management cycle</dt>
+      <dd>Identify → assess (likelihood × impact) → treat (avoid, mitigate, transfer, or accept) → continuously monitor.</dd>
+      <dt>Risk treatment options</dt>
+      <dd>Avoid (eliminate), mitigate (reduce), transfer (e.g. insurance), or accept (a conscious, documented decision) — chosen by cost/benefit.</dd>
+      <dt>Incident response phases</dt>
+      <dd>Preparation → detection/identification → containment → eradication → recovery → lessons learned.</dd>
+      <dt>CERT-In</dt>
+      <dd>India's national nodal agency for cybersecurity incidents — issues advisories, collects/analyzes incident data, coordinates national response.</dd>
+      <dt>Defense in depth</dt>
+      <dd>Layering multiple controls (technical, procedural, awareness training) so no single failure causes full compromise.</dd>
+    </dl>
+  </div>
+
+  <div class="section">
+    <h2>Diagram</h2>
+    <figure class="diagram-box">
+      <svg viewBox="0 0 720 170" xmlns="http://www.w3.org/2000/svg">
+        <g font-size="10" font-weight="700">
+          <text x="20" y="20" style="fill:var(--text-dim)">The risk management cycle</text>
+          <circle cx="260" cy="100" r="65" fill="none" stroke="var(--text-dim)" stroke-width="2"></circle>
+          <circle cx="260" cy="35" r="6" fill="var(--accent)"></circle>
+          <text x="260" y="23" text-anchor="middle" style="fill:var(--accent)">Identify</text>
+          <circle cx="320" cy="75" r="6" fill="var(--accent-2)"></circle>
+          <text x="380" y="75" text-anchor="middle" style="fill:var(--accent-2)">Assess</text>
+          <circle cx="320" cy="130" r="6" fill="var(--warn)"></circle>
+          <text x="375" y="135" text-anchor="middle" style="fill:var(--warn)">Treat</text>
+          <circle cx="200" cy="130" r="6" fill="var(--danger)"></circle>
+          <text x="150" y="135" text-anchor="middle" style="fill:var(--danger)">Monitor</text>
+          <path d="M260 35 A65 65 0 0 1 320 75" stroke="var(--text-dim)" stroke-width="2" fill="none" marker-end="url(#arrrk)"></path>
+          <path d="M320 75 A65 65 0 0 1 320 130" stroke="var(--text-dim)" stroke-width="2" fill="none" marker-end="url(#arrrk)"></path>
+          <path d="M320 130 A65 65 0 0 1 200 130" stroke="var(--text-dim)" stroke-width="2" fill="none" marker-end="url(#arrrk)"></path>
+          <path d="M200 130 A65 65 0 0 1 260 35" stroke="var(--text-dim)" stroke-width="2" fill="none" marker-end="url(#arrrk)"></path>
+        </g>
+        <defs><marker id="arrrk" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 z" fill="var(--text-dim)"></path></marker></defs>
+        <text x="580" y="60" font-size="9" style="fill:var(--text-dim)">Never a one-time exercise —</text>
+        <text x="580" y="76" font-size="9" style="fill:var(--text-dim)">threats and assets keep</text>
+        <text x="580" y="92" font-size="9" style="fill:var(--text-dim)">changing, so the cycle repeats.</text>
+      </svg>
+      <figcaption>Risk management is continuous: monitoring feeds back into re-identifying and re-assessing risk.</figcaption>
+    </figure>
+  </div>
+
+  <div class="section">
+    <h2>Example</h2>
+    <pre class="example"><code>A bank assessing ransomware risk:
+  Identify:  legacy file server running unpatched software (vulnerability);
+             ransomware gangs actively targeting the finance sector (threat)
+  Assess:    High likelihood + high impact (customer data, regulatory fines,
+             reputational damage) -> flagged as a top-priority risk
+  Treat:     Mitigate — patch the server, segment it from the main network,
+             deploy endpoint detection; Transfer — buy cyber insurance
+  Monitor:   SOC/SIEM continuously watches for suspicious activity
+
+If an incident occurs anyway: contain (isolate the infected segment),
+eradicate (remove the malware), recover (restore from tested backups),
+and — since this is a significant incident — report it as required to
+CERT-In, which can issue a broader advisory if the threat is widespread.</code></pre>
+  </div>
+
+  <div class="callout warn">
+    <strong>Common exam traps</strong>
+    <p>Risk ACCEPTANCE is a conscious, documented decision — not the same as ignoring a risk. CERT-In is India's NATIONAL nodal incident-response agency (not a private vendor). Defense in depth means LAYERED controls, not one strong control. Preventive controls (firewalls) stop incidents before they happen; detective controls (IDS, SIEM) find them during/after; corrective controls (backups, patching) fix things afterward — these three are often confused.</p>
+  </div>
+
+  <div class="section">
+    <h2>Practice MCQs</h2>
+    <div class="mcq">
+      <p class="q"><span class="qn">Q1.</span> The risk management process typically follows the general sequence:</p>
+      <ol class="opts" type="A">
+        <li>Mitigate, then identify, then assess, with no monitoring</li>
+        <li>Identify risks, assess/analyze them, treat/mitigate them, and continuously monitor/review</li>
+        <li>Only monitor, with no other steps</li>
+        <li>Assess risks only once, at the very start of an organization's existence, with no further review</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Risk management is an ongoing cycle, not a one-time activity, since the threat landscape and organization both change over time.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q2.</span> CERT-In (Indian Computer Emergency Response Team) functions as:</p>
+      <ol class="opts" type="A">
+        <li>A private for-profit antivirus vendor</li>
+        <li>India's national nodal agency for responding to cybersecurity incidents, issuing advisories, and coordinating incident response</li>
+        <li>A branch of a foreign government with no role in India</li>
+        <li>A hardware manufacturer</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> CERT-In operates under India's Ministry of Electronics and Information Technology (MeitY) as the national incident response coordinator.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q3.</span> The typical phases of incident response include:</p>
+      <ol class="opts" type="A">
+        <li>Only a single phase: cleanup</li>
+        <li>Preparation, detection/identification, containment, eradication, recovery, and lessons learned/post-incident review</li>
+        <li>Only detection, with no further action taken</li>
+        <li>Only occurring for incidents affecting external customers, never internal systems</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> This structured lifecycle helps ensure incidents are handled thoroughly, not just superficially patched.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q4.</span> Defense in depth, as an IT security risk management strategy, means:</p>
+      <ol class="opts" type="A">
+        <li>Relying on a single very strong security control</li>
+        <li>Layering multiple, complementary security controls so that the failure of any one control doesn't lead to a full compromise</li>
+        <li>Only applying security measures at the network perimeter, with nothing internal</li>
+        <li>Ignoring physical security entirely</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> This layered approach acknowledges that no single control is perfect, so redundancy across layers reduces overall risk.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q5.</span> Risk treatment (mitigation) options generally include:</p>
+      <ol class="opts" type="A">
+        <li>Only one option: fully eliminate every risk with no other choice</li>
+        <li>Avoiding, mitigating/reducing, transferring (e.g., via insurance), or accepting a given risk, depending on its severity and the cost of addressing it</li>
+        <li>Ignoring all risks regardless of severity</li>
+        <li>Only purchasing new hardware, with no other possible response</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Organizations choose among these strategies based on a cost-benefit analysis of each risk.</p></details>
+    </div>
+    <p style="margin-top:18px"><a class="btn" href="../quiz.html?topic=cy-risk-mgmt">Practice all 50 IT Security &amp; Risk Management questions →</a></p>
+  </div>
+
+  <div class="topic-nav">
+    <a href="cy-data-protection.html"><span class="dir">← Previous topic</span>Data Security, Privacy &amp; Protection</a>
+    <a class="next" href="cy-laws.html"><span class="dir">Next topic →</span>Cyber Laws &amp; Governance</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  GPSC ICT Class-2 exam prep · Unit 12 — Cyber Security
+</footer>
+
+<script src="../assets/js/nav.js"></script>
+</body>
+</html>

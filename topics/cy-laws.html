@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cyber Laws &amp; Governance — Cyber Security</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="../index.html"><span class="logo-dot">DB</span> NoSQL Exam Prep</a>
+    <nav class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../cyber.html" class="active">Cyber Security</a>
+      <a href="../quiz.html">Practice Quiz</a>
+    </nav>
+  </div>
+</header>
+<nav class="subnav">
+  <a href="cy-threats.html">Threats &amp; Attacks</a>
+  <a href="cy-data-protection.html">Data Protection</a>
+  <a href="cy-risk-mgmt.html">Risk Management</a>
+  <a href="cy-laws.html" class="active">Laws &amp; Governance</a>
+</nav>
+
+<main>
+
+  <div class="topic-header">
+    <span class="pill">Unit 12 · 4 of 4</span>
+    <h1>Cyber Laws &amp; Governance</h1>
+    <p class="sub">The IT Act 2000 (amended 2008) is India's core cyber law, giving legal recognition to electronic records/digital signatures and criminalizing cyber offenses. The National Cyber Security Policy 2013 sets national strategic direction. Inside organizations, the CISO provides the governance and leadership that ties technical security to legal/business accountability.</p>
+  </div>
+
+  <div class="section">
+    <h2>Key points</h2>
+    <dl class="terms">
+      <dt>IT Act 2000</dt>
+      <dd>India's principal cyber law — legal recognition of electronic records/digital signatures, defines cybercrime offenses (hacking, data theft, obscenity, etc.).</dd>
+      <dt>2008 Amendment</dt>
+      <dd>Expanded the Act to address cyberterrorism, identity theft, phishing and other threats that emerged after 2000.</dd>
+      <dt>National Cyber Security Policy 2013</dt>
+      <dd>Strategic policy (not binding law) setting India's vision for cyberspace protection, critical infrastructure, capacity building.</dd>
+      <dt>Digital signatures &amp; Certifying Authorities</dt>
+      <dd>Digital signatures give electronic records legal standing; Certifying Authorities issue the certificates that anchor trust in them.</dd>
+      <dt>CISO role</dt>
+      <dd>Owns organization-wide security strategy, risk management, policy, incident response coordination, and reporting risk to the board.</dd>
+    </dl>
+  </div>
+
+  <div class="section">
+    <h2>Diagram</h2>
+    <figure class="diagram-box">
+      <svg viewBox="0 0 720 160" xmlns="http://www.w3.org/2000/svg">
+        <g font-size="10" font-weight="700">
+          <text x="20" y="20" style="fill:var(--text-dim)">Three layers of cyber governance</text>
+          <rect x="40" y="35" width="200" height="90" rx="6" fill="var(--accent-dim)" stroke="var(--accent)"></rect>
+          <text x="140" y="58" text-anchor="middle" style="fill:var(--accent)">IT Act 2000</text>
+          <text x="140" y="76" text-anchor="middle" font-size="8" style="fill:var(--text-dim)">Binding LAW</text>
+          <text x="140" y="92" text-anchor="middle" font-size="8" style="fill:var(--text-dim)">Cybercrime offenses,</text>
+          <text x="140" y="106" text-anchor="middle" font-size="8" style="fill:var(--text-dim)">digital signatures</text>
+
+          <rect x="260" y="35" width="200" height="90" rx="6" fill="var(--accent-2-dim)" stroke="var(--accent-2)"></rect>
+          <text x="360" y="58" text-anchor="middle" style="fill:var(--accent-2)">National Cyber</text>
+          <text x="360" y="72" text-anchor="middle" style="fill:var(--accent-2)">Security Policy 2013</text>
+          <text x="360" y="92" text-anchor="middle" font-size="8" style="fill:var(--text-dim)">Strategic POLICY</text>
+          <text x="360" y="106" text-anchor="middle" font-size="8" style="fill:var(--text-dim)">Vision &amp; national direction</text>
+
+          <rect x="480" y="35" width="200" height="90" rx="6" fill="var(--warn-dim)" stroke="var(--warn)"></rect>
+          <text x="580" y="58" text-anchor="middle" style="fill:var(--warn)">CISO / Org.</text>
+          <text x="580" y="72" text-anchor="middle" style="fill:var(--warn)">Governance</text>
+          <text x="580" y="92" text-anchor="middle" font-size="8" style="fill:var(--text-dim)">Operational LEADERSHIP</text>
+          <text x="580" y="106" text-anchor="middle" font-size="8" style="fill:var(--text-dim)">Policy, risk, response</text>
+        </g>
+        <text x="360" y="150" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">Law sets the rules · Policy sets national direction · Governance executes it inside each organization.</text>
+      </svg>
+      <figcaption>Legal, strategic and organizational layers work together — none of the three alone is sufficient.</figcaption>
+    </figure>
+  </div>
+
+  <div class="section">
+    <h2>Example</h2>
+    <pre class="example"><code>An Indian company suffers unauthorized access to its customer database:
+
+  IT Act 2000:      The intrusion itself is a punishable offense
+                     (unauthorized access / data theft provisions)
+  Org. governance:   The CISO activates the incident response plan,
+                     coordinates containment with the security team,
+                     and reports to the board on business impact
+  National context:  Given the incident's significance, it may be
+                     reportable to CERT-In per applicable requirements,
+                     feeding into national situational awareness
+  Digital signatures: The company's own digitally signed audit logs
+                     (legally recognized under the IT Act) help establish
+                     a reliable timeline of what happened
+
+None of these layers alone would be enough: the law provides deterrence
+and recourse, governance provides the operational response, and national
+coordination provides broader context and support.</code></pre>
+  </div>
+
+  <div class="callout warn">
+    <strong>Common exam traps</strong>
+    <p>The IT Act 2000 is binding LAW; the National Cyber Security Policy 2013 is strategic POLICY — they are not interchangeable and the policy did not replace the Act. The Act was significantly amended in 2008, not left unchanged. A CISO's role is organization-WIDE strategy/governance, not just writing code or fixing individual bugs. "Reasonable security practices" (not absolute/perfect security) is generally the legal standard for due diligence.</p>
+  </div>
+
+  <div class="section">
+    <h2>Practice MCQs</h2>
+    <div class="mcq">
+      <p class="q"><span class="qn">Q1.</span> The Information Technology Act, 2000 (IT Act 2000) is:</p>
+      <ol class="opts" type="A">
+        <li>A regulation applicable only outside India</li>
+        <li>India's principal law addressing cybercrime, electronic commerce, and legal recognition of electronic records/digital signatures</li>
+        <li>A voluntary industry guideline with no legal force</li>
+        <li>A law that applies only to government employees</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> The IT Act 2000 provides the primary legal framework for cyber law and electronic transactions in India.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q2.</span> The IT Act 2000 was significantly amended in:</p>
+      <ol class="opts" type="A">
+        <li>1995, before the original Act even existed</li>
+        <li>2008, expanding provisions related to cybercrime, data protection, and cyber terrorism, among other updates</li>
+        <li>The Act has never been amended since its original passage</li>
+        <li>Only in a minor, purely cosmetic way with no substantive change</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> The 2008 amendment significantly expanded the Act's scope, including provisions addressing cyber terrorism and broader cybercrime offenses.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q3.</span> The National Cyber Security Policy, 2013 was released by the Government of India to:</p>
+      <ol class="opts" type="A">
+        <li>Ban the internet in India</li>
+        <li>Provide a broad strategic framework and vision for protecting India's cyberspace, critical information infrastructure, and building national cybersecurity capability</li>
+        <li>Only apply to a single specific government ministry</li>
+        <li>Replace the IT Act 2000 entirely</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> The policy outlines objectives and strategies for securing India's information infrastructure at a national level, complementing (not replacing) the IT Act 2000.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q4.</span> The Chief Information Security Officer (CISO) role in an organization is generally responsible for:</p>
+      <ol class="opts" type="A">
+        <li>Only managing the organization's physical office supplies</li>
+        <li>Leading and overseeing the organization's overall information security strategy, policies, and risk management program</li>
+        <li>Only writing application source code</li>
+        <li>A role that exists only in government organizations, never private companies</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> The CISO is typically the senior executive accountable for an organization's overall security posture.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q5.</span> Under the IT Act 2000, a digital signature is used to:</p>
+      <ol class="opts" type="A">
+        <li>Only serve a decorative purpose in electronic documents</li>
+        <li>Provide authentication and integrity assurance for electronic records, giving them legal standing similar to a handwritten signature on paper</li>
+        <li>Replace the need for any encryption entirely</li>
+        <li>Only be valid for documents shorter than one page</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Digital signatures rely on public-key cryptography to verify the signer's identity and that the document hasn't been altered.</p></details>
+    </div>
+    <p style="margin-top:18px"><a class="btn" href="../quiz.html?topic=cy-laws">Practice all 50 Cyber Laws &amp; Governance questions →</a></p>
+  </div>
+
+  <div class="topic-nav">
+    <a href="cy-risk-mgmt.html"><span class="dir">← Previous topic</span>IT Security &amp; Risk Management</a>
+    <a class="next" href="../quiz.html"><span class="dir">Ready to test yourself? →</span>Take the Practice Quiz</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  GPSC ICT Class-2 exam prep · Unit 12 — Cyber Security
+</footer>
+
+<script src="../assets/js/nav.js"></script>
+</body>
+</html>

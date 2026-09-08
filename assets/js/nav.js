@@ -162,6 +162,16 @@
         ["Software Testing & Project Mgmt", "topics/se-testing-pm.html"],
         ["SCADA & Software Quality", "topics/se-quality-scada.html"]
       ]
+    },
+    {
+      type: "group", label: "12) Cyber Security", href: "cyber.html",
+      items: [
+        ["Overview", "cyber.html"],
+        ["Threats, Attacks & Ethical Hacking", "topics/cy-threats.html"],
+        ["Data Security, Privacy & Protection", "topics/cy-data-protection.html"],
+        ["IT Security & Risk Management", "topics/cy-risk-mgmt.html"],
+        ["Cyber Laws & Governance", "topics/cy-laws.html"]
+      ]
     }
   ];
 
