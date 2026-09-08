@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Public / Private / Hybrid Cloud — Data Centre</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="../index.html"><span class="logo-dot">DB</span> NoSQL Exam Prep</a>
+    <nav class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../dc.html" class="active">Data Centre</a>
+      <a href="../quiz.html">Practice Quiz</a>
+    </nav>
+  </div>
+</header>
+<nav class="subnav">
+  <a href="dc-storage.html">Data Storage &amp; Availability</a>
+  <a href="dc-cloud-infra.html">Cloud Infrastructure &amp; Virtualization</a>
+  <a href="dc-cloud-models.html" class="active">Public / Private / Hybrid Cloud</a>
+  <a href="dc-scalability.html">Scalability &amp; Reliability</a>
+</nav>
+
+<main>
+
+  <div class="topic-header">
+    <span class="pill">Unit 9 · 3 of 4</span>
+    <h1>Public, Private &amp; Hybrid Cloud</h1>
+    <p class="sub">Where should a workload actually run? Public, private and hybrid cloud are deployment models answering "who owns/shares the infrastructure"; IaaS, PaaS and SaaS are service models answering "how much of the stack does the provider manage for you". Real strategy usually mixes both decisions per workload.</p>
+  </div>
+
+  <div class="section">
+    <h2>Key points</h2>
+    <dl class="terms">
+      <dt>Public cloud</dt>
+      <dd>Multi-tenant infrastructure owned by a third party (AWS, Azure, GCP) — low upfront cost, high elasticity.</dd>
+      <dt>Private cloud</dt>
+      <dd>Cloud-style self-service/elasticity on infrastructure dedicated to one organization (on-premises or hosted) — more control, more management burden.</dd>
+      <dt>Hybrid cloud</dt>
+      <dd>Public + private (or on-premises) integrated together — e.g. sensitive data stays private while a public front-end absorbs traffic spikes ("cloud bursting").</dd>
+      <dt>Community cloud</dt>
+      <dd>Shared by several organizations with common compliance/mission needs (e.g. several government agencies).</dd>
+      <dt>IaaS · PaaS · SaaS</dt>
+      <dd>Increasing provider responsibility, decreasing customer responsibility: IaaS (raw VMs/storage/network) → PaaS (+ OS/runtime) → SaaS (a finished application).</dd>
+    </dl>
+  </div>
+
+  <div class="section">
+    <h2>Diagram</h2>
+    <figure class="diagram-box">
+      <svg viewBox="0 0 720 210" xmlns="http://www.w3.org/2000/svg">
+        <g font-size="11" font-weight="700">
+          <text x="20" y="20" style="fill:var(--text-dim)">Deployment models</text>
+          <rect x="30"  y="35" width="180" height="60" rx="8" fill="var(--accent-dim)" stroke="var(--accent)"></rect>
+          <text x="120" y="60" text-anchor="middle" style="fill:var(--accent)">Private Cloud</text>
+          <text x="120" y="78" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">one organization</text>
+
+          <rect x="270" y="35" width="180" height="60" rx="8" fill="var(--warn-dim)" stroke="var(--warn)"></rect>
+          <text x="360" y="60" text-anchor="middle" style="fill:var(--warn)">Hybrid Cloud</text>
+          <text x="360" y="78" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">private + public, integrated</text>
+
+          <rect x="510" y="35" width="180" height="60" rx="8" fill="var(--accent-2-dim)" stroke="var(--accent-2)"></rect>
+          <text x="600" y="60" text-anchor="middle" style="fill:var(--accent-2)">Public Cloud</text>
+          <text x="600" y="78" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">many tenants share</text>
+
+          <path d="M210 65 L270 65" stroke="var(--text-dim)" stroke-width="2" marker-end="url(#arrcm)"></path>
+          <path d="M450 65 L510 65" stroke="var(--text-dim)" stroke-width="2" marker-end="url(#arrcm)"></path>
+        </g>
+
+        <g font-size="11" font-weight="700">
+          <text x="20" y="130" style="fill:var(--text-dim)">Service models — who manages what?</text>
+          <rect x="30"  y="145" width="200" height="42" rx="6" fill="none" stroke="var(--text-dim)"></rect>
+          <text x="130" y="163" text-anchor="middle" font-size="10">IaaS</text>
+          <text x="130" y="179" text-anchor="middle" font-size="8" style="fill:var(--text-dim)">you manage OS up</text>
+          <rect x="260" y="145" width="200" height="42" rx="6" fill="none" stroke="var(--text-dim)"></rect>
+          <text x="360" y="163" text-anchor="middle" font-size="10">PaaS</text>
+          <text x="360" y="179" text-anchor="middle" font-size="8" style="fill:var(--text-dim)">you manage app code only</text>
+          <rect x="490" y="145" width="200" height="42" rx="6" fill="none" stroke="var(--text-dim)"></rect>
+          <text x="590" y="163" text-anchor="middle" font-size="10">SaaS</text>
+          <text x="590" y="179" text-anchor="middle" font-size="8" style="fill:var(--text-dim)">you just use it</text>
+        </g>
+        <defs>
+          <marker id="arrcm" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 z" fill="var(--text-dim)"></path></marker>
+        </defs>
+      </svg>
+      <figcaption>Deployment models decide WHO shares the infrastructure; service models decide HOW MUCH of the stack the provider manages.</figcaption>
+    </figure>
+  </div>
+
+  <div class="section">
+    <h2>Example</h2>
+    <pre class="example"><code>An online retailer:
+  - Keeps its financial/inventory database on PRIVATE infrastructure
+    (compliance, full control) — an IaaS-style deployment it manages itself.
+  - Runs its customer-facing storefront on PUBLIC cloud, auto-scaling to
+    absorb Diwali/holiday-sale traffic spikes ("cloud bursting").
+  - Uses a SaaS email-marketing tool with no infrastructure of its own.
+
+Together: a HYBRID cloud strategy, mixing IaaS (private DB), IaaS/PaaS
+(public storefront) and SaaS (email tool) — each workload placed where its
+cost, control and scalability needs are best met.</code></pre>
+  </div>
+
+  <div class="callout warn">
+    <strong>Common exam traps</strong>
+    <p>"Multi-cloud" (several public providers) is not the same as "hybrid cloud" (public + private/on-premises integrated). Public cloud shifts spend from CapEx to OpEx. IaaS gives the customer the MOST management responsibility (OS upward); SaaS gives the LEAST. The "shared responsibility model" means the provider secures the underlying platform while the customer must correctly configure what they deploy on it.</p>
+  </div>
+
+  <div class="section">
+    <h2>Practice MCQs</h2>
+    <div class="mcq">
+      <p class="q"><span class="qn">Q1.</span> A hybrid cloud is best described as:</p>
+      <ol class="opts" type="A">
+        <li>Two public cloud providers used together, nothing private</li>
+        <li>An integration of public and private (or on-premises) infrastructure, letting workloads move between them</li>
+        <li>Infrastructure available only inside one building</li>
+        <li>A single vendor's infrastructure exclusively</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Using several public providers together (with no private component) is "multi-cloud", a different concept.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q2.</span> Which service model leaves the customer managing the OS and everything above it?</p>
+      <ol class="opts" type="A">
+        <li>SaaS</li>
+        <li>PaaS</li>
+        <li>IaaS</li>
+        <li>None — the provider always manages the OS</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: C.</strong> IaaS gives the customer virtualized infrastructure only; PaaS additionally manages the OS/runtime; SaaS manages everything.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q3.</span> "Cloud bursting" refers to:</p>
+      <ol class="opts" type="A">
+        <li>Permanently moving all workloads to the public cloud</li>
+        <li>An app normally running privately automatically expanding into public cloud during demand spikes</li>
+        <li>Deleting excess cloud resources</li>
+        <li>A type of network attack</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> This avoids over-provisioning private infrastructure just for occasional peaks.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q4.</span> A regulated organization required to keep data within national borders would most likely favor:</p>
+      <ol class="opts" type="A">
+        <li>Any public cloud region, without restriction</li>
+        <li>A private cloud, or a public/hybrid deployment configured for that specific data residency requirement</li>
+        <li>Avoiding digital storage entirely</li>
+        <li>Storing data wherever is cheapest</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Data residency/compliance needs are a classic driver toward private or carefully-configured hybrid deployments.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q5.</span> The "shared responsibility model" in cloud security means:</p>
+      <ol class="opts" type="A">
+        <li>The provider is responsible for absolutely everything, including customer data</li>
+        <li>The provider secures the underlying platform; the customer must correctly configure/secure what they deploy on it</li>
+        <li>Only the customer bears any security responsibility</li>
+        <li>It applies only to private cloud</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Exactly where the line falls shifts with the service model — SaaS shifts more responsibility to the provider than IaaS does.</p></details>
+    </div>
+    <p style="margin-top:18px"><a class="btn" href="../quiz.html?topic=dc-cloud-models">Practice all 50 Public / Private / Hybrid Cloud questions →</a></p>
+  </div>
+
+  <div class="topic-nav">
+    <a href="dc-cloud-infra.html"><span class="dir">← Previous topic</span>Cloud Infrastructure &amp; Virtualization</a>
+    <a class="next" href="dc-scalability.html"><span class="dir">Next topic →</span>Scalability &amp; Reliability</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  GPSC ICT Class-2 exam prep · Unit 9 — Data Centre
+</footer>
+
+<script src="../assets/js/nav.js"></script>
+</body>
+</html>

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Data Storage &amp; Availability — Data Centre</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="../index.html"><span class="logo-dot">DB</span> NoSQL Exam Prep</a>
+    <nav class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../dc.html" class="active">Data Centre</a>
+      <a href="../quiz.html">Practice Quiz</a>
+    </nav>
+  </div>
+</header>
+<nav class="subnav">
+  <a href="dc-storage.html" class="active">Data Storage &amp; Availability</a>
+  <a href="dc-cloud-infra.html">Cloud Infrastructure &amp; Virtualization</a>
+  <a href="dc-cloud-models.html">Public / Private / Hybrid Cloud</a>
+  <a href="dc-scalability.html">Scalability &amp; Reliability</a>
+</nav>
+
+<main>
+
+  <div class="topic-header">
+    <span class="pill">Unit 9 · 1 of 4</span>
+    <h1>Data Storage, Availability &amp; Management</h1>
+    <p class="sub">A data centre must store data reliably (durability), keep it reachable when needed (availability), and govern it properly through its life (management). Different storage architectures, replication strategies and backup schemes each trade off cost, performance and protection differently.</p>
+  </div>
+
+  <div class="section">
+    <h2>Key points</h2>
+    <dl class="terms">
+      <dt>DAS / NAS / SAN</dt>
+      <dd>Direct-Attached (one host only), Network-Attached (shared file storage over a LAN), Storage Area Network (shared block storage over a dedicated high-speed fabric).</dd>
+      <dt>Block · File · Object</dt>
+      <dd>Block storage exposes raw addressable chunks (fast, used by databases); file storage exposes a folder hierarchy; object storage exposes flat, metadata-rich objects via an API (scales to billions of items).</dd>
+      <dt>RPO vs RTO</dt>
+      <dd><strong>RPO</strong> (Recovery Point Objective) = how much data you can afford to lose, in time. <strong>RTO</strong> (Recovery Time Objective) = how long you can afford to be down.</dd>
+      <dt>Full · Incremental · Differential backup</dt>
+      <dd>Full copies everything; incremental copies changes since the last backup of any kind (fast, chained restore); differential copies changes since the last full (single-step restore, grows over time).</dd>
+      <dt>Hot / warm / cold tiers</dt>
+      <dd>Frequently used data stays on fast, expensive storage; rarely used data moves to slow, cheap storage — an application of information lifecycle management (ILM).</dd>
+    </dl>
+  </div>
+
+  <div class="section">
+    <h2>Diagram</h2>
+    <figure class="diagram-box">
+      <svg viewBox="0 0 720 220" xmlns="http://www.w3.org/2000/svg">
+        <g font-size="11" font-weight="700">
+          <text x="20" y="24" style="fill:var(--text-dim)">Storage tiering (Information Lifecycle Management)</text>
+
+          <rect x="40"  y="40" width="180" height="50" rx="6" fill="var(--accent-dim)" stroke="var(--accent)"></rect>
+          <text x="130" y="61" text-anchor="middle" style="fill:var(--accent)">HOT — SSD/NVMe</text>
+          <text x="130" y="78" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">frequent access · costly</text>
+
+          <rect x="270" y="40" width="180" height="50" rx="6" fill="var(--accent-2-dim)" stroke="var(--accent-2)"></rect>
+          <text x="360" y="61" text-anchor="middle" style="fill:var(--accent-2)">WARM — HDD</text>
+          <text x="360" y="78" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">occasional access</text>
+
+          <rect x="500" y="40" width="180" height="50" rx="6" fill="var(--warn-dim)" stroke="var(--warn)"></rect>
+          <text x="590" y="61" text-anchor="middle" style="fill:var(--warn)">COLD — Tape/Archive</text>
+          <text x="590" y="78" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">rare access · cheap</text>
+
+          <path d="M220 65 L270 65" stroke="var(--text-dim)" stroke-width="2" marker-end="url(#arrdc)"></path>
+          <path d="M450 65 L500 65" stroke="var(--text-dim)" stroke-width="2" marker-end="url(#arrdc)"></path>
+          <text x="360" y="115" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">data ages / access frequency drops →</text>
+
+          <text x="20" y="155" style="fill:var(--text-dim)">RPO / RTO timeline</text>
+          <line x1="40" y1="185" x2="680" y2="185" stroke="var(--text-dim)" stroke-width="2"></line>
+          <circle cx="200" cy="185" r="5" fill="var(--accent)"></circle>
+          <text x="200" y="205" text-anchor="middle" font-size="9">last backup/replica</text>
+          <circle cx="420" cy="185" r="5" fill="var(--danger)"></circle>
+          <text x="420" y="205" text-anchor="middle" font-size="9">failure occurs</text>
+          <path d="M200 185 L420 185" stroke="var(--accent)" stroke-width="3"></path>
+          <text x="310" y="170" text-anchor="middle" font-size="9" style="fill:var(--accent)">RPO (data at risk)</text>
+          <circle cx="560" cy="185" r="5" fill="var(--accent-2)"></circle>
+          <text x="560" y="205" text-anchor="middle" font-size="9">service restored</text>
+          <path d="M420 185 L560 185" stroke="var(--accent-2)" stroke-width="3"></path>
+          <text x="490" y="170" text-anchor="middle" font-size="9" style="fill:var(--accent-2)">RTO (time to recover)</text>
+        </g>
+        <defs>
+          <marker id="arrdc" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 z" fill="var(--text-dim)"></path></marker>
+        </defs>
+      </svg>
+      <figcaption>Data moves down the storage-cost pyramid as it ages; RPO bounds data loss, RTO bounds downtime, around any failure.</figcaption>
+    </figure>
+  </div>
+
+  <div class="section">
+    <h2>Example</h2>
+    <pre class="example"><code>A service takes a full backup every Sunday and an incremental backup every night.
+It replicates asynchronously to a DR site every 15 minutes (RPO target = 15 min)
+and has a hot standby site that can take over in under 5 minutes (RTO target = 5 min).
+
+If the primary site fails at 10:07, having last replicated at 10:00:
+  - Data loss window (RPO actually incurred) = 7 minutes of writes
+  - Failover completes by 10:12                = 5 minutes of downtime (meets RTO)
+
+Restoring instead from Sunday's full + nightly incrementals (no live replica) would
+have a far larger RPO (up to a full day) and a far larger RTO (hours to restore + replay).</code></pre>
+  </div>
+
+  <div class="callout warn">
+    <strong>Common exam traps</strong>
+    <p>RPO is about data LOSS (measured in time since last protected copy); RTO is about DOWNTIME (time to restore service) — they are frequently swapped in questions. Synchronous replication gives RPO≈0 but adds write latency; asynchronous replication is faster but risks losing the last few writes. A "successful" backup that was never restore-tested is not proven to be recoverable.</p>
+  </div>
+
+  <div class="section">
+    <h2>Practice MCQs</h2>
+    <div class="mcq">
+      <p class="q"><span class="qn">Q1.</span> RPO (Recovery Point Objective) measures:</p>
+      <ol class="opts" type="A">
+        <li>How long a system can be down</li>
+        <li>How much data (in time) can be lost since the last backup/replica</li>
+        <li>The number of servers needed for recovery</li>
+        <li>The encryption strength of a backup</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> RTO is the downtime measure; RPO is the data-loss measure.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q2.</span> Which storage type exposes data as a flat namespace of items with metadata, accessed via a simple API?</p>
+      <ol class="opts" type="A">
+        <li>Block storage</li>
+        <li>File storage</li>
+        <li>Object storage</li>
+        <li>DAS only</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: C.</strong> Object storage (e.g., S3) scales to huge volumes of unstructured data without a hierarchical directory bottleneck.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q3.</span> An incremental backup, compared to a differential backup:</p>
+      <ol class="opts" type="A">
+        <li>Always copies everything, like a full backup</li>
+        <li>Copies changes since the last backup of ANY kind, making restore require every increment in sequence</li>
+        <li>Is identical to a differential backup</li>
+        <li>Never needs a full backup at all</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> A differential instead always copies changes since the last FULL backup, so restore needs only the full plus the latest differential.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q4.</span> Synchronous replication, compared to asynchronous replication:</p>
+      <ol class="opts" type="A">
+        <li>Has higher risk of data loss</li>
+        <li>Confirms the write only after both sites have it, giving RPO≈0 at the cost of latency</li>
+        <li>Cannot be used for disaster recovery</li>
+        <li>Requires no network connection</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Asynchronous replication trades a small RPO risk for lower write latency, useful over long distances.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q5.</span> A "hot site" for disaster recovery is:</p>
+      <ol class="opts" type="A">
+        <li>The cheapest, slowest option to activate</li>
+        <li>A fully operational duplicate facility with very low RTO, at high ongoing cost</li>
+        <li>Only used for testing, never real failover</li>
+        <li>The same thing as a cold site</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Cold sites are the cheap, slow-to-activate end of the spectrum; warm sites sit in between.</p></details>
+    </div>
+    <p style="margin-top:18px"><a class="btn" href="../quiz.html?topic=dc-storage">Practice all 50 Data Storage &amp; Availability questions →</a></p>
+  </div>
+
+  <div class="topic-nav">
+    <a href="../dc.html"><span class="dir">← Back to</span>Unit 9 index</a>
+    <a class="next" href="dc-cloud-infra.html"><span class="dir">Next topic →</span>Cloud Infrastructure &amp; Virtualization</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  GPSC ICT Class-2 exam prep · Unit 9 — Data Centre
+</footer>
+
+<script src="../assets/js/nav.js"></script>
+</body>
+</html>
