@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Data Cubes — Analytics</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="../index.html"><span class="logo-dot">DB</span> NoSQL Exam Prep</a>
+    <nav class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../analytics.html" class="active">Analytics</a>
+      <a href="../quiz.html">Practice Quiz</a>
+    </nav>
+  </div>
+</header>
+<nav class="subnav">
+  <a href="an-desc-pred.html">Descriptive &amp; Predictive</a>
+  <a href="an-olap.html">OLAP</a>
+  <a href="an-oltp-olap.html">OLTP vs OLAP</a>
+  <a href="an-data-cubes.html" class="active">Data Cubes</a>
+  <a href="an-warehousing.html">Data Warehousing</a>
+  <a href="an-schemas.html">Schema Models</a>
+  <a href="an-data-mining.html">Data Mining</a>
+  <a href="an-in-db.html">In-Database Analytics</a>
+  <a href="an-adv-sql.html">Advanced SQL</a>
+</nav>
+
+<main>
+
+  <div class="topic-header">
+    <span class="pill">Unit 7 · 4 of 9</span>
+    <h1>Data Cubes</h1>
+    <p class="sub">A data cube organizes measures across multiple dimensions into cells and "cuboids" — pre-aggregated views at different levels of detail — that OLAP operations navigate.</p>
+  </div>
+
+  <div class="section">
+    <h2>Key points</h2>
+    <dl class="terms">
+      <dt>Cell / cuboid</dt>
+      <dd>A cell is the measure value at one specific combination of dimension values. A cuboid is a whole aggregation "layer"; a cube with n dimensions can have up to 2^n cuboids.</dd>
+      <dt>Base vs apex cuboid</dt>
+      <dd>Base = finest detail (no aggregation). Apex = grand total, every dimension collapsed to one summary value.</dd>
+      <dt>Materialization</dt>
+      <dd>Full (compute every cuboid — fast queries, high cost), partial (materialize only common ones), or none (compute on demand) — a storage/performance trade-off.</dd>
+      <dt>Measure additivity</dt>
+      <dd>Additive (sales — sums correctly everywhere), semi-additive (account balance — sums across accounts but not time), non-additive (a ratio — must be recomputed, not summed).</dd>
+      <dt>Iceberg cube</dt>
+      <dd>Only materializes cells meeting a minimum threshold, avoiding storage waste on tiny/insignificant combinations.</dd>
+    </dl>
+  </div>
+
+  <div class="section">
+    <h2>Diagram</h2>
+    <figure class="diagram-box">
+      <svg viewBox="0 0 720 200" xmlns="http://www.w3.org/2000/svg">
+        <g>
+          <rect x="300" y="20" width="120" height="30" rx="6" fill="var(--danger-dim)" stroke="var(--danger)"></rect><text x="360" y="40" text-anchor="middle" font-size="10" font-weight="700" style="fill:var(--text)">Apex (grand total)</text>
+          <rect x="120" y="80" width="140" height="30" rx="6" fill="var(--warn-dim)" stroke="var(--warn)"></rect><text x="190" y="100" text-anchor="middle" font-size="10" font-weight="700" style="fill:var(--text)">By Region</text>
+          <rect x="440" y="80" width="140" height="30" rx="6" fill="var(--warn-dim)" stroke="var(--warn)"></rect><text x="510" y="100" text-anchor="middle" font-size="10" font-weight="700" style="fill:var(--text)">By Product</text>
+          <rect x="260" y="140" width="200" height="30" rx="6" fill="var(--accent-dim)" stroke="var(--accent)"></rect><text x="360" y="160" text-anchor="middle" font-size="10" font-weight="700" style="fill:var(--text)">Base cuboid (Region x Product x Time)</text>
+          <path d="M360 50 L200 80" stroke="var(--text-dim)" stroke-width="1.5"></path>
+          <path d="M360 50 L510 80" stroke="var(--text-dim)" stroke-width="1.5"></path>
+          <path d="M200 110 L340 140" stroke="var(--text-dim)" stroke-width="1.5"></path>
+          <path d="M510 110 L380 140" stroke="var(--text-dim)" stroke-width="1.5"></path>
+        </g>
+      </svg>
+      <figcaption>A simplified cuboid lattice: the base cuboid rolls up through intermediate cuboids to the apex.</figcaption>
+    </figure>
+  </div>
+
+  <div class="section">
+    <h2>Example</h2>
+    <pre class="example"><code>Base cuboid (finest detail): one row per (Product, Region, Day)
+  Laptop, West, 2024-03-01: 12 units
+
+Roll up to (Product, Region, Month):
+  Laptop, West, 2024-03: 340 units   <- sums correctly (additive)
+
+Roll up to (Region) only, all Products/Time collapsed = apex-ish:
+  West: 8,120 units
+
+Non-additive example: Profit Margin % must be recomputed as
+  (sum of profit) / (sum of revenue) at each level --
+  NOT averaged directly from lower-level margin percentages.</code></pre>
+  </div>
+
+  <div class="callout warn">
+    <strong>Common exam traps</strong>
+    <p>A cube with n dimensions can have up to 2^n cuboids — not just n. The base cuboid is the FINEST detail, not the most aggregated. Additive measures (like sales) sum correctly at any level; semi-additive (like account balance) do NOT sum meaningfully across time; non-additive (like a ratio) must be recalculated, never simply summed or averaged.</p>
+  </div>
+
+  <div class="section">
+    <h2>Practice MCQs</h2>
+    <div class="mcq">
+      <p class="q"><span class="qn">Q1.</span> A data cube's "cell" represents:</p>
+      <ol class="opts" type="A">
+        <li>A single database table</li>
+        <li>The measure value for one specific combination of dimension values</li>
+        <li>A dimension hierarchy level</li>
+        <li>An index</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Every unique dimension-value intersection has a corresponding cell.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q2.</span> A cube with n dimensions can have up to how many cuboids?</p>
+      <ol class="opts" type="A">
+        <li>n</li>
+        <li>2^n</li>
+        <li>n^2</li>
+        <li>Exactly 1</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Each dimension can be included at some level or fully collapsed.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q3.</span> The base cuboid represents:</p>
+      <ol class="opts" type="A">
+        <li>The most aggregated, grand-total level</li>
+        <li>The finest level of granularity, least aggregated</li>
+        <li>A cuboid with no dimensions</li>
+        <li>The average of all cuboids</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> The starting point before any roll-up.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q4.</span> An "iceberg cube" is one that:</p>
+      <ol class="opts" type="A">
+        <li>Materializes every possible aggregate combination</li>
+        <li>Only materializes cells meeting a minimum threshold</li>
+        <li>Has no measures</li>
+        <li>Is used only for ice cream sales data</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Reduces storage for sparse/insignificant combinations.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q5.</span> Account balance is an example of which type of measure?</p>
+      <ol class="opts" type="A">
+        <li>Fully additive across every dimension</li>
+        <li>Semi-additive — sums across accounts but not meaningfully across time</li>
+        <li>Non-additive, never summable</li>
+        <li>Not a valid measure type</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Summing balances across 12 months doesn't give a meaningful year-end figure.</p></details>
+    </div>
+    <p style="margin-top:18px"><a class="btn" href="../quiz.html?topic=an-data-cubes">Practice all 50 Data Cubes questions →</a></p>
+  </div>
+
+  <div class="topic-nav">
+    <a href="an-oltp-olap.html"><span class="dir">← Previous topic</span>OLTP vs OLAP</a>
+    <a class="next" href="an-warehousing.html"><span class="dir">Next topic →</span>Data Warehousing</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  GPSC ICT Class-2 exam prep · Unit 7 — Analytics
+</footer>
+
+<script src="../assets/js/nav.js"></script>
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Computer Networks — Exam Prep</title>
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="index.html"><span class="logo-dot">DB</span> NoSQL Exam Prep</a>
+    <nav class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="cn.html" class="active">Computer Networks</a>
+      <a href="quiz.html">Practice Quiz</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <div class="hero">
+    <span class="pill">GPSC ICT Class-2 · Unit 6</span>
+    <h1>Computer Networks</h1>
+    <p class="lead">Layering, LAN technologies, flow &amp; error control, switching, IPv4/IPv6 &amp; routing, the transport layer, application protocols, Wi-Fi and network security. Each topic has brief notes, a diagram, a worked example and 50 solved MCQs.</p>
+    <a class="btn" href="topics/cn-layering.html">Start Reading →</a>
+    <a class="btn secondary" href="quiz.html">Practice Quiz →</a>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat"><div class="n">10</div><div class="l">Topics</div></div>
+    <div class="stat"><div class="n">500</div><div class="l">MCQs</div></div>
+    <div class="stat"><div class="n">50</div><div class="l">Per Topic</div></div>
+    <div class="stat"><div class="n">10</div><div class="l">Diagrams</div></div>
+  </div>
+
+  <div class="section">
+    <h2>Topics</h2>
+    <div class="topic-grid">
+      <a class="card" href="topics/cn-layering.html"><span class="num">01</span><h3>Concept of Layering</h3><p>OSI &amp; TCP/IP reference models, encapsulation/decapsulation, PDUs, service vs protocol, why layering matters.</p></a>
+      <a class="card" href="topics/cn-ethernet.html"><span class="num">02</span><h3>LAN Technologies (Ethernet)</h3><p>CSMA/CD, MAC addressing, frame format, hubs vs switches, VLANs, collision &amp; broadcast domains.</p></a>
+      <a class="card" href="topics/cn-flow-error.html"><span class="num">03</span><h3>Flow &amp; Error Control</h3><p>Stop-and-wait, sliding window, Go-Back-N, Selective Repeat, parity, checksum, CRC, Hamming code, ARQ vs FEC.</p></a>
+      <a class="card" href="topics/cn-switching.html"><span class="num">04</span><h3>Switching</h3><p>Circuit, packet (datagram) and message switching; virtual circuits; store-and-forward vs cut-through.</p></a>
+      <a class="card" href="topics/cn-ip.html"><span class="num">05</span><h3>IPv4 / IPv6 &amp; Routers</h3><p>Addressing, subnetting &amp; CIDR, NAT, fragmentation, routers &amp; forwarding, IPv4→IPv6 transition.</p></a>
+      <a class="card" href="topics/cn-routing.html"><span class="num">06</span><h3>Routing Algorithms</h3><p>Distance vector (Bellman-Ford, count-to-infinity) vs link state (Dijkstra, LSAs); RIP, OSPF, BGP.</p></a>
+      <a class="card" href="topics/cn-transport.html"><span class="num">07</span><h3>TCP/UDP, Sockets &amp; Congestion Control</h3><p>Three-way handshake, sockets API, flow vs congestion control, slow start, AIMD, fast retransmit.</p></a>
+      <a class="card" href="topics/cn-app-layer.html"><span class="num">08</span><h3>Application Layer Protocols</h3><p>DNS, SMTP, POP/IMAP, FTP and HTTP — purpose, ports, request/response models.</p></a>
+      <a class="card" href="topics/cn-wifi.html"><span class="num">09</span><h3>Basics of Wi-Fi</h3><p>802.11, CSMA/CA, hidden terminal problem, SSIDs &amp; APs, WPA2/WPA3, channels &amp; interference.</p></a>
+      <a class="card" href="topics/cn-security.html"><span class="num">10</span><h3>Network Security</h3><p>Authentication, symmetric &amp; public-key cryptography, digital signatures &amp; certificates, firewalls.</p></a>
+    </div>
+  </div>
+
+  <div class="callout tip">
+    <strong>How the topics connect</strong>
+    <p>Layering sets the mental model everything else fits into. Ethernet and Wi-Fi provide the Data Link/Physical foundation; flow &amp; error control and switching keep data moving reliably and efficiently across links and nodes. IP addressing and routing move packets across networks end to end; TCP/UDP then deliver that data to the right process, with congestion control keeping the shared network stable. Application protocols ride on top, and network security (authentication, cryptography, firewalls) protects the whole stack.</p>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  GPSC ICT Class-2 exam prep · Unit 6 — Computer Networks
+</footer>
+
+<script src="assets/js/nav.js"></script>
+</body>
+</html>

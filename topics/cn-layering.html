@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Concept of Layering — Computer Networks</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="../index.html"><span class="logo-dot">DB</span> NoSQL Exam Prep</a>
+    <nav class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../cn.html" class="active">Computer Networks</a>
+      <a href="../quiz.html">Practice Quiz</a>
+    </nav>
+  </div>
+</header>
+<nav class="subnav">
+  <a href="cn-layering.html" class="active">Layering</a>
+  <a href="cn-ethernet.html">Ethernet</a>
+  <a href="cn-flow-error.html">Flow &amp; Error Control</a>
+  <a href="cn-switching.html">Switching</a>
+  <a href="cn-ip.html">IPv4/IPv6</a>
+  <a href="cn-routing.html">Routing</a>
+  <a href="cn-transport.html">TCP/UDP</a>
+  <a href="cn-app-layer.html">Application Layer</a>
+  <a href="cn-wifi.html">Wi-Fi</a>
+  <a href="cn-security.html">Security</a>
+</nav>
+
+<main>
+
+  <div class="topic-header">
+    <span class="pill">Unit 6 · 1 of 10</span>
+    <h1>Concept of Layering</h1>
+    <p class="sub">Networking is organized into layers, each solving one part of the communication problem and offering a clean service to the layer above. The OSI model has 7 layers; the TCP/IP suite actually deployed on the Internet condenses this to 4-5.</p>
+  </div>
+
+  <div class="section">
+    <h2>Key points</h2>
+    <dl class="terms">
+      <dt>OSI model (7 layers)</dt>
+      <dd>Physical, Data Link, Network, Transport, Session, Presentation, Application ("Please Do Not Throw Sausage Pizza Away").</dd>
+      <dt>TCP/IP model (4-5 layers)</dt>
+      <dd>Link, Internet (IP), Transport (TCP/UDP), Application — merges OSI's Session/Presentation/Application into one.</dd>
+      <dt>Encapsulation</dt>
+      <dd>Each layer wraps the data from above with its own header (sometimes a trailer) as it moves down the stack on the sender.</dd>
+      <dt>Decapsulation</dt>
+      <dd>The receiver strips headers off in reverse order as data moves up its stack.</dd>
+      <dt>PDU names</dt>
+      <dd>Bit (Physical) → Frame (Data Link) → Packet (Network) → Segment/Datagram (Transport).</dd>
+    </dl>
+  </div>
+
+  <div class="section">
+    <h2>Diagram</h2>
+    <figure class="diagram-box">
+      <svg viewBox="0 0 720 260" xmlns="http://www.w3.org/2000/svg">
+        <g>
+          <rect x="40" y="20" width="280" height="30" rx="6" fill="var(--accent-dim)" stroke="var(--accent)"></rect><text x="180" y="40" text-anchor="middle" font-size="11" font-weight="700" style="fill:var(--text)">Application</text>
+          <rect x="40" y="56" width="280" height="30" rx="6" fill="var(--accent-2-dim)" stroke="var(--accent-2)"></rect><text x="180" y="76" text-anchor="middle" font-size="11" font-weight="700" style="fill:var(--text)">Transport (TCP/UDP)</text>
+          <rect x="40" y="92" width="280" height="30" rx="6" fill="var(--warn-dim)" stroke="var(--warn)"></rect><text x="180" y="112" text-anchor="middle" font-size="11" font-weight="700" style="fill:var(--text)">Network (IP)</text>
+          <rect x="40" y="128" width="280" height="30" rx="6" fill="var(--danger-dim)" stroke="var(--danger)"></rect><text x="180" y="148" text-anchor="middle" font-size="11" font-weight="700" style="fill:var(--text)">Data Link (Ethernet/Wi-Fi)</text>
+          <rect x="40" y="164" width="280" height="30" rx="6" fill="var(--accent-dim)" stroke="var(--accent)"></rect><text x="180" y="184" text-anchor="middle" font-size="11" font-weight="700" style="fill:var(--text)">Physical</text>
+          <text x="400" y="40" font-size="10" style="fill:var(--text-dim)">Data</text>
+          <text x="400" y="76" font-size="10" style="fill:var(--text-dim)">TCP-Hdr | Data</text>
+          <text x="400" y="112" font-size="10" style="fill:var(--text-dim)">IP-Hdr | TCP-Hdr | Data</text>
+          <text x="400" y="148" font-size="10" style="fill:var(--text-dim)">Eth-Hdr | IP-Hdr | TCP-Hdr | Data | FCS</text>
+          <text x="400" y="184" font-size="10" style="fill:var(--text-dim)">010110...</text>
+        </g>
+      </svg>
+      <figcaption>Encapsulation: each layer wraps the payload from above with its own header (and, at the Data Link layer, a trailer/FCS) as data travels down the stack.</figcaption>
+    </figure>
+  </div>
+
+  <div class="section">
+    <h2>Example</h2>
+    <pre class="example"><code>Browser sends an HTTP GET request:
+
+Application  ->  "GET /index.html HTTP/1.1..."
+Transport    ->  TCP header (src port 51000, dst port 80) + HTTP data
+Network      ->  IP header (src 10.0.0.5, dst 93.184.216.34) + TCP segment
+Data Link    ->  Ethernet header (src/dst MAC) + IP packet + FCS trailer
+Physical     ->  bits on the wire / radio waves
+
+The receiving web server reverses this exactly, peeling off
+one header per layer as the data moves back up its stack.</code></pre>
+  </div>
+
+  <div class="callout warn">
+    <strong>Common exam traps</strong>
+    <p>OSI has 7 layers; TCP/IP is usually taught as 4 or 5 (it folds Session + Presentation + Application together). A router works at Layer 3 (IP); a switch works at Layer 2 (MAC); a hub is pure Layer 1. "Encryption" is a function, not an OSI layer by itself — it is often associated with Presentation. Remember PDU names: frame → packet → segment, not interchangeable.</p>
+  </div>
+
+  <div class="section">
+    <h2>Practice MCQs</h2>
+    <div class="mcq">
+      <p class="q"><span class="qn">Q1.</span> How many layers does the OSI model have?</p>
+      <ol class="opts" type="A">
+        <li>4</li>
+        <li>7</li>
+        <li>5</li>
+        <li>9</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Physical, Data Link, Network, Transport, Session, Presentation, Application.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q2.</span> Which OSI layer handles routing between different networks?</p>
+      <ol class="opts" type="A">
+        <li>Data Link</li>
+        <li>Network</li>
+        <li>Transport</li>
+        <li>Session</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> The Network layer (IP) provides logical addressing and routing.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q3.</span> The Transport-layer PDU is called a:</p>
+      <ol class="opts" type="A">
+        <li>Frame</li>
+        <li>Packet</li>
+        <li>Segment (TCP) / Datagram (UDP)</li>
+        <li>Bit</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: C.</strong> Frame is Data Link, Packet is Network.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q4.</span> Encapsulation means:</p>
+      <ol class="opts" type="A">
+        <li>Removing all headers before sending</li>
+        <li>Each layer adding its own header around the data from the layer above</li>
+        <li>Compressing the payload</li>
+        <li>Encrypting only the Application layer</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Headers are added going down the stack, then stripped in reverse (decapsulation) at the receiver.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q5.</span> The TCP/IP model condenses which three OSI layers into one "Application" layer?</p>
+      <ol class="opts" type="A">
+        <li>Physical, Data Link, Network</li>
+        <li>Session, Presentation, Application</li>
+        <li>Network, Transport, Session</li>
+        <li>Only Presentation</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> TCP/IP applications handle these concerns directly rather than via separate layers.</p></details>
+    </div>
+    <p style="margin-top:18px"><a class="btn" href="../quiz.html?topic=cn-layering">Practice all 50 Layering questions →</a></p>
+  </div>
+
+  <div class="topic-nav">
+    <a href="../cn.html"><span class="dir">← Back to</span>Unit 6 index</a>
+    <a class="next" href="cn-ethernet.html"><span class="dir">Next topic →</span>LAN Technologies (Ethernet)</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  GPSC ICT Class-2 exam prep · Unit 6 — Computer Networks
+</footer>
+
+<script src="../assets/js/nav.js"></script>
+</body>
+</html>

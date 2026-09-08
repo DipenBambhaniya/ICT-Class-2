@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Star / Snowflake / Fact Constellation — Analytics</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="../index.html"><span class="logo-dot">DB</span> NoSQL Exam Prep</a>
+    <nav class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../analytics.html" class="active">Analytics</a>
+      <a href="../quiz.html">Practice Quiz</a>
+    </nav>
+  </div>
+</header>
+<nav class="subnav">
+  <a href="an-desc-pred.html">Descriptive &amp; Predictive</a>
+  <a href="an-olap.html">OLAP</a>
+  <a href="an-oltp-olap.html">OLTP vs OLAP</a>
+  <a href="an-data-cubes.html">Data Cubes</a>
+  <a href="an-warehousing.html">Data Warehousing</a>
+  <a href="an-schemas.html" class="active">Schema Models</a>
+  <a href="an-data-mining.html">Data Mining</a>
+  <a href="an-in-db.html">In-Database Analytics</a>
+  <a href="an-adv-sql.html">Advanced SQL</a>
+</nav>
+
+<main>
+
+  <div class="topic-header">
+    <span class="pill">Unit 7 · 6 of 9</span>
+    <h1>Star / Snowflake / Fact Constellation Schemas</h1>
+    <p class="sub">Three dimensional modeling patterns for organizing a data warehouse: the simple, denormalized star; the normalized, storage-efficient snowflake; and the multi-fact-table constellation for related business processes.</p>
+  </div>
+
+  <div class="section">
+    <h2>Key points</h2>
+    <dl class="terms">
+      <dt>Star schema</dt>
+      <dd>One central fact table joined directly to denormalized dimension tables. Fewest joins, fastest typical queries, some redundancy.</dd>
+      <dt>Snowflake schema</dt>
+      <dd>Dimension tables normalized into related sub-tables (e.g. Product → Subcategory → Category). Less redundancy, but more joins needed.</dd>
+      <dt>Fact constellation (galaxy schema)</dt>
+      <dd>Multiple fact tables (different business processes, e.g. Sales and Shipping) sharing conformed dimensions for integrated analysis.</dd>
+      <dt>Conformed dimension</dt>
+      <dd>A dimension (like Time or Product) designed consistently and shared across multiple fact tables — what makes a fact constellation work.</dd>
+      <dt>Degenerate &amp; junk dimensions</dt>
+      <dd>Degenerate: an identifier (like an order number) kept directly in the fact table with no separate dimension table. Junk: bundles several small unrelated flags into one dimension table.</dd>
+    </dl>
+  </div>
+
+  <div class="section">
+    <h2>Diagram</h2>
+    <figure class="diagram-box">
+      <svg viewBox="0 0 720 200" xmlns="http://www.w3.org/2000/svg">
+        <g>
+          <rect x="290" y="80" width="140" height="40" rx="6" fill="var(--danger-dim)" stroke="var(--danger)"></rect><text x="360" y="104" text-anchor="middle" font-size="10" font-weight="700" style="fill:var(--text)">Fact: Sales</text>
+          <rect x="40" y="30" width="120" height="30" rx="6" fill="var(--accent-dim)" stroke="var(--accent)"></rect><text x="100" y="50" text-anchor="middle" font-size="9" font-weight="700" style="fill:var(--text)">Dim: Time</text>
+          <rect x="40" y="140" width="120" height="30" rx="6" fill="var(--accent-dim)" stroke="var(--accent)"></rect><text x="100" y="160" text-anchor="middle" font-size="9" font-weight="700" style="fill:var(--text)">Dim: Product</text>
+          <rect x="560" y="30" width="120" height="30" rx="6" fill="var(--accent-dim)" stroke="var(--accent)"></rect><text x="620" y="50" text-anchor="middle" font-size="9" font-weight="700" style="fill:var(--text)">Dim: Store</text>
+          <path d="M160 45 L290 90" stroke="var(--text-dim)" stroke-width="1.5"></path>
+          <path d="M160 155 L290 110" stroke="var(--text-dim)" stroke-width="1.5"></path>
+          <path d="M560 45 L430 90" stroke="var(--text-dim)" stroke-width="1.5"></path>
+          <text x="360" y="180" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">Star schema: dimension tables connect directly to one fact table (denormalized)</text>
+        </g>
+      </svg>
+      <figcaption>A star schema — the simplest, fastest-to-query dimensional pattern.</figcaption>
+    </figure>
+  </div>
+
+  <div class="section">
+    <h2>Example</h2>
+    <pre class="example"><code>Star (denormalized Product dimension):
+  dim_product: product_id, name, subcategory, category, department
+  -- one flat table, some repeated category/department text
+
+Snowflake (normalized):
+  dim_product: product_id, name, subcategory_id
+  dim_subcategory: subcategory_id, name, category_id
+  dim_category: category_id, name, department_id
+  -- less redundancy, but 3 joins instead of 1 to get full context
+
+Fact Constellation:
+  fact_sales(product_id, store_id, time_id, amount)
+  fact_shipments(product_id, warehouse_id, time_id, qty)
+  -- both share dim_product and dim_time (conformed dimensions)</code></pre>
+  </div>
+
+  <div class="callout warn">
+    <strong>Common exam traps</strong>
+    <p>Star = denormalized, fewer joins, faster typical queries. Snowflake = normalized, more joins, less storage redundancy. Fact constellation = MULTIPLE fact tables sharing conformed dimensions — not just a bigger star. A conformed dimension must be defined consistently everywhere it's shared, or cross-process analysis breaks.</p>
+  </div>
+
+  <div class="section">
+    <h2>Practice MCQs</h2>
+    <div class="mcq">
+      <p class="q"><span class="qn">Q1.</span> A star schema consists of:</p>
+      <ol class="opts" type="A">
+        <li>Only dimension tables with no fact table</li>
+        <li>A central fact table connected directly to denormalized dimension tables</li>
+        <li>Multiple fact tables with no dimensions</li>
+        <li>A single fully normalized table</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Visually resembles a star.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q2.</span> A snowflake schema differs from a star schema by:</p>
+      <ol class="opts" type="A">
+        <li>Having no dimension tables</li>
+        <li>Normalizing dimension tables into related sub-tables</li>
+        <li>Never having a fact table</li>
+        <li>Being identical to a star schema</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Reduces redundancy at the cost of more joins.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q3.</span> A fact constellation (galaxy) schema is characterized by:</p>
+      <ol class="opts" type="A">
+        <li>Exactly one fact table</li>
+        <li>Multiple fact tables sharing conformed dimensions</li>
+        <li>No fact tables at all</li>
+        <li>Being identical to a simple star schema</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Useful for multiple related business processes.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q4.</span> The main trade-off between star and snowflake schemas is:</p>
+      <ol class="opts" type="A">
+        <li>Star is always slower and uses more storage</li>
+        <li>Star reduces joins/query complexity at the cost of redundancy; snowflake reduces redundancy at the cost of more joins</li>
+        <li>There is no meaningful trade-off</li>
+        <li>Snowflake never uses any joins</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> The classic star-vs-snowflake trade-off.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q5.</span> A conformed dimension is:</p>
+      <ol class="opts" type="A">
+        <li>Used by only one fact table, never shared</li>
+        <li>Designed consistently and shared across multiple fact tables</li>
+        <li>A synonym for the fact table</li>
+        <li>Unrelated to fact constellations</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Exactly what makes a fact constellation's multiple fact tables analytically compatible.</p></details>
+    </div>
+    <p style="margin-top:18px"><a class="btn" href="../quiz.html?topic=an-schemas">Practice all 50 Schema Model questions →</a></p>
+  </div>
+
+  <div class="topic-nav">
+    <a href="an-warehousing.html"><span class="dir">← Previous topic</span>Data Warehousing</a>
+    <a class="next" href="an-data-mining.html"><span class="dir">Next topic →</span>Data Mining Techniques</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  GPSC ICT Class-2 exam prep · Unit 7 — Analytics
+</footer>
+
+<script src="../assets/js/nav.js"></script>
+</body>
+</html>

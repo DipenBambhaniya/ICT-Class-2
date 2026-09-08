@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Application Layer Protocols — Computer Networks</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="../index.html"><span class="logo-dot">DB</span> NoSQL Exam Prep</a>
+    <nav class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../cn.html" class="active">Computer Networks</a>
+      <a href="../quiz.html">Practice Quiz</a>
+    </nav>
+  </div>
+</header>
+<nav class="subnav">
+  <a href="cn-layering.html">Layering</a>
+  <a href="cn-ethernet.html">Ethernet</a>
+  <a href="cn-flow-error.html">Flow &amp; Error Control</a>
+  <a href="cn-switching.html">Switching</a>
+  <a href="cn-ip.html">IPv4/IPv6</a>
+  <a href="cn-routing.html">Routing</a>
+  <a href="cn-transport.html">TCP/UDP</a>
+  <a href="cn-app-layer.html" class="active">Application Layer</a>
+  <a href="cn-wifi.html">Wi-Fi</a>
+  <a href="cn-security.html">Security</a>
+</nav>
+
+<main>
+
+  <div class="topic-header">
+    <span class="pill">Unit 6 · 8 of 10</span>
+    <h1>Application Layer Protocols</h1>
+    <p class="sub">DNS, SMTP, POP/IMAP, FTP and HTTP each solve one user-facing task — naming, email, file transfer, web content — and each has a characteristic default port and transport-layer choice worth memorizing.</p>
+  </div>
+
+  <div class="section">
+    <h2>Key points</h2>
+    <dl class="terms">
+      <dt>DNS</dt>
+      <dd>Translates domain names to IPs. Hierarchical (root → TLD → authoritative). UDP port 53 (TCP for large responses/zone transfers). Record types: A, AAAA, MX, CNAME, NS.</dd>
+      <dt>SMTP / POP3 / IMAP</dt>
+      <dd>SMTP sends/relays outgoing mail. POP3 downloads and typically deletes from the server. IMAP keeps mail synced on the server across devices.</dd>
+      <dt>FTP</dt>
+      <dd>Two TCP connections: control (port 21) and data (port 20 in active mode). Plaintext by default — FTPS/SFTP add encryption.</dd>
+      <dt>HTTP / HTTPS</dt>
+      <dd>Request/response, stateless (cookies add state). Port 80 (HTTP) / 443 (HTTPS, TLS-encrypted). GET retrieves; POST submits. Status codes: 2xx success, 3xx redirect, 4xx client error, 5xx server error.</dd>
+      <dt>Ports to memorize</dt>
+      <dd>DNS 53, HTTP 80, HTTPS 443, FTP 20/21, SSH 22, SMTP 25, POP3 110, IMAP 143.</dd>
+    </dl>
+  </div>
+
+  <div class="section">
+    <h2>Diagram</h2>
+    <figure class="diagram-box">
+      <svg viewBox="0 0 720 200" xmlns="http://www.w3.org/2000/svg">
+        <g>
+          <rect x="30" y="20" width="120" height="34" rx="6" fill="var(--accent-dim)" stroke="var(--accent)"></rect><text x="90" y="41" text-anchor="middle" font-size="10" font-weight="700" style="fill:var(--text)">Client resolver</text>
+          <rect x="220" y="20" width="100" height="34" rx="6" fill="var(--warn-dim)" stroke="var(--warn)"></rect><text x="270" y="41" text-anchor="middle" font-size="10" font-weight="700" style="fill:var(--text)">Root server</text>
+          <rect x="380" y="20" width="100" height="34" rx="6" fill="var(--warn-dim)" stroke="var(--warn)"></rect><text x="430" y="41" text-anchor="middle" font-size="10" font-weight="700" style="fill:var(--text)">.com TLD</text>
+          <rect x="540" y="20" width="140" height="34" rx="6" fill="var(--accent-2-dim)" stroke="var(--accent-2)"></rect><text x="610" y="41" text-anchor="middle" font-size="10" font-weight="700" style="fill:var(--text)">Authoritative NS</text>
+          <path d="M150 37 L220 37" stroke="var(--text-dim)" stroke-width="2" marker-end="url(#a5)"></path>
+          <path d="M320 37 L380 37" stroke="var(--text-dim)" stroke-width="2" marker-end="url(#a5)"></path>
+          <path d="M480 37 L540 37" stroke="var(--text-dim)" stroke-width="2" marker-end="url(#a5)"></path>
+          <defs><marker id="a5" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="var(--text-dim)"></path></marker></defs>
+          <text x="360" y="100" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">"Where is www.example.com?" -&gt; referral to .com -&gt; referral to example.com's own name server -&gt; final A record</text>
+          <text x="360" y="140" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">Only THEN does the browser send its HTTP GET request to the resolved IP address.</text>
+        </g>
+      </svg>
+      <figcaption>Recursive DNS resolution: root → TLD → authoritative name server, before any HTTP request can even be sent.</figcaption>
+    </figure>
+  </div>
+
+  <div class="section">
+    <h2>Example</h2>
+    <pre class="example"><code>A minimal HTTP request/response:
+
+Client -> GET /index.html HTTP/1.1
+          Host: www.example.com
+          Accept: text/html
+
+Server -> HTTP/1.1 200 OK
+          Content-Type: text/html
+          Content-Length: 1256
+
+          &lt;html&gt;...&lt;/html&gt;
+
+If the page had moved: HTTP/1.1 301 Moved Permanently
+If it didn't exist:    HTTP/1.1 404 Not Found</code></pre>
+  </div>
+
+  <div class="callout warn">
+    <strong>Common exam traps</strong>
+    <p>HTTP default port is 80, HTTPS is 443 (not the reverse). POP3 = download (often delete); IMAP = keep synced on server. FTP uses TWO TCP connections. SMTP is for SENDING mail, not retrieving it. GET appends parameters in the URL; POST puts data in the request body. DNS is typically UDP, not TCP, for ordinary queries.</p>
+  </div>
+
+  <div class="section">
+    <h2>Practice MCQs</h2>
+    <div class="mcq">
+      <p class="q"><span class="qn">Q1.</span> DNS primarily provides the service of:</p>
+      <ol class="opts" type="A">
+        <li>Encrypting web traffic</li>
+        <li>Translating domain names into IP addresses</li>
+        <li>Transferring files</li>
+        <li>Sending email</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> A distributed, hierarchical naming system.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q2.</span> SMTP is used for:</p>
+      <ol class="opts" type="A">
+        <li>Retrieving email from a mailbox</li>
+        <li>Sending/relaying email</li>
+        <li>Browsing the web</li>
+        <li>Resolving domain names</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Retrieval uses POP3 or IMAP instead.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q3.</span> Compared to POP3, IMAP generally:</p>
+      <ol class="opts" type="A">
+        <li>Always deletes mail after download</li>
+        <li>Keeps mail on the server, synced across devices</li>
+        <li>Cannot retrieve email</li>
+        <li>Uses the same port as SMTP</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> This is why IMAP suits users checking mail from multiple devices.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q4.</span> The standard TCP port for unencrypted HTTP is:</p>
+      <ol class="opts" type="A">
+        <li>21</li>
+        <li>25</li>
+        <li>80</li>
+        <li>443</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: C.</strong> 443 is for HTTPS.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q5.</span> HTTP status code 404 means:</p>
+      <ol class="opts" type="A">
+        <li>Server error</li>
+        <li>Not Found</li>
+        <li>Success</li>
+        <li>Redirect</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> The requested resource doesn't exist at that URL.</p></details>
+    </div>
+    <p style="margin-top:18px"><a class="btn" href="../quiz.html?topic=cn-app-layer">Practice all 50 Application Layer questions →</a></p>
+  </div>
+
+  <div class="topic-nav">
+    <a href="cn-transport.html"><span class="dir">← Previous topic</span>TCP/UDP, Sockets &amp; Congestion Control</a>
+    <a class="next" href="cn-wifi.html"><span class="dir">Next topic →</span>Basics of Wi-Fi</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  GPSC ICT Class-2 exam prep · Unit 6 — Computer Networks
+</footer>
+
+<script src="../assets/js/nav.js"></script>
+</body>
+</html>
