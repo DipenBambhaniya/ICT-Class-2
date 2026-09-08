@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mobile UI Design — Mobile Application</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="../index.html"><span class="logo-dot">DB</span> NoSQL Exam Prep</a>
+    <nav class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../mobile.html" class="active">Mobile Application</a>
+      <a href="../quiz.html">Practice Quiz</a>
+    </nav>
+  </div>
+</header>
+<nav class="subnav">
+  <a href="mobile-platforms.html">Platforms &amp; Devices</a>
+  <a href="mobile-cellular.html">Cellular Technologies</a>
+  <a href="mobile-appdev.html">App Development</a>
+  <a href="mobile-ui.html" class="active">UI Design</a>
+</nav>
+
+<main>
+
+  <div class="topic-header">
+    <span class="pill">Unit 10 · 4 of 4</span>
+    <h1>Mobile UI Design</h1>
+    <p class="sub">Mobile interfaces must work reliably on a small, touch-driven screen: large enough tap targets placed within thumb reach, platform-consistent patterns (Material Design / Human Interface Guidelines), clear feedback, and accessibility for all users.</p>
+  </div>
+
+  <div class="section">
+    <h2>Key points</h2>
+    <dl class="terms">
+      <dt>Touch targets &amp; thumb zone</dt>
+      <dd>Minimum ~44x44pt (iOS) / 48x48dp (Android) tap targets, with frequent actions placed within comfortable one-handed thumb reach.</dd>
+      <dt>Platform guidelines</dt>
+      <dd>Material Design (Android) and Apple's Human Interface Guidelines (iOS) define consistent, native-feeling components and interaction conventions.</dd>
+      <dt>Gestures</dt>
+      <dd>Swipe (navigate/dismiss), pinch (multi-touch zoom), long-press (contextual options) — each with an established, expected meaning.</dd>
+      <dt>Accessibility</dt>
+      <dd>Screen reader support (VoiceOver/TalkBack), adjustable text scaling, and not relying on color alone to convey meaning.</dd>
+      <dt>Feedback &amp; states</dt>
+      <dd>Microinteractions confirm input was registered; loading/empty/error states keep users oriented instead of staring at a frozen screen.</dd>
+    </dl>
+  </div>
+
+  <div class="section">
+    <h2>Diagram</h2>
+    <figure class="diagram-box">
+      <svg viewBox="0 0 720 220" xmlns="http://www.w3.org/2000/svg">
+        <g font-size="10" font-weight="700">
+          <text x="20" y="20" style="fill:var(--text-dim)">The one-handed "thumb zone" on a phone screen</text>
+          <rect x="60" y="35" width="180" height="170" rx="18" fill="none" stroke="var(--text-dim)" stroke-width="3"></rect>
+
+          <rect x="70" y="150" width="160" height="45" rx="8" fill="var(--accent-2-dim)" stroke="var(--accent-2)"></rect>
+          <text x="150" y="170" text-anchor="middle" font-size="9" style="fill:var(--accent-2)">Easy reach</text>
+          <text x="150" y="184" text-anchor="middle" font-size="8" style="fill:var(--text-dim)">primary actions here</text>
+
+          <rect x="70" y="95" width="160" height="45" rx="8" fill="var(--warn-dim)" stroke="var(--warn)"></rect>
+          <text x="150" y="115" text-anchor="middle" font-size="9" style="fill:var(--warn)">Stretch</text>
+          <text x="150" y="129" text-anchor="middle" font-size="8" style="fill:var(--text-dim)">secondary actions</text>
+
+          <rect x="70" y="45" width="160" height="40" rx="8" fill="var(--danger-dim)" stroke="var(--danger)"></rect>
+          <text x="150" y="63" text-anchor="middle" font-size="9" style="fill:var(--danger)">Hard to reach</text>
+          <text x="150" y="77" text-anchor="middle" font-size="8" style="fill:var(--text-dim)">status/branding only</text>
+        </g>
+        <text x="360" y="60" font-size="10" style="fill:var(--text-dim)">Bottom nav / FAB →</text>
+        <text x="360" y="60" font-size="10" style="fill:var(--text-dim)"></text>
+        <text x="290" y="185" font-size="10" style="fill:var(--accent-2)">← put frequently used controls in the "easy reach" zone</text>
+      </svg>
+      <figcaption>Placing frequent actions (tab bars, floating action buttons) in the easy-reach zone reduces friction for one-handed use.</figcaption>
+    </figure>
+  </div>
+
+  <div class="section">
+    <h2>Example</h2>
+    <pre class="example"><code>Designing an e-commerce app's product screen for accessibility and ergonomics:
+
+  - "Add to Cart" button: placed in the bottom thumb zone, sized 48x48dp+
+  - Price/discount shown with an icon (not just red/green color) so
+    colorblind users can still tell "on sale" from "regular price"
+  - Screen reader label: "Add to Cart, $24.99, in stock" (not just "Button")
+  - Pull-to-refresh at the top of the product list, with a skeleton-screen
+    placeholder shown while new items load
+  - Empty state ("No items in your cart") includes a "Browse products"
+    call-to-action instead of a blank screen</code></pre>
+  </div>
+
+  <div class="callout warn">
+    <strong>Common exam traps</strong>
+    <p>Responsive design = one fluid layout adapting continuously; adaptive design = distinct layouts for specific breakpoints — these are often confused. UI ≠ UX: UI is the visual/interactive surface, UX is the whole experience. Accessibility (screen readers, text scaling, contrast, not color-alone) is a design requirement, not an optional add-on.</p>
+  </div>
+
+  <div class="section">
+    <h2>Practice MCQs</h2>
+    <div class="mcq">
+      <p class="q"><span class="qn">Q1.</span> The 'thumb zone' concept in mobile UI design refers to:</p>
+      <ol class="opts" type="A">
+        <li>A setting that disables touch input</li>
+        <li>The region of the screen most easily reached by a user's thumb while holding the device one-handed, which should ideally host frequently used controls</li>
+        <li>A zone reserved exclusively for advertisements</li>
+        <li>The area of the screen that cannot display any content</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Placing key actions within easy thumb reach improves comfort and usability, especially on larger phones.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q2.</span> The distinction between UI (User Interface) and UX (User Experience) is that:</p>
+      <ol class="opts" type="A">
+        <li>They are exactly the same concept with different names</li>
+        <li>UI concerns the visual/interactive elements the user sees and touches, while UX concerns the user's overall experience, satisfaction, and ease of accomplishing their goals</li>
+        <li>UX only applies to websites, never mobile apps</li>
+        <li>UI is a subset of backend development with no relation to design</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> UI is one important component contributing to the broader, more holistic concept of UX.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q3.</span> Accessibility features like screen reader support (e.g., VoiceOver on iOS, TalkBack on Android) allow:</p>
+      <ol class="opts" type="A">
+        <li>Only sighted users to interact with the app</li>
+        <li>Visually impaired users to navigate and interact with the app via audible descriptions of on-screen elements</li>
+        <li>The app to run faster on all devices</li>
+        <li>The removal of all visual elements from the app</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Screen readers convert on-screen information into speech/braille output, letting visually impaired users use the app effectively.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q4.</span> A common mobile design guideline is to avoid relying on color alone to convey important information because:</p>
+      <ol class="opts" type="A">
+        <li>Color is always sufficient for every user</li>
+        <li>Some users are colorblind, so an icon/text cue should accompany the color to remain accessible</li>
+        <li>Color has no meaning in UI design</li>
+        <li>Using icons alongside color is against platform guidelines</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Pairing color with icons/text ensures the information is accessible to colorblind users too.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q5.</span> In mobile UI design, a comfortably tappable touch target is generally recommended to be at least around:</p>
+      <ol class="opts" type="A">
+        <li>10x10 points/dp</li>
+        <li>44x44 points (iOS) / 48x48 dp (Android)</li>
+        <li>200x200 points/dp</li>
+        <li>There is no recommended minimum size</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> These platform guideline minimums help ensure targets are reliably tappable with a finger.</p></details>
+    </div>
+    <p style="margin-top:18px"><a class="btn" href="../quiz.html?topic=mobile-ui">Practice all 50 Mobile UI Design questions →</a></p>
+  </div>
+
+  <div class="topic-nav">
+    <a href="mobile-appdev.html"><span class="dir">← Previous topic</span>App Development</a>
+    <a class="next" href="../quiz.html"><span class="dir">Ready to test yourself? →</span>Take the Practice Quiz</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  GPSC ICT Class-2 exam prep · Unit 10 — Mobile Application
+</footer>
+
+<script src="../assets/js/nav.js"></script>
+</body>
+</html>

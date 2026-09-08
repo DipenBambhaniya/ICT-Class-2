@@ -142,6 +142,26 @@
         ["Public / Private / Hybrid Cloud", "topics/dc-cloud-models.html"],
         ["Scalability & Reliability", "topics/dc-scalability.html"]
       ]
+    },
+    {
+      type: "group", label: "10) Mobile Application", href: "mobile.html",
+      items: [
+        ["Overview", "mobile.html"],
+        ["Platforms & Devices", "topics/mobile-platforms.html"],
+        ["Cellular Technologies", "topics/mobile-cellular.html"],
+        ["Mobile App Development", "topics/mobile-appdev.html"],
+        ["Mobile UI Design", "topics/mobile-ui.html"]
+      ]
+    },
+    {
+      type: "group", label: "11) Software Engineering", href: "se.html",
+      items: [
+        ["Overview", "se.html"],
+        ["Principles & SDLC", "topics/se-principles.html"],
+        ["Agile Software Development", "topics/se-agile.html"],
+        ["Software Testing & Project Mgmt", "topics/se-testing-pm.html"],
+        ["SCADA & Software Quality", "topics/se-quality-scada.html"]
+      ]
     }
   ];
 

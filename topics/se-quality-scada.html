@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SCADA &amp; Software Quality — Software Engineering</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="../index.html"><span class="logo-dot">DB</span> NoSQL Exam Prep</a>
+    <nav class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../se.html" class="active">Software Engineering</a>
+      <a href="../quiz.html">Practice Quiz</a>
+    </nav>
+  </div>
+</header>
+<nav class="subnav">
+  <a href="se-principles.html">Principles &amp; SDLC</a>
+  <a href="se-agile.html">Agile Development</a>
+  <a href="se-testing-pm.html">Testing &amp; Project Mgmt</a>
+  <a href="se-quality-scada.html" class="active">SCADA &amp; Quality</a>
+</nav>
+
+<main>
+
+  <div class="topic-header">
+    <span class="pill">Unit 11 · 4 of 4</span>
+    <h1>SCADA &amp; Software Quality</h1>
+    <p class="sub">SCADA systems supervise and control real physical infrastructure — power grids, water treatment, manufacturing — where a software failure has real-world consequences. That elevated stakes makes formal software quality models (ISO/IEC 25010, CMMI) and disciplined technical-debt management especially important.</p>
+  </div>
+
+  <div class="section">
+    <h2>Key points</h2>
+    <dl class="terms">
+      <dt>SCADA architecture</dt>
+      <dd>Field devices (RTU/PLC) collect data and relay commands ↔ telemetry network ↔ MTU/central server ↔ HMI dashboard for human operators.</dd>
+      <dt>SCADA security</dt>
+      <dd>Legacy protocols, historically air-gapped but now often network-connected — a successful attack can disrupt real physical infrastructure, not just data.</dd>
+      <dt>ISO/IEC 25010</dt>
+      <dd>Eight quality characteristics: functional suitability, reliability, performance efficiency, usability, security, compatibility, maintainability, portability.</dd>
+      <dt>CMMI maturity levels</dt>
+      <dd>Initial (ad hoc) → Managed → Defined (org-wide standard) → Quantitatively Managed → Optimizing (continuous, data-driven improvement).</dd>
+      <dt>Technical debt</dt>
+      <dd>The future rework cost of a quick-and-easy shortcut taken now; a strong test suite makes later refactoring to pay it down safer.</dd>
+    </dl>
+  </div>
+
+  <div class="section">
+    <h2>Diagram</h2>
+    <figure class="diagram-box">
+      <svg viewBox="0 0 720 170" xmlns="http://www.w3.org/2000/svg">
+        <g font-size="10" font-weight="700">
+          <text x="20" y="20" style="fill:var(--text-dim)">Simplified SCADA architecture</text>
+
+          <rect x="30" y="80" width="90" height="45" rx="6" fill="var(--accent-dim)" stroke="var(--accent)"></rect>
+          <text x="75" y="98" text-anchor="middle" font-size="9" style="fill:var(--accent)">Sensors /</text>
+          <text x="75" y="112" text-anchor="middle" font-size="9" style="fill:var(--accent)">Equipment</text>
+
+          <rect x="150" y="80" width="90" height="45" rx="6" fill="var(--accent-2-dim)" stroke="var(--accent-2)"></rect>
+          <text x="195" y="98" text-anchor="middle" font-size="9" style="fill:var(--accent-2)">RTU / PLC</text>
+          <text x="195" y="112" text-anchor="middle" font-size="8" style="fill:var(--text-dim)">field device</text>
+
+          <rect x="270" y="80" width="120" height="45" rx="6" fill="var(--warn-dim)" stroke="var(--warn)"></rect>
+          <text x="330" y="98" text-anchor="middle" font-size="9" style="fill:var(--warn)">Telemetry</text>
+          <text x="330" y="112" text-anchor="middle" font-size="8" style="fill:var(--text-dim)">comm. network</text>
+
+          <rect x="420" y="80" width="110" height="45" rx="6" fill="var(--danger-dim)" stroke="var(--danger)"></rect>
+          <text x="475" y="98" text-anchor="middle" font-size="9" style="fill:var(--danger)">MTU / Server</text>
+          <text x="475" y="112" text-anchor="middle" font-size="8" style="fill:var(--text-dim)">supervisory</text>
+
+          <rect x="560" y="80" width="120" height="45" rx="6" fill="none" stroke="var(--text-dim)"></rect>
+          <text x="620" y="98" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">HMI</text>
+          <text x="620" y="112" text-anchor="middle" font-size="8" style="fill:var(--text-dim)">operator dashboard</text>
+
+          <path d="M120 102 L150 102" stroke="var(--text-dim)" stroke-width="2" marker-end="url(#arrscada)"></path>
+          <path d="M240 102 L270 102" stroke="var(--text-dim)" stroke-width="2" marker-end="url(#arrscada)"></path>
+          <path d="M390 102 L420 102" stroke="var(--text-dim)" stroke-width="2" marker-end="url(#arrscada)"></path>
+          <path d="M530 102 L560 102" stroke="var(--text-dim)" stroke-width="2" marker-end="url(#arrscada)"></path>
+        </g>
+        <defs><marker id="arrscada" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 z" fill="var(--text-dim)"></path></marker></defs>
+        <text x="360" y="150" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">Commands flow back the other way: HMI → MTU → telemetry → RTU/PLC → equipment.</text>
+      </svg>
+      <figcaption>Data flows from physical equipment up to the operator's HMI; control commands flow back down the same chain.</figcaption>
+    </figure>
+  </div>
+
+  <div class="section">
+    <h2>Example</h2>
+    <pre class="example"><code>A water-treatment plant's SCADA system:
+  - PLCs at each pump station monitor flow rate and chlorine levels
+  - RTUs relay this data over the telemetry network to the central MTU
+  - The MTU aggregates readings; the HMI shows operators a live dashboard
+    with an ALARM if chlorine drops below a safe threshold
+
+Quality strategy for this system, given the real-world safety stakes:
+  - Reliability & Security (ISO/IEC 25010) are prioritized above all else
+  - The vendor's development process is assessed against CMMI to confirm
+    disciplined, repeatable engineering practices
+  - Network segmentation (not just an old air-gap assumption) protects
+    the telemetry network from external compromise</code></pre>
+  </div>
+
+  <div class="callout warn">
+    <strong>Common exam traps</strong>
+    <p>SCADA's RTU (field-level, near the sensors) vs MTU (central, supervisory) are often swapped. Air-gapping was the classic SCADA security approach, but modern practice favors network segmentation + monitoring since full isolation is often no longer practical. CMMI's 'Managed' level still means largely per-project, reactive processes — 'Defined' is where practices become standardized organization-wide.</p>
+  </div>
+
+  <div class="section">
+    <h2>Practice MCQs</h2>
+    <div class="mcq">
+      <p class="q"><span class="qn">Q1.</span> SCADA stands for:</p>
+      <ol class="opts" type="A">
+        <li>Software Configuration And Data Analysis</li>
+        <li>Supervisory Control and Data Acquisition, a system architecture used to monitor and control industrial processes</li>
+        <li>Secure Cloud Application Deployment Architecture</li>
+        <li>Standard Control And Design Automation</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> SCADA systems are widely used to monitor/control industrial and infrastructure processes remotely.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q2.</span> An RTU (Remote Terminal Unit) in a SCADA system is responsible for:</p>
+      <ol class="opts" type="A">
+        <li>Only displaying the operator dashboard</li>
+        <li>Collecting data from field sensors/equipment and transmitting it to the central monitoring system, and relaying control commands back to field devices</li>
+        <li>Only billing customers for electricity usage</li>
+        <li>Only compiling application source code</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> RTUs are the field-level data collection and control-relay points in a SCADA architecture.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q3.</span> The ISO/IEC 25010 software quality model defines quality in terms of characteristics such as:</p>
+      <ol class="opts" type="A">
+        <li>Only the color scheme of the software</li>
+        <li>Functional suitability, reliability, performance efficiency, usability, security, compatibility, maintainability, and portability</li>
+        <li>Only the programming language used</li>
+        <li>Only the marketing budget allocated</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> ISO/IEC 25010 defines a comprehensive, multi-dimensional model of software product quality.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q4.</span> CMMI's maturity levels progress (from least to most mature) roughly as:</p>
+      <ol class="opts" type="A">
+        <li>Optimizing, Defined, Managed, Initial, Quantitatively Managed</li>
+        <li>Initial, Managed, Defined, Quantitatively Managed, Optimizing</li>
+        <li>Managed, Initial, Optimizing, Defined, Quantitatively Managed</li>
+        <li>There is only a single CMMI maturity level</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> This is the standard CMMI staged representation, from ad hoc (Initial) to continuously improving (Optimizing).</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q5.</span> Technical debt, as a software quality concept, refers to:</p>
+      <ol class="opts" type="A">
+        <li>The literal monetary loan a company takes to fund development</li>
+        <li>The implied future cost of additional rework caused by choosing an easy/quick solution now instead of a better, more thorough approach</li>
+        <li>A metric measuring how many developers are on the team</li>
+        <li>The total number of servers a company operates</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Technical debt is a metaphor for the future cost of taking shortcuts in the present.</p></details>
+    </div>
+    <p style="margin-top:18px"><a class="btn" href="../quiz.html?topic=se-quality-scada">Practice all 50 SCADA &amp; Software Quality questions →</a></p>
+  </div>
+
+  <div class="topic-nav">
+    <a href="se-testing-pm.html"><span class="dir">← Previous topic</span>Software Testing &amp; Project Management</a>
+    <a class="next" href="../quiz.html"><span class="dir">Ready to test yourself? →</span>Take the Practice Quiz</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  GPSC ICT Class-2 exam prep · Unit 11 — Software Engineering
+</footer>
+
+<script src="../assets/js/nav.js"></script>
+</body>
+</html>

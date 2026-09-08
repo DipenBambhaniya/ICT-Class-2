@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SE Principles &amp; SDLC — Software Engineering</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="../index.html"><span class="logo-dot">DB</span> NoSQL Exam Prep</a>
+    <nav class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../se.html" class="active">Software Engineering</a>
+      <a href="../quiz.html">Practice Quiz</a>
+    </nav>
+  </div>
+</header>
+<nav class="subnav">
+  <a href="se-principles.html" class="active">Principles &amp; SDLC</a>
+  <a href="se-agile.html">Agile Development</a>
+  <a href="se-testing-pm.html">Testing &amp; Project Mgmt</a>
+  <a href="se-quality-scada.html">SCADA &amp; Quality</a>
+</nav>
+
+<main>
+
+  <div class="topic-header">
+    <span class="pill">Unit 11 · 1 of 4</span>
+    <h1>Software Engineering Principles &amp; SDLC</h1>
+    <p class="sub">The Software Development Life Cycle gives a structured path from requirements to maintenance. Different SDLC models (Waterfall, Spiral, V-Model, Incremental...) trade off rigor, flexibility and risk management differently, while design principles like cohesion, coupling and abstraction guide how the system itself is built.</p>
+  </div>
+
+  <div class="section">
+    <h2>Key points</h2>
+    <dl class="terms">
+      <dt>SDLC phases</dt>
+      <dd>Requirements → design → implementation → testing → deployment → maintenance, in some sequence depending on the chosen model.</dd>
+      <dt>Waterfall vs iterative models</dt>
+      <dd>Waterfall is strictly sequential (rigid, costly late changes); Spiral/Incremental/Prototyping iterate, adapting to evolving requirements and managing risk along the way.</dd>
+      <dt>Cohesion &amp; coupling</dt>
+      <dd>Good design wants HIGH cohesion (a module does one focused thing) and LOW coupling (modules depend on each other as little as possible).</dd>
+      <dt>Verification vs validation</dt>
+      <dd>Verification: "Are we building the product right?" (matches spec). Validation: "Are we building the right product?" (matches actual need).</dd>
+      <dt>Maintenance types</dt>
+      <dd>Corrective (fix bugs), adaptive (respond to environment change), perfective (enhance), preventive (refactor before problems occur).</dd>
+    </dl>
+  </div>
+
+  <div class="section">
+    <h2>Diagram</h2>
+    <figure class="diagram-box">
+      <svg viewBox="0 0 720 180" xmlns="http://www.w3.org/2000/svg">
+        <g font-size="10" font-weight="700">
+          <text x="20" y="20" style="fill:var(--text-dim)">Waterfall vs Iterative/Incremental</text>
+
+          <rect x="30" y="35" width="100" height="30" rx="4" fill="var(--accent-dim)" stroke="var(--accent)"></rect>
+          <text x="80" y="55" text-anchor="middle" font-size="9" style="fill:var(--accent)">Requirements</text>
+          <rect x="150" y="35" width="100" height="30" rx="4" fill="var(--accent-dim)" stroke="var(--accent)"></rect>
+          <text x="200" y="55" text-anchor="middle" font-size="9" style="fill:var(--accent)">Design</text>
+          <rect x="270" y="35" width="100" height="30" rx="4" fill="var(--accent-dim)" stroke="var(--accent)"></rect>
+          <text x="320" y="55" text-anchor="middle" font-size="9" style="fill:var(--accent)">Implement</text>
+          <rect x="390" y="35" width="100" height="30" rx="4" fill="var(--accent-dim)" stroke="var(--accent)"></rect>
+          <text x="440" y="55" text-anchor="middle" font-size="9" style="fill:var(--accent)">Test</text>
+          <rect x="510" y="35" width="100" height="30" rx="4" fill="var(--accent-dim)" stroke="var(--accent)"></rect>
+          <text x="560" y="55" text-anchor="middle" font-size="9" style="fill:var(--accent)">Deploy</text>
+          <path d="M130 50 L150 50" stroke="var(--text-dim)" stroke-width="2" marker-end="url(#arrsep)"></path>
+          <path d="M250 50 L270 50" stroke="var(--text-dim)" stroke-width="2" marker-end="url(#arrsep)"></path>
+          <path d="M370 50 L390 50" stroke="var(--text-dim)" stroke-width="2" marker-end="url(#arrsep)"></path>
+          <path d="M490 50 L510 50" stroke="var(--text-dim)" stroke-width="2" marker-end="url(#arrsep)"></path>
+          <text x="360" y="20" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">Waterfall: one pass, no going back</text>
+        </g>
+        <g font-size="9" font-weight="700">
+          <circle cx="160" cy="130" r="45" fill="none" stroke="var(--accent-2)" stroke-width="2"></circle>
+          <text x="160" y="95" text-anchor="middle" style="fill:var(--accent-2)">Plan</text>
+          <text x="205" y="115" text-anchor="middle" style="fill:var(--accent-2)">Build</text>
+          <text x="205" y="150" text-anchor="middle" style="fill:var(--accent-2)">Test</text>
+          <text x="160" y="170" text-anchor="middle" style="fill:var(--accent-2)">Review</text>
+          <text x="115" y="150" text-anchor="middle" style="fill:var(--accent-2)">Adjust</text>
+        </g>
+        <text x="330" y="130" font-size="9" style="fill:var(--text-dim)">→ next iteration adds/refines functionality</text>
+        <text x="160" y="180" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">Iterative/Incremental: repeated cycles</text>
+        <defs><marker id="arrsep" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 z" fill="var(--text-dim)"></path></marker></defs>
+      </svg>
+      <figcaption>Waterfall commits to each phase before moving on; iterative/incremental models revisit and refine across repeated cycles.</figcaption>
+    </figure>
+  </div>
+
+  <div class="section">
+    <h2>Example</h2>
+    <pre class="example"><code>A team is building a government benefits portal with very well-understood,
+regulation-fixed requirements and a hard compliance deadline:
+  -> Waterfall fits well: requirements won't change mid-project, and a
+     clear sequential plan supports the fixed deadline and audit trail.
+
+A startup building a new consumer app with unclear, evolving requirements:
+  -> An iterative/incremental (or Agile) approach fits better: early,
+     working increments let them test assumptions and adapt as they learn
+     what users actually want, rather than betting everything on one
+     upfront requirements document.</code></pre>
+  </div>
+
+  <div class="callout warn">
+    <strong>Common exam traps</strong>
+    <p>Verification (right product per SPEC) vs validation (right product per NEED) — frequently swapped. High cohesion + LOW coupling is the goal, not high coupling. The Spiral model is specifically distinguished by its repeated RISK ANALYSIS at every cycle, not just iteration alone. Software maintenance typically costs MORE over a system's lifetime than its initial development.</p>
+  </div>
+
+  <div class="section">
+    <h2>Practice MCQs</h2>
+    <div class="mcq">
+      <p class="q"><span class="qn">Q1.</span> The Waterfall model of SDLC is characterized by:</p>
+      <ol class="opts" type="A">
+        <li>Constant iteration with no defined phases</li>
+        <li>A sequential, linear progression through phases, where each phase must complete before the next begins, with little to no going back</li>
+        <li>Building only a prototype with no final product</li>
+        <li>Skipping requirements gathering entirely</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Waterfall's rigid, one-way flow is its defining (and most criticized) characteristic.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q2.</span> The Spiral model of SDLC particularly emphasizes:</p>
+      <ol class="opts" type="A">
+        <li>Ignoring project risk entirely</li>
+        <li>Risk analysis and management at each iteration/cycle, combining iterative development with systematic risk assessment</li>
+        <li>A single, one-time, upfront risk assessment only</li>
+        <li>Eliminating the need for prototyping</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> The Spiral model's repeated risk-analysis loops make it well suited to large, high-risk projects.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q3.</span> Good software design generally aims for:</p>
+      <ol class="opts" type="A">
+        <li>Low cohesion and high coupling</li>
+        <li>High cohesion (within modules) and low coupling (between modules)</li>
+        <li>High cohesion and high coupling equally</li>
+        <li>Neither cohesion nor coupling matters</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> This combination produces modules that are focused internally and loosely connected externally — easier to maintain and reuse.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q4.</span> Verification, as distinct from validation, in software engineering asks:</p>
+      <ol class="opts" type="A">
+        <li>"Are we building the right product?"</li>
+        <li>"Are we building the product right?" (conforming to specifications), whereas validation asks "Are we building the right product?" (meeting actual user needs)</li>
+        <li>Both questions mean exactly the same thing</li>
+        <li>Neither question is relevant to software engineering</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Verification checks conformance to spec; validation checks fitness for actual user need.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q5.</span> Software maintenance typically consumes:</p>
+      <ol class="opts" type="A">
+        <li>A negligible share of a software system's total lifecycle cost</li>
+        <li>A very large share (often the majority) of a software system's total lifecycle cost, more than the initial development</li>
+        <li>Exactly the same cost as initial development, always</li>
+        <li>No cost at all after deployment</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> This is a widely cited finding in software engineering — maintenance often dominates total cost of ownership.</p></details>
+    </div>
+    <p style="margin-top:18px"><a class="btn" href="../quiz.html?topic=se-principles">Practice all 50 SE Principles &amp; SDLC questions →</a></p>
+  </div>
+
+  <div class="topic-nav">
+    <a href="../se.html"><span class="dir">← Back to</span>Unit 11 index</a>
+    <a class="next" href="se-agile.html"><span class="dir">Next topic →</span>Agile Software Development</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  GPSC ICT Class-2 exam prep · Unit 11 — Software Engineering
+</footer>
+
+<script src="../assets/js/nav.js"></script>
+</body>
+</html>

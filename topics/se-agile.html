@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agile Software Development — Software Engineering</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="../index.html"><span class="logo-dot">DB</span> NoSQL Exam Prep</a>
+    <nav class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../se.html" class="active">Software Engineering</a>
+      <a href="../quiz.html">Practice Quiz</a>
+    </nav>
+  </div>
+</header>
+<nav class="subnav">
+  <a href="se-principles.html">Principles &amp; SDLC</a>
+  <a href="se-agile.html" class="active">Agile Development</a>
+  <a href="se-testing-pm.html">Testing &amp; Project Mgmt</a>
+  <a href="se-quality-scada.html">SCADA &amp; Quality</a>
+</nav>
+
+<main>
+
+  <div class="topic-header">
+    <span class="pill">Unit 11 · 2 of 4</span>
+    <h1>Agile Software Development</h1>
+    <p class="sub">Agile replaces one big upfront plan with short, feedback-driven cycles. Scrum structures this with fixed Sprints, defined roles and ceremonies; Kanban emphasizes continuous flow with WIP limits; Extreme Programming (XP) adds engineering practices like TDD and pair programming.</p>
+  </div>
+
+  <div class="section">
+    <h2>Key points</h2>
+    <dl class="terms">
+      <dt>Agile Manifesto</dt>
+      <dd>Individuals/interactions over processes/tools, working software over documentation, customer collaboration over contract negotiation, responding to change over following a plan.</dd>
+      <dt>Scrum roles</dt>
+      <dd>Product Owner (prioritizes the "what"), Scrum Master (facilitates process, removes blockers), Development Team (self-organizes the "how").</dd>
+      <dt>Scrum events</dt>
+      <dd>Sprint Planning → Daily Scrum (each day) → Sprint Review (demo to stakeholders) → Sprint Retrospective (team process improvement).</dd>
+      <dt>Kanban</dt>
+      <dd>Visual board + WIP limits, continuous flow — no fixed-length Sprints, contrasting with Scrum's time-boxed structure.</dd>
+      <dt>XP practices</dt>
+      <dd>Pair programming, Test-Driven Development (red-green-refactor), Continuous Integration, refactoring, frequent small releases.</dd>
+    </dl>
+  </div>
+
+  <div class="section">
+    <h2>Diagram</h2>
+    <figure class="diagram-box">
+      <svg viewBox="0 0 720 190" xmlns="http://www.w3.org/2000/svg">
+        <g font-size="10" font-weight="700">
+          <text x="20" y="20" style="fill:var(--text-dim)">One Scrum Sprint cycle</text>
+          <circle cx="260" cy="110" r="70" fill="none" stroke="var(--text-dim)" stroke-width="2"></circle>
+
+          <circle cx="260" cy="40" r="6" fill="var(--accent)"></circle>
+          <text x="260" y="28" text-anchor="middle" style="fill:var(--accent)">Sprint Planning</text>
+
+          <circle cx="320" cy="80" r="6" fill="var(--accent-2)"></circle>
+          <text x="380" y="80" text-anchor="middle" style="fill:var(--accent-2)">Daily Scrum ×N</text>
+
+          <circle cx="320" cy="150" r="6" fill="var(--warn)"></circle>
+          <text x="390" y="155" text-anchor="middle" style="fill:var(--warn)">Sprint Review</text>
+
+          <circle cx="200" cy="150" r="6" fill="var(--danger)"></circle>
+          <text x="140" y="155" text-anchor="middle" style="fill:var(--danger)">Retrospective</text>
+
+          <path d="M260 40 A70 70 0 0 1 320 80" stroke="var(--text-dim)" stroke-width="2" fill="none" marker-end="url(#arrag)"></path>
+          <path d="M320 80 A70 70 0 0 1 320 150" stroke="var(--text-dim)" stroke-width="2" fill="none" marker-end="url(#arrag)"></path>
+          <path d="M320 150 A70 70 0 0 1 200 150" stroke="var(--text-dim)" stroke-width="2" fill="none" marker-end="url(#arrag)"></path>
+          <path d="M200 150 A70 70 0 0 1 260 40" stroke="var(--text-dim)" stroke-width="2" fill="none" marker-end="url(#arrag)"></path>
+        </g>
+        <defs><marker id="arrag" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 z" fill="var(--text-dim)"></path></marker></defs>
+        <text x="500" y="60" font-size="10" style="fill:var(--text-dim)">Sprint (1-4 weeks, fixed length)</text>
+        <text x="500" y="80" font-size="10" style="fill:var(--text-dim)">→ ends with a potentially</text>
+        <text x="500" y="98" font-size="10" style="fill:var(--text-dim)">   shippable Increment</text>
+      </svg>
+      <figcaption>Plan → daily sync → demo the Increment → reflect and improve — then the cycle repeats each Sprint.</figcaption>
+    </figure>
+  </div>
+
+  <div class="section">
+    <h2>Example</h2>
+    <pre class="example"><code>A 2-week Sprint for a food-delivery app team:
+  Day 1    Sprint Planning: Product Owner presents top backlog items;
+           team commits to 8 user stories (34 story points) into the
+           Sprint Backlog
+  Days 2-9 Daily Scrum each morning (15 min): "yesterday / today / blockers"
+           Developers pair-program the payment-retry story using TDD:
+           write a failing test for "retry on network timeout" -> make
+           it pass -> refactor
+  Day 10   Sprint Review: demo the completed stories to stakeholders,
+           who ask for one tweak to the retry UI (goes into next backlog)
+           Sprint Retrospective: team notices code review is a bottleneck,
+           agrees to review PRs within 4 hours going forward</code></pre>
+  </div>
+
+  <div class="callout warn">
+    <strong>Common exam traps</strong>
+    <p>The Product Owner owns the backlog/priorities; the Scrum Master facilitates process and removes blockers — these roles are often swapped in questions. Scrum uses fixed-length Sprints; Kanban does not. Story points measure relative effort/complexity, NOT hours. TDD's cycle is write failing test → make it pass → refactor, in that order.</p>
+  </div>
+
+  <div class="section">
+    <h2>Practice MCQs</h2>
+    <div class="mcq">
+      <p class="q"><span class="qn">Q1.</span> In Scrum, the Product Owner's primary responsibility is to:</p>
+      <ol class="opts" type="A">
+        <li>Write all the code personally</li>
+        <li>Represent stakeholder/customer interests, prioritize the Product Backlog, and define what should be built</li>
+        <li>Facilitate daily standups only</li>
+        <li>Manage the team's HR issues</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> The Product Owner owns the 'what' and 'why' of the product, prioritizing value for stakeholders.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q2.</span> The Sprint Retrospective, a Scrum event, is held to:</p>
+      <ol class="opts" type="A">
+        <li>Demonstrate the product to external stakeholders</li>
+        <li>Reflect on the team's own process and identify improvements for how they work together going forward</li>
+        <li>Plan the next release's marketing</li>
+        <li>Only occur at the very end of the entire project</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> The Retrospective is inward-facing, focused on continuous team process improvement, unlike the outward-facing Sprint Review.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q3.</span> Test-Driven Development (TDD), an XP practice, follows the cycle:</p>
+      <ol class="opts" type="A">
+        <li>Write code first, then decide whether to test it later</li>
+        <li>Write a failing test first, then write just enough code to make it pass, then refactor</li>
+        <li>Only write tests after the entire project is finished</li>
+        <li>Skip testing entirely and rely on manual QA</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> This 'red-green-refactor' cycle is the core discipline of TDD.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q4.</span> A key difference between Scrum and Kanban is that Scrum uses:</p>
+      <ol class="opts" type="A">
+        <li>Continuous flow with no defined roles, unlike Kanban</li>
+        <li>Fixed-length Sprints with defined roles/ceremonies, while Kanban emphasizes continuous flow without mandatory time-boxed iterations</li>
+        <li>Exactly the same structure as Kanban with no differences</li>
+        <li>No backlog at all, unlike Kanban</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> This structural distinction (time-boxed vs. continuous flow) is the key differentiator between the two methods.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q5.</span> Story points in Agile estimation represent:</p>
+      <ol class="opts" type="A">
+        <li>A direct measure of hours or days</li>
+        <li>A relative measure of effort/complexity/uncertainty for completing a piece of work, rather than a direct measure of time</li>
+        <li>A count of the number of bugs in a feature</li>
+        <li>A financial cost estimate in currency</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Story points deliberately avoid direct time units, focusing on relative sizing instead.</p></details>
+    </div>
+    <p style="margin-top:18px"><a class="btn" href="../quiz.html?topic=se-agile">Practice all 50 Agile Software Development questions →</a></p>
+  </div>
+
+  <div class="topic-nav">
+    <a href="se-principles.html"><span class="dir">← Previous topic</span>Principles &amp; SDLC</a>
+    <a class="next" href="se-testing-pm.html"><span class="dir">Next topic →</span>Software Testing &amp; Project Management</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  GPSC ICT Class-2 exam prep · Unit 11 — Software Engineering
+</footer>
+
+<script src="../assets/js/nav.js"></script>
+</body>
+</html>

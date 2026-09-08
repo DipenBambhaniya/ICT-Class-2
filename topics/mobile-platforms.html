@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mobile Platforms &amp; Devices — Mobile Application</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="../index.html"><span class="logo-dot">DB</span> NoSQL Exam Prep</a>
+    <nav class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../mobile.html" class="active">Mobile Application</a>
+      <a href="../quiz.html">Practice Quiz</a>
+    </nav>
+  </div>
+</header>
+<nav class="subnav">
+  <a href="mobile-platforms.html" class="active">Platforms &amp; Devices</a>
+  <a href="mobile-cellular.html">Cellular Technologies</a>
+  <a href="mobile-appdev.html">App Development</a>
+  <a href="mobile-ui.html">UI Design</a>
+</nav>
+
+<main>
+
+  <div class="topic-header">
+    <span class="pill">Unit 10 · 1 of 4</span>
+    <h1>Mobile Platforms &amp; Devices</h1>
+    <p class="sub">From early PDAs to today's smartphones, mobile platforms combine hardware (SoC, sensors, touchscreens) with a layered OS (Android/iOS) that runs sandboxed apps. Understanding this architecture explains why mobile software is built and constrained the way it is.</p>
+  </div>
+
+  <div class="section">
+    <h2>Key points</h2>
+    <dl class="terms">
+      <dt>PDA → smartphone</dt>
+      <dd>A PDA (Personal Digital Assistant) was a standalone organizer with no cellular voice/data; merging that with a phone produced the smartphone.</dd>
+      <dt>Android vs iOS</dt>
+      <dd>Android: Linux kernel + HAL + ART runtime + app framework, relatively open (sideloading allowed). iOS: Core OS → Core Services → Media → Cocoa Touch, closed ecosystem (App Store only).</dd>
+      <dt>App sandboxing</dt>
+      <dd>Each app is isolated in its own storage/resources, limiting what a compromised or malicious app can access.</dd>
+      <dt>Runtime permissions</dt>
+      <dd>Sensitive permissions (camera, location) are requested at the point of use, not bundled at install time.</dd>
+      <dt>SoC &amp; sensors</dt>
+      <dd>A System on Chip integrates CPU/GPU/modem; accelerometer, gyroscope, GPS and capacitive touchscreens are the standard sensor suite.</dd>
+    </dl>
+  </div>
+
+  <div class="section">
+    <h2>Diagram</h2>
+    <figure class="diagram-box">
+      <svg viewBox="0 0 720 220" xmlns="http://www.w3.org/2000/svg">
+        <g font-size="10" font-weight="700">
+          <text x="20" y="20" style="fill:var(--text-dim)">Android software stack (top = closest to the user)</text>
+          <rect x="40" y="30" width="300" height="30" rx="4" fill="var(--accent-dim)" stroke="var(--accent)"></rect>
+          <text x="190" y="50" text-anchor="middle" style="fill:var(--accent)">Applications</text>
+          <rect x="40" y="65" width="300" height="30" rx="4" fill="var(--accent-2-dim)" stroke="var(--accent-2)"></rect>
+          <text x="190" y="85" text-anchor="middle" style="fill:var(--accent-2)">Application Framework (Activity Manager, Content Providers...)</text>
+          <rect x="40" y="100" width="300" height="30" rx="4" fill="var(--warn-dim)" stroke="var(--warn)"></rect>
+          <text x="190" y="120" text-anchor="middle" style="fill:var(--warn)">Android Runtime (ART) + Native Libraries</text>
+          <rect x="40" y="135" width="300" height="30" rx="4" fill="var(--danger-dim)" stroke="var(--danger)"></rect>
+          <text x="190" y="155" text-anchor="middle" style="fill:var(--danger)">Hardware Abstraction Layer (HAL)</text>
+          <rect x="40" y="170" width="300" height="30" rx="4" fill="none" stroke="var(--text-dim)"></rect>
+          <text x="190" y="190" text-anchor="middle" style="fill:var(--text-dim)">Linux Kernel (drivers, process/memory mgmt)</text>
+        </g>
+        <g font-size="10" font-weight="700">
+          <text x="400" y="20" style="fill:var(--text-dim)">iOS software stack</text>
+          <rect x="420" y="30" width="260" height="30" rx="4" fill="var(--accent-dim)" stroke="var(--accent)"></rect>
+          <text x="550" y="50" text-anchor="middle" style="fill:var(--accent)">Cocoa Touch</text>
+          <rect x="420" y="65" width="260" height="30" rx="4" fill="var(--accent-2-dim)" stroke="var(--accent-2)"></rect>
+          <text x="550" y="85" text-anchor="middle" style="fill:var(--accent-2)">Media</text>
+          <rect x="420" y="100" width="260" height="30" rx="4" fill="var(--warn-dim)" stroke="var(--warn)"></rect>
+          <text x="550" y="120" text-anchor="middle" style="fill:var(--warn)">Core Services</text>
+          <rect x="420" y="135" width="260" height="65" rx="4" fill="none" stroke="var(--text-dim)"></rect>
+          <text x="550" y="170" text-anchor="middle" style="fill:var(--text-dim)">Core OS (kernel, drivers)</text>
+        </g>
+      </svg>
+      <figcaption>Both platforms layer app-facing frameworks on top of core OS/kernel services — apps never talk to hardware directly.</figcaption>
+    </figure>
+  </div>
+
+  <div class="section">
+    <h2>Example</h2>
+    <pre class="example"><code>A camera app on Android requests the CAMERA permission:
+  1. App calls the Camera API (Application Framework layer)
+  2. OS checks: has the user granted CAMERA at runtime? If not, shows a
+     permission dialog right when the feature is first used (not at install)
+  3. If granted, the framework talks to the Camera HAL
+  4. HAL talks to the actual camera driver in the Linux kernel
+  5. Kernel controls the physical camera hardware, sandboxed so only
+     this app's granted access applies</code></pre>
+  </div>
+
+  <div class="callout warn">
+    <strong>Common exam traps</strong>
+    <p>Android is Linux-kernel-based and relatively open (sideloading allowed); iOS is closed (App Store only) and unrelated to Linux. Runtime permissions ≠ install-time permissions — modern Android/iOS ask at point of use. A PDA historically had no built-in cellular voice/data; that's exactly what merging with a phone added to create the smartphone.</p>
+  </div>
+
+  <div class="section">
+    <h2>Practice MCQs</h2>
+    <div class="mcq">
+      <p class="q"><span class="qn">Q1.</span> Android's operating system is built on top of which kernel?</p>
+      <ol class="opts" type="A">
+        <li>Windows NT kernel</li>
+        <li>The Linux kernel</li>
+        <li>The Darwin (BSD) kernel</li>
+        <li>No kernel — Android runs bare-metal</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Android uses a modified Linux kernel for core OS services like process and memory management.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q2.</span> App sandboxing on mobile OSes means:</p>
+      <ol class="opts" type="A">
+        <li>All apps freely share the same storage and data by default</li>
+        <li>Each app is restricted to its own isolated storage/resources, unable to directly access another app's data without explicit permission</li>
+        <li>Apps cannot access any device storage at all</li>
+        <li>Sandboxing only applies to system apps</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Sandboxing limits the damage a compromised or malicious app can do to the rest of the system.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q3.</span> Runtime permissions (e.g., in Android 6.0+) mean that:</p>
+      <ol class="opts" type="A">
+        <li>All permissions are granted automatically at install with no user involvement</li>
+        <li>Apps must request sensitive permissions (camera, location, etc.) at the point of use, and the user can grant or deny each one</li>
+        <li>Permissions can never be revoked once granted</li>
+        <li>Only system apps require any permissions</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> This contrasts with older models that granted all requested permissions in a single bundle at install time.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q4.</span> A PDA (Personal Digital Assistant) was best described as:</p>
+      <ol class="opts" type="A">
+        <li>A modern 5G smartphone</li>
+        <li>An early handheld device for personal information management (calendar, contacts, notes) that predated modern smartphones</li>
+        <li>A type of cellular base station</li>
+        <li>A desktop operating system</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> PDAs later merged with cellular phones to form what we now call smartphones.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q5.</span> A SoC (System on Chip) in a mobile device integrates:</p>
+      <ol class="opts" type="A">
+        <li>Only the display panel</li>
+        <li>CPU, GPU, memory controller, and often the modem, onto a single chip for space and power efficiency</li>
+        <li>Only the battery</li>
+        <li>Only the camera sensor</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Integrating these components onto one chip reduces size and power consumption compared to discrete components.</p></details>
+    </div>
+    <p style="margin-top:18px"><a class="btn" href="../quiz.html?topic=mobile-platforms">Practice all 50 Mobile Platforms &amp; Devices questions →</a></p>
+  </div>
+
+  <div class="topic-nav">
+    <a href="../mobile.html"><span class="dir">← Back to</span>Unit 10 index</a>
+    <a class="next" href="mobile-cellular.html"><span class="dir">Next topic →</span>Cellular Technologies</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  GPSC ICT Class-2 exam prep · Unit 10 — Mobile Application
+</footer>
+
+<script src="../assets/js/nav.js"></script>
+</body>
+</html>

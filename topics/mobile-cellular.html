@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cellular Technologies — Mobile Application</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="../index.html"><span class="logo-dot">DB</span> NoSQL Exam Prep</a>
+    <nav class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../mobile.html" class="active">Mobile Application</a>
+      <a href="../quiz.html">Practice Quiz</a>
+    </nav>
+  </div>
+</header>
+<nav class="subnav">
+  <a href="mobile-platforms.html">Platforms &amp; Devices</a>
+  <a href="mobile-cellular.html" class="active">Cellular Technologies</a>
+  <a href="mobile-appdev.html">App Development</a>
+  <a href="mobile-ui.html">UI Design</a>
+</nav>
+
+<main>
+
+  <div class="topic-header">
+    <span class="pill">Unit 10 · 2 of 4</span>
+    <h1>Cellular Technologies</h1>
+    <p class="sub">Mobile connectivity evolved from analog voice-only 1G through digital GSM/CDMA 2G, higher-speed 3G, to all-IP 4G/LTE — each generation adding capability by changing how many users share the radio spectrum and how the network is architected.</p>
+  </div>
+
+  <div class="section">
+    <h2>Key points</h2>
+    <dl class="terms">
+      <dt>Generations</dt>
+      <dd>1G analog voice → 2G digital voice+SMS (GSM/CDMA) → 3G mobile internet (UMTS/CDMA2000) → 4G all-IP, high-speed (LTE, VoLTE).</dd>
+      <dt>GSM vs CDMA</dt>
+      <dd>GSM uses TDMA + a removable SIM card; classic CDMA uses code-based spreading and traditionally identified devices by ESN/MEID rather than a SIM.</dd>
+      <dt>Multiple access</dt>
+      <dd>FDMA (frequency slots), TDMA (time slots), CDMA (unique codes on a shared band) — different ways to let many users share limited spectrum.</dd>
+      <dt>Network components</dt>
+      <dd>BTS (radio) → BSC (controls several BTS) → MSC (call switching); HLR (home subscriber data) and VLR (visiting subscriber data) support roaming.</dd>
+      <dt>Handoff / handover</dt>
+      <dd>Transferring an active connection from one cell to another as a user moves — soft (CDMA, overlapping) vs hard (GSM, break-before-make).</dd>
+    </dl>
+  </div>
+
+  <div class="section">
+    <h2>Diagram</h2>
+    <figure class="diagram-box">
+      <svg viewBox="0 0 720 170" xmlns="http://www.w3.org/2000/svg">
+        <g font-size="11" font-weight="700">
+          <text x="20" y="20" style="fill:var(--text-dim)">Cellular generations timeline</text>
+          <line x1="40" y1="60" x2="680" y2="60" stroke="var(--text-dim)" stroke-width="2"></line>
+
+          <circle cx="100" cy="60" r="6" fill="var(--accent)"></circle>
+          <text x="100" y="45" text-anchor="middle" style="fill:var(--accent)">1G</text>
+          <text x="100" y="80" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">analog voice</text>
+
+          <circle cx="270" cy="60" r="6" fill="var(--accent-2)"></circle>
+          <text x="270" y="45" text-anchor="middle" style="fill:var(--accent-2)">2G — GSM / CDMA</text>
+          <text x="270" y="80" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">digital voice + SMS (+GPRS/EDGE)</text>
+
+          <circle cx="450" cy="60" r="6" fill="var(--warn)"></circle>
+          <text x="450" y="45" text-anchor="middle" style="fill:var(--warn)">3G — UMTS / CDMA2000</text>
+          <text x="450" y="80" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">mobile internet, video calls</text>
+
+          <circle cx="620" cy="60" r="6" fill="var(--danger)"></circle>
+          <text x="620" y="45" text-anchor="middle" style="fill:var(--danger)">4G — LTE</text>
+          <text x="620" y="80" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">all-IP, VoLTE, high speed</text>
+        </g>
+        <text x="360" y="130" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">Each generation raises data speed and, from 4G, moves voice itself onto the same all-IP data network.</text>
+      </svg>
+      <figcaption>1G→4G: from analog voice-only to a unified, all-IP, high-speed data network carrying voice as just another data stream.</figcaption>
+    </figure>
+  </div>
+
+  <div class="section">
+    <h2>Example</h2>
+    <pre class="example"><code>A GSM call handoff as a subscriber drives between cells:
+  1. Phone is in Cell A, talking to BTS-A, controlled by BSC-1
+  2. Signal strength to BTS-A weakens as the phone nears Cell B
+  3. BSC-1 (via the MSC) arranges a handover to BTS-B in Cell B
+  4. GSM performs a "hard" handover: the old radio link breaks
+     just before the new one is established (brief gap)
+  5. VLR data is updated to reflect the phone's new serving area
+
+Contrast: a CDMA "soft" handover keeps BOTH BTS-A and BTS-B connections
+briefly active simultaneously, only dropping the old one once the new
+one is confirmed good — reducing the chance of a dropped call.</code></pre>
+  </div>
+
+  <div class="callout warn">
+    <strong>Common exam traps</strong>
+    <p>TDMA/FDMA/CDMA are multiple-access techniques, not generations — GSM (2G) uses TDMA, classic CDMA networks use code-division. VoLTE carries voice as IP data over 4G; earlier generations used circuit-switched voice. HLR = permanent home-subscriber data; VLR = temporary visiting-subscriber data (including roamers) — these are frequently swapped in questions.</p>
+  </div>
+
+  <div class="section">
+    <h2>Practice MCQs</h2>
+    <div class="mcq">
+      <p class="q"><span class="qn">Q1.</span> GSM stands for:</p>
+      <ol class="opts" type="A">
+        <li>General Satellite Mobile</li>
+        <li>Global System for Mobile Communications, a widely adopted 2G digital cellular standard</li>
+        <li>Global Signal Modulation</li>
+        <li>Ground Station Module</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> GSM became the dominant 2G standard internationally, especially outside North America.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q2.</span> CDMA stands for:</p>
+      <ol class="opts" type="A">
+        <li>Cellular Data Management Application</li>
+        <li>Code Division Multiple Access, where users share the same frequency band simultaneously, distinguished by unique codes</li>
+        <li>Central Distribution Mobile Antenna</li>
+        <li>Cell Division Multiplexing Array</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> CDMA's spread-spectrum approach lets many users transmit on the same frequencies at once.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q3.</span> 4G cellular networks are primarily defined by:</p>
+      <ol class="opts" type="A">
+        <li>A return to analog transmission</li>
+        <li>LTE (Long Term Evolution) technology, offering an all-IP architecture and much higher data speeds than 3G</li>
+        <li>GSM's original 2G design</li>
+        <li>The elimination of cellular towers</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> LTE's all-IP design and higher bandwidth marked a significant architectural shift from earlier generations.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q4.</span> A handoff/handover in a cellular network occurs when:</p>
+      <ol class="opts" type="A">
+        <li>A subscriber cancels their service</li>
+        <li>A mobile device's active connection is transferred from one cell/base station to another as the user moves</li>
+        <li>A SIM card is physically swapped</li>
+        <li>A device is powered off</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Seamless handoffs are essential for maintaining calls/data sessions as users move between cell coverage areas.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q5.</span> The HLR (Home Location Register) stores:</p>
+      <ol class="opts" type="A">
+        <li>Only temporary visitor information</li>
+        <li>Permanent subscriber information (like IMSI details and subscribed services) for a network's own subscribers</li>
+        <li>The device's app store purchase history</li>
+        <li>Cellular tower maintenance logs</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> The HLR is the authoritative, permanent record for a carrier's own subscribers — the VLR instead holds temporary visitor data.</p></details>
+    </div>
+    <p style="margin-top:18px"><a class="btn" href="../quiz.html?topic=mobile-cellular">Practice all 50 Cellular Technologies questions →</a></p>
+  </div>
+
+  <div class="topic-nav">
+    <a href="mobile-platforms.html"><span class="dir">← Previous topic</span>Platforms &amp; Devices</a>
+    <a class="next" href="mobile-appdev.html"><span class="dir">Next topic →</span>App Development</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  GPSC ICT Class-2 exam prep · Unit 10 — Mobile Application
+</footer>
+
+<script src="../assets/js/nav.js"></script>
+</body>
+</html>

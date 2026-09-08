@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mobile App Development — Mobile Application</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="../index.html"><span class="logo-dot">DB</span> NoSQL Exam Prep</a>
+    <nav class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../mobile.html" class="active">Mobile Application</a>
+      <a href="../quiz.html">Practice Quiz</a>
+    </nav>
+  </div>
+</header>
+<nav class="subnav">
+  <a href="mobile-platforms.html">Platforms &amp; Devices</a>
+  <a href="mobile-cellular.html">Cellular Technologies</a>
+  <a href="mobile-appdev.html" class="active">App Development</a>
+  <a href="mobile-ui.html">UI Design</a>
+</nav>
+
+<main>
+
+  <div class="topic-header">
+    <span class="pill">Unit 10 · 3 of 4</span>
+    <h1>Mobile App Development</h1>
+    <p class="sub">Building a mobile app means choosing between native, hybrid and cross-platform approaches, structuring code with patterns like MVC/MVVM, talking to a backend over REST/JSON, and shipping through a disciplined test-and-release pipeline.</p>
+  </div>
+
+  <div class="section">
+    <h2>Key points</h2>
+    <dl class="terms">
+      <dt>Native vs Hybrid vs Cross-platform</dt>
+      <dd>Native (Kotlin/Swift, best performance/API access) vs Hybrid (web UI in a WebView) vs Cross-platform (React Native/Flutter — one codebase, near-native rendering).</dd>
+      <dt>MVC / MVVM</dt>
+      <dd>MVC splits Model/View/Controller; MVVM adds an observable ViewModel between Model and View, suiting reactive/data-binding UI frameworks.</dd>
+      <dt>Backend communication</dt>
+      <dd>Apps typically talk to a server via REST APIs over HTTPS, exchanging JSON; local caching and SQLite support offline-first behavior.</dd>
+      <dt>CI/CD &amp; testing</dt>
+      <dd>Unit tests (isolated logic), UI/instrumentation tests (simulated interaction), and automated pipelines that build/test/distribute on every change.</dd>
+      <dt>Distribution</dt>
+      <dd>Apple's App Store enforces review before publishing; Android additionally allows sideloading APKs outside the Play Store.</dd>
+    </dl>
+  </div>
+
+  <div class="section">
+    <h2>Diagram</h2>
+    <figure class="diagram-box">
+      <svg viewBox="0 0 720 190" xmlns="http://www.w3.org/2000/svg">
+        <g font-size="10" font-weight="700">
+          <text x="20" y="20" style="fill:var(--text-dim)">Three ways to build a mobile app</text>
+
+          <rect x="30" y="35" width="200" height="120" rx="6" fill="var(--accent-dim)" stroke="var(--accent)"></rect>
+          <text x="130" y="55" text-anchor="middle" style="fill:var(--accent)">Native</text>
+          <text x="130" y="80" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">Kotlin/Swift</text>
+          <text x="130" y="98" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">Full platform API access</text>
+          <text x="130" y="116" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">Best performance</text>
+          <text x="130" y="134" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">Separate codebase per OS</text>
+
+          <rect x="260" y="35" width="200" height="120" rx="6" fill="var(--accent-2-dim)" stroke="var(--accent-2)"></rect>
+          <text x="360" y="55" text-anchor="middle" style="fill:var(--accent-2)">Cross-platform</text>
+          <text x="360" y="80" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">React Native / Flutter</text>
+          <text x="360" y="98" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">One codebase, near-native UI</text>
+          <text x="360" y="116" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">Faster dev, some perf trade-off</text>
+          <text x="360" y="134" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">Occasional native plugin needed</text>
+
+          <rect x="490" y="35" width="200" height="120" rx="6" fill="var(--warn-dim)" stroke="var(--warn)"></rect>
+          <text x="590" y="55" text-anchor="middle" style="fill:var(--warn)">Hybrid</text>
+          <text x="590" y="80" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">HTML/CSS/JS in a WebView</text>
+          <text x="590" y="98" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">Plugins bridge native APIs</text>
+          <text x="590" y="116" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">Fastest to build</text>
+          <text x="590" y="134" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">Lower performance ceiling</text>
+        </g>
+      </svg>
+      <figcaption>Native maximizes performance/access; hybrid maximizes code reuse and speed; cross-platform frameworks aim for a middle ground.</figcaption>
+    </figure>
+  </div>
+
+  <div class="section">
+    <h2>Example</h2>
+    <pre class="example"><code>A shopping app's checkout screen, built with MVVM:
+
+  Model      -> Cart, Product, Order data classes + a repository that
+                fetches/saves them via a REST API (GET /cart, POST /order)
+  ViewModel  -> Exposes observable "cartTotal", "isLoading", "errorMessage"
+                state; calls the repository, never touches UI widgets directly
+  View       -> Binds to the ViewModel's observable state; when cartTotal
+                changes, the UI updates automatically with no manual refresh
+
+CI/CD pipeline on every commit: run unit tests (ViewModel logic) ->
+run UI tests (tap "Checkout", assert order confirmation appears) ->
+build a release APK/IPA -> publish to a beta testing track.</code></pre>
+  </div>
+
+  <div class="callout warn">
+    <strong>Common exam traps</strong>
+    <p>"Hybrid" wraps a WebView; "cross-platform" (React Native/Flutter) renders closer to native widgets — these are often conflated. Runtime permissions belong to the Platforms topic, but requesting them at point-of-use (not all at install) is also a development best practice. Offline-first means the app stays usable without a network, not that it never syncs.</p>
+  </div>
+
+  <div class="section">
+    <h2>Practice MCQs</h2>
+    <div class="mcq">
+      <p class="q"><span class="qn">Q1.</span> A native mobile app is built using:</p>
+      <ol class="opts" type="A">
+        <li>Only generic web technologies with no platform SDK</li>
+        <li>The platform's own SDK and programming language (e.g., Kotlin/Java for Android, Swift/Objective-C for iOS), giving full access to platform APIs and best performance</li>
+        <li>A single codebase that cannot access any device hardware</li>
+        <li>Only server-side code with no client component</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Native development typically offers the best performance and deepest platform integration, at the cost of maintaining separate codebases per platform.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q2.</span> A cross-platform framework like React Native or Flutter allows developers to:</p>
+      <ol class="opts" type="A">
+        <li>Write completely separate code for each platform with no sharing</li>
+        <li>Write app code largely once and deploy to multiple platforms, while still rendering natively (or near-natively) on each</li>
+        <li>Only build web pages, never installable apps</li>
+        <li>Avoid using any programming language</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> These frameworks aim to combine much of native performance/feel with the development efficiency of a shared codebase.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q3.</span> A mobile app typically communicates with a remote backend server via:</p>
+      <ol class="opts" type="A">
+        <li>Only direct database file access</li>
+        <li>REST (or similar) APIs over HTTP(S), exchanging data usually in JSON format</li>
+        <li>Bluetooth exclusively</li>
+        <li>Physical USB connection only</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> REST-over-HTTP(S) with JSON is the most common pattern for mobile app-to-backend communication.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q4.</span> The MVVM (Model-View-ViewModel) pattern adds a:</p>
+      <ol class="opts" type="A">
+        <li>Database layer with no UI connection</li>
+        <li>ViewModel layer that exposes data/state to the View in an observable way, helping separate UI logic from business logic</li>
+        <li>Layer that eliminates the need for any Model</li>
+        <li>Networking layer only</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> MVVM is particularly well suited to frameworks with reactive/data-binding UI systems.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q5.</span> Continuous Integration/Continuous Deployment (CI/CD), applied to mobile app development, helps:</p>
+      <ol class="opts" type="A">
+        <li>Manually build and test each release by hand every time</li>
+        <li>Automate building, testing, and (optionally) distributing new app versions on every code change</li>
+        <li>Eliminate the need for any version control</li>
+        <li>Guarantee the app never has any bugs</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> CI/CD reduces manual effort and catches integration issues earlier through automated pipelines.</p></details>
+    </div>
+    <p style="margin-top:18px"><a class="btn" href="../quiz.html?topic=mobile-appdev">Practice all 50 Mobile App Development questions →</a></p>
+  </div>
+
+  <div class="topic-nav">
+    <a href="mobile-cellular.html"><span class="dir">← Previous topic</span>Cellular Technologies</a>
+    <a class="next" href="mobile-ui.html"><span class="dir">Next topic →</span>UI Design</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  GPSC ICT Class-2 exam prep · Unit 10 — Mobile Application
+</footer>
+
+<script src="../assets/js/nav.js"></script>
+</body>
+</html>

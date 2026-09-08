@@ -7,7 +7,8 @@ worked examples and solved MCQs, plus one topic-filterable practice quiz.
 Mathematics (6 topics), 3 — Algorithms (13 topics), 4 — Databases (8 topics),
 5 — Hardware &amp; Operating Systems (9 topics), 6 — Computer Networks (10 topics),
 7 — Analytics (9 topics), 8 — NoSQL Databases (4 topics), 9 — Data Centre
-(4 topics). **3198 quiz questions.**
+(4 topics), 10 — Mobile Application (4 topics), 11 — Software Engineering
+(4 topics). **3598 quiz questions.**
 
 ## Live site
 
@@ -22,6 +23,8 @@ Mathematics (6 topics), 3 — Algorithms (13 topics), 4 — Databases (8 topics)
 - Unit 7 hub: <https://dipenbambhaniya.github.io/ICT-Class-2/analytics.html>
 - Unit 8 topics start at <https://dipenbambhaniya.github.io/ICT-Class-2/topics/sql-vs-nosql.html>
 - Unit 9 hub: <https://dipenbambhaniya.github.io/ICT-Class-2/dc.html>
+- Unit 10 hub: <https://dipenbambhaniya.github.io/ICT-Class-2/mobile.html>
+- Unit 11 hub: <https://dipenbambhaniya.github.io/ICT-Class-2/se.html>
 - Practice quiz: <https://dipenbambhaniya.github.io/ICT-Class-2/quiz.html>
 
 ## Contents
@@ -45,7 +48,12 @@ Mathematics (6 topics), 3 — Algorithms (13 topics), 4 — Databases (8 topics)
 - `dc.html` — Unit 9 (Data Centre) hub → `topics/dc-*.html` (Data Storage &amp;
   Availability, Cloud Infrastructure &amp; Virtualization, Public/Private/Hybrid
   Cloud, Scalability &amp; Reliability)
-- `quiz.html` — 3198-question interactive MCQ practice test (filter by topic, instant
+- `mobile.html` — Unit 10 (Mobile Application) hub → `topics/mobile-*.html`
+  (Platforms &amp; Devices, Cellular Technologies, App Development, UI Design)
+- `se.html` — Unit 11 (Software Engineering) hub → `topics/se-*.html`
+  (Principles &amp; SDLC, Agile Development, Testing &amp; Project Management, SCADA
+  &amp; Software Quality)
+- `quiz.html` — 3598-question interactive MCQ practice test (filter by topic, instant
   feedback, score breakdown, review list). Every topic page also has inline MCQs
   with reveal-to-check explanations.
 - `assets/js/questions.js` — NoSQL + Databases question bank
@@ -54,7 +62,8 @@ Mathematics (6 topics), 3 — Algorithms (13 topics), 4 — Databases (8 topics)
   and Hardware & Operating Systems question banks (50 per topic)
 - `assets/js/q-cn.js`, `q-analytics.js` — Computer Networks and Analytics question
   banks (50 per topic)
-- `assets/js/q-dc.js` — Data Centre question bank (50 per topic)
+- `assets/js/q-dc.js`, `q-mobile.js`, `q-se.js` — Data Centre, Mobile Application,
+  and Software Engineering question banks (50 per topic)
 - `assets/js/nav.js` — left sidebar navigation, grouped by syllabus unit
 - `assets/css/style.css` — shared design system (light/dark aware)
 
@@ -106,5 +115,8 @@ per-unit `q-*.js` files), e.g. `sql-vs-nosql`, `data-representation`, `cap-theor
 `properties`, `integrity-constraints`, `normal-forms`, `file-organization`, `indexes`,
 `b-trees`, `transactions`, `schedules`, `concurrency-control`, `pds-c`, `pds-recursion`,
 `pds-arrays`, `pds-stacks`, `pds-queues`, `pds-linked-lists`, `pds-trees`, `pds-bst`,
-`pds-heaps`, `pds-graphs`, and the Unit 9 Data Centre topics: `dc-storage`,
-`dc-cloud-infra`, `dc-cloud-models`, `dc-scalability`.
+`pds-heaps`, `pds-graphs`, the Unit 9 Data Centre topics (`dc-storage`,
+`dc-cloud-infra`, `dc-cloud-models`, `dc-scalability`), the Unit 10 Mobile
+Application topics (`mobile-platforms`, `mobile-cellular`, `mobile-appdev`,
+`mobile-ui`), and the Unit 11 Software Engineering topics (`se-principles`,
+`se-agile`, `se-testing-pm`, `se-quality-scada`).

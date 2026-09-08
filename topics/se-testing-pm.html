@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Software Testing &amp; Project Management — Software Engineering</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="../index.html"><span class="logo-dot">DB</span> NoSQL Exam Prep</a>
+    <nav class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../se.html" class="active">Software Engineering</a>
+      <a href="../quiz.html">Practice Quiz</a>
+    </nav>
+  </div>
+</header>
+<nav class="subnav">
+  <a href="se-principles.html">Principles &amp; SDLC</a>
+  <a href="se-agile.html">Agile Development</a>
+  <a href="se-testing-pm.html" class="active">Testing &amp; Project Mgmt</a>
+  <a href="se-quality-scada.html">SCADA &amp; Quality</a>
+</nav>
+
+<main>
+
+  <div class="topic-header">
+    <span class="pill">Unit 11 · 3 of 4</span>
+    <h1>Software Testing &amp; Project Management</h1>
+    <p class="sub">Testing verifies the software works, at increasing scope from unit through acceptance; project management coordinates schedule, budget and risk to actually deliver it. Service Level Agreements (SLAs) tie both together with measurable, contractual commitments.</p>
+  </div>
+
+  <div class="section">
+    <h2>Key points</h2>
+    <dl class="terms">
+      <dt>Testing levels</dt>
+      <dd>Unit (one function) → Integration (modules together) → System (whole app vs requirements) → Acceptance (customer sign-off).</dd>
+      <dt>Black-box vs white-box</dt>
+      <dd>Black-box tests behavior with no code knowledge; white-box tests internal logic/paths directly; grey-box blends the two.</dd>
+      <dt>Defect lifecycle</dt>
+      <dd>New → Assigned → In Progress → Fixed → Retested → Closed, tracked through a defect tracking system (e.g., Jira).</dd>
+      <dt>Estimation &amp; scheduling</dt>
+      <dd>COCOMO estimates effort/cost/schedule; Gantt charts visualize schedule/dependencies; the critical path sets the minimum project duration.</dd>
+      <dt>SLA</dt>
+      <dd>A formal, measurable service commitment (uptime, response time, defect resolution) with defined consequences if unmet.</dd>
+    </dl>
+  </div>
+
+  <div class="section">
+    <h2>Diagram</h2>
+    <figure class="diagram-box">
+      <svg viewBox="0 0 720 190" xmlns="http://www.w3.org/2000/svg">
+        <g font-size="10" font-weight="700">
+          <text x="20" y="20" style="fill:var(--text-dim)">The testing pyramid</text>
+          <polygon points="120,150 380,150 320,110 180,110" fill="var(--accent-dim)" stroke="var(--accent)"></polygon>
+          <text x="250" y="135" text-anchor="middle" font-size="10" style="fill:var(--accent)">Unit tests (many, fast)</text>
+          <polygon points="180,110 320,110 290,75 210,75" fill="var(--accent-2-dim)" stroke="var(--accent-2)"></polygon>
+          <text x="250" y="98" text-anchor="middle" font-size="9" style="fill:var(--accent-2)">Integration</text>
+          <polygon points="210,75 290,75 268,45 232,45" fill="var(--warn-dim)" stroke="var(--warn)"></polygon>
+          <text x="250" y="65" text-anchor="middle" font-size="8" style="fill:var(--warn)">System</text>
+          <polygon points="232,45 268,45 250,25" fill="var(--danger-dim)" stroke="var(--danger)"></polygon>
+          <text x="250" y="20" text-anchor="middle" font-size="7" style="fill:var(--danger)">Accept.</text>
+        </g>
+        <text x="480" y="80" font-size="9" style="fill:var(--text-dim)">More tests, cheaper &amp; faster</text>
+        <text x="480" y="98" font-size="9" style="fill:var(--text-dim)">at the bottom (unit level);</text>
+        <text x="480" y="116" font-size="9" style="fill:var(--text-dim)">fewer, slower, broader-scope</text>
+        <text x="480" y="134" font-size="9" style="fill:var(--text-dim)">tests near the top.</text>
+      </svg>
+      <figcaption>Broad, fast unit-test coverage at the base; narrower, slower, more expensive tests as scope widens toward acceptance.</figcaption>
+    </figure>
+  </div>
+
+  <div class="section">
+    <h2>Example</h2>
+    <pre class="example"><code>A payment feature's SLA: "99.9% of payment requests processed successfully
+within 2 seconds, measured monthly, with a 10% service credit if missed."
+
+Testing that feature:
+  Unit:        test the tax-calculation function with edge-case inputs
+  Integration: test that the payment module correctly calls the
+               fraud-check module and handles its response
+  System:      run a full checkout flow end-to-end against the staging env
+  Acceptance:  the client's QA team signs off that checkout matches their
+               actual business requirements before go-live
+
+If defect tracking shows a spike in "payment timeout" bugs post-release,
+that data feeds back into whether the 2-second SLA target is realistic.</code></pre>
+  </div>
+
+  <div class="callout warn">
+    <strong>Common exam traps</strong>
+    <p>Defect SEVERITY (technical impact) vs PRIORITY (fix urgency) are related but distinct — frequently swapped. A false positive wrongly reports failure; a false negative wrongly reports success (missing a real bug) — the more dangerous of the two. QA is process-focused/preventive; QC (including testing) is product-focused/detective. Regression testing checks that a CHANGE didn't break EXISTING functionality, not that new functionality works.</p>
+  </div>
+
+  <div class="section">
+    <h2>Practice MCQs</h2>
+    <div class="mcq">
+      <p class="q"><span class="qn">Q1.</span> Unit testing verifies:</p>
+      <ol class="opts" type="A">
+        <li>The entire integrated system at once</li>
+        <li>The smallest individually testable pieces of code (e.g., functions/methods) in isolation</li>
+        <li>Only the user interface</li>
+        <li>Only the deployment infrastructure</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Unit tests isolate the smallest testable units, making failures easy to localize.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q2.</span> Black-box testing evaluates software by:</p>
+      <ol class="opts" type="A">
+        <li>Examining internal source code line by line</li>
+        <li>Testing functionality against inputs and expected outputs without knowledge of the internal code structure/implementation</li>
+        <li>Only testing the database schema</li>
+        <li>Requiring full access to the compiled binary's assembly code</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Black-box testing treats the system as an opaque box, focusing purely on input/output behavior.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q3.</span> Regression testing is performed to:</p>
+      <ol class="opts" type="A">
+        <li>Test entirely new, never-before-tested functionality only</li>
+        <li>Verify that recent code changes haven't broken previously working functionality</li>
+        <li>Replace the need for any other type of testing</li>
+        <li>Only run once, at the very start of a project</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Regression testing guards against previously working features breaking due to new changes.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q4.</span> An SLA (Service Level Agreement) in a software/IT project context is:</p>
+      <ol class="opts" type="A">
+        <li>An informal, unwritten understanding with no specifics</li>
+        <li>A formal agreement specifying measurable service commitments (e.g., uptime, response time, defect resolution time) between a provider and a customer</li>
+        <li>A type of programming language</li>
+        <li>Only relevant to hardware manufacturing</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> SLAs formalize measurable service expectations between a provider and its customers.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q5.</span> Defect severity and defect priority, though related, differ in that severity indicates:</p>
+      <ol class="opts" type="A">
+        <li>The order/urgency in which a defect should be fixed relative to other work</li>
+        <li>The technical impact/seriousness of a defect on the system, while priority indicates the order/urgency in which it should be fixed relative to other work</li>
+        <li>Exactly the same thing as priority, with no distinction</li>
+        <li>Only the cosmetic appearance of a defect</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Severity (technical impact) and priority (fix urgency) are related but distinct dimensions of a defect.</p></details>
+    </div>
+    <p style="margin-top:18px"><a class="btn" href="../quiz.html?topic=se-testing-pm">Practice all 50 Software Testing &amp; Project Management questions →</a></p>
+  </div>
+
+  <div class="topic-nav">
+    <a href="se-agile.html"><span class="dir">← Previous topic</span>Agile Software Development</a>
+    <a class="next" href="se-quality-scada.html"><span class="dir">Next topic →</span>SCADA &amp; Software Quality</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  GPSC ICT Class-2 exam prep · Unit 11 — Software Engineering
+</footer>
+
+<script src="../assets/js/nav.js"></script>
+</body>
+</html>
