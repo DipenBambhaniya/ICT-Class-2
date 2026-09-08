@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Enterprise Systems, EDI/ERP &amp; IT Governance — E-Governance</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="../index.html"><span class="logo-dot">DB</span> NoSQL Exam Prep</a>
+    <nav class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../egov.html" class="active">E-Governance</a>
+      <a href="../quiz.html">Practice Quiz</a>
+    </nav>
+  </div>
+</header>
+<nav class="subnav">
+  <a href="eg-models.html">Models &amp; Digital India</a>
+  <a href="eg-enterprise.html" class="active">Enterprise &amp; IT Gov.</a>
+  <a href="eg-smart.html">Smart Cities</a>
+  <a href="eg-services.html">Digital Services</a>
+</nav>
+
+<main>
+
+  <div class="topic-header">
+    <span class="pill">Unit 13 · 2 of 4</span>
+    <h1>Enterprise Systems, EDI/ERP &amp; IT Governance</h1>
+    <p class="sub">EDI moves structured documents BETWEEN organizations; ERP integrates processes WITHIN one organization; Citizen Relationship Management applies CRM thinking to government-citizen interactions. IT/ITeS usage policy and the COBIT5 governance framework provide the structure that keeps all of this aligned, accountable, and well-managed.</p>
+  </div>
+
+  <div class="section">
+    <h2>Key points</h2>
+    <dl class="terms">
+      <dt>EDI</dt>
+      <dd>Structured, standardized (e.g. ANSI X12, EDIFACT) electronic exchange of business documents between organizations — faster, cheaper, fewer errors than paper.</dd>
+      <dt>ERP</dt>
+      <dd>Integrated suite managing core processes (finance, HR, supply chain, manufacturing) within one organization on a shared data model.</dd>
+      <dt>Citizen Relationship Management</dt>
+      <dd>CRM principles applied to government — tracking citizen service requests/grievances for responsive, accountable service delivery.</dd>
+      <dt>COBIT5's 5 principles</dt>
+      <dd>Meet stakeholder needs · cover the enterprise end-to-end · apply a single integrated framework · enable a holistic approach · separate governance from management.</dd>
+    </dl>
+  </div>
+
+  <div class="section">
+    <h2>Diagram</h2>
+    <figure class="diagram-box">
+      <svg viewBox="0 0 720 170" xmlns="http://www.w3.org/2000/svg">
+        <g font-size="10" font-weight="700">
+          <text x="20" y="20" style="fill:var(--text-dim)">EDI (between orgs) vs ERP (within one org)</text>
+          <rect x="30" y="40" width="150" height="90" rx="6" fill="var(--accent-dim)" stroke="var(--accent)"></rect>
+          <text x="105" y="65" text-anchor="middle" style="fill:var(--accent)">Org A</text>
+          <text x="105" y="82" text-anchor="middle" font-size="8" style="fill:var(--text-dim)">Finance</text>
+          <text x="105" y="96" text-anchor="middle" font-size="8" style="fill:var(--text-dim)">HR · Supply Chain</text>
+          <text x="105" y="110" text-anchor="middle" font-size="8" style="fill:var(--text-dim)">(one ERP, shared data)</text>
+
+          <path d="M180 85 L280 85" stroke="var(--warn)" stroke-width="2" marker-end="url(#arreg2)"></path>
+          <path d="M280 100 L180 100" stroke="var(--warn)" stroke-width="2" marker-end="url(#arreg2)"></path>
+          <text x="230" y="70" text-anchor="middle" font-size="9" style="fill:var(--warn)">EDI</text>
+          <text x="230" y="118" text-anchor="middle" font-size="8" style="fill:var(--text-dim)">purchase orders,</text>
+          <text x="230" y="130" text-anchor="middle" font-size="8" style="fill:var(--text-dim)">invoices...</text>
+
+          <rect x="290" y="40" width="150" height="90" rx="6" fill="var(--accent-2-dim)" stroke="var(--accent-2)"></rect>
+          <text x="365" y="65" text-anchor="middle" style="fill:var(--accent-2)">Org B</text>
+          <text x="365" y="82" text-anchor="middle" font-size="8" style="fill:var(--text-dim)">Finance</text>
+          <text x="365" y="96" text-anchor="middle" font-size="8" style="fill:var(--text-dim)">HR · Supply Chain</text>
+          <text x="365" y="110" text-anchor="middle" font-size="8" style="fill:var(--text-dim)">(one ERP, shared data)</text>
+        </g>
+        <text x="560" y="70" font-size="9" style="fill:var(--text-dim)">Inside each box: ERP</text>
+        <text x="560" y="86" font-size="9" style="fill:var(--text-dim)">integrates that ONE</text>
+        <text x="560" y="102" font-size="9" style="fill:var(--text-dim)">org's own processes.</text>
+        <text x="560" y="122" font-size="9" style="fill:var(--text-dim)">Between boxes: EDI</text>
+        <text x="560" y="138" font-size="9" style="fill:var(--text-dim)">exchanges documents.</text>
+        <defs><marker id="arreg2" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 z" fill="var(--warn)"></path></marker></defs>
+      </svg>
+      <figcaption>ERP integrates one organization's internal processes; EDI connects separate organizations' systems together.</figcaption>
+    </figure>
+  </div>
+
+  <div class="section">
+    <h2>Example</h2>
+    <pre class="example"><code>A government hospital's digital transformation:
+  ERP:  Integrates finance, HR (staff scheduling), and pharmacy inventory
+        into one system — a doctor's prescription automatically updates
+        pharmacy stock levels, no manual re-entry needed
+  EDI:  The hospital's ERP automatically sends a structured purchase
+        order to a medical-supplies vendor's system when stock is low —
+        no phone calls or paper forms
+  CzRM: Patient complaints/feedback are logged centrally and routed to
+        the right department, with status trackable by the patient
+  Governance: The hospital's IT usage policy (informed by COBIT5) defines
+        who can access patient records, and the hospital board reviews
+        IT risk quarterly — separating governance (board) from
+        management (IT department's day-to-day execution)</code></pre>
+  </div>
+
+  <div class="callout warn">
+    <strong>Common exam traps</strong>
+    <p>EDI = BETWEEN organizations; ERP = WITHIN one organization — a frequently confused pair. COBIT5's "separating governance from management" means governance SETS DIRECTION/oversees, management EXECUTES — not that the two are unrelated. COBIT5 is a governance FRAMEWORK, not a piece of software or a single product.</p>
+  </div>
+
+  <div class="section">
+    <h2>Practice MCQs</h2>
+    <div class="mcq">
+      <p class="q"><span class="qn">Q1.</span> EDI (Electronic Data Interchange) is best defined as:</p>
+      <ol class="opts" type="A">
+        <li>A social media messaging protocol</li>
+        <li>The structured, standardized electronic exchange of business documents (like purchase orders, invoices) directly between organizations' computer systems, without manual re-entry</li>
+        <li>A type of physical mail delivery service</li>
+        <li>A programming language used only for web development</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> EDI replaces manual, paper-based document exchange with direct, structured, computer-to-computer data transfer.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q2.</span> ERP (Enterprise Resource Planning) systems are best described as:</p>
+      <ol class="opts" type="A">
+        <li>A single-purpose tool that only manages email</li>
+        <li>Integrated software suites that manage and coordinate an organization's core business processes (finance, HR, supply chain, manufacturing, etc.) within a unified system</li>
+        <li>A type of external EDI-only messaging network</li>
+        <li>A tool used exclusively for graphic design</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> ERP's defining trait is integration — bringing together previously siloed business functions into one coordinated system.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q3.</span> Citizen Relationship Management (CzRM), applying CRM concepts to government, primarily focuses on:</p>
+      <ol class="opts" type="A">
+        <li>Managing a private company's sales pipeline with no government relevance</li>
+        <li>Systematically tracking and managing citizens' interactions, service requests, and grievances with government to improve service quality and responsiveness</li>
+        <li>Only managing government employees' internal HR records</li>
+        <li>A synonym for ERP with no distinction</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> CzRM adapts private-sector customer relationship management principles to the government-citizen relationship, emphasizing service quality and responsiveness.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q4.</span> COBIT5 (Control Objectives for Information and Related Technologies) is best described as:</p>
+      <ol class="opts" type="A">
+        <li>A specific software product sold by a single vendor</li>
+        <li>A widely recognized framework for the governance and management of enterprise IT, helping align IT activities with business goals and manage IT-related risk</li>
+        <li>A programming language for building enterprise applications</li>
+        <li>A type of hardware networking cable</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> COBIT5 is a governance/management framework, not a specific product, providing structured guidance for enterprise IT governance.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q5.</span> COBIT5's principle of 'separating governance from management' distinguishes between:</p>
+      <ol class="opts" type="A">
+        <li>Two identical activities with no meaningful distinction</li>
+        <li>Governance (setting direction, evaluating options, monitoring performance — typically a board-level responsibility) and management (planning, building, running, and monitoring activities in line with that direction — typically an executive-level responsibility)</li>
+        <li>Only IT staff performing governance, with no role in management ever</li>
+        <li>A distinction that applies only to non-IT parts of an organization</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> This governance-vs-management distinction is a foundational COBIT5 concept, clarifying different levels of accountability within an organization.</p></details>
+    </div>
+    <p style="margin-top:18px"><a class="btn" href="../quiz.html?topic=eg-enterprise">Practice all 50 Enterprise Systems, EDI/ERP &amp; IT Governance questions →</a></p>
+  </div>
+
+  <div class="topic-nav">
+    <a href="eg-models.html"><span class="dir">← Previous topic</span>E-Governance Models &amp; Digital India</a>
+    <a class="next" href="eg-smart.html"><span class="dir">Next topic →</span>Smart Villages, Cities &amp; Empowerment</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  GPSC ICT Class-2 exam prep · Unit 13 — E-Governance
+</footer>
+
+<script src="../assets/js/nav.js"></script>
+</body>
+</html>

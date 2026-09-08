@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E-Governance Models &amp; Digital India — E-Governance</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="../index.html"><span class="logo-dot">DB</span> NoSQL Exam Prep</a>
+    <nav class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../egov.html" class="active">E-Governance</a>
+      <a href="../quiz.html">Practice Quiz</a>
+    </nav>
+  </div>
+</header>
+<nav class="subnav">
+  <a href="eg-models.html" class="active">Models &amp; Digital India</a>
+  <a href="eg-enterprise.html">Enterprise &amp; IT Gov.</a>
+  <a href="eg-smart.html">Smart Cities</a>
+  <a href="eg-services.html">Digital Services</a>
+</nav>
+
+<main>
+
+  <div class="topic-header">
+    <span class="pill">Unit 13 · 1 of 4</span>
+    <h1>E-Governance Models &amp; Digital India</h1>
+    <p class="sub">Commerce (transactions), Business (broader operations) and Governance (public administration) each play a distinct role in Digital India's push to deliver services electronically. Interaction models — G2G, C2C, C2B, C2G, B2C and more — describe WHO is exchanging value/information with whom, and collaborative APIs/platforms are how India builds shared digital infrastructure that many applications can be built on.</p>
+  </div>
+
+  <div class="section">
+    <h2>Key points</h2>
+    <dl class="terms">
+      <dt>Commerce vs Business vs Governance</dt>
+      <dd>Commerce = buying/selling transactions. Business = the broader set of an organization's processes (beyond just transactions). Governance = how government exercises authority and delivers public services.</dd>
+      <dt>Interaction models</dt>
+      <dd>G2G (government-government), G2C/C2G (government-citizen), G2B/C2B (government/citizen-business), C2C (citizen-citizen), B2C (business-citizen) — each names WHO initiates and WHO receives.</dd>
+      <dt>Digital India pillars</dt>
+      <dd>Digital infrastructure as a core utility, governance &amp; services on demand, and digital empowerment of citizens.</dd>
+      <dt>Collaborative APIs/platforms</dt>
+      <dd>India Stack (Aadhaar, UPI, DigiLocker) exposes open APIs so businesses/developers can build on shared government digital infrastructure — UMANG/DigiLocker are examples of resulting collaborative platforms.</dd>
+    </dl>
+  </div>
+
+  <div class="section">
+    <h2>Diagram</h2>
+    <figure class="diagram-box">
+      <svg viewBox="0 0 720 200" xmlns="http://www.w3.org/2000/svg">
+        <g font-size="11" font-weight="700">
+          <text x="20" y="20" style="fill:var(--text-dim)">E-Governance interaction models</text>
+          <circle cx="140" cy="100" r="55" fill="var(--accent-dim)" stroke="var(--accent)"></circle>
+          <text x="140" y="105" text-anchor="middle" style="fill:var(--accent)">Government</text>
+          <circle cx="400" cy="60" r="55" fill="var(--accent-2-dim)" stroke="var(--accent-2)"></circle>
+          <text x="400" y="65" text-anchor="middle" style="fill:var(--accent-2)">Citizen</text>
+          <circle cx="580" cy="140" r="55" fill="var(--warn-dim)" stroke="var(--warn)"></circle>
+          <text x="580" y="145" text-anchor="middle" style="fill:var(--warn)">Business</text>
+
+          <path d="M190 90 L350 68" stroke="var(--text-dim)" stroke-width="1.5" marker-end="url(#arreg)"></path>
+          <text x="255" y="72" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">G2C / C2G</text>
+          <path d="M440 90 L535 120" stroke="var(--text-dim)" stroke-width="1.5" marker-end="url(#arreg)"></path>
+          <text x="510" y="90" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">C2B / B2C</text>
+          <path d="M195 130 L530 155" stroke="var(--text-dim)" stroke-width="1.5" marker-end="url(#arreg)"></path>
+          <text x="360" y="175" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">G2B / B2G</text>
+          <path d="M100 45 A 60 60 0 0 1 180 45" stroke="var(--text-dim)" stroke-width="1.5" fill="none" marker-end="url(#arreg)"></path>
+          <text x="140" y="35" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">G2G</text>
+        </g>
+        <defs><marker id="arreg" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 z" fill="var(--text-dim)"></path></marker></defs>
+        <text x="400" y="190" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">C2C (not shown) is citizens interacting directly, often facilitated by a platform.</text>
+      </svg>
+      <figcaption>Each labeled arrow names an interaction model by WHO initiates → WHO receives.</figcaption>
+    </figure>
+  </div>
+
+  <div class="section">
+    <h2>Example</h2>
+    <pre class="example"><code>A startup building a lending app on India Stack:
+  1. Uses the Aadhaar API (collaborative API) to verify a customer's identity
+  2. Uses UPI (collaborative API) to disburse the loan directly to the
+     customer's bank account
+  3. The customer later shares a digitally-signed income certificate from
+     DigiLocker (collaborative platform) to support their application
+
+Interaction models at play:
+  - Citizen <-> Business (C2B / B2C): the customer applying for and
+    receiving the loan
+  - Government <-> Business (G2B): the startup using government-provided
+    Aadhaar/UPI infrastructure under regulatory terms
+  - Government <-> Citizen (G2C): DigiLocker itself is a G2C service the
+    citizen used earlier to obtain the digital certificate</code></pre>
+  </div>
+
+  <div class="callout warn">
+    <strong>Common exam traps</strong>
+    <p>Commerce (transactions) is narrower than Business (all operations), which is narrower in scope than Governance (public authority/service delivery) — don't treat the three as synonyms. G2G is government-to-government (NOT citizen-facing at all). C2C can still involve a business platform in the middle (like a marketplace app) — the interaction model names who the value flows BETWEEN, not who built the software.</p>
+  </div>
+
+  <div class="section">
+    <h2>Practice MCQs</h2>
+    <div class="mcq">
+      <p class="q"><span class="qn">Q1.</span> In the C/B/G framework, 'Governance (G)' refers to:</p>
+      <ol class="opts" type="A">
+        <li>Only private company management</li>
+        <li>How government exercises authority and delivers public services, increasingly through digital means (e-Governance) to improve efficiency, transparency and citizen engagement</li>
+        <li>A synonym for commerce with no distinction</li>
+        <li>Only judicial court proceedings</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Governance encompasses the exercise of public authority and administration, a role distinct from private commerce/business.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q2.</span> G2G (Government-to-Government) e-governance interactions refer to:</p>
+      <ol class="opts" type="A">
+        <li>Interactions between a government and its private-sector vendors only</li>
+        <li>Electronic interactions/data sharing between different government departments, agencies, or levels of government (e.g., state to central)</li>
+        <li>Interactions solely between citizens and government</li>
+        <li>A type of business-to-business e-commerce</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> G2G improves coordination and information sharing across the machinery of government itself.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q3.</span> A 'collaborative API' in the context of Digital India/e-governance refers to:</p>
+      <ol class="opts" type="A">
+        <li>An API that only one single organization is ever allowed to use</li>
+        <li>A programmatic interface that lets multiple stakeholders (government, businesses, developers) securely access and build upon a shared digital service or dataset</li>
+        <li>A physical hardware connector</li>
+        <li>A type of encryption algorithm</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> APIs like those in India Stack (Aadhaar, UPI, DigiLocker) enable an ecosystem of third-party applications to be built on shared government digital infrastructure.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q4.</span> UMANG (Unified Mobile Application for New-age Governance) is an example of:</p>
+      <ol class="opts" type="A">
+        <li>A single-purpose private banking app</li>
+        <li>A collaborative digital platform that integrates multiple central and state government services into a single mobile application for citizens</li>
+        <li>A hardware device for government offices</li>
+        <li>A programming language used to build government websites</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> UMANG exemplifies the collaborative digital platform model, consolidating many government services into one citizen-facing app.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q5.</span> B2C (Business-to-Consumer/Citizen) interactions refer to:</p>
+      <ol class="opts" type="A">
+        <li>Businesses interacting only with other businesses</li>
+        <li>A business selling goods/services directly to individual citizens/consumers, typically the most familiar e-commerce model</li>
+        <li>Government departments interacting with each other</li>
+        <li>Only citizens interacting with other citizens</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> B2C is the most common e-commerce model, e.g., an online retailer selling directly to individual customers.</p></details>
+    </div>
+    <p style="margin-top:18px"><a class="btn" href="../quiz.html?topic=eg-models">Practice all 50 E-Governance Models &amp; Digital India questions →</a></p>
+  </div>
+
+  <div class="topic-nav">
+    <a href="../egov.html"><span class="dir">← Back to</span>Unit 13 index</a>
+    <a class="next" href="eg-enterprise.html"><span class="dir">Next topic →</span>Enterprise Systems, EDI/ERP &amp; IT Governance</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  GPSC ICT Class-2 exam prep · Unit 13 — E-Governance
+</footer>
+
+<script src="../assets/js/nav.js"></script>
+</body>
+</html>

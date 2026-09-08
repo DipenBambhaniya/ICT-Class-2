@@ -172,6 +172,16 @@
         ["IT Security & Risk Management", "topics/cy-risk-mgmt.html"],
         ["Cyber Laws & Governance", "topics/cy-laws.html"]
       ]
+    },
+    {
+      type: "group", label: "13) E-Governance", href: "egov.html",
+      items: [
+        ["Overview", "egov.html"],
+        ["Models & Digital India", "topics/eg-models.html"],
+        ["Enterprise, EDI/ERP & IT Gov.", "topics/eg-enterprise.html"],
+        ["Smart Villages, Cities & Empowerment", "topics/eg-smart.html"],
+        ["Digital Services, Payments & Ethics", "topics/eg-services.html"]
+      ]
     }
   ];
 

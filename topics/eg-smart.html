@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smart Villages, Cities &amp; Empowerment — E-Governance</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="../index.html"><span class="logo-dot">DB</span> NoSQL Exam Prep</a>
+    <nav class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../egov.html" class="active">E-Governance</a>
+      <a href="../quiz.html">Practice Quiz</a>
+    </nav>
+  </div>
+</header>
+<nav class="subnav">
+  <a href="eg-models.html">Models &amp; Digital India</a>
+  <a href="eg-enterprise.html">Enterprise &amp; IT Gov.</a>
+  <a href="eg-smart.html" class="active">Smart Cities</a>
+  <a href="eg-services.html">Digital Services</a>
+</nav>
+
+<main>
+
+  <div class="topic-header">
+    <span class="pill">Unit 13 · 3 of 4</span>
+    <h1>Smart Villages, Smart Cities &amp; Citizen Empowerment</h1>
+    <p class="sub">Smart cities apply ICT/IoT to improve urban infrastructure and services; smart villages adapt the same philosophy to rural realities (connectivity gaps, agriculture, lower density). e-Utilities, services on demand, e-Empowerment and e-Employment turn this technology into tangible day-to-day benefits for citizens.</p>
+  </div>
+
+  <div class="section">
+    <h2>Key points</h2>
+    <dl class="terms">
+      <dt>Smart City</dt>
+      <dd>Uses IoT/sensors/data to improve infrastructure (traffic, utilities, safety), often via an integrated command-and-control center.</dd>
+      <dt>Smart Village</dt>
+      <dd>Extends the same philosophy to rural areas, adapted for connectivity gaps, lower density, and agriculture-specific needs.</dd>
+      <dt>e-Utilities &amp; Services on demand</dt>
+      <dd>Digital utility bill payment/monitoring, and government services delivered conveniently, in real time, without repeated in-person visits.</dd>
+      <dt>e-Empowerment vs e-Employment</dt>
+      <dd>e-Empowerment = digital access/literacy/participation enabling citizens generally; e-Employment = specifically job portals, skill platforms, digital employment exchanges (e.g. National Career Service).</dd>
+    </dl>
+  </div>
+
+  <div class="section">
+    <h2>Diagram</h2>
+    <figure class="diagram-box">
+      <svg viewBox="0 0 720 170" xmlns="http://www.w3.org/2000/svg">
+        <g font-size="10" font-weight="700">
+          <text x="20" y="20" style="fill:var(--text-dim)">Smart city data flow</text>
+          <rect x="30" y="40" width="120" height="30" rx="4" fill="var(--accent-dim)" stroke="var(--accent)"></rect>
+          <text x="90" y="60" text-anchor="middle" font-size="9" style="fill:var(--accent)">Traffic sensors</text>
+          <rect x="30" y="80" width="120" height="30" rx="4" fill="var(--accent-2-dim)" stroke="var(--accent-2)"></rect>
+          <text x="90" y="100" text-anchor="middle" font-size="9" style="fill:var(--accent-2)">Utility meters</text>
+          <rect x="30" y="120" width="120" height="30" rx="4" fill="var(--warn-dim)" stroke="var(--warn)"></rect>
+          <text x="90" y="140" text-anchor="middle" font-size="9" style="fill:var(--warn)">Safety reports</text>
+
+          <path d="M150 55 L280 90" stroke="var(--text-dim)" stroke-width="1.5" marker-end="url(#arrsm)"></path>
+          <path d="M150 95 L280 95" stroke="var(--text-dim)" stroke-width="1.5" marker-end="url(#arrsm)"></path>
+          <path d="M150 135 L280 100" stroke="var(--text-dim)" stroke-width="1.5" marker-end="url(#arrsm)"></path>
+
+          <rect x="290" y="60" width="150" height="70" rx="6" fill="none" stroke="var(--text-dim)" stroke-width="2"></rect>
+          <text x="365" y="90" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">Integrated</text>
+          <text x="365" y="105" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">command &amp; control</text>
+          <text x="365" y="120" text-anchor="middle" font-size="8" style="fill:var(--text-dim)">center</text>
+
+          <path d="M440 95 L560 95" stroke="var(--text-dim)" stroke-width="1.5" marker-end="url(#arrsm)"></path>
+          <rect x="570" y="60" width="130" height="70" rx="6" fill="var(--danger-dim)" stroke="var(--danger)"></rect>
+          <text x="635" y="90" text-anchor="middle" font-size="9" style="fill:var(--danger)">Faster, coordinated</text>
+          <text x="635" y="105" text-anchor="middle" font-size="9" style="fill:var(--danger)">city response</text>
+        </g>
+        <defs><marker id="arrsm" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 z" fill="var(--text-dim)"></path></marker></defs>
+      </svg>
+      <figcaption>Previously siloed data streams (traffic, utilities, safety) are combined for coordinated, real-time city management.</figcaption>
+    </figure>
+  </div>
+
+  <div class="section">
+    <h2>Example</h2>
+    <pre class="example"><code>A district rolling out smart-city AND smart-village initiatives together:
+
+  City:    IoT sensors on waste bins optimize collection routes;
+           smart traffic signals reduce average commute time
+  Village: A solar-powered Wi-Fi hotspot + USSD banking extend
+           connectivity where fiber isn't yet available; a digital
+           agri-advisory service sends farmers weather/pest alerts by SMS
+
+Both feed into the SAME citizen-facing goals:
+  e-Utilities:     pay the electricity bill online, whether in the city
+                    apartment or the village home
+  Services on demand: apply for a caste/income certificate online,
+                    tracked in real time, no matter where you live
+  e-Empowerment:   a digital literacy drive teaches both urban and rural
+                    residents to use these services confidently
+  e-Employment:    the National Career Service portal lists local jobs
+                    and training, accessible from either context</code></pre>
+  </div>
+
+  <div class="callout warn">
+    <strong>Common exam traps</strong>
+    <p>Smart Village is NOT just "Smart City but smaller" — it's specifically adapted to rural connectivity/density/agriculture needs. e-Empowerment (general digital access/participation) is broader than e-Employment (specifically jobs/skills) — don't treat them as synonyms. "Services on demand" means convenient, real-time, citizen-centric delivery — not "available only once a year on demand of the officer."</p>
+  </div>
+
+  <div class="section">
+    <h2>Practice MCQs</h2>
+    <div class="mcq">
+      <p class="q"><span class="qn">Q1.</span> A 'Smart City', as an urban development concept, is best described as:</p>
+      <ol class="opts" type="A">
+        <li>A city with no use of technology whatsoever</li>
+        <li>An urban area that leverages information and communication technology (including IoT/sensors and data) to improve infrastructure, services, sustainability, and overall quality of life for residents</li>
+        <li>A city defined purely by its physical size or population</li>
+        <li>A city that exists only in fictional or theoretical contexts</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Smart cities use technology and data as tools to improve how urban services and infrastructure function for residents.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q2.</span> A 'Smart Village' extends the smart city concept to rural areas by focusing on:</p>
+      <ol class="opts" type="A">
+        <li>Removing all existing rural infrastructure with no replacement</li>
+        <li>Improving rural connectivity, access to digital services, agricultural technology, and essential utilities through appropriate, context-suited technology solutions</li>
+        <li>Only applying identical solutions used in large cities with no adaptation to rural needs</li>
+        <li>Excluding rural populations from any digital initiative entirely</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Smart village initiatives adapt technology-driven improvement to the specific needs and constraints of rural communities, rather than simply copying urban solutions.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q3.</span> 'e-Empowerment', in the context of Digital India/smart cities, refers to:</p>
+      <ol class="opts" type="A">
+        <li>Restricting citizens' access to information and digital tools</li>
+        <li>Enabling citizens through digital access, information, skills, and participation opportunities to make more informed decisions and better exercise their rights/opportunities</li>
+        <li>A purely theoretical concept with no practical application</li>
+        <li>Only benefiting government employees, never ordinary citizens</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> e-Empowerment focuses on genuinely enabling citizens — through access, literacy, and participation — not just providing technology without meaningful benefit.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q4.</span> 'e-Employment' initiatives typically involve:</p>
+      <ol class="opts" type="A">
+        <li>Eliminating all traditional job-seeking processes with no digital alternative provided</li>
+        <li>Online job portals, digital skill-development platforms, and digital employment exchanges that connect job seekers with opportunities and training</li>
+        <li>Only benefiting large multinational corporations, with no relevance to individual job seekers</li>
+        <li>A term with no practical real-world application</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> e-Employment initiatives (like India's National Career Service portal) use digital platforms to connect job seekers with opportunities and skill development resources.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q5.</span> An integrated urban 'command and control center', found in many smart city implementations, primarily serves to:</p>
+      <ol class="opts" type="A">
+        <li>Only display decorative screens with no operational function</li>
+        <li>Aggregate real-time data from various city systems (traffic, utilities, safety, etc.) into a centralized view, supporting coordinated monitoring and rapid response by city administrators</li>
+        <li>Replace the need for any actual city government or administration</li>
+        <li>Only be used once per year for ceremonial purposes</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> These centers give city administrators real-time, integrated situational awareness across multiple urban systems, supporting more effective coordination and response.</p></details>
+    </div>
+    <p style="margin-top:18px"><a class="btn" href="../quiz.html?topic=eg-smart">Practice all 50 Smart Villages, Cities &amp; Empowerment questions →</a></p>
+  </div>
+
+  <div class="topic-nav">
+    <a href="eg-enterprise.html"><span class="dir">← Previous topic</span>Enterprise Systems, EDI/ERP &amp; IT Governance</a>
+    <a class="next" href="eg-services.html"><span class="dir">Next topic →</span>Digital Services, Payments &amp; Ethics</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  GPSC ICT Class-2 exam prep · Unit 13 — E-Governance
+</footer>
+
+<script src="../assets/js/nav.js"></script>
+</body>
+</html>

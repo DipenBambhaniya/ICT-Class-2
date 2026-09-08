@@ -8,7 +8,8 @@ Mathematics (6 topics), 3 — Algorithms (13 topics), 4 — Databases (8 topics)
 5 — Hardware &amp; Operating Systems (9 topics), 6 — Computer Networks (10 topics),
 7 — Analytics (9 topics), 8 — NoSQL Databases (4 topics), 9 — Data Centre
 (4 topics), 10 — Mobile Application (4 topics), 11 — Software Engineering
-(4 topics), 12 — Cyber Security (4 topics). **3798 quiz questions.**
+(4 topics), 12 — Cyber Security (4 topics), 13 — E-Governance (4 topics).
+**3998 quiz questions.**
 
 ## Live site
 
@@ -26,6 +27,7 @@ Mathematics (6 topics), 3 — Algorithms (13 topics), 4 — Databases (8 topics)
 - Unit 10 hub: <https://dipenbambhaniya.github.io/ICT-Class-2/mobile.html>
 - Unit 11 hub: <https://dipenbambhaniya.github.io/ICT-Class-2/se.html>
 - Unit 12 hub: <https://dipenbambhaniya.github.io/ICT-Class-2/cyber.html>
+- Unit 13 hub: <https://dipenbambhaniya.github.io/ICT-Class-2/egov.html>
 - Practice quiz: <https://dipenbambhaniya.github.io/ICT-Class-2/quiz.html>
 
 ## Contents
@@ -57,7 +59,10 @@ Mathematics (6 topics), 3 — Algorithms (13 topics), 4 — Databases (8 topics)
 - `cyber.html` — Unit 12 (Cyber Security) hub → `topics/cy-*.html` (Threats/
   Attacks &amp; Ethical Hacking, Data Security/Privacy/Protection, IT Security &amp;
   Risk Management, Cyber Laws &amp; Governance)
-- `quiz.html` — 3798-question interactive MCQ practice test (filter by topic, instant
+- `egov.html` — Unit 13 (E-Governance) hub → `topics/eg-*.html` (E-Governance
+  Models &amp; Digital India, Enterprise Systems/EDI/ERP/IT Governance, Smart
+  Villages/Cities &amp; Empowerment, Digital Services/Payments &amp; Ethics)
+- `quiz.html` — 3998-question interactive MCQ practice test (filter by topic, instant
   feedback, score breakdown, review list). Every topic page also has inline MCQs
   with reveal-to-check explanations.
 - `assets/js/questions.js` — NoSQL + Databases question bank
@@ -68,7 +73,8 @@ Mathematics (6 topics), 3 — Algorithms (13 topics), 4 — Databases (8 topics)
   banks (50 per topic)
 - `assets/js/q-dc.js`, `q-mobile.js`, `q-se.js` — Data Centre, Mobile Application,
   and Software Engineering question banks (50 per topic)
-- `assets/js/q-cyber.js` — Cyber Security question bank (50 per topic)
+- `assets/js/q-cyber.js`, `q-egov.js` — Cyber Security and E-Governance question
+  banks (50 per topic)
 - `assets/js/nav.js` — left sidebar navigation, grouped by syllabus unit
 - `assets/css/style.css` — shared design system (light/dark aware)
 
@@ -124,6 +130,7 @@ per-unit `q-*.js` files), e.g. `sql-vs-nosql`, `data-representation`, `cap-theor
 `dc-cloud-infra`, `dc-cloud-models`, `dc-scalability`), the Unit 10 Mobile
 Application topics (`mobile-platforms`, `mobile-cellular`, `mobile-appdev`,
 `mobile-ui`), the Unit 11 Software Engineering topics (`se-principles`,
-`se-agile`, `se-testing-pm`, `se-quality-scada`), and the Unit 12 Cyber
+`se-agile`, `se-testing-pm`, `se-quality-scada`), the Unit 12 Cyber
 Security topics (`cy-threats`, `cy-data-protection`, `cy-risk-mgmt`,
-`cy-laws`).
+`cy-laws`), and the Unit 13 E-Governance topics (`eg-models`,
+`eg-enterprise`, `eg-smart`, `eg-services`).
