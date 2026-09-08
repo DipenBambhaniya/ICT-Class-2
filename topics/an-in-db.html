@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>In-Database Analytics — Analytics</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="../index.html"><span class="logo-dot">DB</span> NoSQL Exam Prep</a>
+    <nav class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../analytics.html" class="active">Analytics</a>
+      <a href="../quiz.html">Practice Quiz</a>
+    </nav>
+  </div>
+</header>
+<nav class="subnav">
+  <a href="an-desc-pred.html">Descriptive &amp; Predictive</a>
+  <a href="an-olap.html">OLAP</a>
+  <a href="an-oltp-olap.html">OLTP vs OLAP</a>
+  <a href="an-data-cubes.html">Data Cubes</a>
+  <a href="an-warehousing.html">Data Warehousing</a>
+  <a href="an-schemas.html">Schema Models</a>
+  <a href="an-data-mining.html">Data Mining</a>
+  <a href="an-in-db.html" class="active">In-Database Analytics</a>
+  <a href="an-adv-sql.html">Advanced SQL</a>
+</nav>
+
+<main>
+
+  <div class="topic-header">
+    <span class="pill">Unit 7 · 8 of 9</span>
+    <h1>In-Database Analytics</h1>
+    <p class="sub">Rather than exporting data to a separate analytics tool, in-database analytics performs computation — aggregation, statistics, even machine learning — directly within the database engine, close to where the data already lives.</p>
+  </div>
+
+  <div class="section">
+    <h2>Key points</h2>
+    <dl class="terms">
+      <dt>Core principle</dt>
+      <dd>"Bring the computation to the data" rather than moving potentially huge datasets to a separate analytics server — avoiding network transfer cost and data duplication.</dd>
+      <dt>Spectrum of capability</dt>
+      <dd>From basic SQL aggregation (SUM/AVG/GROUP BY), through window functions and CUBE/ROLLUP, up to embedded machine learning functions in modern analytical platforms.</dd>
+      <dt>Materialized views</dt>
+      <dd>Pre-computed, stored query results that avoid recomputing common aggregations from scratch on every query — a practical in-database optimization.</dd>
+      <dt>Benefits</dt>
+      <dd>Avoids costly data movement, reduces latency (closer to live data), simplifies architecture (fewer separate systems), and can improve governance (fewer duplicated copies of sensitive data).</dd>
+      <dt>Limitations</dt>
+      <dd>A database's built-in analytical/ML functions may be more limited than a specialized external data science platform; heavy in-database computation can also compete for resources with other workloads on the same system.</dd>
+    </dl>
+  </div>
+
+  <div class="section">
+    <h2>Diagram</h2>
+    <figure class="diagram-box">
+      <svg viewBox="0 0 720 160" xmlns="http://www.w3.org/2000/svg">
+        <g>
+          <rect x="40" y="50" width="280" height="60" rx="6" fill="var(--danger-dim)" stroke="var(--danger)"></rect>
+          <text x="180" y="75" text-anchor="middle" font-size="11" font-weight="700" style="fill:var(--text)">Extract data OUT to separate tool</text>
+          <text x="180" y="95" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">Slow, costly for large data, duplicated copies</text>
+          <text x="400" y="45" font-size="14" font-weight="700" style="fill:var(--text-dim)">vs</text>
+          <rect x="440" y="50" width="240" height="60" rx="6" fill="var(--accent-dim)" stroke="var(--accent)"></rect>
+          <text x="560" y="75" text-anchor="middle" font-size="11" font-weight="700" style="fill:var(--text)">Compute IN the database</text>
+          <text x="560" y="95" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">Fast, fresh, one source of truth</text>
+        </g>
+      </svg>
+      <figcaption>In-database analytics flips the traditional "move data to the tool" model.</figcaption>
+    </figure>
+  </div>
+
+  <div class="section">
+    <h2>Example</h2>
+    <pre class="example"><code>Traditional approach:
+  1. Export 50 million rows from the warehouse to a CSV
+  2. Load into a separate analytics tool
+  3. Compute daily sales totals there
+  -- slow, and now there are two copies of the data
+
+In-database approach:
+  SELECT sale_date, SUM(amount)
+  FROM fact_sales
+  GROUP BY sale_date;
+  -- runs where the data already lives; only the
+  -- small aggregated RESULT needs to be transferred</code></pre>
+  </div>
+
+  <div class="callout warn">
+    <strong>Common exam traps</strong>
+    <p>In-database analytics does NOT eliminate the need for good data quality/preparation — "garbage in, garbage out" still applies. It's a spectrum (simple SQL aggregation counts too, not just embedded ML). Vendor-specific in-database ML functions can create some lock-in. A hybrid approach (in-database for standard recurring reports, external tools for cutting-edge/custom ML) is common in practice.</p>
+  </div>
+
+  <div class="section">
+    <h2>Practice MCQs</h2>
+    <div class="mcq">
+      <p class="q"><span class="qn">Q1.</span> In-database analytics refers to:</p>
+      <ol class="opts" type="A">
+        <li>Extracting all data before any processing occurs</li>
+        <li>Performing analysis directly within the database engine itself</li>
+        <li>A synonym for ETL</li>
+        <li>A technique exclusive to OLTP</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Avoids costly data movement to a separate platform.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q2.</span> A key motivation for in-database analytics is:</p>
+      <ol class="opts" type="A">
+        <li>Moving data out is always instantaneous and free</li>
+        <li>Avoiding the cost/duplication of extracting large datasets elsewhere</li>
+        <li>There is never a performance benefit</li>
+        <li>It only applies to tiny datasets</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> "Bring compute to the data."</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q3.</span> A materialized view is:</p>
+      <ol class="opts" type="A">
+        <li>Unrelated to in-database analytics</li>
+        <li>A pre-computed, stored query result avoiding repeated recomputation</li>
+        <li>Only usable for raw, unaggregated data</li>
+        <li>Always recomputed from scratch on every query</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> A practical in-database optimization technique.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q4.</span> A limitation of relying solely on in-database analytics is:</p>
+      <ol class="opts" type="A">
+        <li>It always offers more algorithms than any external platform</li>
+        <li>A database's built-in ML/analytical functions may be more limited than specialized external data science tools</li>
+        <li>It has no limitations whatsoever</li>
+        <li>It cannot ever be combined with external tools</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Choosing between them depends on the task's complexity/flexibility needs.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q5.</span> In-database analytics does NOT eliminate the need for:</p>
+      <ol class="opts" type="A">
+        <li>Good data quality and preparation practices</li>
+        <li>Any kind of database at all</li>
+        <li>SQL knowledge in every case</li>
+        <li>Network connectivity</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: A.</strong> "Garbage in, garbage out" still applies regardless of where computation happens.</p></details>
+    </div>
+    <p style="margin-top:18px"><a class="btn" href="../quiz.html?topic=an-in-db">Practice all 50 In-Database Analytics questions →</a></p>
+  </div>
+
+  <div class="topic-nav">
+    <a href="an-data-mining.html"><span class="dir">← Previous topic</span>Data Mining Techniques</a>
+    <a class="next" href="an-adv-sql.html"><span class="dir">Next topic →</span>Advanced SQL</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  GPSC ICT Class-2 exam prep · Unit 7 — Analytics
+</footer>
+
+<script src="../assets/js/nav.js"></script>
+</body>
+</html>

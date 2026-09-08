@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OLAP — Analytics</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="../index.html"><span class="logo-dot">DB</span> NoSQL Exam Prep</a>
+    <nav class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../analytics.html" class="active">Analytics</a>
+      <a href="../quiz.html">Practice Quiz</a>
+    </nav>
+  </div>
+</header>
+<nav class="subnav">
+  <a href="an-desc-pred.html">Descriptive &amp; Predictive</a>
+  <a href="an-olap.html" class="active">OLAP</a>
+  <a href="an-oltp-olap.html">OLTP vs OLAP</a>
+  <a href="an-data-cubes.html">Data Cubes</a>
+  <a href="an-warehousing.html">Data Warehousing</a>
+  <a href="an-schemas.html">Schema Models</a>
+  <a href="an-data-mining.html">Data Mining</a>
+  <a href="an-in-db.html">In-Database Analytics</a>
+  <a href="an-adv-sql.html">Advanced SQL</a>
+</nav>
+
+<main>
+
+  <div class="topic-header">
+    <span class="pill">Unit 7 · 2 of 9</span>
+    <h1>OLAP</h1>
+    <p class="sub">Online Analytical Processing supports fast, interactive, multidimensional exploration of large historical datasets — sliced, diced, drilled into, and rolled up across dimensions like Time, Product, and Region.</p>
+  </div>
+
+  <div class="section">
+    <h2>Key points</h2>
+    <dl class="terms">
+      <dt>Core operations</dt>
+      <dd>Slice (fix one dimension), Dice (filter across several), Drill-down (more detail), Roll-up (more summary), Pivot (reorient the view).</dd>
+      <dt>Dimensions &amp; measures</dt>
+      <dd>Dimensions are the "by what" (Time, Product, Region); measures are the numeric values analyzed (sales, quantity).</dd>
+      <dt>MOLAP / ROLAP / HOLAP</dt>
+      <dd>MOLAP pre-computes cubes for speed. ROLAP queries relational tables via SQL for scalability. HOLAP blends both.</dd>
+      <dt>Hierarchies</dt>
+      <dd>A dimension's levels (Day → Month → Quarter → Year) let drill-down/roll-up navigate between granularities.</dd>
+      <dt>FASMI test</dt>
+      <dd>Fast, Analysis, Shared, Multidimensional, Information — a commonly cited criteria set for genuine OLAP capability.</dd>
+    </dl>
+  </div>
+
+  <div class="section">
+    <h2>Diagram</h2>
+    <figure class="diagram-box">
+      <svg viewBox="0 0 720 200" xmlns="http://www.w3.org/2000/svg">
+        <g>
+          <rect x="60" y="30" width="200" height="120" fill="none" stroke="var(--accent)" stroke-width="2"></rect>
+          <rect x="90" y="10" width="200" height="120" fill="none" stroke="var(--accent-2)" stroke-width="2"></rect>
+          <rect x="120" y="50" width="200" height="120" fill="none" stroke="var(--warn)" stroke-width="2"></rect>
+          <text x="160" y="185" font-size="10" style="fill:var(--accent)">Region</text>
+          <text x="320" y="30" font-size="10" style="fill:var(--accent-2)">Time</text>
+          <text x="350" y="170" font-size="10" style="fill:var(--warn)">Product</text>
+          <text x="450" y="70" font-size="10" style="fill:var(--text-dim)">Slice: fix Time = Q1</text>
+          <text x="450" y="95" font-size="10" style="fill:var(--text-dim)">Dice: Region in {East,West} AND Product = Electronics</text>
+          <text x="450" y="120" font-size="10" style="fill:var(--text-dim)">Drill-down: Year -&gt; Month</text>
+          <text x="450" y="145" font-size="10" style="fill:var(--text-dim)">Roll-up: Month -&gt; Year</text>
+        </g>
+      </svg>
+      <figcaption>A 3-dimensional cube (Region x Time x Product) with the core OLAP navigation operations.</figcaption>
+    </figure>
+  </div>
+
+  <div class="section">
+    <h2>Example</h2>
+    <pre class="example"><code>Starting view: Total Sales by Region (Year 2024)
+  East: 450K   West: 380K   North: 210K   South: 300K
+
+DRILL-DOWN into East by Month:
+  Jan: 32K  Feb: 35K  ...  Dec: 41K   (sum = 450K)
+
+ROLL-UP back to Country level:
+  All Regions combined: 1,340K
+
+PIVOT: swap so Months become columns, Regions become rows
+  (same data, different cross-tab orientation)</code></pre>
+  </div>
+
+  <div class="callout warn">
+    <strong>Common exam traps</strong>
+    <p>Slice fixes ONE dimension value; dice filters across MULTIPLE dimensions. Drill-down = more detail; roll-up = more summary — don't reverse them. MOLAP is fast but storage/processing heavy; ROLAP scales better but needs more joins at query time. Pivot only rearranges the VIEW — it never changes the underlying data.</p>
+  </div>
+
+  <div class="section">
+    <h2>Practice MCQs</h2>
+    <div class="mcq">
+      <p class="q"><span class="qn">Q1.</span> OLAP stands for:</p>
+      <ol class="opts" type="A">
+        <li>Online Application Processing</li>
+        <li>Online Analytical Processing</li>
+        <li>Offline Analytical Programming</li>
+        <li>Online Algorithmic Processing</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Designed for complex analytical queries over large historical datasets.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q2.</span> The "drill-down" operation means:</p>
+      <ol class="opts" type="A">
+        <li>Moving to a more summarized level</li>
+        <li>Moving to a more detailed level</li>
+        <li>Rotating the cube's axes</li>
+        <li>Deleting data</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> E.g. Year → Month reveals more granular detail.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q3.</span> MOLAP stores data:</p>
+      <ol class="opts" type="A">
+        <li>Only in relational tables</li>
+        <li>In pre-computed, specialized multidimensional structures</li>
+        <li>As flat text files</li>
+        <li>In a document database</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Fast queries, but more storage/processing to build.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q4.</span> ROLAP works by:</p>
+      <ol class="opts" type="A">
+        <li>Never using SQL</li>
+        <li>Storing data relationally and generating SQL dynamically for analysis</li>
+        <li>Requiring a proprietary storage format</li>
+        <li>Eliminating schema design</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Leverages existing relational technology; trades some speed for scalability.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q5.</span> An OLAP "measure" represents:</p>
+      <ol class="opts" type="A">
+        <li>A categorical grouping like Region</li>
+        <li>The numeric value being analyzed, like sales amount</li>
+        <li>A table name</li>
+        <li>An index type</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Dimensions provide the "by what" context for measures.</p></details>
+    </div>
+    <p style="margin-top:18px"><a class="btn" href="../quiz.html?topic=an-olap">Practice all 50 OLAP questions →</a></p>
+  </div>
+
+  <div class="topic-nav">
+    <a href="an-desc-pred.html"><span class="dir">← Previous topic</span>Descriptive &amp; Predictive Analytics</a>
+    <a class="next" href="an-oltp-olap.html"><span class="dir">Next topic →</span>OLTP vs OLAP</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  GPSC ICT Class-2 exam prep · Unit 7 — Analytics
+</footer>
+
+<script src="../assets/js/nav.js"></script>
+</body>
+</html>

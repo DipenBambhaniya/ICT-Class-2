@@ -94,6 +94,37 @@
       ]
     },
     {
+      type: "group", label: "6) Computer Networks", href: "cn.html",
+      items: [
+        ["Overview", "cn.html"],
+        ["Concept of Layering", "topics/cn-layering.html"],
+        ["LAN Technologies (Ethernet)", "topics/cn-ethernet.html"],
+        ["Flow & Error Control", "topics/cn-flow-error.html"],
+        ["Switching", "topics/cn-switching.html"],
+        ["IPv4 / IPv6 & Routers", "topics/cn-ip.html"],
+        ["Routing Algorithms", "topics/cn-routing.html"],
+        ["TCP/UDP, Sockets & Congestion Control", "topics/cn-transport.html"],
+        ["Application Layer Protocols", "topics/cn-app-layer.html"],
+        ["Basics of Wi-Fi", "topics/cn-wifi.html"],
+        ["Network Security", "topics/cn-security.html"]
+      ]
+    },
+    {
+      type: "group", label: "7) Analytics", href: "analytics.html",
+      items: [
+        ["Overview", "analytics.html"],
+        ["Descriptive & Predictive Analytics", "topics/an-desc-pred.html"],
+        ["OLAP", "topics/an-olap.html"],
+        ["OLTP vs OLAP", "topics/an-oltp-olap.html"],
+        ["Data Cubes", "topics/an-data-cubes.html"],
+        ["Data Warehousing", "topics/an-warehousing.html"],
+        ["Star / Snowflake / Fact Constellation", "topics/an-schemas.html"],
+        ["Data Mining Techniques", "topics/an-data-mining.html"],
+        ["In-Database Analytics", "topics/an-in-db.html"],
+        ["Advanced SQL", "topics/an-adv-sql.html"]
+      ]
+    },
+    {
       type: "group", label: "8) NoSQL Databases",
       items: [
         ["SQL vs NoSQL", "topics/sql-vs-nosql.html"],

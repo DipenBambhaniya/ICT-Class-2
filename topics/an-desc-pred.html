@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Descriptive &amp; Predictive Analytics — Analytics</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="../index.html"><span class="logo-dot">DB</span> NoSQL Exam Prep</a>
+    <nav class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../analytics.html" class="active">Analytics</a>
+      <a href="../quiz.html">Practice Quiz</a>
+    </nav>
+  </div>
+</header>
+<nav class="subnav">
+  <a href="an-desc-pred.html" class="active">Descriptive &amp; Predictive</a>
+  <a href="an-olap.html">OLAP</a>
+  <a href="an-oltp-olap.html">OLTP vs OLAP</a>
+  <a href="an-data-cubes.html">Data Cubes</a>
+  <a href="an-warehousing.html">Data Warehousing</a>
+  <a href="an-schemas.html">Schema Models</a>
+  <a href="an-data-mining.html">Data Mining</a>
+  <a href="an-in-db.html">In-Database Analytics</a>
+  <a href="an-adv-sql.html">Advanced SQL</a>
+</nav>
+
+<main>
+
+  <div class="topic-header">
+    <span class="pill">Unit 7 · 1 of 9</span>
+    <h1>Descriptive &amp; Predictive Analytics</h1>
+    <p class="sub">Analytics maturity progresses from describing the past to forecasting the future to recommending action. Descriptive analytics summarizes what happened; predictive analytics forecasts what's likely to happen next.</p>
+  </div>
+
+  <div class="section">
+    <h2>Key points</h2>
+    <dl class="terms">
+      <dt>Descriptive analytics</dt>
+      <dd>"What happened?" — dashboards, KPI reports, summary statistics (mean, total, trend) over historical/current data.</dd>
+      <dt>Diagnostic analytics</dt>
+      <dd>"Why did it happen?" — drilling into causes, correlations, root-cause analysis behind an observed pattern.</dd>
+      <dt>Predictive analytics</dt>
+      <dd>"What is likely to happen?" — regression/classification models trained on historical, LABELED data to forecast future/unknown outcomes.</dd>
+      <dt>Prescriptive analytics</dt>
+      <dd>"What should we do?" — the most advanced tier, recommending or optimizing specific actions based on predictions.</dd>
+      <dt>Maturity progression</dt>
+      <dd>Descriptive → Diagnostic → Predictive → Prescriptive: increasing complexity and business value, each often building on the last.</dd>
+    </dl>
+  </div>
+
+  <div class="section">
+    <h2>Diagram</h2>
+    <figure class="diagram-box">
+      <svg viewBox="0 0 720 180" xmlns="http://www.w3.org/2000/svg">
+        <g>
+          <rect x="20" y="60" width="150" height="50" rx="6" fill="var(--accent-dim)" stroke="var(--accent)"></rect><text x="95" y="90" text-anchor="middle" font-size="11" font-weight="700" style="fill:var(--text)">Descriptive</text>
+          <rect x="200" y="50" width="150" height="50" rx="6" fill="var(--accent-2-dim)" stroke="var(--accent-2)"></rect><text x="275" y="80" text-anchor="middle" font-size="11" font-weight="700" style="fill:var(--text)">Diagnostic</text>
+          <rect x="380" y="40" width="150" height="50" rx="6" fill="var(--warn-dim)" stroke="var(--warn)"></rect><text x="455" y="70" text-anchor="middle" font-size="11" font-weight="700" style="fill:var(--text)">Predictive</text>
+          <rect x="560" y="30" width="150" height="50" rx="6" fill="var(--danger-dim)" stroke="var(--danger)"></rect><text x="635" y="60" text-anchor="middle" font-size="11" font-weight="700" style="fill:var(--text)">Prescriptive</text>
+          <path d="M170 85 L200 75" stroke="var(--text-dim)" stroke-width="2" marker-end="url(#a7)"></path>
+          <path d="M350 75 L380 65" stroke="var(--text-dim)" stroke-width="2" marker-end="url(#a7)"></path>
+          <path d="M530 65 L560 55" stroke="var(--text-dim)" stroke-width="2" marker-end="url(#a7)"></path>
+          <defs><marker id="a7" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="var(--text-dim)"></path></marker></defs>
+          <text x="95" y="140" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">What happened?</text>
+          <text x="275" y="130" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">Why did it happen?</text>
+          <text x="455" y="120" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">What will happen?</text>
+          <text x="635" y="110" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">What should we do?</text>
+        </g>
+      </svg>
+      <figcaption>The analytics maturity model: increasing complexity and business value from left to right.</figcaption>
+    </figure>
+  </div>
+
+  <div class="section">
+    <h2>Example</h2>
+    <pre class="example"><code>Descriptive:  "Sales dropped 15% in the North region last month."
+Diagnostic:   "The drop correlates with a competitor opening
+               two new stores in that region."
+Predictive:   "Given current trends, North region sales are
+               forecast to drop a further 5% next quarter
+               unless action is taken."
+Prescriptive: "Recommend a targeted 10% promotion in the North
+               region, projected to recover ~60% of the loss."</code></pre>
+  </div>
+
+  <div class="callout warn">
+    <strong>Common exam traps</strong>
+    <p>Descriptive = backward-looking summary; predictive = forward-looking forecast — don't swap these. Predictive models output a PROBABILITY/estimate, not a certainty. Diagnostic sits between descriptive and predictive, focused on causes ("why"), not forecasts. Prescriptive analytics is the most advanced tier — it RECOMMENDS action, going beyond just predicting an outcome.</p>
+  </div>
+
+  <div class="section">
+    <h2>Practice MCQs</h2>
+    <div class="mcq">
+      <p class="q"><span class="qn">Q1.</span> Descriptive analytics primarily answers:</p>
+      <ol class="opts" type="A">
+        <li>What will happen next?</li>
+        <li>What happened?</li>
+        <li>Why did it happen?</li>
+        <li>What should we do?</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Descriptive analytics summarizes historical/current data.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q2.</span> Predictive analytics primarily answers:</p>
+      <ol class="opts" type="A">
+        <li>What happened?</li>
+        <li>What is likely to happen in the future?</li>
+        <li>How is data stored?</li>
+        <li>How do we visualize data?</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Uses historical patterns to forecast unknown/future outcomes.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q3.</span> Diagnostic analytics focuses on:</p>
+      <ol class="opts" type="A">
+        <li>Predicting future outcomes</li>
+        <li>Understanding WHY something happened</li>
+        <li>Automating a decision</li>
+        <li>Storing raw data</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Drills into causes and correlations behind an observed pattern.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q4.</span> Prescriptive analytics goes beyond prediction by:</p>
+      <ol class="opts" type="A">
+        <li>Only describing past performance</li>
+        <li>Recommending specific actions to achieve a desired outcome</li>
+        <li>Storing data in a warehouse</li>
+        <li>Cleaning raw data</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Often uses optimization/simulation on top of predictions.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q5.</span> A dashboard of last month's total revenue and active users is an example of:</p>
+      <ol class="opts" type="A">
+        <li>Predictive analytics</li>
+        <li>Descriptive analytics</li>
+        <li>Prescriptive analytics</li>
+        <li>Not analytics at all</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Summarizing current/historical KPIs is descriptive.</p></details>
+    </div>
+    <p style="margin-top:18px"><a class="btn" href="../quiz.html?topic=an-desc-pred">Practice all 50 Descriptive &amp; Predictive questions →</a></p>
+  </div>
+
+  <div class="topic-nav">
+    <a href="../analytics.html"><span class="dir">← Back to</span>Unit 7 index</a>
+    <a class="next" href="an-olap.html"><span class="dir">Next topic →</span>OLAP</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  GPSC ICT Class-2 exam prep · Unit 7 — Analytics
+</footer>
+
+<script src="../assets/js/nav.js"></script>
+</body>
+</html>

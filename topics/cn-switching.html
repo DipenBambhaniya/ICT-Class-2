@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Switching — Computer Networks</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="../index.html"><span class="logo-dot">DB</span> NoSQL Exam Prep</a>
+    <nav class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../cn.html" class="active">Computer Networks</a>
+      <a href="../quiz.html">Practice Quiz</a>
+    </nav>
+  </div>
+</header>
+<nav class="subnav">
+  <a href="cn-layering.html">Layering</a>
+  <a href="cn-ethernet.html">Ethernet</a>
+  <a href="cn-flow-error.html">Flow &amp; Error Control</a>
+  <a href="cn-switching.html" class="active">Switching</a>
+  <a href="cn-ip.html">IPv4/IPv6</a>
+  <a href="cn-routing.html">Routing</a>
+  <a href="cn-transport.html">TCP/UDP</a>
+  <a href="cn-app-layer.html">Application Layer</a>
+  <a href="cn-wifi.html">Wi-Fi</a>
+  <a href="cn-security.html">Security</a>
+</nav>
+
+<main>
+
+  <div class="topic-header">
+    <span class="pill">Unit 6 · 4 of 10</span>
+    <h1>Switching</h1>
+    <p class="sub">Switching techniques describe how data moves through intermediate nodes from source to destination: reserve a dedicated path first (circuit), route each unit independently (packet/datagram), or something in between (virtual circuit).</p>
+  </div>
+
+  <div class="section">
+    <h2>Key points</h2>
+    <dl class="terms">
+      <dt>Circuit switching</dt>
+      <dd>Dedicated end-to-end path reserved for the whole session (classic telephone network). Predictable bandwidth/delay, but wastes capacity during silence.</dd>
+      <dt>Packet (datagram) switching</dt>
+      <dd>Each packet is routed independently; no reservation. Statistically multiplexes bursty traffic efficiently — the Internet's IP layer works this way.</dd>
+      <dt>Virtual-circuit switching</dt>
+      <dd>A logical path is set up once (e.g. ATM, MPLS); packets carry a short circuit ID and follow that fixed path in order — a hybrid of the two extremes.</dd>
+      <dt>Message switching</dt>
+      <dd>Stores an entire message at each hop before forwarding — mostly of historical interest, superseded by packet switching's smaller units.</dd>
+      <dt>Store-and-forward vs cut-through</dt>
+      <dd>Store-and-forward waits for the whole frame (can check CRC); cut-through starts forwarding as soon as the destination address is read (lower latency, less safety).</dd>
+    </dl>
+  </div>
+
+  <div class="section">
+    <h2>Diagram</h2>
+    <figure class="diagram-box">
+      <svg viewBox="0 0 720 200" xmlns="http://www.w3.org/2000/svg">
+        <g>
+          <rect x="30" y="20" width="200" height="40" rx="6" fill="var(--accent-dim)" stroke="var(--accent)"></rect><text x="130" y="45" text-anchor="middle" font-size="11" font-weight="700" style="fill:var(--text)">Circuit switching</text>
+          <text x="130" y="75" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">one dedicated path, whole session</text>
+          <rect x="260" y="20" width="200" height="40" rx="6" fill="var(--accent-2-dim)" stroke="var(--accent-2)"></rect><text x="360" y="45" text-anchor="middle" font-size="11" font-weight="700" style="fill:var(--text)">Virtual circuit</text>
+          <text x="360" y="75" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">logical path set up once, labeled</text>
+          <rect x="490" y="20" width="200" height="40" rx="6" fill="var(--warn-dim)" stroke="var(--warn)"></rect><text x="590" y="45" text-anchor="middle" font-size="11" font-weight="700" style="fill:var(--text)">Datagram switching</text>
+          <text x="590" y="75" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">every packet routed independently</text>
+          <text x="130" y="120" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">Most reserved / predictable</text>
+          <text x="590" y="120" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">Least reserved / most flexible</text>
+          <line x1="30" y1="140" x2="690" y2="140" stroke="var(--text-dim)" stroke-width="1" marker-end="url(#a3)"></line>
+          <defs><marker id="a3" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="var(--text-dim)"></path></marker></defs>
+        </g>
+      </svg>
+      <figcaption>The switching spectrum: fully reserved (circuit) at one end, fully independent per-packet routing (datagram) at the other, with virtual circuits in between.</figcaption>
+    </figure>
+  </div>
+
+  <div class="section">
+    <h2>Example</h2>
+    <pre class="example"><code>Same 3 packets of one "message", three switching styles:
+
+Circuit switching:   [====== one dedicated path reserved ======]
+                      P1 -> P2 -> P3   (fixed path, guaranteed capacity)
+
+Virtual circuit:      VCI=42 set up once
+                      P1(VCI42) -> P2(VCI42) -> P3(VCI42)  (same path, in order)
+
+Datagram switching:   P1 via Router A -> C
+                      P2 via Router A -> B -> C  (different path!)
+                      P3 via Router A -> C
+                      -> may arrive OUT OF ORDER; each hop decided independently</code></pre>
+  </div>
+
+  <div class="callout warn">
+    <strong>Common exam traps</strong>
+    <p>IP is connectionless/datagram — packets can arrive out of order. A virtual circuit still shares physical bandwidth statistically; it is NOT the same as a dedicated physical circuit. ATM uses fixed 53-byte cells. Store-and-forward can check the FCS before forwarding; cut-through cannot. Message switching stores the WHOLE message per hop — that's why it's obsolete for practical networks.</p>
+  </div>
+
+  <div class="section">
+    <h2>Practice MCQs</h2>
+    <div class="mcq">
+      <p class="q"><span class="qn">Q1.</span> Circuit switching works by:</p>
+      <ol class="opts" type="A">
+        <li>Breaking data into independently routed packets</li>
+        <li>Establishing a dedicated end-to-end path before transfer begins, held for the whole session</li>
+        <li>Storing entire messages at each node</li>
+        <li>Broadcasting to all nodes</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Guarantees bandwidth but wastes capacity when idle.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q2.</span> Datagram (connectionless) packet switching means:</p>
+      <ol class="opts" type="A">
+        <li>All packets follow the same fixed path</li>
+        <li>Each packet is routed independently and may arrive out of order</li>
+        <li>A circuit is set up first</li>
+        <li>Packets cannot be lost</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> This is how IP works — higher layers handle reordering if needed.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q3.</span> Virtual-circuit switching uses a:</p>
+      <ol class="opts" type="A">
+        <li>Full destination address on every packet</li>
+        <li>Short virtual circuit identifier (VCI) for the pre-established path</li>
+        <li>Dedicated physical wire per session</li>
+        <li>No addressing at all</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> The VCI avoids a full routing decision at every hop.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q4.</span> Store-and-forward switching:</p>
+      <ol class="opts" type="A">
+        <li>Forwards each bit as it arrives</li>
+        <li>Receives the whole frame, checks it, then forwards</li>
+        <li>Never checks for errors</li>
+        <li>Requires a virtual circuit</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Adds latency but allows CRC verification before forwarding.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q5.</span> ATM uses which fixed-size unit?</p>
+      <ol class="opts" type="A">
+        <li>Variable-length packets up to 1500 bytes</li>
+        <li>Fixed-size 53-byte cells</li>
+        <li>Whole messages</li>
+        <li>1-byte units</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> 5-byte header + 48-byte payload, aiding predictable hardware switching.</p></details>
+    </div>
+    <p style="margin-top:18px"><a class="btn" href="../quiz.html?topic=cn-switching">Practice all 50 Switching questions →</a></p>
+  </div>
+
+  <div class="topic-nav">
+    <a href="cn-flow-error.html"><span class="dir">← Previous topic</span>Flow &amp; Error Control</a>
+    <a class="next" href="cn-ip.html"><span class="dir">Next topic →</span>IPv4/IPv6 &amp; Routers</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  GPSC ICT Class-2 exam prep · Unit 6 — Computer Networks
+</footer>
+
+<script src="../assets/js/nav.js"></script>
+</body>
+</html>

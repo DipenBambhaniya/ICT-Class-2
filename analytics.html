@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Analytics — Exam Prep</title>
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="index.html"><span class="logo-dot">DB</span> NoSQL Exam Prep</a>
+    <nav class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="analytics.html" class="active">Analytics</a>
+      <a href="quiz.html">Practice Quiz</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <div class="hero">
+    <span class="pill">GPSC ICT Class-2 · Unit 7</span>
+    <h1>Analytics</h1>
+    <p class="lead">Descriptive &amp; predictive analytics, OLAP and the OLTP/OLAP divide, data cubes, data warehousing, star/snowflake/fact constellation schemas, data mining techniques, in-database analytics and advanced SQL. Each topic has brief notes, a diagram, a worked example and 50 solved MCQs.</p>
+    <a class="btn" href="topics/an-desc-pred.html">Start Reading →</a>
+    <a class="btn secondary" href="quiz.html">Practice Quiz →</a>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat"><div class="n">9</div><div class="l">Topics</div></div>
+    <div class="stat"><div class="n">450</div><div class="l">MCQs</div></div>
+    <div class="stat"><div class="n">50</div><div class="l">Per Topic</div></div>
+    <div class="stat"><div class="n">9</div><div class="l">Diagrams</div></div>
+  </div>
+
+  <div class="section">
+    <h2>Topics</h2>
+    <div class="topic-grid">
+      <a class="card" href="topics/an-desc-pred.html"><span class="num">01</span><h3>Descriptive &amp; Predictive Analytics</h3><p>What happened vs. what's likely to happen — the analytics maturity model from descriptive through diagnostic, predictive and prescriptive.</p></a>
+      <a class="card" href="topics/an-olap.html"><span class="num">02</span><h3>OLAP</h3><p>Slice, dice, drill-down, roll-up, pivot; MOLAP, ROLAP, HOLAP; dimensions, measures and hierarchies.</p></a>
+      <a class="card" href="topics/an-oltp-olap.html"><span class="num">03</span><h3>OLTP vs OLAP</h3><p>Transactional vs analytical workloads — schema, query complexity, data currency and user population contrasts.</p></a>
+      <a class="card" href="topics/an-data-cubes.html"><span class="num">04</span><h3>Data Cubes</h3><p>Cells, cuboids, the apex/base cuboid, additive vs semi-additive measures, materialization strategies.</p></a>
+      <a class="card" href="topics/an-warehousing.html"><span class="num">05</span><h3>Data Warehousing</h3><p>Subject-oriented, integrated, time-variant, non-volatile; ETL/ELT, data marts, Inmon vs Kimball, slowly changing dimensions.</p></a>
+      <a class="card" href="topics/an-schemas.html"><span class="num">06</span><h3>Star / Snowflake / Fact Constellation</h3><p>Dimensional schema models — denormalized star, normalized snowflake, and multi-fact-table constellation designs.</p></a>
+      <a class="card" href="topics/an-data-mining.html"><span class="num">07</span><h3>Data Mining Techniques</h3><p>Classification, clustering, association rules, regression and anomaly detection — supervised vs unsupervised.</p></a>
+      <a class="card" href="topics/an-in-db.html"><span class="num">08</span><h3>In-Database Analytics</h3><p>Bringing computation to the data — window functions, materialized views, and embedded ML in the warehouse itself.</p></a>
+      <a class="card" href="topics/an-adv-sql.html"><span class="num">09</span><h3>Advanced SQL</h3><p>CTEs (including recursive), window functions, advanced joins, GROUPING SETS/CUBE/ROLLUP, conditional aggregation.</p></a>
+    </div>
+  </div>
+
+  <div class="callout tip">
+    <strong>How the topics connect</strong>
+    <p>The analytics maturity model (descriptive → predictive) sets the goal; OLAP and the OLTP/OLAP distinction explain the workload split needed to get there. Data cubes and dimensional schemas (star/snowflake/constellation) are how a data warehouse physically organizes data for that analysis. Data mining supplies the techniques that power predictive/prescriptive work, while in-database analytics and advanced SQL are the practical tools that make all of it executable.</p>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  GPSC ICT Class-2 exam prep · Unit 7 — Analytics
+</footer>
+
+<script src="assets/js/nav.js"></script>
+</body>
+</html>

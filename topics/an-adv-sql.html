@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Advanced SQL — Analytics</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="../index.html"><span class="logo-dot">DB</span> NoSQL Exam Prep</a>
+    <nav class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../analytics.html" class="active">Analytics</a>
+      <a href="../quiz.html">Practice Quiz</a>
+    </nav>
+  </div>
+</header>
+<nav class="subnav">
+  <a href="an-desc-pred.html">Descriptive &amp; Predictive</a>
+  <a href="an-olap.html">OLAP</a>
+  <a href="an-oltp-olap.html">OLTP vs OLAP</a>
+  <a href="an-data-cubes.html">Data Cubes</a>
+  <a href="an-warehousing.html">Data Warehousing</a>
+  <a href="an-schemas.html">Schema Models</a>
+  <a href="an-data-mining.html">Data Mining</a>
+  <a href="an-in-db.html">In-Database Analytics</a>
+  <a href="an-adv-sql.html" class="active">Advanced SQL</a>
+</nav>
+
+<main>
+
+  <div class="topic-header">
+    <span class="pill">Unit 7 · 9 of 9</span>
+    <h1>Advanced SQL</h1>
+    <p class="sub">CTEs, window functions, advanced joins, and GROUPING SETS/CUBE/ROLLUP are the practical SQL tools that implement OLAP-style analysis, dimensional queries, and in-database analytics directly in standard SQL.</p>
+  </div>
+
+  <div class="section">
+    <h2>Key points</h2>
+    <dl class="terms">
+      <dt>CTEs (WITH clause)</dt>
+      <dd>Named, temporary result sets for one statement — improves readability over nested subqueries. A RECURSIVE CTE traverses hierarchies (org charts, bill of materials).</dd>
+      <dt>Window functions</dt>
+      <dd>Compute a value (rank, running total, LAG/LEAD) per row WITHOUT collapsing rows — unlike GROUP BY. PARTITION BY resets the calculation per group; ORDER BY inside OVER() drives running/cumulative behavior.</dd>
+      <dt>RANK vs DENSE_RANK vs ROW_NUMBER</dt>
+      <dd>ROW_NUMBER: always unique, sequential. RANK: ties share a rank, next rank SKIPS. DENSE_RANK: ties share a rank, no gap follows.</dd>
+      <dt>Joins</dt>
+      <dd>INNER JOIN: only matching rows. LEFT JOIN: all left-table rows, NULLs for no match — essential for "include zero/none" reporting.</dd>
+      <dt>GROUPING SETS / CUBE / ROLLUP</dt>
+      <dd>Compute multiple GROUP BY aggregation levels in a single query — the SQL implementation of the data-cube "multiple cuboids" concept.</dd>
+    </dl>
+  </div>
+
+  <div class="section">
+    <h2>Diagram</h2>
+    <figure class="diagram-box">
+      <svg viewBox="0 0 720 170" xmlns="http://www.w3.org/2000/svg">
+        <g>
+          <text x="30" y="30" font-size="10" font-weight="700" style="fill:var(--text)">GROUP BY (collapses rows)</text>
+          <rect x="30" y="40" width="80" height="24" fill="var(--accent-dim)" stroke="var(--accent)"></rect><text x="70" y="56" text-anchor="middle" font-size="9" style="fill:var(--text)">Dept A: 500</text>
+          <rect x="120" y="40" width="80" height="24" fill="var(--accent-dim)" stroke="var(--accent)"></rect><text x="160" y="56" text-anchor="middle" font-size="9" style="fill:var(--text)">Dept B: 300</text>
+          <text x="400" y="30" font-size="10" font-weight="700" style="fill:var(--text)">Window function (keeps every row)</text>
+          <rect x="400" y="40" width="90" height="20" fill="var(--warn-dim)" stroke="var(--warn)"></rect><text x="445" y="54" text-anchor="middle" font-size="8" style="fill:var(--text)">Alice, A, rank 1</text>
+          <rect x="400" y="64" width="90" height="20" fill="var(--warn-dim)" stroke="var(--warn)"></rect><text x="445" y="78" text-anchor="middle" font-size="8" style="fill:var(--text)">Bob, A, rank 2</text>
+          <rect x="500" y="40" width="90" height="20" fill="var(--warn-dim)" stroke="var(--warn)"></rect><text x="545" y="54" text-anchor="middle" font-size="8" style="fill:var(--text)">Carl, B, rank 1</text>
+          <rect x="500" y="64" width="90" height="20" fill="var(--warn-dim)" stroke="var(--warn)"></rect><text x="545" y="78" text-anchor="middle" font-size="8" style="fill:var(--text)">Dana, B, rank 2</text>
+        </g>
+      </svg>
+      <figcaption>GROUP BY collapses to one row per group; a window function (e.g. RANK() OVER (PARTITION BY dept)) keeps every row while still computing a per-group value.</figcaption>
+    </figure>
+  </div>
+
+  <div class="section">
+    <h2>Example</h2>
+    <pre class="example"><code>-- Rank each employee's salary within their own department
+SELECT name, department, salary,
+       RANK() OVER (PARTITION BY department ORDER BY salary DESC) AS dept_rank
+FROM employees;
+
+-- Recursive CTE: all reports under a manager, any depth
+WITH RECURSIVE org AS (
+  SELECT employee_id, manager_id, name FROM employees WHERE manager_id = 1
+  UNION ALL
+  SELECT e.employee_id, e.manager_id, e.name
+  FROM employees e JOIN org ON e.manager_id = org.employee_id
+)
+SELECT * FROM org;
+
+-- Include customers with ZERO orders
+SELECT c.name, COALESCE(SUM(o.amount), 0) AS total
+FROM customers c LEFT JOIN orders o ON o.customer_id = c.id
+GROUP BY c.name;</code></pre>
+  </div>
+
+  <div class="callout warn">
+    <strong>Common exam traps</strong>
+    <p>Window functions do NOT collapse rows like GROUP BY — that's their defining difference. RANK() skips numbers after a tie; DENSE_RANK() doesn't. HAVING filters AFTER aggregation; WHERE filters BEFORE. Use LEFT JOIN (not INNER JOIN) to include rows with no match — pair it with COALESCE() to turn resulting NULL aggregates into 0.</p>
+  </div>
+
+  <div class="section">
+    <h2>Practice MCQs</h2>
+    <div class="mcq">
+      <p class="q"><span class="qn">Q1.</span> A Common Table Expression (CTE) is used to:</p>
+      <ol class="opts" type="A">
+        <li>Permanently store a table in the schema</li>
+        <li>Define a named, temporary result set for one statement</li>
+        <li>Replace the need for any JOIN</li>
+        <li>Encrypt query results</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Improves readability over deeply nested subqueries.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q2.</span> A window function differs from GROUP BY in that it:</p>
+      <ol class="opts" type="A">
+        <li>Always collapses rows into one summary row</li>
+        <li>Computes a value per row while still returning all individual rows</li>
+        <li>Cannot be used with ORDER BY</li>
+        <li>Can only be used in WHERE</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> This is the key distinguishing feature.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q3.</span> RANK() differs from ROW_NUMBER() in that RANK():</p>
+      <ol class="opts" type="A">
+        <li>Never allows ties</li>
+        <li>Gives tied rows the same rank and skips the next rank number(s)</li>
+        <li>Is identical to ROW_NUMBER()</li>
+        <li>Cannot use PARTITION BY</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> DENSE_RANK() gives the same rank but does NOT skip.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q4.</span> HAVING differs from WHERE in that HAVING:</p>
+      <ol class="opts" type="A">
+        <li>Filters rows before aggregation, exactly like WHERE</li>
+        <li>Filters groups/aggregated results after GROUP BY is applied</li>
+        <li>Is interchangeable with WHERE in every case</li>
+        <li>Can only be used without GROUP BY</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> You can't filter on an aggregate using WHERE alone.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q5.</span> To list ALL customers including those with zero orders, you should use:</p>
+      <ol class="opts" type="A">
+        <li>An INNER JOIN</li>
+        <li>A LEFT JOIN from customers to orders</li>
+        <li>A RIGHT JOIN from orders to customers only</li>
+        <li>No join at all</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> INNER JOIN would incorrectly exclude customers with no matching order.</p></details>
+    </div>
+    <p style="margin-top:18px"><a class="btn" href="../quiz.html?topic=an-adv-sql">Practice all 50 Advanced SQL questions →</a></p>
+  </div>
+
+  <div class="topic-nav">
+    <a href="an-in-db.html"><span class="dir">← Previous topic</span>In-Database Analytics</a>
+    <a class="next" href="../analytics.html"><span class="dir">Back to →</span>Unit 7 index</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  GPSC ICT Class-2 exam prep · Unit 7 — Analytics
+</footer>
+
+<script src="../assets/js/nav.js"></script>
+</body>
+</html>

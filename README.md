@@ -3,8 +3,10 @@
 A static study site for the GPSC ICT Class-2 syllabus: concept notes with diagrams,
 worked examples and solved MCQs, plus one topic-filterable practice quiz.
 
-**Units live so far:** 1 — Programming &amp; Data Structures (10 topics), 4 — Databases
-(8 topics), 8 — NoSQL Databases (4 topics). **648 quiz questions.**
+**Units live so far:** 1 — Programming &amp; Data Structures (10 topics), 2 — Discrete
+Mathematics (6 topics), 3 — Algorithms (13 topics), 4 — Databases (8 topics),
+5 — Hardware &amp; Operating Systems (9 topics), 6 — Computer Networks (10 topics),
+7 — Analytics (9 topics), 8 — NoSQL Databases (4 topics). **2998 quiz questions.**
 
 ## Live site
 

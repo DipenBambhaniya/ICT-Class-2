@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TCP/UDP, Sockets &amp; Congestion Control — Computer Networks</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="../index.html"><span class="logo-dot">DB</span> NoSQL Exam Prep</a>
+    <nav class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../cn.html" class="active">Computer Networks</a>
+      <a href="../quiz.html">Practice Quiz</a>
+    </nav>
+  </div>
+</header>
+<nav class="subnav">
+  <a href="cn-layering.html">Layering</a>
+  <a href="cn-ethernet.html">Ethernet</a>
+  <a href="cn-flow-error.html">Flow &amp; Error Control</a>
+  <a href="cn-switching.html">Switching</a>
+  <a href="cn-ip.html">IPv4/IPv6</a>
+  <a href="cn-routing.html">Routing</a>
+  <a href="cn-transport.html" class="active">TCP/UDP</a>
+  <a href="cn-app-layer.html">Application Layer</a>
+  <a href="cn-wifi.html">Wi-Fi</a>
+  <a href="cn-security.html">Security</a>
+</nav>
+
+<main>
+
+  <div class="topic-header">
+    <span class="pill">Unit 6 · 7 of 10</span>
+    <h1>TCP/UDP, Sockets &amp; Congestion Control</h1>
+    <p class="sub">TCP and UDP deliver data between processes (via ports) on top of IP. TCP adds reliability, ordering, flow control and congestion control; UDP stays minimal and fast. Congestion control keeps many competing flows from collapsing the shared network.</p>
+  </div>
+
+  <div class="section">
+    <h2>Key points</h2>
+    <dl class="terms">
+      <dt>TCP vs UDP</dt>
+      <dd>TCP: connection-oriented, reliable, ordered byte stream (3-way handshake). UDP: connectionless, best-effort, minimal 8-byte header, preserves datagram boundaries.</dd>
+      <dt>Sockets</dt>
+      <dd>An endpoint identified by (IP, port). Server flow: socket → bind → listen → accept. Client flow: socket → connect.</dd>
+      <dt>Flow control</dt>
+      <dd>TCP's receive window (rwnd) tells the sender how much buffer space the receiver currently has.</dd>
+      <dt>Congestion control</dt>
+      <dd>Slow start (exponential growth) → congestion avoidance (linear growth, AIMD) → multiplicative decrease on loss. The sender's actual window = min(cwnd, rwnd).</dd>
+      <dt>Fast retransmit / recovery</dt>
+      <dd>Three duplicate ACKs trigger an immediate retransmission (no timeout wait) and a milder window cut than a full timeout would cause.</dd>
+    </dl>
+  </div>
+
+  <div class="section">
+    <h2>Diagram</h2>
+    <figure class="diagram-box">
+      <svg viewBox="0 0 720 220" xmlns="http://www.w3.org/2000/svg">
+        <g>
+          <path d="M60 190 L120 60 L200 100 L280 40 L360 40 L440 130 L520 60 L600 40" fill="none" stroke="var(--accent)" stroke-width="2.5"></path>
+          <line x1="40" y1="190" x2="680" y2="190" stroke="var(--text-dim)" stroke-width="1"></line>
+          <line x1="60" y1="20" x2="60" y2="190" stroke="var(--text-dim)" stroke-width="1"></line>
+          <text x="60" y="205" font-size="9" style="fill:var(--text-dim)">start</text>
+          <text x="200" y="205" font-size="9" style="fill:var(--text-dim)">ssthresh reached</text>
+          <text x="440" y="205" font-size="9" style="fill:var(--text-dim)">loss -&gt; multiplicative decrease</text>
+          <text x="20" y="60" font-size="9" style="fill:var(--text-dim)">cwnd</text>
+          <text x="130" y="55" font-size="9" style="fill:var(--accent)">slow start (exponential)</text>
+          <text x="300" y="35" font-size="9" style="fill:var(--accent)">congestion avoidance (linear)</text>
+        </g>
+      </svg>
+      <figcaption>TCP's classic "sawtooth": exponential slow start, linear congestion avoidance, then a sharp cut on detected loss (AIMD).</figcaption>
+    </figure>
+  </div>
+
+  <div class="section">
+    <h2>Example</h2>
+    <pre class="example"><code>Three-way handshake:
+
+Client              Server
+  | ---- SYN (seq=x) --------> |
+  | <--- SYN-ACK (seq=y,       |
+  |       ack=x+1) ----------- |
+  | ---- ACK (ack=y+1) ------> |
+  |                            |
+  |  == connection established, data can now flow ==
+
+TCP send window = min(cwnd, rwnd)
+  cwnd = 10 MSS (network can currently handle this)
+  rwnd = 4 MSS  (receiver's buffer is nearly full)
+  -> sender may only send 4 MSS worth of unacked data</code></pre>
+  </div>
+
+  <div class="callout warn">
+    <strong>Common exam traps</strong>
+    <p>Flow control protects the RECEIVER (rwnd); congestion control protects the NETWORK (cwnd) — do not conflate them. TCP preserves byte-stream order with no message boundaries; UDP preserves datagram boundaries. A timeout triggers a full return to slow start; three duplicate ACKs trigger the gentler fast retransmit/fast recovery. DNS commonly uses UDP; HTTP/FTP/SMTP use TCP.</p>
+  </div>
+
+  <div class="section">
+    <h2>Practice MCQs</h2>
+    <div class="mcq">
+      <p class="q"><span class="qn">Q1.</span> TCP provides which type of service?</p>
+      <ol class="opts" type="A">
+        <li>Connectionless, unreliable delivery</li>
+        <li>Connection-oriented, reliable, ordered byte-stream delivery</li>
+        <li>Broadcast-only delivery</li>
+        <li>Circuit-switched delivery</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Achieved via sequence numbers, ACKs, checksums and retransmission.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q2.</span> TCP's connection establishment is known as:</p>
+      <ol class="opts" type="A">
+        <li>The two-way handshake</li>
+        <li>The three-way handshake (SYN, SYN-ACK, ACK)</li>
+        <li>The four-way handshake</li>
+        <li>The zero-way handshake</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Synchronizes initial sequence numbers on both sides.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q3.</span> TCP's slow start works by:</p>
+      <ol class="opts" type="A">
+        <li>Starting at the maximum window immediately</li>
+        <li>Starting small and roughly doubling the congestion window each RTT until a threshold or loss</li>
+        <li>Sending at a fixed constant rate forever</li>
+        <li>Refusing to send any data initially</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Quickly (but cautiously) probes for available bandwidth.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q4.</span> AIMD describes TCP congestion control as:</p>
+      <ol class="opts" type="A">
+        <li>Increasing exponentially forever with no decrease</li>
+        <li>Increasing the window gradually, but cutting it sharply on detected congestion</li>
+        <li>Keeping the window constant always</li>
+        <li>Changing the window randomly</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Additive Increase, Multiplicative Decrease — the classic "sawtooth".</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q5.</span> A socket is best described as:</p>
+      <ol class="opts" type="A">
+        <li>A physical cable connector</li>
+        <li>An endpoint for network communication, identified by IP address and port</li>
+        <li>A type of router</li>
+        <li>A DNS record</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> The socket API lets applications send/receive over TCP or UDP.</p></details>
+    </div>
+    <p style="margin-top:18px"><a class="btn" href="../quiz.html?topic=cn-transport">Practice all 50 TCP/UDP questions →</a></p>
+  </div>
+
+  <div class="topic-nav">
+    <a href="cn-routing.html"><span class="dir">← Previous topic</span>Routing Algorithms</a>
+    <a class="next" href="cn-app-layer.html"><span class="dir">Next topic →</span>Application Layer Protocols</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  GPSC ICT Class-2 exam prep · Unit 6 — Computer Networks
+</footer>
+
+<script src="../assets/js/nav.js"></script>
+</body>
+</html>

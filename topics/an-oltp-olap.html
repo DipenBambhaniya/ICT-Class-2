@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OLTP vs OLAP — Analytics</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="../index.html"><span class="logo-dot">DB</span> NoSQL Exam Prep</a>
+    <nav class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../analytics.html" class="active">Analytics</a>
+      <a href="../quiz.html">Practice Quiz</a>
+    </nav>
+  </div>
+</header>
+<nav class="subnav">
+  <a href="an-desc-pred.html">Descriptive &amp; Predictive</a>
+  <a href="an-olap.html">OLAP</a>
+  <a href="an-oltp-olap.html" class="active">OLTP vs OLAP</a>
+  <a href="an-data-cubes.html">Data Cubes</a>
+  <a href="an-warehousing.html">Data Warehousing</a>
+  <a href="an-schemas.html">Schema Models</a>
+  <a href="an-data-mining.html">Data Mining</a>
+  <a href="an-in-db.html">In-Database Analytics</a>
+  <a href="an-adv-sql.html">Advanced SQL</a>
+</nav>
+
+<main>
+
+  <div class="topic-header">
+    <span class="pill">Unit 7 · 3 of 9</span>
+    <h1>OLTP vs OLAP</h1>
+    <p class="sub">OLTP (Online Transaction Processing) runs the business day to day; OLAP analyzes the business over time. They are optimized for opposite workloads and are usually kept as separate systems, connected by ETL.</p>
+  </div>
+
+  <div class="section">
+    <h2>Key points</h2>
+    <dl class="terms">
+      <dt>Purpose</dt>
+      <dd>OLTP: fast, reliable operational transactions (orders, bookings, transfers). OLAP: complex analytical queries for decision-making.</dd>
+      <dt>Schema</dt>
+      <dd>OLTP: normalized (3NF) to minimize update anomalies. OLAP: denormalized/dimensional (star schema) to minimize joins.</dd>
+      <dt>Data currency</dt>
+      <dd>OLTP: current, live state. OLAP: historical, often loaded via periodic ETL, so it can lag behind live data.</dd>
+      <dt>Query pattern</dt>
+      <dd>OLTP: many small, simple, frequent queries touching few rows. OLAP: fewer, complex, aggregate queries touching many rows.</dd>
+      <dt>Why separate them</dt>
+      <dd>Running heavy analytical queries directly against a live OLTP system competes for the same resources needed for fast transactions.</dd>
+    </dl>
+  </div>
+
+  <div class="section">
+    <h2>Diagram</h2>
+    <figure class="diagram-box">
+      <svg viewBox="0 0 720 180" xmlns="http://www.w3.org/2000/svg">
+        <g>
+          <rect x="40" y="40" width="220" height="100" rx="6" fill="var(--accent-dim)" stroke="var(--accent)"></rect>
+          <text x="150" y="65" text-anchor="middle" font-size="12" font-weight="700" style="fill:var(--text)">OLTP</text>
+          <text x="150" y="85" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">Normalized · current data</text>
+          <text x="150" y="100" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">Many small fast transactions</text>
+          <text x="150" y="115" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">e.g. e-commerce checkout</text>
+          <path d="M270 90 L360 90" stroke="var(--text-dim)" stroke-width="2" marker-end="url(#a8)"></path>
+          <text x="315" y="80" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">ETL</text>
+          <defs><marker id="a8" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="var(--text-dim)"></path></marker></defs>
+          <rect x="460" y="40" width="220" height="100" rx="6" fill="var(--warn-dim)" stroke="var(--warn)"></rect>
+          <text x="570" y="65" text-anchor="middle" font-size="12" font-weight="700" style="fill:var(--text)">OLAP</text>
+          <text x="570" y="85" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">Denormalized · historical data</text>
+          <text x="570" y="100" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">Fewer, complex aggregate queries</text>
+          <text x="570" y="115" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">e.g. quarterly trend report</text>
+        </g>
+      </svg>
+      <figcaption>OLTP captures live operations; ETL periodically feeds that data into an OLAP/data warehouse system for analysis.</figcaption>
+    </figure>
+  </div>
+
+  <div class="section">
+    <h2>Example</h2>
+    <pre class="example"><code>OLTP task:  UPDATE orders SET status='shipped' WHERE order_id=48213;
+            -- single row, milliseconds, must be immediately consistent
+
+OLAP task:  SELECT region, SUM(sales) FROM fact_sales
+            JOIN dim_time ON ... JOIN dim_region ON ...
+            WHERE year IN (2022,2023,2024)
+            GROUP BY region;
+            -- millions of rows, seconds, historical trend analysis</code></pre>
+  </div>
+
+  <div class="callout warn">
+    <strong>Common exam traps</strong>
+    <p>OLTP is normalized for WRITE consistency; OLAP is denormalized for READ/aggregation speed. OLTP handles many concurrent users doing SMALL operations; OLAP handles fewer users running COMPLEX queries. Data flows OLTP → ETL → OLAP, not the reverse. Running OLAP-style queries directly on a live OLTP database can degrade transactional performance.</p>
+  </div>
+
+  <div class="section">
+    <h2>Practice MCQs</h2>
+    <div class="mcq">
+      <p class="q"><span class="qn">Q1.</span> OLTP systems are primarily optimized for:</p>
+      <ol class="opts" type="A">
+        <li>Complex multidimensional analytical queries</li>
+        <li>Fast, frequent, small transactions with strong consistency</li>
+        <li>Long-running batch reports</li>
+        <li>Storing years of aggregated summaries</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> The operational backbone of a business.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q2.</span> In terms of schema, OLTP databases are typically:</p>
+      <ol class="opts" type="A">
+        <li>Highly denormalized</li>
+        <li>Highly normalized (e.g. 3NF)</li>
+        <li>Unstructured with no schema</li>
+        <li>Star schemas</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Minimizes redundancy for fast, consistent writes.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q3.</span> OLAP databases are typically:</p>
+      <ol class="opts" type="A">
+        <li>Highly normalized like OLTP</li>
+        <li>Dimensionally modeled/denormalized (star/snowflake)</li>
+        <li>Never structured with any schema</li>
+        <li>Identical to OLTP schemas</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Reduces joins for read-heavy aggregate queries.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q4.</span> Which is a typical OLTP workload?</p>
+      <ol class="opts" type="A">
+        <li>A quarterly sales trend analysis</li>
+        <li>Processing a customer's checkout</li>
+        <li>A year-over-year revenue comparison</li>
+        <li>A data mining model discovering patterns</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> A single, fast, transactional operation.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q5.</span> Running heavy OLAP queries directly against a live OLTP database can:</p>
+      <ol class="opts" type="A">
+        <li>Never cause any issue</li>
+        <li>Compete for resources and degrade transactional performance</li>
+        <li>Always improve OLTP speed</li>
+        <li>Have no relationship to performance at all</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> This is exactly why the two workloads are usually kept separate.</p></details>
+    </div>
+    <p style="margin-top:18px"><a class="btn" href="../quiz.html?topic=an-oltp-olap">Practice all 50 OLTP vs OLAP questions →</a></p>
+  </div>
+
+  <div class="topic-nav">
+    <a href="an-olap.html"><span class="dir">← Previous topic</span>OLAP</a>
+    <a class="next" href="an-data-cubes.html"><span class="dir">Next topic →</span>Data Cubes</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  GPSC ICT Class-2 exam prep · Unit 7 — Analytics
+</footer>
+
+<script src="../assets/js/nav.js"></script>
+</body>
+</html>
