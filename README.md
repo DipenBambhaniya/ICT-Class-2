@@ -3,16 +3,22 @@
 A static study site for the GPSC ICT Class-2 syllabus: concept notes with diagrams,
 worked examples and solved MCQs, plus one topic-filterable practice quiz.
 
-**Units live so far:** 1 — Programming &amp; Data Structures (10 topics), 4 — Databases
-(8 topics), 8 — NoSQL Databases (4 topics). **648 quiz questions.**
+**Units live so far:** 1 — Programming &amp; Data Structures (10 topics), 2 — Discrete
+Mathematics (6 topics), 3 — Algorithms (14 topics), 4 — Databases (8 topics), 5 —
+Hardware &amp; Operating Systems (9 topics), 8 — NoSQL Databases (4 topics), 9 — Data
+Centre (4 topics). **2248 quiz questions.**
 
 ## Live site
 
 **https://dipenbambhaniya.github.io/ICT-Class-2/**
 
 - Unit 1 hub: <https://dipenbambhaniya.github.io/ICT-Class-2/pds.html>
+- Unit 2 hub: <https://dipenbambhaniya.github.io/ICT-Class-2/dm.html>
+- Unit 3 hub: <https://dipenbambhaniya.github.io/ICT-Class-2/algo.html>
 - Unit 4 hub: <https://dipenbambhaniya.github.io/ICT-Class-2/dbms.html>
+- Unit 5 hub: <https://dipenbambhaniya.github.io/ICT-Class-2/os.html>
 - Unit 8 topics start at <https://dipenbambhaniya.github.io/ICT-Class-2/topics/sql-vs-nosql.html>
+- Unit 9 hub: <https://dipenbambhaniya.github.io/ICT-Class-2/dc.html>
 - Practice quiz: <https://dipenbambhaniya.github.io/ICT-Class-2/quiz.html>
 
 ## Contents
@@ -26,11 +32,17 @@ worked examples and solved MCQs, plus one topic-filterable practice quiz.
   concurrency control
 - `topics/sql-vs-nosql.html`, `data-representation.html`, `cap-theorem.html`,
   `properties.html` — Unit 8 (NoSQL Databases)
-- `quiz.html` — 648-question interactive MCQ practice test (filter by topic, instant
+- `dc.html` — Unit 9 (Data Centre) hub → `topics/dc-*.html` (Data Storage &amp;
+  Availability, Cloud Infrastructure &amp; Virtualization, Public/Private/Hybrid
+  Cloud, Scalability &amp; Reliability)
+- `quiz.html` — 2248-question interactive MCQ practice test (filter by topic, instant
   feedback, score breakdown, review list). Every topic page also has inline MCQs
   with reveal-to-check explanations.
 - `assets/js/questions.js` — NoSQL + Databases question bank
 - `assets/js/q-pds.js` — Programming & Data Structures question bank (50 per topic)
+- `assets/js/q-dm.js`, `q-algo.js`, `q-os.js` — Discrete Mathematics, Algorithms,
+  and Hardware & Operating Systems question banks (50 per topic)
+- `assets/js/q-dc.js` — Data Centre question bank (50 per topic)
 - `assets/js/nav.js` — left sidebar navigation, grouped by syllabus unit
 - `assets/css/style.css` — shared design system (light/dark aware)
 
@@ -77,8 +89,10 @@ Each question in `assets/js/questions.js` follows this shape:
   exp: "Short explanation of why the answer is correct." }
 ```
 
-`topic` must be one of: `sql-vs-nosql`, `data-representation`, `cap-theorem`, `properties`,
-`integrity-constraints`, `normal-forms`, `file-organization`, `indexes`, `b-trees`,
-`transactions`, `schedules`, `concurrency-control`, `pds-c`, `pds-recursion`,
+`topic` must match one of the keys in `TOPIC_META` (see `assets/js/questions.js` and the
+per-unit `q-*.js` files), e.g. `sql-vs-nosql`, `data-representation`, `cap-theorem`,
+`properties`, `integrity-constraints`, `normal-forms`, `file-organization`, `indexes`,
+`b-trees`, `transactions`, `schedules`, `concurrency-control`, `pds-c`, `pds-recursion`,
 `pds-arrays`, `pds-stacks`, `pds-queues`, `pds-linked-lists`, `pds-trees`, `pds-bst`,
-`pds-heaps`, `pds-graphs`.
+`pds-heaps`, `pds-graphs`, and the Unit 9 Data Centre topics: `dc-storage`,
+`dc-cloud-infra`, `dc-cloud-models`, `dc-scalability`.

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cloud Infrastructure &amp; Virtualization — Data Centre</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="../index.html"><span class="logo-dot">DB</span> NoSQL Exam Prep</a>
+    <nav class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../dc.html" class="active">Data Centre</a>
+      <a href="../quiz.html">Practice Quiz</a>
+    </nav>
+  </div>
+</header>
+<nav class="subnav">
+  <a href="dc-storage.html">Data Storage &amp; Availability</a>
+  <a href="dc-cloud-infra.html" class="active">Cloud Infrastructure &amp; Virtualization</a>
+  <a href="dc-cloud-models.html">Public / Private / Hybrid Cloud</a>
+  <a href="dc-scalability.html">Scalability &amp; Reliability</a>
+</nav>
+
+<main>
+
+  <div class="topic-header">
+    <span class="pill">Unit 9 · 2 of 4</span>
+    <h1>Cloud Infrastructure, Virtualization &amp; Pipelining</h1>
+    <p class="sub">Virtualization and containerization let a data centre share physical hardware safely across many workloads; automated pipelines (CI/CD and data pipelines) turn deploying and processing that work into a repeatable, low-error process instead of manual, one-off steps.</p>
+  </div>
+
+  <div class="section">
+    <h2>Key points</h2>
+    <dl class="terms">
+      <dt>Hypervisor (Type 1 vs Type 2)</dt>
+      <dd>Type 1 (bare-metal, e.g. ESXi/KVM) runs directly on hardware — used in production. Type 2 (hosted, e.g. VirtualBox) runs atop a host OS — used on desktops.</dd>
+      <dt>VM vs Container</dt>
+      <dd>A VM virtualizes hardware and runs a full guest OS (strong isolation, heavier). A container shares the host kernel and packages just the app + dependencies (lightweight, fast to start).</dd>
+      <dt>Orchestration (Kubernetes)</dt>
+      <dd>Automates deployment, scaling, networking and self-healing of many containers (Pods) across a cluster of machines (Nodes).</dd>
+      <dt>Infrastructure as Code</dt>
+      <dd>Infrastructure defined in version-controlled config files (e.g. Terraform) instead of manual clicks — reproducible, auditable, easy to rebuild.</dd>
+      <dt>CI/CD pipeline</dt>
+      <dd>Build → automated test → deploy, triggered on every code change, with strategies like blue-green, canary and rolling updates to release safely.</dd>
+    </dl>
+  </div>
+
+  <div class="section">
+    <h2>Diagram</h2>
+    <figure class="diagram-box">
+      <svg viewBox="0 0 720 230" xmlns="http://www.w3.org/2000/svg">
+        <g font-size="11" font-weight="700">
+          <text x="20" y="20" style="fill:var(--text-dim)">Virtualization vs containers, on one physical host</text>
+
+          <rect x="30" y="35" width="300" height="150" rx="8" fill="none" stroke="var(--text-dim)"></rect>
+          <text x="180" y="52" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">Physical server + Type-1 Hypervisor</text>
+          <rect x="45"  y="65" width="120" height="45" rx="6" fill="var(--accent-dim)" stroke="var(--accent)"></rect>
+          <text x="105" y="83" text-anchor="middle" font-size="9" style="fill:var(--accent)">VM 1</text>
+          <text x="105" y="98" text-anchor="middle" font-size="8" style="fill:var(--text-dim)">Guest OS + App</text>
+          <rect x="175" y="65" width="120" height="45" rx="6" fill="var(--accent-dim)" stroke="var(--accent)"></rect>
+          <text x="235" y="83" text-anchor="middle" font-size="9" style="fill:var(--accent)">VM 2</text>
+          <text x="235" y="98" text-anchor="middle" font-size="8" style="fill:var(--text-dim)">Guest OS + App</text>
+          <rect x="45" y="145" width="250" height="24" rx="4" fill="var(--warn-dim)" stroke="var(--warn)"></rect>
+          <text x="170" y="161" text-anchor="middle" font-size="9" style="fill:var(--warn)">Hardware</text>
+
+          <rect x="390" y="35" width="300" height="150" rx="8" fill="none" stroke="var(--text-dim)"></rect>
+          <text x="540" y="52" text-anchor="middle" font-size="10" style="fill:var(--text-dim)">Physical server + one Host OS</text>
+          <rect x="405" y="65" width="80" height="45" rx="6" fill="var(--accent-2-dim)" stroke="var(--accent-2)"></rect>
+          <text x="445" y="88" text-anchor="middle" font-size="9" style="fill:var(--accent-2)">Container A</text>
+          <rect x="495" y="65" width="80" height="45" rx="6" fill="var(--accent-2-dim)" stroke="var(--accent-2)"></rect>
+          <text x="535" y="88" text-anchor="middle" font-size="9" style="fill:var(--accent-2)">Container B</text>
+          <rect x="585" y="65" width="80" height="45" rx="6" fill="var(--accent-2-dim)" stroke="var(--accent-2)"></rect>
+          <text x="625" y="88" text-anchor="middle" font-size="9" style="fill:var(--accent-2)">Container C</text>
+          <rect x="405" y="125" width="260" height="20" rx="4" fill="none" stroke="var(--text-dim)"></rect>
+          <text x="535" y="140" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">Shared Host OS Kernel</text>
+          <rect x="405" y="150" width="260" height="20" rx="4" fill="var(--warn-dim)" stroke="var(--warn)"></rect>
+          <text x="535" y="165" text-anchor="middle" font-size="9" style="fill:var(--warn)">Hardware</text>
+        </g>
+        <text x="360" y="210" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">VMs: each carries its own OS (strong isolation). Containers: share one OS kernel (lightweight, fast).</text>
+      </svg>
+      <figcaption>Virtualization slices hardware into full virtual machines; containerization slices one OS into lightweight, isolated processes.</figcaption>
+    </figure>
+  </div>
+
+  <div class="section">
+    <h2>Example</h2>
+    <pre class="example"><code>CI/CD pipeline for a web service, triggered on every git push:
+
+  1. Build   -> compile code, package a container image, push to a registry
+  2. Test    -> run automated unit + integration tests against the image
+  3. Deploy  -> canary release: send 5% of traffic to the new version
+  4. Monitor -> watch error rate/latency; if healthy, roll out to 100%
+                (a rolling update); if not, roll back to the previous image
+
+Kubernetes keeps the desired number of Pods running: if a Node hosting one
+crashes, the scheduler places a replacement Pod on a healthy Node automatically
+(self-healing) — no manual restart needed.</code></pre>
+  </div>
+
+  <div class="callout warn">
+    <strong>Common exam traps</strong>
+    <p>Containers share the host kernel (lighter, faster, weaker isolation); VMs each run a full guest OS (heavier, stronger isolation). A Type-1 hypervisor runs on bare metal; a Type-2 hypervisor runs atop a host OS. Continuous Delivery keeps code always releasable but still needs a manual trigger — Continuous Deployment releases every passing change automatically.</p>
+  </div>
+
+  <div class="section">
+    <h2>Practice MCQs</h2>
+    <div class="mcq">
+      <p class="q"><span class="qn">Q1.</span> A container, unlike a full virtual machine:</p>
+      <ol class="opts" type="A">
+        <li>Runs its own separate OS kernel</li>
+        <li>Shares the host's OS kernel, making it lighter-weight and faster to start</li>
+        <li>Cannot be moved between machines</li>
+        <li>Always requires a Type-1 hypervisor</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> This shared-kernel model is why containers start in seconds and use far fewer resources than a full VM.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q2.</span> A Type 1 (bare-metal) hypervisor:</p>
+      <ol class="opts" type="A">
+        <li>Runs as an application on a host OS</li>
+        <li>Runs directly on physical hardware with no host OS beneath it</li>
+        <li>Cannot host more than one VM</li>
+        <li>Is only used for desktop virtualization</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Type 2 (hosted) hypervisors run atop a conventional OS and are common for desktop/dev use instead.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q3.</span> Kubernetes "self-healing" means:</p>
+      <ol class="opts" type="A">
+        <li>Failed Pods must be restarted manually</li>
+        <li>The cluster automatically detects failed Pods and reschedules them to maintain the desired state</li>
+        <li>Containers repair their own corrupted code</li>
+        <li>Failures are simply ignored</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> This automated recovery is a major reliability benefit of using an orchestration platform.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q4.</span> A canary deployment strategy:</p>
+      <ol class="opts" type="A">
+        <li>Sends 100% of traffic to a new version immediately</li>
+        <li>Gradually rolls a new version out to a small slice of traffic first, expanding only if it performs well</li>
+        <li>Deletes the old version before deploying the new one</li>
+        <li>Requires a full outage during deployment</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> This limits the "blast radius" of a bad release compared to sending it to every user at once.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q5.</span> Infrastructure as Code (IaC) primarily provides:</p>
+      <ol class="opts" type="A">
+        <li>Application business logic</li>
+        <li>Reproducible, version-controlled infrastructure provisioning instead of manual, ad-hoc setup</li>
+        <li>A replacement for cloud providers</li>
+        <li>Guaranteed zero infrastructure cost</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Because it's just config files, IaC can be reviewed, versioned, and reliably rebuilt (e.g. for disaster recovery).</p></details>
+    </div>
+    <p style="margin-top:18px"><a class="btn" href="../quiz.html?topic=dc-cloud-infra">Practice all 50 Cloud Infrastructure &amp; Virtualization questions →</a></p>
+  </div>
+
+  <div class="topic-nav">
+    <a href="dc-storage.html"><span class="dir">← Previous topic</span>Data Storage &amp; Availability</a>
+    <a class="next" href="dc-cloud-models.html"><span class="dir">Next topic →</span>Public / Private / Hybrid Cloud</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  GPSC ICT Class-2 exam prep · Unit 9 — Data Centre
+</footer>
+
+<script src="../assets/js/nav.js"></script>
+</body>
+</html>

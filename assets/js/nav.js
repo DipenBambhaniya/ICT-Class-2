@@ -101,6 +101,16 @@
         ["CAP Theorem", "topics/cap-theorem.html"],
         ["Properties of NoSQL", "topics/properties.html"]
       ]
+    },
+    {
+      type: "group", label: "9) Data Centre", href: "dc.html",
+      items: [
+        ["Overview", "dc.html"],
+        ["Data Storage & Availability", "topics/dc-storage.html"],
+        ["Cloud Infrastructure & Virtualization", "topics/dc-cloud-infra.html"],
+        ["Public / Private / Hybrid Cloud", "topics/dc-cloud-models.html"],
+        ["Scalability & Reliability", "topics/dc-scalability.html"]
+      ]
     }
   ];
 

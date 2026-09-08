@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scalability &amp; Reliability — Data Centre</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="../index.html"><span class="logo-dot">DB</span> NoSQL Exam Prep</a>
+    <nav class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../dc.html" class="active">Data Centre</a>
+      <a href="../quiz.html">Practice Quiz</a>
+    </nav>
+  </div>
+</header>
+<nav class="subnav">
+  <a href="dc-storage.html">Data Storage &amp; Availability</a>
+  <a href="dc-cloud-infra.html">Cloud Infrastructure &amp; Virtualization</a>
+  <a href="dc-cloud-models.html">Public / Private / Hybrid Cloud</a>
+  <a href="dc-scalability.html" class="active">Scalability &amp; Reliability</a>
+</nav>
+
+<main>
+
+  <div class="topic-header">
+    <span class="pill">Unit 9 · 4 of 4</span>
+    <h1>Business &amp; Service Scalability, Reliability</h1>
+    <p class="sub">Scalability is the ability to handle growing load; reliability is the ability to keep working correctly despite failure. They're achieved together through the same toolkit — redundancy, load balancing, automation, and honest measurement (SLAs, SLOs, SLIs).</p>
+  </div>
+
+  <div class="section">
+    <h2>Key points</h2>
+    <dl class="terms">
+      <dt>Vertical vs horizontal scaling</dt>
+      <dd>Vertical = bigger machine (limited ceiling). Horizontal = more machines behind a load balancer (needs stateless/externalized-state design).</dd>
+      <dt>Elasticity</dt>
+      <dd>Scaling automatically both UP and DOWN with demand — distinct from scalability, which just means "can handle more, given more resources".</dd>
+      <dt>Redundancy · fault tolerance · failover</dt>
+      <dd>Duplicate components remove single points of failure; a fault-tolerant system keeps working despite a failed part; failover is the standby taking over automatically.</dd>
+      <dt>SLA / SLO / SLI</dt>
+      <dd><strong>SLI</strong> = the measured metric. <strong>SLO</strong> = the internal target for that metric. <strong>SLA</strong> = the external, often contractual, promise built on it.</dd>
+      <dt>MTBF / MTTR</dt>
+      <dd>Mean Time Between Failures (bigger is better) and Mean Time To Repair (smaller is better) — together they drive overall availability.</dd>
+    </dl>
+  </div>
+
+  <div class="section">
+    <h2>Diagram</h2>
+    <figure class="diagram-box">
+      <svg viewBox="0 0 720 200" xmlns="http://www.w3.org/2000/svg">
+        <g font-size="11" font-weight="700">
+          <text x="20" y="20" style="fill:var(--text-dim)">Horizontal scaling with redundancy (N+1)</text>
+
+          <rect x="30" y="70" width="90" height="40" rx="6" fill="var(--accent-dim)" stroke="var(--accent)"></rect>
+          <text x="75" y="95" text-anchor="middle" font-size="10" style="fill:var(--accent)">Clients</text>
+          <path d="M120 90 L165 90" stroke="var(--text-dim)" stroke-width="2" marker-end="url(#arrsc)"></path>
+
+          <rect x="170" y="60" width="110" height="60" rx="6" fill="var(--warn-dim)" stroke="var(--warn)"></rect>
+          <text x="225" y="86" text-anchor="middle" font-size="10" style="fill:var(--warn)">Load</text>
+          <text x="225" y="102" text-anchor="middle" font-size="10" style="fill:var(--warn)">Balancer</text>
+
+          <path d="M280 90 L330 45" stroke="var(--text-dim)" stroke-width="2" marker-end="url(#arrsc)"></path>
+          <path d="M280 90 L330 90" stroke="var(--text-dim)" stroke-width="2" marker-end="url(#arrsc)"></path>
+          <path d="M280 90 L330 135" stroke="var(--text-dim)" stroke-width="2" marker-end="url(#arrsc)"></path>
+
+          <rect x="335" y="25" width="110" height="36" rx="6" fill="var(--accent-2-dim)" stroke="var(--accent-2)"></rect>
+          <text x="390" y="47" text-anchor="middle" font-size="9" style="fill:var(--accent-2)">Instance 1</text>
+          <rect x="335" y="72" width="110" height="36" rx="6" fill="var(--accent-2-dim)" stroke="var(--accent-2)"></rect>
+          <text x="390" y="94" text-anchor="middle" font-size="9" style="fill:var(--accent-2)">Instance 2</text>
+          <rect x="335" y="119" width="110" height="36" rx="6" fill="var(--accent-2-dim)" stroke="var(--accent-2)"></rect>
+          <text x="390" y="141" text-anchor="middle" font-size="9" style="fill:var(--accent-2)">Instance 3 (+1 spare)</text>
+
+          <path d="M445 43 L510 90" stroke="var(--text-dim)" stroke-width="1.5" stroke-dasharray="3,3" marker-end="url(#arrsc)"></path>
+          <path d="M445 90 L510 90" stroke="var(--text-dim)" stroke-width="1.5" stroke-dasharray="3,3" marker-end="url(#arrsc)"></path>
+          <path d="M445 137 L510 90" stroke="var(--text-dim)" stroke-width="1.5" stroke-dasharray="3,3" marker-end="url(#arrsc)"></path>
+          <rect x="515" y="65" width="170" height="50" rx="6" fill="none" stroke="var(--text-dim)"></rect>
+          <text x="600" y="86" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">Shared state</text>
+          <text x="600" y="102" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">(DB / cache) — stateless app tier</text>
+        </g>
+        <defs>
+          <marker id="arrsc" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 z" fill="var(--text-dim)"></path></marker>
+        </defs>
+        <text x="360" y="180" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">If Instance 1 fails, the load balancer routes around it — one spare instance means no capacity is lost (N+1 redundancy).</text>
+      </svg>
+      <figcaption>A stateless app tier behind a load balancer, with N+1 redundancy: it can scale out for load AND survive one instance's failure.</figcaption>
+    </figure>
+  </div>
+
+  <div class="section">
+    <h2>Example</h2>
+    <pre class="example"><code>A service sets an SLO: "99.9% of requests succeed in under 300ms, per month."
+  - SLI (measured this month): 99.95% of requests met that target.
+  - Result: SLO met, with an "error budget" of 0.1% still unspent this month.
+  - The SLA (external promise to customers) is set more conservatively at 99.5%,
+    with service credits owed if it is missed.
+
+Reliability math: if MTBF = 720 hours and MTTR = 1 hour,
+  Availability ~= MTBF / (MTBF + MTTR) = 720 / 721 ~= 99.86%
+Adding a second, redundant instance (N+1) removes this as a single point of
+failure — failover can restore service in seconds instead of the full MTTR.</code></pre>
+  </div>
+
+  <div class="callout warn">
+    <strong>Common exam traps</strong>
+    <p>SLI = measured value, SLO = internal target, SLA = external contractual promise — questions often swap these. Elasticity ≠ scalability: elasticity specifically means scaling back DOWN automatically too, not just up. Horizontal scaling generally requires a stateless (or externalized-state) application tier; a service that stores session data only in one instance's memory cannot simply be load-balanced across many instances.</p>
+  </div>
+
+  <div class="section">
+    <h2>Practice MCQs</h2>
+    <div class="mcq">
+      <p class="q"><span class="qn">Q1.</span> Horizontal scaling means:</p>
+      <ol class="opts" type="A">
+        <li>Upgrading a single server's CPU/RAM</li>
+        <li>Adding more machines/instances to share the load</li>
+        <li>Reducing the number of servers</li>
+        <li>Only applies to storage, never compute</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Upgrading one machine's hardware is vertical scaling instead.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q2.</span> An SLI (Service Level Indicator) is:</p>
+      <ol class="opts" type="A">
+        <li>A legal contract with customers</li>
+        <li>The actual measured metric used to judge whether an SLO is being met</li>
+        <li>Identical to an SLA</li>
+        <li>Only relevant to hardware procurement</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> SLOs are the internal target for that measured value; SLAs are the external promise built on it.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q3.</span> "N+1" redundancy means:</p>
+      <ol class="opts" type="A">
+        <li>Exactly N components with no spare capacity</li>
+        <li>N components needed for normal load, plus one spare so one failure causes no impact</li>
+        <li>N times the necessary capacity for no clear reason</li>
+        <li>A single component with zero redundancy</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> "2N" (a fully duplicated set) provides even more tolerance, at higher cost.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q4.</span> A circuit breaker pattern in a distributed system:</p>
+      <ol class="opts" type="A">
+        <li>Permanently disables a service after its first failure</li>
+        <li>Stops sending requests to a consistently failing dependency, letting it recover and preventing cascading failure</li>
+        <li>Increases load sent to a struggling dependency</li>
+        <li>Physically cuts power to a server</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> This is a common resilience pattern to stop one failing dependency from bringing down others.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q5.</span> Elasticity, as distinct from plain scalability, specifically emphasizes:</p>
+      <ol class="opts" type="A">
+        <li>The maximum theoretical capacity a system could ever reach</li>
+        <li>Automatically scaling both up AND back down with demand, avoiding paying for unused capacity</li>
+        <li>That scaling must always be manual</li>
+        <li>That resources, once added, can never be removed</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> A system can be scalable without being elastic if it never automatically scales back down.</p></details>
+    </div>
+    <p style="margin-top:18px"><a class="btn" href="../quiz.html?topic=dc-scalability">Practice all 50 Scalability &amp; Reliability questions →</a></p>
+  </div>
+
+  <div class="topic-nav">
+    <a href="dc-cloud-models.html"><span class="dir">← Previous topic</span>Public / Private / Hybrid Cloud</a>
+    <a class="next" href="../quiz.html"><span class="dir">Ready to test yourself? →</span>Take the Practice Quiz</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  GPSC ICT Class-2 exam prep · Unit 9 — Data Centre
+</footer>
+
+<script src="../assets/js/nav.js"></script>
+</body>
+</html>

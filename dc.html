@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Data Centre — Exam Prep</title>
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="index.html"><span class="logo-dot">DB</span> NoSQL Exam Prep</a>
+    <nav class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="dc.html" class="active">Data Centre</a>
+      <a href="quiz.html">Practice Quiz</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <div class="hero">
+    <span class="pill">GPSC ICT Class-2 · Unit 9</span>
+    <h1>Data Centre</h1>
+    <p class="lead">Data storage &amp; availability, cloud infrastructure &amp; virtualization, public/private/hybrid cloud deployment, and business/service scalability &amp; reliability. Each topic has brief notes, a diagram, a worked example and 50 solved MCQs.</p>
+    <a class="btn" href="topics/dc-storage.html">Start Reading →</a>
+    <a class="btn secondary" href="quiz.html">Practice Quiz →</a>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat"><div class="n">4</div><div class="l">Topics</div></div>
+    <div class="stat"><div class="n">200</div><div class="l">MCQs</div></div>
+    <div class="stat"><div class="n">50</div><div class="l">Per Topic</div></div>
+    <div class="stat"><div class="n">4</div><div class="l">Diagrams</div></div>
+  </div>
+
+  <div class="section">
+    <h2>Topics</h2>
+    <div class="topic-grid">
+      <a class="card" href="topics/dc-storage.html"><span class="num">01</span><h3>Data Storage &amp; Availability</h3><p>DAS / NAS / SAN, block vs file vs object storage, replication, RPO/RTO, backup types, availability tiers and disaster-recovery sites.</p></a>
+      <a class="card" href="topics/dc-cloud-infra.html"><span class="num">02</span><h3>Cloud Infrastructure &amp; Virtualization</h3><p>Hypervisors, VMs vs containers, Kubernetes basics, Infrastructure as Code, and CI/CD &amp; data pipelines.</p></a>
+      <a class="card" href="topics/dc-cloud-models.html"><span class="num">03</span><h3>Public, Private &amp; Hybrid Cloud</h3><p>Deployment models (public/private/hybrid/community), IaaS/PaaS/SaaS service models, and the trade-offs behind each.</p></a>
+      <a class="card" href="topics/dc-scalability.html"><span class="num">04</span><h3>Scalability &amp; Reliability</h3><p>Vertical vs horizontal scaling, load balancing, redundancy &amp; fault tolerance, SLA/SLO/SLI, MTBF/MTTR.</p></a>
+    </div>
+  </div>
+
+  <div class="callout tip">
+    <strong>How the topics connect</strong>
+    <p>A data centre must first keep data safe and reachable (storage &amp; availability), then run workloads efficiently on shared hardware (virtualization &amp; pipelines), decide where those workloads should physically live (public/private/hybrid cloud), and finally keep the resulting service both fast to grow and dependable under failure (scalability &amp; reliability).</p>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  GPSC ICT Class-2 exam prep · Unit 9 — Data Centre
+</footer>
+
+<script src="assets/js/nav.js"></script>
+</body>
+</html>
