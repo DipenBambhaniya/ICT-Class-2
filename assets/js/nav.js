@@ -182,6 +182,26 @@
         ["Smart Villages, Cities & Empowerment", "topics/eg-smart.html"],
         ["Digital Services, Payments & Ethics", "topics/eg-services.html"]
       ]
+    },
+    {
+      type: "group", label: "14) General Awareness of IT Projects", href: "itproj.html",
+      items: [
+        ["Overview", "itproj.html"],
+        ["Mission Mode Projects & Digital Platforms", "topics/itp-mmp.html"],
+        ["E-Governance Policies & Gujarat IT/ITeS 2022-27", "topics/itp-policy.html"],
+        ["IT Organizations & Gujarat STI Policy", "topics/itp-orgs.html"],
+        ["Legislative Framework for IT in India", "topics/itp-legal.html"]
+      ]
+    },
+    {
+      type: "group", label: "15) Current Trends & Recent Advancement in IT", href: "trends.html",
+      items: [
+        ["Overview", "trends.html"],
+        ["AI, ML & Generative AI", "topics/trend-ai.html"],
+        ["Blockchain, Web3 & DLT", "topics/trend-blockchain.html"],
+        ["IoT, Big Data & Cloud-Native", "topics/trend-iot-cloud.html"],
+        ["5G/6G, Quantum & AR/VR", "topics/trend-emerging.html"]
+      ]
     }
   ];
 

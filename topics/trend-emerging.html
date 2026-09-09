@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>5G/6G, Quantum Computing &amp; AR/VR — Current Trends</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="../index.html"><span class="logo-dot">DB</span> NoSQL Exam Prep</a>
+    <nav class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../trends.html" class="active">Current Trends</a>
+      <a href="../quiz.html">Practice Quiz</a>
+    </nav>
+  </div>
+</header>
+<nav class="subnav">
+  <a href="trend-ai.html">AI, ML &amp; Generative AI</a>
+  <a href="trend-blockchain.html">Blockchain &amp; Web3</a>
+  <a href="trend-iot-cloud.html">IoT &amp; Cloud-Native</a>
+  <a href="trend-emerging.html" class="active">5G/6G, Quantum &amp; AR/VR</a>
+</nav>
+
+<main>
+
+  <div class="topic-header">
+    <span class="pill">Unit 15 · 4 of 4</span>
+    <h1>5G/6G, Quantum Computing &amp; AR/VR</h1>
+    <p class="sub">5G mobile networks are built around three defined use-case categories — eMBB (fast broadband), URLLC (ultra-reliable low-latency), and mMTC (massive device density) — with 6G research pushing further. Quantum computing exploits qubits and superposition for certain hard problem classes, backed in India by the National Quantum Mission. Augmented Reality, Virtual Reality and Mixed Reality are immersive interface technologies often discussed together under the umbrella "Metaverse" concept.</p>
+  </div>
+
+  <div class="section">
+    <h2>Key points</h2>
+    <dl class="terms">
+      <dt>5G's three use-case categories</dt>
+      <dd>eMBB (enhanced Mobile Broadband) — high speed/capacity for data-heavy apps like video streaming. URLLC (Ultra-Reliable Low-Latency Communication) — millisecond-level response for safety-critical control (e.g., remote surgery, industrial automation). mMTC (massive Machine-Type Communication) — connecting very large numbers of low-power IoT devices in an area.</dd>
+      <dt>6G outlook</dt>
+      <dd>Expected to push speed, latency and capacity further beyond 5G, with research exploring deeper AI integration into network management and new spectrum frontiers — still an evolving research area.</dd>
+      <dt>Quantum computing basics</dt>
+      <dd>A classical bit is strictly 0 or 1. A qubit can exist in superposition — a combination of 0 and 1 at once — which, along with entanglement, may let certain problem classes (optimisation, cryptography-adjacent, materials simulation) be approached very differently than with classical computers.</dd>
+      <dt>India's National Quantum Mission</dt>
+      <dd>A Government of India programme supporting research and development across quantum computing, quantum communication and quantum sensing/metrology.</dd>
+      <dt>AR vs VR vs Mixed Reality vs Metaverse</dt>
+      <dd>AR overlays digital content onto the real world (e.g., a furniture app). VR fully immerses the user in a simulated environment via a headset. Mixed Reality blends real and digital elements so they interact. "Metaverse" is the broader umbrella vision of persistent, interconnected immersive digital spaces, with AR/VR as key enabling interface technologies.</dd>
+    </dl>
+  </div>
+
+  <div class="section">
+    <h2>Diagram</h2>
+    <figure class="diagram-box">
+      <svg viewBox="0 0 720 220" xmlns="http://www.w3.org/2000/svg">
+        <g font-size="11" font-weight="700">
+          <text x="20" y="20" style="fill:var(--text-dim)">5G's three use-case categories</text>
+          <circle cx="150" cy="120" r="70" fill="var(--accent-dim)" stroke="var(--accent)" stroke-width="1.5"></circle>
+          <text x="150" y="110" text-anchor="middle" style="fill:var(--accent)">eMBB</text>
+          <text x="150" y="128" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">high speed</text>
+          <text x="150" y="142" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">video streaming</text>
+
+          <circle cx="380" cy="120" r="70" fill="var(--danger-dim)" stroke="var(--danger)" stroke-width="1.5"></circle>
+          <text x="380" y="110" text-anchor="middle" style="fill:var(--danger)">URLLC</text>
+          <text x="380" y="128" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">low latency</text>
+          <text x="380" y="142" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">remote surgery, robotics</text>
+
+          <circle cx="600" cy="120" r="70" fill="var(--warn-dim)" stroke="var(--warn)" stroke-width="1.5"></circle>
+          <text x="600" y="110" text-anchor="middle" style="fill:var(--warn)">mMTC</text>
+          <text x="600" y="128" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">device density</text>
+          <text x="600" y="142" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">smart-city IoT sensors</text>
+        </g>
+        <text x="360" y="200" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">Network slicing lets a single 5G network serve all three categories concurrently, each tuned to its own performance needs.</text>
+      </svg>
+      <figcaption>5G is defined by three distinct use-case categories, each optimised for a different combination of speed, latency and device density.</figcaption>
+    </figure>
+  </div>
+
+  <div class="section">
+    <h2>Example</h2>
+    <pre class="example"><code>A "smart factory" pilot using 5G, and considering future tech:
+  1. Hundreds of low-power sensors on the factory floor report temperature
+     and vibration readings every few seconds -- an mMTC use case (many
+     devices, modest data rate each)
+  2. A robotic arm on the same 5G network is remotely coordinated with a
+     safety controller requiring millisecond-level response times -- a
+     URLLC use case (network slicing lets both run on one network)
+  3. Engineers review live high-definition video feeds from the floor on
+     tablets -- an eMBB use case (high bandwidth)
+  4. The factory is evaluating AR headsets so technicians can see overlaid
+     repair instructions directly on real machinery (Augmented Reality),
+     and is separately exploring whether quantum-computing-based
+     optimisation could someday improve complex production-scheduling
+     problems as the technology matures
+
+Exam framing: identify which 5G category (eMBB/URLLC/mMTC) a described
+scenario belongs to, and whether a described headset/overlay scenario is
+AR (overlay on reality) or VR (fully replaces reality).</code></pre>
+  </div>
+
+  <div class="callout warn">
+    <strong>Common exam traps</strong>
+    <p>Don't mix up 5G's three categories: eMBB = speed/bandwidth, URLLC = latency/reliability, mMTC = device density. AR overlays digital content ON TOP of the real world (real world stays visible); VR REPLACES the real world with a full simulation (opaque headset) — these are opposite ends of the immersion spectrum, and Mixed Reality sits between them by letting virtual and real objects interact. A qubit is not "just a faster bit" — its defining property is superposition, a genuinely different computational model, not simply higher clock speed. Treat quantum computing as promising for specific problem classes, not as a universal replacement for classical computers on every task.</p>
+  </div>
+
+  <div class="section">
+    <h2>Practice MCQs</h2>
+    <div class="mcq">
+      <p class="q"><span class="qn">Q1.</span> Ultra-Reliable Low-Latency Communication (URLLC), a core 5G use-case category, is specifically designed for:</p>
+      <ol class="opts" type="A">
+        <li>Applications requiring extremely fast response times and very high reliability, such as remote surgery, industrial automation, or autonomous vehicle safety systems</li>
+        <li>Applications with no requirement for reliability or speed of any kind</li>
+        <li>Only connecting simple, infrequent-reporting sensors with no time sensitivity</li>
+        <li>Streaming high-definition video with no concern for latency</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: A.</strong> URLLC targets mission-critical applications where both very low latency and very high reliability are essential, such as safety-critical automation or remote-controlled systems.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q2.</span> 'Superposition', a core quantum-mechanical property exploited by qubits, refers to:</p>
+      <ol class="opts" type="A">
+        <li>A qubit being physically stacked on top of another qubit in a server rack</li>
+        <li>A quantum state where a qubit can represent a combination of both 0 and 1 simultaneously, rather than being restricted to just one definite value</li>
+        <li>A property exclusive to classical bits, with no relevance to quantum computing</li>
+        <li>A guarantee that a qubit will always show exactly the value 0</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Superposition allows a qubit to represent a combination of 0 and 1 states at once, a key property that differentiates quantum computation from classical binary computation.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q3.</span> India's National Quantum Mission is best described as:</p>
+      <ol class="opts" type="A">
+        <li>A private international company's confidential internal research project with no government involvement</li>
+        <li>A programme focused exclusively on classical (non-quantum) computer hardware manufacturing</li>
+        <li>An initiative with no connection to computing or scientific research of any kind</li>
+        <li>A Government of India programme aimed at nurturing and scaling up research, development, and applications in quantum technologies, including quantum computing, communication, and sensing</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: D.</strong> The National Quantum Mission is a Government of India initiative supporting quantum technology research and development across computing, communication, and sensing domains.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q4.</span> The key distinguishing factor between AR and VR is:</p>
+      <ol class="opts" type="A">
+        <li>AR overlays digital content onto the user's existing view of the real world, while VR fully immerses the user in a completely simulated, computer-generated environment</li>
+        <li>AR and VR are exactly identical technologies with no meaningful difference between them</li>
+        <li>VR overlays digital content onto reality, while AR fully replaces reality with simulation</li>
+        <li>Neither AR nor VR involves any digital or computer-generated content whatsoever</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: A.</strong> The core distinction is degree of immersion: AR augments the real world with digital overlays, while VR replaces the real world entirely with a simulated one.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q5.</span> The 'Metaverse', as an umbrella concept encompassing AR, VR, and related technologies, is generally described as:</p>
+      <ol class="opts" type="A">
+        <li>A single specific mobile application developed by exactly one company with no broader conceptual scope</li>
+        <li>A synonym for the original 1990s-era static World Wide Web with no immersive component</li>
+        <li>A vision of persistent, interconnected, often immersive virtual/digital spaces where users can interact, socialise, work, or transact — accessed through technologies such as AR, VR, and related digital interfaces</li>
+        <li>A term with no connection whatsoever to AR or VR technologies</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: C.</strong> The Metaverse is a broad conceptual vision of persistent, interconnected immersive digital spaces, typically understood as being enabled by underlying technologies like AR and VR, rather than being a single fixed product.</p></details>
+    </div>
+    <p style="margin-top:18px"><a class="btn" href="../quiz.html?topic=trend-emerging">Practice all 50 5G/6G, Quantum Computing &amp; AR/VR questions →</a></p>
+  </div>
+
+  <div class="topic-nav">
+    <a href="trend-iot-cloud.html"><span class="dir">← Previous topic</span>IoT, Big Data &amp; Cloud-Native Computing</a>
+    <a class="next" href="../quiz.html"><span class="dir">Ready to test yourself? →</span>Take the Practice Quiz</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  GPSC ICT Class-2 exam prep · Unit 15 — Current Trends and Recent Advancement in IT
+</footer>
+
+<script src="../assets/js/nav.js"></script>
+</body>
+</html>

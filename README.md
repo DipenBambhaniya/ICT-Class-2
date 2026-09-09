@@ -8,8 +8,10 @@ Mathematics (6 topics), 3 — Algorithms (13 topics), 4 — Databases (8 topics)
 5 — Hardware &amp; Operating Systems (9 topics), 6 — Computer Networks (10 topics),
 7 — Analytics (9 topics), 8 — NoSQL Databases (4 topics), 9 — Data Centre
 (4 topics), 10 — Mobile Application (4 topics), 11 — Software Engineering
-(4 topics), 12 — Cyber Security (4 topics), 13 — E-Governance (4 topics).
-**3998 quiz questions.**
+(4 topics), 12 — Cyber Security (4 topics), 13 — E-Governance (4 topics),
+14 — General Awareness of IT Projects (4 topics), 15 — Current Trends and
+Recent Advancement in IT (4 topics).
+**4398 quiz questions.**
 
 ## Live site
 
@@ -28,6 +30,8 @@ Mathematics (6 topics), 3 — Algorithms (13 topics), 4 — Databases (8 topics)
 - Unit 11 hub: <https://dipenbambhaniya.github.io/ICT-Class-2/se.html>
 - Unit 12 hub: <https://dipenbambhaniya.github.io/ICT-Class-2/cyber.html>
 - Unit 13 hub: <https://dipenbambhaniya.github.io/ICT-Class-2/egov.html>
+- Unit 14 hub: <https://dipenbambhaniya.github.io/ICT-Class-2/itproj.html>
+- Unit 15 hub: <https://dipenbambhaniya.github.io/ICT-Class-2/trends.html>
 - Practice quiz: <https://dipenbambhaniya.github.io/ICT-Class-2/quiz.html>
 
 ## Contents
@@ -62,7 +66,14 @@ Mathematics (6 topics), 3 — Algorithms (13 topics), 4 — Databases (8 topics)
 - `egov.html` — Unit 13 (E-Governance) hub → `topics/eg-*.html` (E-Governance
   Models &amp; Digital India, Enterprise Systems/EDI/ERP/IT Governance, Smart
   Villages/Cities &amp; Empowerment, Digital Services/Payments &amp; Ethics)
-- `quiz.html` — 3998-question interactive MCQ practice test (filter by topic, instant
+- `itproj.html` — Unit 14 (General Awareness of IT Projects) hub → `topics/itp-*.html`
+  (Mission Mode Projects &amp; Digital Platforms, E-Governance Policies &amp; Gujarat
+  IT/ITeS Policy 2022-27, IT Organizations &amp; Gujarat STI Policy, Legislative
+  Framework for IT in India)
+- `trends.html` — Unit 15 (Current Trends and Recent Advancement in IT) hub →
+  `topics/trend-*.html` (Artificial Intelligence/ML/Generative AI, Blockchain/Web3/DLT,
+  IoT/Big Data/Cloud-Native Computing, 5G-6G/Quantum Computing/AR-VR)
+- `quiz.html` — 4398-question interactive MCQ practice test (filter by topic, instant
   feedback, score breakdown, review list). Every topic page also has inline MCQs
   with reveal-to-check explanations.
 - `assets/js/questions.js` — NoSQL + Databases question bank
@@ -75,6 +86,8 @@ Mathematics (6 topics), 3 — Algorithms (13 topics), 4 — Databases (8 topics)
   and Software Engineering question banks (50 per topic)
 - `assets/js/q-cyber.js`, `q-egov.js` — Cyber Security and E-Governance question
   banks (50 per topic)
+- `assets/js/q-itproj.js`, `q-trends.js` — General Awareness of IT Projects and
+  Current Trends in IT question banks (50 per topic)
 - `assets/js/nav.js` — left sidebar navigation, grouped by syllabus unit
 - `assets/css/style.css` — shared design system (light/dark aware)
 
@@ -132,5 +145,8 @@ Application topics (`mobile-platforms`, `mobile-cellular`, `mobile-appdev`,
 `mobile-ui`), the Unit 11 Software Engineering topics (`se-principles`,
 `se-agile`, `se-testing-pm`, `se-quality-scada`), the Unit 12 Cyber
 Security topics (`cy-threats`, `cy-data-protection`, `cy-risk-mgmt`,
-`cy-laws`), and the Unit 13 E-Governance topics (`eg-models`,
-`eg-enterprise`, `eg-smart`, `eg-services`).
+`cy-laws`), the Unit 13 E-Governance topics (`eg-models`,
+`eg-enterprise`, `eg-smart`, `eg-services`), the Unit 14 General Awareness of
+IT Projects topics (`itp-mmp`, `itp-policy`, `itp-orgs`, `itp-legal`), and the
+Unit 15 Current Trends in IT topics (`trend-ai`, `trend-blockchain`,
+`trend-iot-cloud`, `trend-emerging`).

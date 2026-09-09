@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blockchain, Web3 &amp; Distributed Ledger Tech — Current Trends</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="../index.html"><span class="logo-dot">DB</span> NoSQL Exam Prep</a>
+    <nav class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../trends.html" class="active">Current Trends</a>
+      <a href="../quiz.html">Practice Quiz</a>
+    </nav>
+  </div>
+</header>
+<nav class="subnav">
+  <a href="trend-ai.html">AI, ML &amp; Generative AI</a>
+  <a href="trend-blockchain.html" class="active">Blockchain &amp; Web3</a>
+  <a href="trend-iot-cloud.html">IoT &amp; Cloud-Native</a>
+  <a href="trend-emerging.html">5G/6G, Quantum &amp; AR/VR</a>
+</nav>
+
+<main>
+
+  <div class="topic-header">
+    <span class="pill">Unit 15 · 2 of 4</span>
+    <h1>Blockchain, Web3 &amp; Distributed Ledger Tech</h1>
+    <p class="sub">A blockchain is a distributed digital ledger that records transactions across a network of computers in cryptographically linked blocks, making recorded data very difficult to alter after the fact. Consensus mechanisms let a distributed network agree on the valid ledger state without a central authority, smart contracts add self-executing programmable logic, and the broader Web3 vision imagines a more decentralised internet built on these ideas — alongside practical governance uses like land records and certificate verification.</p>
+  </div>
+
+  <div class="section">
+    <h2>Key points</h2>
+    <dl class="terms">
+      <dt>Distributed ledger, blocks, hashing, immutability</dt>
+      <dd>Each block bundles transactions with a cryptographic hash linking it to the previous block. Altering confirmed data would break this chain and is detectable, making the ledger practically tamper-evident ("immutable") once confirmed across the network.</dd>
+      <dt>Public vs private/permissioned</dt>
+      <dd>Public blockchains (like Bitcoin's) are open to anyone. Private/permissioned blockchains restrict participation/validation to a known, vetted set of participants — often preferred for government/enterprise use needing controlled access.</dd>
+      <dt>Consensus: PoW vs PoS</dt>
+      <dd>Proof of Work (PoW) requires miners to expend computational effort to validate blocks (energy-intensive). Proof of Stake (PoS) selects validators based on staked cryptocurrency collateral, generally far less energy-intensive.</dd>
+      <dt>Smart contracts</dt>
+      <dd>Self-executing code on the blockchain that automatically carries out predefined actions once conditions are met, reducing reliance on manual enforcement and some intermediaries.</dd>
+      <dt>Cryptocurrency vs CBDC</dt>
+      <dd>Cryptocurrencies (e.g., Bitcoin) are decentralised, non-sovereign digital currencies. A Central Bank Digital Currency (CBDC), like the RBI's Digital Rupee (e₹), is centrally issued digital legal tender backed by a nation's central bank.</dd>
+      <dt>Governance use cases &amp; Web3</dt>
+      <dd>Tamper-evident ledgers suit land-record registries, supply-chain traceability, and certificate verification. "Web3" is the broader conceptual vision of a more decentralised internet, often built using blockchain-based technologies.</dd>
+    </dl>
+  </div>
+
+  <div class="section">
+    <h2>Diagram</h2>
+    <figure class="diagram-box">
+      <svg viewBox="0 0 720 220" xmlns="http://www.w3.org/2000/svg">
+        <g font-size="11" font-weight="700">
+          <text x="20" y="20" style="fill:var(--text-dim)">A blockchain: hash-linked blocks distributed across network nodes</text>
+          <g>
+            <rect x="60" y="60" width="120" height="70" rx="8" fill="var(--accent-dim)" stroke="var(--accent)" stroke-width="1.5"></rect>
+            <text x="120" y="88" text-anchor="middle" style="fill:var(--accent)">Block 1</text>
+            <text x="120" y="105" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">hash: 8f2a…</text>
+          </g>
+          <g>
+            <rect x="240" y="60" width="120" height="70" rx="8" fill="var(--accent-2-dim)" stroke="var(--accent-2)" stroke-width="1.5"></rect>
+            <text x="300" y="88" text-anchor="middle" style="fill:var(--accent-2)">Block 2</text>
+            <text x="300" y="105" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">prev: 8f2a…</text>
+          </g>
+          <g>
+            <rect x="420" y="60" width="120" height="70" rx="8" fill="var(--warn-dim)" stroke="var(--warn)" stroke-width="1.5"></rect>
+            <text x="480" y="88" text-anchor="middle" style="fill:var(--warn)">Block 3</text>
+            <text x="480" y="105" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">prev: c91d…</text>
+          </g>
+          <g>
+            <rect x="600" y="60" width="100" height="70" rx="8" fill="var(--danger-dim)" stroke="var(--danger)" stroke-width="1.5"></rect>
+            <text x="650" y="88" text-anchor="middle" font-size="10" style="fill:var(--danger)">Block N</text>
+            <text x="650" y="105" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">…</text>
+          </g>
+          <path d="M180 95 L240 95" stroke="var(--text-dim)" stroke-width="1.5" marker-end="url(#arbc)"></path>
+          <path d="M360 95 L420 95" stroke="var(--text-dim)" stroke-width="1.5" marker-end="url(#arbc)"></path>
+          <path d="M540 95 L600 95" stroke="var(--text-dim)" stroke-width="1.5" marker-end="url(#arbc)"></path>
+        </g>
+        <defs><marker id="arbc" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 z" fill="var(--text-dim)"></path></marker></defs>
+        <text x="360" y="170" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">Each block stores the hash of the block before it — altering an old block breaks every hash link after it.</text>
+        <text x="360" y="190" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">This same chain of blocks is replicated across many distributed network nodes, not stored in one place.</text>
+      </svg>
+      <figcaption>Blocks are chained by cryptographic hashes and the resulting ledger is copied across distributed nodes, which is what makes tampering detectable.</figcaption>
+    </figure>
+  </div>
+
+  <div class="section">
+    <h2>Example</h2>
+    <pre class="example"><code>A state government pilots a blockchain-based land-record registry:
+  1. Property transfer records are written as transactions into blocks on
+     a PERMISSIONED blockchain (only the land-registry department and
+     authorised banks/notaries can validate new entries)
+  2. Each new block references the hash of the previous block, so any
+     attempt to quietly alter an old ownership record would change that
+     block's hash and break the chain -- immediately visible to every
+     participant holding a copy of the ledger
+  3. A smart contract can be used to automatically release an escrow
+     payment once both the buyer's payment and the seller's signed
+     transfer are confirmed on-chain
+
+Contrast with a cryptocurrency:
+  - Bitcoin is a PUBLIC, permissionless blockchain with no government
+    issuer -- anyone can transact or help validate
+  - RBI's Digital Rupee (e-Rupee) is the opposite of a decentralised
+    cryptocurrency: it is centrally issued, RBI-backed digital legal
+    tender (a CBDC), not a blockchain-based cryptocurrency free of a
+    central authority</code></pre>
+  </div>
+
+  <div class="callout warn">
+    <strong>Common exam traps</strong>
+    <p>Don't confuse a cryptocurrency (decentralised, non-sovereign) with a CBDC like the Digital Rupee (centrally issued, sovereign-backed legal tender) — they sit at opposite ends of the centralisation spectrum. Proof of Work is energy-intensive because of computational puzzle-solving; Proof of Stake replaces that with staked economic collateral. "Immutable" does not mean data can never theoretically change — it means altering confirmed data is detectable and requires overpowering network consensus, which is impractical, not literally impossible. A public blockchain is not automatically the right choice for every government use case — permissioned blockchains are often preferred where controlled access to sensitive records is required.</p>
+  </div>
+
+  <div class="section">
+    <h2>Practice MCQs</h2>
+    <div class="mcq">
+      <p class="q"><span class="qn">Q1.</span> A blockchain is best described as:</p>
+      <ol class="opts" type="A">
+        <li>A single centralised database controlled entirely by one organisation</li>
+        <li>A distributed digital ledger that records transactions across a network of computers in linked 'blocks', designed so that recorded data is very difficult to alter after the fact</li>
+        <li>A type of physical hardware storage device sold in retail stores</li>
+        <li>A synonym for any ordinary spreadsheet</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> A blockchain is fundamentally a distributed, append-only ledger shared across a network, not a single centrally controlled database.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q2.</span> Proof of Stake (PoS), an alternative consensus mechanism, differs from Proof of Work mainly in that:</p>
+      <ol class="opts" type="A">
+        <li>PoS requires no computers or software of any kind</li>
+        <li>PoS and Proof of Work are exactly identical mechanisms</li>
+        <li>PoS eliminates the need for a distributed network entirely</li>
+        <li>PoS selects validators to propose/validate blocks based on the amount of cryptocurrency they 'stake' (lock up) as collateral, rather than requiring energy-intensive computational puzzle-solving</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: D.</strong> PoS ties validation rights/incentives to staked economic collateral rather than to computational puzzle-solving power, generally making it far less energy-intensive than PoW.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q3.</span> A 'smart contract' on a blockchain platform is best described as:</p>
+      <ol class="opts" type="A">
+        <li>A traditional paper legal contract scanned into PDF format</li>
+        <li>A contract that requires a lawyer to manually execute every clause</li>
+        <li>Self-executing code stored on the blockchain that automatically carries out predefined actions (like a transfer of funds) when specified conditions are met</li>
+        <li>A term with no technical meaning in blockchain systems</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: C.</strong> Smart contracts are programmatic agreements that execute automatically on-chain once their coded conditions are satisfied, without needing manual intervention.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q4.</span> India's Digital Rupee (e₹), piloted by the Reserve Bank of India (RBI), is best classified as:</p>
+      <ol class="opts" type="A">
+        <li>A decentralised cryptocurrency with no involvement from the RBI</li>
+        <li>A Central Bank Digital Currency (CBDC) — a digital form of the Indian Rupee issued and backed by the RBI, distinct from decentralised cryptocurrencies</li>
+        <li>A private company's proprietary loyalty-points system</li>
+        <li>A type of blockchain consensus mechanism</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> The e₹ is RBI's official CBDC pilot — sovereign-backed digital currency, conceptually distinct from decentralised cryptocurrencies like Bitcoin.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q5.</span> The broader 'Web3' concept, at a conceptual level, envisions:</p>
+      <ol class="opts" type="A">
+        <li>A version of the internet accessible only through a single government-owned server</li>
+        <li>A vision for a more decentralised internet, where ownership and control of data, digital assets, and platforms are distributed among users rather than concentrated in a few centralised intermediaries</li>
+        <li>The complete elimination of the internet, replaced by an offline-only network</li>
+        <li>A synonym for the original 1990s World Wide Web with no new characteristics</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> Web3 broadly refers to a decentralisation-oriented vision of the internet, often built on blockchain-based technologies, contrasted with the centralised platforms of 'Web2'.</p></details>
+    </div>
+    <p style="margin-top:18px"><a class="btn" href="../quiz.html?topic=trend-blockchain">Practice all 50 Blockchain, Web3 &amp; Distributed Ledger Tech questions →</a></p>
+  </div>
+
+  <div class="topic-nav">
+    <a href="trend-ai.html"><span class="dir">← Previous topic</span>Artificial Intelligence, ML &amp; Generative AI</a>
+    <a class="next" href="trend-iot-cloud.html"><span class="dir">Next topic →</span>IoT, Big Data &amp; Cloud-Native Computing</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  GPSC ICT Class-2 exam prep · Unit 15 — Current Trends and Recent Advancement in IT
+</footer>
+
+<script src="../assets/js/nav.js"></script>
+</body>
+</html>

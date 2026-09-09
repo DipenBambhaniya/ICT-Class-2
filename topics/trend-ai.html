@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Artificial Intelligence, ML &amp; Generative AI — Current Trends</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="../index.html"><span class="logo-dot">DB</span> NoSQL Exam Prep</a>
+    <nav class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../trends.html" class="active">Current Trends</a>
+      <a href="../quiz.html">Practice Quiz</a>
+    </nav>
+  </div>
+</header>
+<nav class="subnav">
+  <a href="trend-ai.html" class="active">AI, ML &amp; Generative AI</a>
+  <a href="trend-blockchain.html">Blockchain &amp; Web3</a>
+  <a href="trend-iot-cloud.html">IoT &amp; Cloud-Native</a>
+  <a href="trend-emerging.html">5G/6G, Quantum &amp; AR/VR</a>
+</nav>
+
+<main>
+
+  <div class="topic-header">
+    <span class="pill">Unit 15 · 1 of 4</span>
+    <h1>Artificial Intelligence, ML &amp; Generative AI</h1>
+    <p class="sub">Artificial Intelligence (AI) is the broad field of building systems that perform tasks requiring human-like intelligence. Machine Learning (ML) is a data-driven subset of AI, Deep Learning (DL) is a neural-network-based subset of ML, and Generative AI/Large Language Models (LLMs) are a modern class of models — often built using deep learning — that can produce new content rather than just predict a fixed label. India is investing heavily in this space through the IndiaAI Mission and NITI Aayog's #AIforAll strategy.</p>
+  </div>
+
+  <div class="section">
+    <h2>Key points</h2>
+    <dl class="terms">
+      <dt>AI vs ML vs DL</dt>
+      <dd>AI is the broadest field (building intelligent behaviour, rule-based or data-driven). ML is a subset of AI that learns patterns from data. DL is a subset of ML using multi-layered neural networks that can learn features automatically from raw data.</dd>
+      <dt>Learning paradigms</dt>
+      <dd>Supervised learning trains on labelled input-output pairs (e.g., spam classification). Unsupervised learning finds structure in unlabelled data (e.g., customer segmentation). Reinforcement learning learns via trial-and-error reward/penalty feedback from an environment (e.g., a game-playing agent).</dd>
+      <dt>Neural networks</dt>
+      <dd>Built from layered neurons (input → hidden → output) that compute weighted sums passed through non-linear activation functions; trained via backpropagation and gradient descent to minimise prediction error.</dd>
+      <dt>Generative AI &amp; LLMs</dt>
+      <dd>Generative AI produces new content (text, images, code) rather than only classifying inputs. LLMs are large transformer-based models trained on massive text corpora. Key limitations: hallucination (confident but false output), bias inherited from training data, and the resulting need for human oversight.</dd>
+      <dt>India's AI push</dt>
+      <dd>The IndiaAI Mission (under MeitY) builds shared compute infrastructure, a datasets platform, startup/innovation support, and a Safe &amp; Trusted AI pillar. NITI Aayog's #AIforAll strategy aims for inclusive AI-driven growth across healthcare, agriculture, education and more.</dd>
+    </dl>
+  </div>
+
+  <div class="section">
+    <h2>Diagram</h2>
+    <figure class="diagram-box">
+      <svg viewBox="0 0 720 260" xmlns="http://www.w3.org/2000/svg">
+        <g font-size="11" font-weight="700">
+          <text x="20" y="20" style="fill:var(--text-dim)">AI ⊃ ML ⊃ DL ⊃ Generative AI / LLMs (nested relationship)</text>
+          <circle cx="360" cy="150" r="95" fill="var(--accent-dim)" stroke="var(--accent)" stroke-width="1.5"></circle>
+          <text x="360" y="70" text-anchor="middle" style="fill:var(--accent)">Artificial Intelligence</text>
+          <circle cx="360" cy="160" r="70" fill="var(--accent-2-dim)" stroke="var(--accent-2)" stroke-width="1.5"></circle>
+          <text x="360" y="105" text-anchor="middle" style="fill:var(--accent-2)">Machine Learning</text>
+          <circle cx="360" cy="170" r="45" fill="var(--warn-dim)" stroke="var(--warn)" stroke-width="1.5"></circle>
+          <text x="360" y="140" text-anchor="middle" style="fill:var(--warn)">Deep Learning</text>
+          <circle cx="360" cy="185" r="20" fill="var(--danger-dim)" stroke="var(--danger)" stroke-width="1.5"></circle>
+          <text x="360" y="188" text-anchor="middle" font-size="8" style="fill:var(--danger)">GenAI</text>
+        </g>
+        <text x="360" y="245" text-anchor="middle" font-size="9" style="fill:var(--text-dim)">Each inner ring is a data/technique-driven subset of the ring around it; Generative AI/LLMs are typically built using deep learning techniques.</text>
+      </svg>
+      <figcaption>AI is the umbrella field; ML, DL and modern Generative AI/LLMs are progressively narrower, nested subsets.</figcaption>
+    </figure>
+  </div>
+
+  <div class="section">
+    <h2>Example</h2>
+    <pre class="example"><code>A government portal deploying an AI-based citizen-services chatbot:
+  1. The chatbot is a Machine Learning system: it was trained on many
+     examples of citizen queries paired with correct answers/intents
+     (supervised learning)
+  2. Its language understanding is powered by a Large Language Model
+     (a Generative AI system, typically built using Deep Learning /
+     transformer neural networks) that can draft natural-language replies
+  3. It uses Bhashini-style AI translation so citizens can ask questions
+     in their own Indian language
+
+Why human oversight still matters:
+  - The LLM might occasionally "hallucinate" an incorrect scheme
+    eligibility rule stated with full confidence
+  - Officials periodically review chatbot logs and flagged low-confidence
+    answers before they are used to update the citizen-facing knowledge
+    base, keeping a human in the loop for accuracy and accountability</code></pre>
+  </div>
+
+  <div class="callout warn">
+    <strong>Common exam traps</strong>
+    <p>AI, ML and DL are NOT synonyms — remember the nesting: AI ⊃ ML ⊃ DL. Reinforcement learning is not the same as supervised learning — RL learns from reward/penalty feedback through interaction, not from a fixed set of labelled examples given upfront. "Hallucination" refers to a model generating fabricated content confidently, not a hardware fault. The IndiaAI Mission is a government (MeitY) programme with multiple pillars (compute, datasets, startups, safe &amp; trusted AI) — don't confuse it with NITI Aayog's #AIforAll, which is the national AI policy strategy rather than the implementing mission.</p>
+  </div>
+
+  <div class="section">
+    <h2>Practice MCQs</h2>
+    <div class="mcq">
+      <p class="q"><span class="qn">Q1.</span> The correct nesting relationship between AI, ML and DL is:</p>
+      <ol class="opts" type="A">
+        <li>DL contains ML, which contains AI</li>
+        <li>AI, ML and DL are three unrelated, non-overlapping fields</li>
+        <li>AI is the broadest field, ML is a subset of AI, and DL is a further subset of ML</li>
+        <li>ML contains AI, which contains DL</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: C.</strong> AI is the umbrella discipline; ML is a data-driven approach within AI; DL is a neural-network-based approach within ML.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q2.</span> Reinforcement learning (RL) is best described as:</p>
+      <ol class="opts" type="A">
+        <li>A model trained only on data labelled by human annotators in advance</li>
+        <li>An approach where an agent learns to make decisions by interacting with an environment, receiving rewards or penalties as feedback, and adjusting its behaviour to maximise cumulative reward over time</li>
+        <li>A method that only finds clusters in unlabelled data</li>
+        <li>A synonym for supervised learning with no meaningful difference</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> RL is defined by an agent-environment interaction loop with reward-based feedback, unlike supervised learning's static labelled dataset.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q3.</span> 'Hallucination' in the context of generative AI / LLMs refers to:</p>
+      <ol class="opts" type="A">
+        <li>The model refusing to answer any question whatsoever</li>
+        <li>A hardware malfunction in the server running the model</li>
+        <li>The model generating plausible-sounding but factually incorrect or fabricated content, stated with apparent confidence</li>
+        <li>A deliberate security feature that blocks all inaccurate output</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: C.</strong> Hallucination describes confidently-stated but false or fabricated output — a well-documented limitation of current generative AI systems.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q4.</span> The IndiaAI Mission is best described as:</p>
+      <ol class="opts" type="A">
+        <li>A private multinational company's internal research lab</li>
+        <li>A single mobile application with no broader programme behind it</li>
+        <li>An initiative that only funds hardware manufacturing with no AI-specific focus</li>
+        <li>A comprehensive Government of India initiative that builds shared AI compute infrastructure, datasets platforms, and support for startups/innovation, alongside a focus on safe and trusted AI</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: D.</strong> The IndiaAI Mission is a national umbrella programme spanning compute infrastructure, datasets, innovation/startup support, and safe &amp; trusted AI governance.</p></details>
+    </div>
+
+    <div class="mcq">
+      <p class="q"><span class="qn">Q5.</span> NITI Aayog's national strategy on artificial intelligence is commonly known by the phrase:</p>
+      <ol class="opts" type="A">
+        <li>#DigitalIndiaOnly</li>
+        <li>#AIforAll</li>
+        <li>#MakeInIndiaAI</li>
+        <li>#SmartCitiesAI</li>
+      </ol>
+      <details><summary>Show answer</summary><p><strong>Answer: B.</strong> NITI Aayog's national AI strategy paper is widely referred to by the tagline '#AIforAll'.</p></details>
+    </div>
+    <p style="margin-top:18px"><a class="btn" href="../quiz.html?topic=trend-ai">Practice all 50 Artificial Intelligence, ML &amp; Generative AI questions →</a></p>
+  </div>
+
+  <div class="topic-nav">
+    <a href="../trends.html"><span class="dir">← Back to</span>Unit 15 index</a>
+    <a class="next" href="trend-blockchain.html"><span class="dir">Next topic →</span>Blockchain, Web3 &amp; Distributed Ledger Tech</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  GPSC ICT Class-2 exam prep · Unit 15 — Current Trends and Recent Advancement in IT
+</footer>
+
+<script src="../assets/js/nav.js"></script>
+</body>
+</html>
