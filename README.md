@@ -32,6 +32,7 @@ Recent Advancement in IT (4 topics).
 - Unit 13 hub: <https://dipenbambhaniya.github.io/ICT-Class-2/egov.html>
 - Unit 14 hub: <https://dipenbambhaniya.github.io/ICT-Class-2/itproj.html>
 - Unit 15 hub: <https://dipenbambhaniya.github.io/ICT-Class-2/trends.html>
+- Previous Year Papers: <https://dipenbambhaniya.github.io/ICT-Class-2/papers.html>
 - Practice quiz: <https://dipenbambhaniya.github.io/ICT-Class-2/quiz.html>
 
 ## Contents
@@ -76,6 +77,12 @@ Recent Advancement in IT (4 topics).
 - `quiz.html` — 4398-question interactive MCQ practice test (filter by topic, instant
   feedback, score breakdown, review list). Every topic page also has inline MCQs
   with reveal-to-check explanations.
+- `papers.html` — Previous Year Papers hub → `papers/*.html`, full transcriptions of
+  GPSC's published Provisional Answer Key booklets for recent ICT/IT exams (ICT
+  Officer Class-2, Assistant Director (IT) Class-1, Deputy Director (IT) Class-1 —
+  200 questions each, 600 total), reproduced with GPSC's own marked-correct answers
+  rather than this site's authored explanations. Kept separate from the topic-based
+  units above since these are unedited real exam papers, not syllabus content.
 - `assets/js/questions.js` — NoSQL + Databases question bank
 - `assets/js/q-pds.js` — Programming & Data Structures question bank (50 per topic)
 - `assets/js/q-dm.js`, `q-algo.js`, `q-os.js` — Discrete Mathematics, Algorithms,

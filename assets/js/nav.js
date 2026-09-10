@@ -9,14 +9,24 @@
   document.documentElement.classList.add("has-sidenav");
 
   var inTopics = /\/topics\//.test(location.pathname);
-  var base = inTopics ? "../" : "";
+  var inPapers = /\/papers\//.test(location.pathname);
+  var base = (inTopics || inPapers) ? "../" : "";
 
   var current = location.pathname.split("/").pop() || "index.html";
-  var currentFull = (inTopics ? "topics/" : "") + current;
+  var currentFull = (inTopics ? "topics/" : inPapers ? "papers/" : "") + current;
 
   var MENU = [
     { type: "link", label: "Home", href: "index.html" },
     { type: "link", label: "Practice Quiz", href: "quiz.html" },
+    {
+      type: "group", label: "Previous Year Papers", href: "papers.html",
+      items: [
+        ["Overview", "papers.html"],
+        ["ICT Officer Class-2 (2025)", "papers/gpsc-110-ict-officer-2025.html"],
+        ["Assistant Director (IT) (2025)", "papers/gpsc-108-assistant-director-2025.html"],
+        ["Deputy Director (IT) (2025)", "papers/gpsc-109-deputy-director-2025.html"]
+      ]
+    },
     {
       type: "group", label: "1) Programming & Data Structures", href: "pds.html",
       items: [
