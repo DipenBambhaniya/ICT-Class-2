@@ -230,7 +230,7 @@
     var brand = document.createElement("a");
     brand.className = "sn-brand";
     brand.href = base + "index.html";
-    brand.innerHTML = '<span class="logo-dot">DB</span> Exam Prep';
+    brand.innerHTML = '<span class="logo-dot">DB</span> ICT Class-2 Exam Prep';
     aside.appendChild(brand);
 
     MENU.forEach(function (entry) {
